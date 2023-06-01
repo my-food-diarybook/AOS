@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace 'com.example.myfooddiarybookaos'
-    compileSdk 33
+    compileSdk 32
 
     defaultConfig {
         applicationId "com.example.myfooddiarybookaos"
-        minSdk 23
-        targetSdk 33
+        minSdk 22
+        targetSdk 32
         versionCode 1
         versionName "1.0"
 
@@ -30,6 +30,19 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    dataBinding{
+        enabled = true
+    }
+
+    viewBinding {
+        enabled = true
+    }
+
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
+
 }
 
 dependencies {
@@ -37,8 +50,50 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
+    //noinspection GradleCompatible
+    implementation 'com.android.support:design:29.0.0'
+
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    // for recycler View
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    // for glide
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
+
+    // for retrofit, gson
+    implementation 'com.squareup.retrofit2:retrofit:2.6.4'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.4'
+    //레트로핏 의존성
+    implementation 'com.squareup.retrofit2:converter-scalars:2.5.0'
+
+    // Stetho 기본 라이브러리
+    implementation 'com.facebook.stetho:stetho:1.5.1'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
+    implementation 'com.facebook.stetho:stetho-js-rhino:1.5.1'
+    implementation "com.squareup.okhttp3:okhttp:4.7.2"
+
+    //로그 기록 확인
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.7.2'
+
+    //권한 설정
+    implementation 'io.github.ParkSangGwon:tedpermission:2.3.0'
+    //slide bar
+    implementation 'com.sothree.slidinguppanel:library:3.0.0'
+    //암 복호화
+    implementation "androidx.security:security-crypto:1.1.0-alpha01"
+
+    // 카드뷰
+    implementation "androidx.cardview:cardview:1.0.0"
+
+    //slide bar
+    implementation 'com.sothree.slidinguppanel:library:3.0.0'
+
 }

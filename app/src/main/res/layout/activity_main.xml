@@ -1,18 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frame_layout"
+    android:gravity = "bottom"
+    app:umanoOverlay="true"
+    app:umanoPanelHeight="0dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!--fragment-->
+        <FrameLayout
+            android:layout_marginBottom="@dimen/size_80"
+            android:id="@+id/main_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/coordinator_layout"
+            android:layout_width="match_parent"
+            android:layout_height="1dp">
+            <View
+                android:background="@color/line_color"
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="1dp"/>
+            <View
+                android:background="@color/white"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="1dp"/>
+            <View
+                android:background="@color/line_color"
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="1dp"/>
+        </LinearLayout>
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/coordinator_layout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottom_navi"
+                android:background="@color/white"
+                app:itemIconTint="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_80"/>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <ImageView
+            android:layout_marginBottom="@dimen/size_40"
+            android:elevation="@dimen/size_5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/baseline_add_circle_24"
+            android:layout_width="@dimen/size_80"
+            android:layout_height="@dimen/size_80"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <FrameLayout
+        android:id="@+id/slide_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>
