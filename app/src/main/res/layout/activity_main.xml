@@ -52,17 +52,19 @@
                 android:background="@color/white"
                 app:itemIconTint="@color/black"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/size_80"/>
+                app:labelVisibilityMode="unlabeled"
+                android:layout_height="@dimen/size_68"
+                app:menu="@menu/nav_bottom" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
         <ImageView
-            android:layout_marginBottom="@dimen/size_40"
+            android:layout_marginBottom="37.33dp"
             android:elevation="@dimen/size_5"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:src="@drawable/baseline_add_circle_24"
-            android:layout_width="@dimen/size_80"
-            android:layout_height="@dimen/size_80"/>
+            android:layout_width="53.33dp"
+            android:layout_height="53.33dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout
