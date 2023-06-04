@@ -4,8 +4,13 @@
     <dimen name="size_10">10dp</dimen>
     <dimen name="size_15">15dp</dimen>
     <dimen name="size_20">20dp</dimen>
+    <dimen name="size_25">25dp</dimen>
+    <dimen name="size_28.33">28.33dp</dimen>
+    <dimen name="size_37.33">37.33dp</dimen>
     <dimen name="size_40">40dp</dimen>
     <dimen name="size_50">50dp</dimen>
-    <dimen name="size_68">102dp</dimen>
+    <dimen name="size_53.33">53.33dp</dimen>
+    <dimen name="size_68">68dp</dimen>
+<!--    <dimen name="size_68">102dp</dimen>-->
     <dimen name="size_80">80dp</dimen>
 </resources>

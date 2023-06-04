@@ -21,27 +21,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-        <LinearLayout
+        <View
+            android:background="@color/line_color"
             android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@id/coordinator_layout"
             android:layout_width="match_parent"
-            android:layout_height="1dp">
-            <View
-                android:background="@color/line_color"
-                android:layout_weight="2"
-                android:layout_width="0dp"
-                android:layout_height="1dp"/>
-            <View
-                android:background="@color/white"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="1dp"/>
-            <View
-                android:background="@color/line_color"
-                android:layout_weight="2"
-                android:layout_width="0dp"
-                android:layout_height="1dp"/>
-        </LinearLayout>
+            android:layout_height="1dp"/>
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/coordinator_layout"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -49,22 +34,24 @@
             android:layout_height="wrap_content">
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottom_navi"
+                app:itemIconSize="@dimen/size_28.33"
                 android:background="@color/white"
-                app:itemIconTint="@color/black"
+                app:itemIconTint="@drawable/menu_selector_color"
+                app:itemRippleColor="@color/black"
                 android:layout_width="match_parent"
                 app:labelVisibilityMode="unlabeled"
                 android:layout_height="@dimen/size_68"
                 app:menu="@menu/nav_bottom" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_marginBottom="37.33dp"
+            android:layout_marginBottom="@dimen/size_37.33"
             android:background="@drawable/circle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:src="@drawable/baseline_add_circle_24"
-            android:layout_width="53.33dp"
-            android:layout_height="53.33dp"/>
+            android:layout_width="@dimen/size_53.33"
+            android:layout_height="@dimen/size_53.33"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout
