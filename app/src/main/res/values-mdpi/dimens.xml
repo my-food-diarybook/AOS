@@ -1,15 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <dimen name="size_0.5">0.5dp</dimen>
+    <dimen name="size_1">1dp</dimen>
+    <dimen name="size_3.33">3.33dp</dimen>
     <dimen name="size_5">5dp</dimen>
+    <dimen name="size_8">8dp</dimen>
     <dimen name="size_10">10dp</dimen>
+    <dimen name="size_11">11dp</dimen>
+    <dimen name="size_11.59">11.59dp</dimen>
+    <dimen name="size_12">12dp</dimen>
     <dimen name="size_15">15dp</dimen>
+    <dimen name="size_16">16dp</dimen>
+
+    <dimen name="size_18">18dp</dimen>
     <dimen name="size_20">20dp</dimen>
+    <dimen name="size_23.5">23.5dp</dimen>
     <dimen name="size_25">25dp</dimen>
     <dimen name="size_28.33">28.33dp</dimen>
+    <dimen name="size_29">29dp</dimen>
+    <dimen name="size_33">33dp</dimen>
+    <dimen name="size_36">36dp</dimen>
+
     <dimen name="size_37.33">37.33dp</dimen>
     <dimen name="size_40">40dp</dimen>
+    <dimen name="size_46.5">46.5dp</dimen>
+    <dimen name="size_47">47dp</dimen>
     <dimen name="size_50">50dp</dimen>
     <dimen name="size_53.33">53.33dp</dimen>
+    <dimen name="size_57.33">57.33dp</dimen>
+    <dimen name="size_61.76">61.76dp</dimen>
+
     <dimen name="size_68">68dp</dimen>
     <dimen name="size_80">80dp</dimen>
+    <dimen name="size_88">88dp</dimen>
+    <dimen name="size_92">92dp</dimen>
+    <dimen name="size_267">267dp</dimen>
+    <dimen name="size_349">349dp</dimen>
+    <dimen name="size_460">460dp</dimen>
+
+    <dimen name="size_13_sp">13sp</dimen>
+    <dimen name="size_20_sp">20sp</dimen>
+    <dimen name="size_34_sp">34sp</dimen>
+    <dimen name="size_36_sp">36sp</dimen>
 </resources>
