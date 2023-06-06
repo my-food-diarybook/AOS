@@ -29,17 +29,20 @@
     <dimen name="size_53.33">53.33dp</dimen>
     <dimen name="size_57.33">57.33dp</dimen>
     <dimen name="size_61.76">61.76dp</dimen>
-
+    <dimen name="size_63">63dp</dimen>
     <!--    <dimen name="size_68">204dp</dimen>-->
     <dimen name="size_68">68dp</dimen>
     <dimen name="size_80">80dp</dimen>
     <dimen name="size_88">88dp</dimen>
     <dimen name="size_92">92dp</dimen>
     <dimen name="size_267">267dp</dimen>
+    <dimen name="size_270">270dp</dimen>
+    <dimen name="size_314">314dp</dimen>
     <dimen name="size_349">349dp</dimen>
     <dimen name="size_460">460dp</dimen>
 
     <dimen name="size_13_sp">13sp</dimen>
+    <dimen name="size_14_sp">14sp</dimen>
     <dimen name="size_20_sp">20sp</dimen>
     <dimen name="size_34_sp">34sp</dimen>
     <dimen name="size_36_sp">36sp</dimen>
