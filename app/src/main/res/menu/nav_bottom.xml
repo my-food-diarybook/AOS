@@ -4,12 +4,12 @@
     <item
         android:id="@+id/fragment_1"
         android:enabled="true"
-        android:icon="@drawable/baseline_home_24"
+        android:icon="@drawable/bottom1"
         android:title="home" />
     <item
         android:id="@+id/fragment_2"
         android:enabled="true"
-        android:icon="@drawable/baseline_wifi_24"
+        android:icon="@drawable/bottom2"
         android:title="timeline" />
     <item
         android:id="@+id/none"
@@ -18,11 +18,11 @@
     <item
         android:id="@+id/fragment_3"
         android:enabled="true"
-        android:icon="@drawable/baseline_search_24"
+        android:icon="@drawable/bottom3"
         android:title="search" />
     <item
         android:id="@+id/fragment_4"
         android:enabled="true"
-        android:icon="@drawable/baseline_person_outline_24"
+        android:icon="@drawable/bottom4"
         android:title="my" />
 </menu>

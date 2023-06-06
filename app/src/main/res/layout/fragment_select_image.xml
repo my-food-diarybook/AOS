@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#00000000"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".Dialog.SelectImageFragment">
+    <LinearLayout
+        android:layout_marginBottom="@dimen/size_8"
+        android:backgroundTint="@color/slide_back_color"
+        android:background="@drawable/round_rec"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TextView
+        android:textSize="@dimen/size_13_sp"
+        android:textFontWeight="400"
+        android:fontFamily="@font/roboto_light"
+        android:layout_marginTop="@dimen/size_12"
+        android:text="사진 추가"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+
+        android:textSize="@dimen/size_13_sp"
+        android:textFontWeight="400"
+        android:fontFamily="@font/roboto_light"
+        android:layout_marginBottom="@dimen/size_12"
+        android:text="사진 촬영 또는 사진 선택을 클릭해주세요."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <View
+        android:background="@color/line_color"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_0.5"/>
+    <TextView
+        android:textFontWeight="400"
+        android:text="사진 촬영"
+        style="@style/add_image_text"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"/>
+    <View
+        android:background="@color/line_color"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_0.5"/>
+    <TextView
+        android:textFontWeight="400"
+        android:text="사진 선택"
+        style="@style/add_image_text"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"/>
+    </LinearLayout>
+    <TextView
+        style="@style/add_image_text"
+        android:textStyle="italic"
+        android:textFontWeight="100"
+        android:gravity="center"
+        android:text="취소"
+        android:background="@drawable/round_rec"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

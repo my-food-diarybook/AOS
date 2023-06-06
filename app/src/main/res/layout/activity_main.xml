@@ -44,6 +44,7 @@
                 app:menu="@menu/nav_bottom" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/add_button"
             android:layout_marginBottom="@dimen/size_37.33"
             android:background="@drawable/circle"
             app:layout_constraintBottom_toBottomOf="parent"
