@@ -39,7 +39,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setUpListener(){
-        binding.calendarButton.setOnClickListener {
+        binding.calendarBox.calendarButton.setOnClickListener {
             mainActivity?.let {
                 SelectCalendarFragment().show(
                     it.supportFragmentManager,""
