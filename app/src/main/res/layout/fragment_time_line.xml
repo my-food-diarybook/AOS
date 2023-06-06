@@ -11,33 +11,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/calendar_box"
         layout="@layout/calendar_top_layout" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/no_data"
+    <include
+        android:id="@+id/no_data_view"
         android:layout_marginTop="@dimen/size_270"
+        layout="@layout/no_data_layout"
         android:layout_gravity="center"
         android:layout_width="@dimen/size_314"
-        android:layout_height="@dimen/size_63">
-        <TextView
-            android:textFontWeight="300"
-            android:textSize="@dimen/size_20_sp"
-            android:textColor="@color/black"
-            app:layout_constraintTop_toTopOf="parent"
-            android:gravity="center"
-            android:text="등록한 식사일기가 없습니다."
-            android:fontFamily="@font/roboto_regular"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:textFontWeight="300"
-            android:textColor="@color/black"
-            android:textSize="@dimen/size_14_sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:gravity="center"
-            android:text="오늘 먹은 식사를 사진으로 기록하세요."
-            android:fontFamily="@font/roboto_regular"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+        android:layout_height="@dimen/size_63"/>
 </LinearLayout>
