@@ -18,6 +18,7 @@
 
     </style>
 
+    <!--이미지 추가 텍스트-->
     <style name="add_image_text">
         <item name="android:paddingStart">@dimen/size_16</item>
         <item name="android:paddingEnd">@dimen/size_16</item>
@@ -26,5 +27,12 @@
         <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textSize">@dimen/size_20_sp</item>
         <item name="android:textColor">@color/image_select_color</item>
+    </style>
+
+    <!--검색 텍스트-->
+    <style name="search_text">
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 </resources>

@@ -15,6 +15,11 @@ class SearchFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+    /*
+    이미지 layout : item
+    이미지 탭 레이아웃
+    검색 결과 없음, 데이터 없음, 데이터 있음 3가지 뷰 생성
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
