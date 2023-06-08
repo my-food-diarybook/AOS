@@ -35,4 +35,22 @@
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
+    <!--roboto-->
+    <style name="roboto_text">
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="my_normal_box">
+        <item name="android:layout_marginStart">@dimen/size_16</item>
+        <item name="android:layout_marginEnd">@dimen/size_16</item>
+        <item name="android:background">@drawable/round_rec_stroke</item>
+        <item name="android:paddingTop">@dimen/size_17</item>
+        <item name="android:paddingBottom">@dimen/size_17</item>
+        <item name="android:layout_marginBottom">@dimen/size_9</item>
+        <item name="android:paddingEnd">@dimen/size_12</item>
+        <item name="android:paddingStart">@dimen/size_9</item>
+
+    </style>
 </resources>
