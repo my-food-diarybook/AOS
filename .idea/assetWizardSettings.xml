@@ -29,8 +29,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="rectangle_47" />
-                            <entry key="sourceFile" value="$PROJECT_DIR$/dw_icon/Rectangle 47.svg" />
+                            <entry key="outputName" value="message" />
+                            <entry key="sourceFile" value="$PROJECT_DIR$/dw_icon/message.svg" />
                           </map>
                         </option>
                       </PersistentState>
