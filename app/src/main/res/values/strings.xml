@@ -2,4 +2,6 @@
     <string name="app_name">MyFoodDiaryBookAOS</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ment_find_pass">비밀번호를 5번 잘못 입력했습니다.\n비밀번호 찾기를 통해 임시 비밀번호를 발급 받아주세요.</string>
+    <string name="ment_change_pass">같은 비밀번호를 90일 이상 사용 중입니다.\n비밀번호를 변경해 주세요.</string>
 </resources>

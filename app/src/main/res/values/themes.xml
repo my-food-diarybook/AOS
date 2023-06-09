@@ -37,7 +37,7 @@
     </style>
 
     <!--roboto-->
-    <style name="roboto_text">
+    <style name="roboto_text_regular">
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textColor">@color/black</item>
     </style>
@@ -51,6 +51,12 @@
         <item name="android:layout_marginBottom">@dimen/size_9</item>
         <item name="android:paddingEnd">@dimen/size_12</item>
         <item name="android:paddingStart">@dimen/size_9</item>
+    </style>
 
+    <style name="login_text">
+        <item name="android:layout_marginStart">@dimen/size_16</item>
+        <item name="android:layout_marginEnd">@dimen/size_16</item>
+        <item name="android:padding">@dimen/size_12</item>
+        <item name="android:background">@drawable/round_rec_stroke_weak</item>
     </style>
 </resources>
