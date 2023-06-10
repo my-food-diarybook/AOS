@@ -51,7 +51,7 @@
                 android:padding="@dimen/size_17">
 
                 <TextView
-                    style="@style/roboto_text"
+                    style="@style/roboto_text_regular"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="user_email@gmail.com"
@@ -70,7 +70,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
-                style="@style/roboto_text"
+                style="@style/roboto_text_regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/size_20"
@@ -90,7 +90,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    style="@style/roboto_text"
+                    style="@style/roboto_text_regular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size_12"
@@ -99,7 +99,7 @@
                     android:textSize="@dimen/size_16_sp" />
 
                 <TextView
-                    style="@style/roboto_text"
+                    style="@style/roboto_text_regular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="10"
@@ -131,7 +131,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            style="@style/roboto_text"
+                            style="@style/roboto_text_regular"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="아침"
@@ -139,7 +139,7 @@
                             android:textSize="@dimen/size_16_sp" />
 
                         <TextView
-                            style="@style/roboto_text"
+                            style="@style/roboto_text_regular"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="3"
@@ -157,7 +157,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            style="@style/roboto_text"
+                            style="@style/roboto_text_regular"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="아점"
@@ -165,7 +165,7 @@
                             android:textSize="@dimen/size_16_sp" />
 
                         <TextView
-                            style="@style/roboto_text"
+                            style="@style/roboto_text_regular"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
@@ -183,7 +183,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            style="@style/roboto_text"
+                            style="@style/roboto_text_regular"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="점심"
@@ -191,7 +191,7 @@
                             android:textSize="@dimen/size_16_sp" />
 
                         <TextView
-                            style="@style/roboto_text"
+                            style="@style/roboto_text_regular"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="6"
@@ -208,7 +208,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            style="@style/roboto_text"
+                            style="@style/roboto_text_regular"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="점저"
@@ -216,7 +216,7 @@
                             android:textSize="@dimen/size_16_sp" />
 
                         <TextView
-                            style="@style/roboto_text"
+                            style="@style/roboto_text_regular"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
@@ -251,7 +251,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            style="@style/roboto_text"
+                            style="@style/roboto_text_regular"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="간식"
@@ -259,7 +259,7 @@
                             android:textSize="@dimen/size_16_sp" />
 
                         <TextView
-                            style="@style/roboto_text"
+                            style="@style/roboto_text_regular"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
@@ -277,7 +277,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            style="@style/roboto_text"
+                            style="@style/roboto_text_regular"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="저녁"
@@ -285,7 +285,7 @@
                             android:textSize="@dimen/size_16_sp" />
 
                         <TextView
-                            style="@style/roboto_text"
+                            style="@style/roboto_text_regular"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
@@ -303,7 +303,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            style="@style/roboto_text"
+                            style="@style/roboto_text_regular"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="야식"
@@ -311,7 +311,7 @@
                             android:textSize="@dimen/size_16_sp" />
 
                         <TextView
-                            style="@style/roboto_text"
+                            style="@style/roboto_text_regular"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="1"
@@ -328,7 +328,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            style="@style/roboto_text"
+                            style="@style/roboto_text_regular"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="기타"
@@ -336,7 +336,7 @@
                             android:textSize="@dimen/size_16_sp" />
 
                         <TextView
-                            style="@style/roboto_text"
+                            style="@style/roboto_text_regular"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
@@ -348,7 +348,7 @@
             </LinearLayout>
 
             <TextView
-                style="@style/roboto_text"
+                style="@style/roboto_text_regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/size_20"
@@ -364,7 +364,7 @@
 
                 <TextView
 
-                    style="@style/roboto_text"
+                    style="@style/roboto_text_regular"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="공지사항"
@@ -388,7 +388,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    style="@style/roboto_text"
+                    style="@style/roboto_text_regular"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="앱 버전 정보"
@@ -397,7 +397,7 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    style="@style/roboto_text"
+                    style="@style/roboto_text_regular"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/right_side"
@@ -415,7 +415,7 @@
                 android:layout_marginBottom="@dimen/size_36">
 
                 <TextView
-                    style="@style/roboto_text"
+                    style="@style/roboto_text_regular"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="의견보내기"

@@ -1,12 +1,14 @@
 package com.example.myfooddiarybookaos.TabHome
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.myfooddiarybookaos.Dialog.SelectCalendarFragment
+import com.example.myfooddiarybookaos.Login.LoginActivity
 import com.example.myfooddiarybookaos.MainActivity
 import com.example.myfooddiarybookaos.R
 import com.example.myfooddiarybookaos.databinding.FragmentHomeBinding
@@ -45,6 +47,11 @@ class HomeFragment : Fragment() {
                     it.supportFragmentManager,""
                 )
             }
+        }
+
+        binding.testLogin.setOnClickListener {
+            val intent = Intent(mainActivity,LoginActivity::class.java)
+            startActivity(intent)
         }
     }
 }

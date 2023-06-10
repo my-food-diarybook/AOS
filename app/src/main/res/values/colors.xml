@@ -6,11 +6,20 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
+    <color name="text_dark">#13112F</color>
+    <color name="popup_button_white">#F2F3F4</color>
+    <color name="text_dark_pop">#47484A</color>
     <color name="white">#FFFFFFFF</color>
+<<<<<<< HEAD
     <color name="text_dark_color">#47484A</color>
+=======
+    <color name="weak_color">#CDCDCD</color>
+>>>>>>> develop
     <color name="line_color">#3C3C43</color>
     <color name="line_color_deep">#777777</color>
     <color name="slide_back_color">#F5F5F5</color>
     <color name="main_color">#2EB394</color>
+    <color name="bar_color">#8B90B9</color>
+    <color name="login_weak_color">#8B90B9</color>
     <color name="image_select_color">#007AFF</color>
 </resources>
