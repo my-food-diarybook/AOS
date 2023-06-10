@@ -4,6 +4,7 @@
     <dimen name="size_1">1dp</dimen>
     <dimen name="size_3">3dp</dimen>
     <dimen name="size_3.33">3.33dp</dimen>
+    <dimen name="size_4">4dp</dimen>
     <dimen name="size_5">5dp</dimen>
     <dimen name="size_7">7dp</dimen>
     <dimen name="size_8">8dp</dimen>
