@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:background="@drawable/round_rec"
+    tools:context=".Dialog.PopUpWithdrawalPwFragment">
+
+    <TextView
+        android:text="비밀번호 입력"
+        style="@style/pop_up_text_style_top"
+        android:textFontWeight="700"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:text="본인 확인을 위해 비밀번호를 입력해주세요."
+        style="@style/pop_up_text_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:inputType="textPassword"
+        style="@style/login_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_12"
+        android:layout_marginBottom="@dimen/size_4"
+        android:drawableRight="@drawable/ic_eye_off_black"
+        android:text="비밀번호"
+        android:textColor="@color/weak_color" />
+    <LinearLayout
+        android:layout_margin="@dimen/size_24"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_marginEnd="@dimen/size_8"
+            style="@style/pop_up_button_style"
+            android:backgroundTint="@color/popup_button_white"
+            android:textFontWeight="700"
+            android:textColor="@color/text_dark_pop"
+            android:text="취소"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            style="@style/pop_up_button_style"
+            android:backgroundTint="@color/main_color"
+            android:textFontWeight="700"
+            android:textColor="@color/white"
+            android:text="확인"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</LinearLayout>

@@ -37,15 +37,16 @@ class PasswordFindFragment : DialogFragment() {
     }
 
     private fun initView(){
+
         // 텍스트 색상 변경
         val spannableString = SpannableString(binding.comment.text)
-        val startIndex = spannableString.indexOf("90일")
+        val startIndex = spannableString.indexOf("5")
 
         if (startIndex>=0){
             spannableString.setSpan(
                 ForegroundColorSpan(Color.parseColor("#FC6262"))
                 ,startIndex
-                ,startIndex+3
+                ,startIndex+1
                 , Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             binding.comment.text = spannableString

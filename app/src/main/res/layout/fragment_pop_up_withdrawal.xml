@@ -1,14 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/round_rec"
+    android:layout_gravity="center"
+    android:gravity="center"
     tools:context=".Dialog.PopUpWithdrawalFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <TextView
+        android:textFontWeight="500"
+        style="@style/pop_up_text_style"
+        android:text="회원탈퇴 하시겠습니까?\n모든 식사일기와 계정정보가 삭제됩니다."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/size_24"
+        android:layout_marginStart="@dimen/size_24"
+        android:layout_marginEnd="@dimen/size_24"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/close_button"
+            android:layout_marginEnd="@dimen/size_8"
+            style="@style/pop_up_button_style"
+            android:backgroundTint="@color/popup_button_white"
+            android:textFontWeight="700"
+            android:textColor="@color/text_dark_pop"
+            android:text="아니오"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/ok_button"
+            style="@style/pop_up_button_style"
+            android:backgroundTint="@color/main_color"
+            android:textFontWeight="700"
+            android:textColor="@color/white"
+            android:text="네"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</LinearLayout>
