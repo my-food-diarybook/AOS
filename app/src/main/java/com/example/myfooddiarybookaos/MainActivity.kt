@@ -98,4 +98,16 @@ class MainActivity : AppCompatActivity() {
             setSubFragment(SelectImageFragment())
         }
     }
+
+    fun mainFrameChange(newFrag: Fragment){
+        fragmentManager!!.beginTransaction()
+            .replace(R.id.main_frame,newFrag)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    fun mainFrameGoBack(currentFrag : Fragment){
+        fragmentManager!!.beginTransaction().remove(currentFrag).commit()
+        fragmentManager!!.popBackStack()
+    }
 }
