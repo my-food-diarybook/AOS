@@ -1,48 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/rectangle_47"
     xmlns:tools="http://schemas.android.com/tools"
+    android:backgroundTint="@color/black"
     android:gravity="center_horizontal"
     android:layout_gravity="center"
     android:orientation="vertical"
-    android:layout_width="@dimen/size_349"
-    android:layout_height="@dimen/size_267"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     tools:context=".Dialog.SelectCalendarFragment">
     <LinearLayout
-        android:layout_marginBottom="@dimen/size_46.5"
-        android:gravity="center_vertical"
-        android:layout_marginTop="@dimen/size_23.5"
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:layout_marginEnd="@dimen/size_61.76"
-            android:src="@drawable/left_side"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:textColor="@color/black"
-            android:textFontWeight="600"
-            android:fontFamily="@font/roboto_bold"
-            android:textSize="@dimen/size_36_sp"
-            android:text="2023"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <ImageView
-            android:layout_marginStart= "@dimen/size_61.76"
-            android:src="@drawable/right_side"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginStart="@dimen/size_36"
-        android:layout_marginEnd="@dimen/size_33"
-        android:layout_marginBottom="@dimen/size_33"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         android:orientation="vertical"
-        app:spanCount="4"
-        tools:itemCount="12"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</LinearLayout>
+        android:background="@drawable/rectangle_47"
+        android:layout_width="@dimen/size_349"
+        android:layout_height="@dimen/size_267">
+            <LinearLayout
+                android:layout_marginBottom="@dimen/size_34"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/size_23.5"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_marginEnd="@dimen/size_61.76"
+                    android:src="@drawable/left_side"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:textColor="@color/black"
+                    android:textFontWeight="600"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textSize="@dimen/size_36_sp"
+                    android:text="2023"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:layout_marginStart= "@dimen/size_61.76"
+                    android:src="@drawable/right_side"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_gravity="center"
+                android:id="@+id/month_recycler"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="4" />
+    </LinearLayout>
+
+</FrameLayout>
+

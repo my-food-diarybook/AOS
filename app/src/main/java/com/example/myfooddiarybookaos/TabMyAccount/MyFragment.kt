@@ -41,7 +41,9 @@ class MyFragment : Fragment() {
     private fun setUpListener(){
         binding.myInfoButton.setOnClickListener {
             mainActivity?.mainFrameChange(MyInfoFragment())
-
+        }
+        binding.announcement.setOnClickListener {
+            mainActivity?.mainFrameChange(AnnouncementFragment())
         }
     }
 
