@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/item_month"
+    android:paddingBottom="@dimen/size_20.5"
+    android:paddingStart="@dimen/size_20.5"
+    android:paddingEnd="@dimen/size_20.5"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<TextView
+    android:id="@+id/text_id"
+    android:text="1월"
+    style="@style/roboto_text_regular"
+    android:textFontWeight="700"
+    android:textSize="@dimen/size_20_sp"
+    android:gravity="center_vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>
+</LinearLayout>

@@ -101,7 +101,7 @@ class MainActivity : AppCompatActivity() {
 
     fun mainFrameChange(newFrag: Fragment){
         fragmentManager!!.beginTransaction()
-            .replace(R.id.main_frame,newFrag)
+            .add(R.id.main_frame,newFrag)
             .addToBackStack(null)
             .commit()
     }
