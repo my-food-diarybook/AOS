@@ -18,4 +18,5 @@
     <color name="bar_color">#8B90B9</color>
     <color name="login_weak_color">#8B90B9</color>
     <color name="image_select_color">#007AFF</color>
+    <color name="color_day_of_weak">#1C1B1F</color>
 </resources>

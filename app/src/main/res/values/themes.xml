@@ -92,4 +92,10 @@
         <item name="android:textSize">@dimen/size_16_sp</item>
         <item name="android:layout_marginTop">@dimen/size_24</item>
     </style>
+
+    <style name="text_day_of_weak">
+        <item name="android:textSize">@dimen/size_12_sp</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:textColor">@color/color_day_of_weak</item>
+    </style>
 </resources>

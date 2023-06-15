@@ -7,11 +7,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.myfooddiarybookaos.Adapter.CalendarDayAdapter
 import com.example.myfooddiarybookaos.Dialog.SelectCalendarFragment
 import com.example.myfooddiarybookaos.Login.LoginActivity
 import com.example.myfooddiarybookaos.MainActivity
 import com.example.myfooddiarybookaos.R
 import com.example.myfooddiarybookaos.databinding.FragmentHomeBinding
+import java.util.*
 
 class HomeFragment : Fragment() {
     private var _binding : FragmentHomeBinding?  = null
@@ -36,6 +38,8 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initView()
         setUpListener()
 
     }
@@ -52,6 +56,15 @@ class HomeFragment : Fragment() {
         binding.testLogin.setOnClickListener {
             val intent = Intent(mainActivity,LoginActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    private fun initView(){
+        mainActivity?.let{content->
+            val date = Calendar.getInstance().time
+            binding.calendarLayout.monthRecycler.adapter =
+                CalendarDayAdapter(content, date,binding.calendarLayout.calendarLinear)
+
         }
     }
 }

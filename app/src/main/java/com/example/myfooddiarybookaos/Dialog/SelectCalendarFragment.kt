@@ -46,14 +46,14 @@ class SelectCalendarFragment : DialogFragment() {
         }
     }
 
-//    companion object {
-//        @JvmStatic
-//        fun newInstance(month: Int, year: Int) =
-//            SelectCalendarFragment().apply {
-//                arguments = Bundle().apply {
-//                    putInt("month", month)
-//                    putInt("year", year)
-//                }
-//            }
-//    }
+    companion object {
+        @JvmStatic
+        fun newInstance(month: Int, year: Int) =
+            SelectCalendarFragment().apply {
+                arguments = Bundle().apply {
+                    putInt("month", month)
+                    putInt("year", year)
+                }
+            }
+    }
 }
