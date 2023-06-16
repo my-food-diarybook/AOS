@@ -6,11 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.myfooddiarybookaos.Dialog.SelectCalendarFragment
+import com.example.myfooddiarybookaos.Dialog.SelectCalenderFragment
 import com.example.myfooddiarybookaos.MainActivity
-import com.example.myfooddiarybookaos.R
 import com.example.myfooddiarybookaos.databinding.FragmentTimeLineBinding
-import org.mozilla.javascript.tools.jsc.Main
 
 class TimeLineFragment : Fragment() {
     private var _binding : FragmentTimeLineBinding? = null
@@ -44,7 +42,7 @@ class TimeLineFragment : Fragment() {
     private fun setUpListener(){
         binding.calendarBox.calendarButton.setOnClickListener {
             mainActivity?.let {
-                SelectCalendarFragment().show(
+                SelectCalenderFragment().show(
                     it.supportFragmentManager,""
                 )
             }

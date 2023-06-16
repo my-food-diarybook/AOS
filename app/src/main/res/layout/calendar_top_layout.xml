@@ -14,9 +14,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <TextView
+            android:id="@+id/calender_text"
             android:textFontWeight="700"
-            android:layout_marginEnd="@dimen/size_11.59"
-            android:text="2023.06"
+            android:layout_marginEnd="@dimen/size_11.59" android:text="2023.06"
             android:textColor="@color/black"
             android:fontFamily="@font/roboto_bold"
             android:textSize="@dimen/size_34_sp"
