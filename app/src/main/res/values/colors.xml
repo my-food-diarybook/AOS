@@ -16,6 +16,8 @@
     <color name="slide_back_color">#F5F5F5</color>
     <color name="main_color">#2EB394</color>
     <color name="bar_color">#8B90B9</color>
+    <color name="calender_next_color">#8C8C8C</color>
     <color name="login_weak_color">#8B90B9</color>
     <color name="image_select_color">#007AFF</color>
+    <color name="color_day_of_weak">#1C1B1F</color>
 </resources>

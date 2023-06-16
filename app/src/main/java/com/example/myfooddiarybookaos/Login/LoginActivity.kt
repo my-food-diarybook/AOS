@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.myfooddiarybookaos.Dialog.PasswordChangeFragment
 import com.example.myfooddiarybookaos.Dialog.PasswordFindFragment
-import com.example.myfooddiarybookaos.Dialog.SelectCalendarFragment
 import com.example.myfooddiarybookaos.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
