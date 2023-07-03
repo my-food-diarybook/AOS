@@ -11,11 +11,13 @@ class CustomCalendar(
     private val date : Date, //현재 뷰 날짜
 ) {
     private val calendar : Calendar = Calendar.getInstance()
+    private var calenderDate : Int = 0
     var dateList = ArrayList<DayDate>()
 
     var prevTail =  0 // 이전 달 끝부분
     init {
         calendar.time = date
+        calenderDate = calendar.get(Calendar.DATE)
     }
 
     companion object {
@@ -35,75 +37,38 @@ class CustomCalendar(
 
         // 이전 달 세팅
         prevTail = calendar.get(Calendar.DAY_OF_WEEK)-1
-        makePrevTail(calendar.clone() as Calendar)
+        makePrevTail()
 
         makeCurrentMonth(calendar)
     }
-//    private fun makeMonthDate(){
-//        dateList.clear()
-//
-////        // 현재 뷰와 같은 캘린더를 생성해서
-////        // 일자가 1인 날부터 비교
-////        val firstDay = Calendar.getInstance()
-////        firstDay.set(Calendar.DATE,1)
-////        // 시간 맞추기
-////        firstDay.set(Calendar.HOUR,calendar.get(Calendar.HOUR))
-//
-//        // 요일 정보로 이전 달 마지막 주 데이터 구성 구성
-//        val weak = getWeakData(calendar.clone() as Calendar)
-//
-//        // 이전달 블러처리
-//        for (i in 1 until weak){
-//            dateList.add(
-//                DayDate(0,-1)
-//            )
-//        }
-//
-//        var newCalendar =Calendar.getInstance()
-//        var sf = SimpleDateFormat("yyyy-MM-dd 00:00:00") //단순 날짜 비교
-//        var date = sf.parse(newCalendar.time.time.toString())
-//
-//        for (i in 1 .. calendar.getActualMaximum(Calendar.DATE)){
-//            // 지난 달인 경우
-//            val cmp = ((newCalendar.time.time - date.time) / (60 * 60 * 24 * 1000)).toInt()
-//
-//            when{
-//                cmp <  0 -> dateList.add(DayDate(i,-1))
-//                cmp >  0 -> dateList.add(DayDate(i,1))
-//                else -> dateList.add(DayDate(i,0))
-//
-//            }
-////            firstDay.add(Calendar.DATE,1)
-//        }
-//    }
-//
-//    private fun getWeakData(weakCalendar: Calendar) : Int{
-//        weakCalendar.set(calendar.get(Calendar.YEAR)
-//            ,calendar.get(Calendar.MONTH),1)
-//        return weakCalendar.get(Calendar.DAY_OF_WEEK)
-//    }
+
 
     // 블러 처리를 위한 이전 달 마지막 주 세팅
-    private fun makePrevTail(calender : Calendar){
-        val monthIndex = -1
-        calender.set(Calendar.MONTH,calender.get(Calendar.MONTH)-1)
-        val maxDate = calender.getActualMaximum(Calendar.DATE)
-        var maxOffsetDate = maxDate - prevTail
+    private fun makePrevTail(){
         for (i in 1..prevTail){
             dateList.add(
-                DayDate(++maxOffsetDate,-1)
+                DayDate(0,-1)
             )
         }
     }
 
     private fun makeCurrentMonth(calender: Calendar){
-        val today = Calendar.getInstance()
-
+        val today = Calendar.getInstance() //오늘 캘린더
+        val todayDate = today.get(Calendar.YEAR)*12+today.get(Calendar.MONTH) // 오늘 치환
+        val currentDate = calender.get(Calendar.YEAR)*12+calendar.get(Calendar.MONTH) //캘린더 치환
+        var selected = -1
         for (i in 1..calender.getActualMaximum(Calendar.DATE)) {
-//            val isToday = ()
+            // 오늘 데이터 == 캘린더 데이터 && 현재 날짜 == i
+            if (todayDate==currentDate && i == calenderDate) ++selected
+
             dateList.add(
-                DayDate(i,-1)
+                DayDate(i,selected)
             )
+
+            // 이후 부터는 딤처리 (+1)
+            if (selected==0){
+                selected++
+            }
         }
     }
 }
