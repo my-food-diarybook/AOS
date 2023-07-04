@@ -84,7 +84,7 @@
         <item name="android:layout_marginBottom">@dimen/size_4</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
     </style>
-    
+
     <style name="pop_up_text_style_top">
         <item name="android:layout_marginBottom">@dimen/size_4</item>
         <item name="android:fontFamily">@font/roboto_bold</item>

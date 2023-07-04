@@ -12,6 +12,11 @@
         android:theme="@style/Theme.MyFoodDiaryBookAOS"
         tools:targetApi="31">
         <activity
+            android:name=".Login.LoginActivity_jet"
+            android:exported="false"
+            android:label="@string/title_activity_login_jet"
+            android:theme="@style/Theme.MyFoodDiaryBookAOS" />
+        <activity
             android:name=".Login.LoginActivity"
             android:exported="false" />
         <activity

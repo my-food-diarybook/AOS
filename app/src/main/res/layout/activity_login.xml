@@ -29,6 +29,7 @@
         android:fontFamily="@font/roboto_light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
     <EditText
         android:textColor="@color/weak_color"
         style="@style/login_text"

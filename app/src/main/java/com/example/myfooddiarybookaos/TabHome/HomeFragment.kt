@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import com.example.myfooddiarybookaos.Adapter.CalenderDayAdapter
 import com.example.myfooddiarybookaos.Dialog.SelectCalenderFragment
 import com.example.myfooddiarybookaos.Login.LoginActivity
+import com.example.myfooddiarybookaos.Login.LoginActivity_jet
 import com.example.myfooddiarybookaos.MainActivity
 import com.example.myfooddiarybookaos.databinding.FragmentHomeBinding
 import java.util.*
@@ -60,7 +61,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.testLogin.setOnClickListener {
-            val intent = Intent(mainActivity,LoginActivity::class.java)
+            val intent = Intent(mainActivity,LoginActivity_jet::class.java)
             startActivity(intent)
         }
     }
