@@ -2,6 +2,7 @@ package com.example.myfooddiarybookaos.Login.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 
 val Shapes = Shapes(
@@ -9,3 +10,4 @@ val Shapes = Shapes(
     medium = RoundedCornerShape(4.dp),
     large = RoundedCornerShape(0.dp)
 )
+

@@ -65,6 +65,7 @@
         android:paddingBottom="@dimen/size_10.5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <!-- bottom -->
     <LinearLayout
         android:layout_marginBottom="@dimen/size_55.71"
         android:gravity="center"

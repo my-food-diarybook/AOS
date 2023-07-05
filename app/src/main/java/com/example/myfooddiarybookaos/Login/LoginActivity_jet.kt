@@ -1,27 +1,27 @@
 package com.example.myfooddiarybookaos.Login
 
-import android.graphics.drawable.DrawableWrapper
 import android.os.Bundle
-import android.widget.EditText
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.*
-import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import com.bumptech.glide.load.resource.drawable.DrawableResource
+import com.example.myfooddiarybookaos.Login.ui.theme.EditTextBox
 import com.example.myfooddiarybookaos.Login.ui.theme.MyFoodDiaryBookAOSTheme
+import com.example.myfooddiarybookaos.Login.ui.theme.TextBox
 import com.example.myfooddiarybookaos.R
 
 class LoginActivity_jet : ComponentActivity() {
@@ -37,6 +37,7 @@ class LoginActivity_jet : ComponentActivity() {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         TopLayout()
                         MidLayout()
+                        BottomLayout()
                     }
                 }
             }
@@ -62,19 +63,19 @@ fun TopLayout(){
                 .height(dimensionResource(id = R.dimen.size_83))
         )
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_13)))
-        Text(
-            text = "식사일기",
-            fontWeight = FontWeight(700),
-            fontFamily = FontFamily(Font(R.font.roboto_bold)),
-            fontSize = dimensionResource(id = R.dimen.size_22_sp).value.sp,
-            color = colorResource(id = R.color.main_color)
+        TextBox(
+            "식사일기",
+            700,
+            Font(R.font.roboto_bold),
+            dimensionResource(id = R.dimen.size_22_sp).value.sp,
+            colorResource(id = R.color.main_color)
         )
-        Text(
-            text = "오늘 먹은 음식을 사진으로 기록하세요!",
-            fontWeight = FontWeight(400),
-            fontFamily = FontFamily(Font(R.font.roboto_light)),
-            fontSize = dimensionResource(id = R.dimen.size_16_sp).value.sp,
-            color = colorResource(id = R.color.line_color_deep)
+        TextBox(
+            "오늘 먹은 음식을 사진으로 기록하세요!",
+            400,
+            Font(R.font.roboto_light),
+            dimensionResource(id = R.dimen.size_16_sp).value.sp,
+            colorResource(id = R.color.line_color_deep)
         )
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_55)))
     }
@@ -82,41 +83,80 @@ fun TopLayout(){
 
 @Composable
 fun MidLayout(){
-    var text by remember {
-        mutableStateOf(TextFieldValue(""))
-    }
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        // EditText - 이메일
-        TextField(
-            value = text,
-            onValueChange = {newText -> text = newText}, //값 변경 시
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight(),
-            placeholder = { Text(
-                text = "이메일",
-                color = colorResource(id = R.color.weak_color),
-            )}, //힌트 (텍스트 ,칼라 적용 )
-
-        )
+        // EditText - email
+        EditTextBox("이메일")
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_8)))
         // EditText - pw
-        TextField(
-            value = text,
-            onValueChange = {newText -> text = newText}, //값 변경 시
-            // End 아이콘
-            trailingIcon = { painterResource(id = R.drawable.ic_eye_off_black)},
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight(),
-            placeholder = { Text(
-                text = "비밀번호",
-                color = colorResource(id = R.color.weak_color),
-
-                )} //힌트
-        )
+        EditTextBox(hintText = "비밀번호")
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_29)))
+        // LoginButton
+        Surface( // 배경
+            modifier = Modifier
+                .padding(
+                    start = dimensionResource(id = R.dimen.size_16),
+                    end = dimensionResource(id = R.dimen.size_16),
+                )
+                .alpha(0.3F),
+            shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_4)),
+            border = BorderStroke(
+                dimensionResource(id = R.dimen.size_1),
+                colorResource(id = R.color.weak_color)
+            ),
+            color = colorResource(id = R.color.main_color)
+        ) {
+            Text(
+                text = "로그인",
+                fontFamily = FontFamily(Font(R.font.roboto_bold)),
+                fontWeight = FontWeight(700),
+                fontSize =dimensionResource(id = R.dimen.size_16_sp).value.sp ,
+                color = colorResource(id = R.color.white),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(
+                        top = dimensionResource(id = R.dimen.size_12),
+                        bottom = dimensionResource(id = R.dimen.size_12)
+                    ),
+                textAlign = TextAlign.Center, // 중앙
+            )
+        }
+
+
     }
+}
+
+@Composable
+fun BottomLayout(){
+    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_17)))
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        TextBox(
+            text = "비밀번호 찾기",
+            fontWeight = 500,
+            fontFamily = Font(R.font.roboto_light),
+            dimensionResource(id = R.dimen.size_14_sp).value.sp,
+            colorResource(id = R.color.login_weak_color)
+        )
+        // 중앙 선 표현
+        Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_12)))
+        Divider(
+            color = colorResource(id = R.color.login_weak_color),
+            modifier = Modifier
+                .width(dimensionResource(id = R.dimen.size_1))
+                .height(dimensionResource(id = R.dimen.size_12_86))
+        )
+        Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_12)))
+        TextBox(
+            text = "회원가입",
+            fontWeight = 500,
+            fontFamily = Font(R.font.roboto_light),
+            dimensionResource(id = R.dimen.size_14_sp).value.sp,
+            colorResource(id = R.color.login_weak_color)
+        )
+    }
+    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_55_71)))
 }
 
 @Preview(showBackground = true)
