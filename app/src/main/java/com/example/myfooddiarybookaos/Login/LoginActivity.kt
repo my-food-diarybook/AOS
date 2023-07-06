@@ -5,6 +5,8 @@ import android.os.Bundle
 import com.example.myfooddiarybookaos.Dialog.PasswordChangeFragment
 import com.example.myfooddiarybookaos.Dialog.PasswordFindFragment
 import com.example.myfooddiarybookaos.databinding.ActivityLoginBinding
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding :  ActivityLoginBinding

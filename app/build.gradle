@@ -1,6 +1,11 @@
 plugins {
     id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
     id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.kapt'
+    id("com.google.dagger.hilt.android") version "2.44" apply false
+
 }
 
 android {
@@ -30,6 +35,7 @@ android {
 
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+
     }
     kotlinOptions {
         jvmTarget = '1.8'
@@ -55,6 +61,17 @@ android {
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+
+    // Allow references to generated code
+    kapt {
+        correctErrorTypes = true
+        javacOptions {
+            // These options are normally set automatically via the Hilt Gradle plugin, but we
+            // set them manually to workaround a bug in the Kotlin 1.5.20
+            option("-Adagger.fastInit=ENABLED")
+            option("-Adagger.hilt.android.internal.disableAndroidSuperclassValidation=true")
         }
     }
 
@@ -119,8 +136,7 @@ dependencies {
     //slide bar
     implementation 'com.sothree.slidinguppanel:library:3.0.0'
 
-
-    // Compose
-//    implementation "androidx.compose.compiler:compiler:$compose_version"
-    //...
+    // hilt
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
 }

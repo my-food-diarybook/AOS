@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.*
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfooddiarybookaos.Login.ui.theme.EditTextBox
 import com.example.myfooddiarybookaos.Login.ui.theme.MyFoodDiaryBookAOSTheme
@@ -77,7 +78,7 @@ fun TopLayout(){
             dimensionResource(id = R.dimen.size_16_sp).value.sp,
             colorResource(id = R.color.line_color_deep)
         )
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_55)))
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_51)))
     }
 }
 
@@ -89,7 +90,7 @@ fun MidLayout(){
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_8)))
         // EditText - pw
         EditTextBox(hintText = "비밀번호")
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_29)))
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_21)))
         // LoginButton
         Surface( // 배경
             modifier = Modifier
@@ -115,8 +116,8 @@ fun MidLayout(){
                     .fillMaxWidth()
                     .wrapContentHeight()
                     .padding(
-                        top = dimensionResource(id = R.dimen.size_12),
-                        bottom = dimensionResource(id = R.dimen.size_12)
+                        top = dimensionResource(id = R.dimen.size_10_5),
+                        bottom = dimensionResource(id = R.dimen.size_10_5)
                     ),
                 textAlign = TextAlign.Center, // 중앙
             )
@@ -128,7 +129,7 @@ fun MidLayout(){
 
 @Composable
 fun BottomLayout(){
-    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_17)))
+    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_13)))
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -142,7 +143,7 @@ fun BottomLayout(){
         // 중앙 선 표현
         Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_12)))
         Divider(
-            color = colorResource(id = R.color.login_weak_color),
+            color = colorResource(id = R.color.login_weak_color_40),
             modifier = Modifier
                 .width(dimensionResource(id = R.dimen.size_1))
                 .height(dimensionResource(id = R.dimen.size_12_86))
@@ -156,7 +157,64 @@ fun BottomLayout(){
             colorResource(id = R.color.login_weak_color)
         )
     }
-    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_55_71)))
+    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_35)))
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(dimensionResource(id = R.dimen.size_16))) {
+        Divider(
+            color = colorResource(id = R.color.login_weak_color_40),
+            modifier = Modifier
+                .weight(1F)
+                .width(0.dp)
+                .height(dimensionResource(id = R.dimen.size_1))
+        )
+        Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_4)))
+        TextBox(
+            text ="또는" ,
+            fontWeight =500 ,
+            fontFamily =Font(R.font.roboto_light),
+            fontSize = dimensionResource(id = R.dimen.size_14_sp).value.sp,
+            color = colorResource(id = R.color.login_weak_color),
+        )
+        Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_4)))
+        Divider(
+            color = colorResource(id = R.color.login_weak_color_40),
+            modifier = Modifier
+                .weight(1F)
+                .width(0.dp)
+                .height(dimensionResource(id = R.dimen.size_1))
+        )
+    }
+    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_3)))
+    
+    Row(verticalAlignment = Alignment.CenterVertically){
+        Image(
+            painter = painterResource(id = R.drawable.icon_google),
+            contentDescription = "",
+            modifier = Modifier.size(dimensionResource(id = R.dimen.size_40))
+        )
+        Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_21)))
+        Image(
+            painter = painterResource(id = R.drawable.icon_kakao),
+            contentDescription = "",
+            modifier = Modifier.size(dimensionResource(id = R.dimen.size_40))
+        )
+    }
+
+    Button(
+        onClick = {},
+        modifier = Modifier.wrapContentSize()
+    ){
+        Text("비밀번호 변경(test)")
+    }
+
+    Button(
+        onClick = {},
+        modifier = Modifier.wrapContentSize()
+    ){
+        Text("비밀번호 찾기(test)")
+    }
 }
 
 @Preview(showBackground = true)

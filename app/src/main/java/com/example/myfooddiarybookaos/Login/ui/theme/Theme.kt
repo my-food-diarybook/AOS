@@ -106,7 +106,7 @@ fun EditTextBox(hintText: String) {
                 onValueChange = { newText -> text = newText }, //값 변경 시 동작
                 modifier = Modifier
                     .fillMaxWidth()
-                    .wrapContentHeight(),
+                    .height(dimensionResource(id = R.dimen.size_48)),
                 colors = TextFieldDefaults.textFieldColors(backgroundColor = colorResource(id = R.color.white)),
                 placeholder = {
                     Text(

@@ -13,6 +13,7 @@ import com.example.myfooddiarybookaos.R
 import com.example.myfooddiarybookaos.TabHome.CustomCalendar
 import com.example.myfooddiarybookaos.databinding.ItemDayTextBinding
 import java.util.*
+import javax.inject.Inject
 
 
 class CalenderDayAdapter(

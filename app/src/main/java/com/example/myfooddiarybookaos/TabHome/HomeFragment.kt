@@ -61,7 +61,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.testLogin.setOnClickListener {
-            val intent = Intent(mainActivity,LoginActivity_jet::class.java)
+            val intent = Intent(mainActivity,LoginActivity::class.java)
             startActivity(intent)
         }
     }
