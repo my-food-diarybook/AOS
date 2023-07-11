@@ -7,14 +7,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.myfooddiarybookaos.Dialog.PasswordChangeFragment
 import com.example.myfooddiarybookaos.Dialog.PopUpDeleteFragment
 import com.example.myfooddiarybookaos.Dialog.PopUpWithdrawalFragment
 import com.example.myfooddiarybookaos.Login.LoginActivity
 import com.example.myfooddiarybookaos.MainActivity
-import com.example.myfooddiarybookaos.R
 import com.example.myfooddiarybookaos.databinding.FragmentMyInfoBinding
-import org.mozilla.javascript.tools.jsc.Main
 
 class MyInfoFragment : Fragment() {
     private var mainActivity : MainActivity? = null

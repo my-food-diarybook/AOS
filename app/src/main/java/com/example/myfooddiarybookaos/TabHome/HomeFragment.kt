@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,6 @@ import android.view.ViewGroup
 import com.example.myfooddiarybookaos.Adapter.CalenderDayAdapter
 import com.example.myfooddiarybookaos.Dialog.SelectCalenderFragment
 import com.example.myfooddiarybookaos.Login.LoginActivity
-import com.example.myfooddiarybookaos.Login.LoginActivity_jet
 import com.example.myfooddiarybookaos.MainActivity
 import com.example.myfooddiarybookaos.databinding.FragmentHomeBinding
 import java.util.*
