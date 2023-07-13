@@ -18,6 +18,7 @@ import androidx.navigation.compose.composable
 
 import androidx.navigation.compose.rememberNavController
 import com.example.myfooddiarybookaos.Data.MainScreen
+import com.example.myfooddiarybookaos.TabHome.HomeScreen
 import com.example.myfooddiarybookaos.ui.theme.MyFoodDiaryBookAOSTheme
 import org.mozilla.javascript.tools.jsc.Main
 
@@ -48,8 +49,15 @@ fun MainUi() {
             .fillMaxHeight()
     ) {
         // constraintLayout id
-        val button = createRef()
-        Box{
+        val (button,box) = createRefs()
+        Box(
+            modifier = Modifier
+                .constrainAs(box) {
+                bottom.linkTo(parent.bottom)
+                end.linkTo(parent.end)
+                start.linkTo(parent.start)
+            }
+        ){
             //bottom navi bar를 위한 navHost 지정
             // -> 구성 가능한 대상은 컴포저블 간에 이동할 수 있어야 함 (fragment navi화)
             val navigator = rememberNavController()
@@ -57,7 +65,9 @@ fun MainUi() {
                     navController = navigator,
                     startDestination = MainScreen.Home.name
             ){
-                composable(MainScreen.Home.name){}
+                composable(MainScreen.Home.name){
+                    HomeScreen()
+                }
                 composable(MainScreen.TimeLine.name){}
                 composable(MainScreen.Search.name){}
                 composable(MainScreen.MyAccount.name){}
@@ -82,15 +92,11 @@ fun MainUi() {
     }
 }
 
-@Composable
-fun ButtomView(){
-
-}
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview2() {
     MyFoodDiaryBookAOSTheme {
         MainUi()
-        ButtomView()
+
     }
 }

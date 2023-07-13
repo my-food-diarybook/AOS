@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.example.myfooddiarybookaos.Layout.CalendarLayout
 import com.example.myfooddiarybookaos.Layout.TopCalendarLayout
+import java.util.*
 
 @Composable
 fun HomeScreen(){
@@ -22,8 +23,15 @@ fun HomeScreen(){
             Text("로그인 ui 보기(test)")
         }
 
-        TopCalendarLayout()
-        CalendarLayout()
+        // 캘린더 초기화
+        val calendarDate = Calendar.getInstance()
+        val customCalendar  = CustomCalendar(calendarDate.time)
+        TopCalendarLayout(
+            "${calendarDate.get(Calendar.YEAR)}" +
+                    ".${calendarDate.get(Calendar.MONTH)
+                        .plus(1)}"
+        )
+        CalendarLayout(customCalendar)
 
     }
 }
