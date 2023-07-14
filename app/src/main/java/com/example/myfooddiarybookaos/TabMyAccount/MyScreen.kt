@@ -66,6 +66,11 @@ fun MyScreen(){
             }
             Subject("통계")
             Statistics()
+            Subject("일반")
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_7)))
+            OptionBox("공지사항",R.drawable.right_side,null)
+            OptionBox("앱 버전 정보",null,"1. 1. 1")
+            OptionBox("의견보내기",R.drawable.message,null)
         }
     }
 }
@@ -128,6 +133,121 @@ private fun Statistics(){
             .paint(painterResource(id = R.drawable.round_rec_stroke))
     ) {
         TextBox(
-            text ="모든 식사 일기" , fontWeight = , fontFamily = , fontSize = , color = )
+            text ="모든 식사 일기" ,
+            fontWeight = 400,
+            fontFamily =Font(R.font.roboto_regular) ,
+            fontSize = dimensionResource(id = R.dimen.size_14_sp).value.sp,
+            color = colorResource(id = R.color.black)
+        )
+        TextBox(
+            text ="10" ,
+            fontWeight = 700,
+            fontFamily =Font(R.font.roboto_regular) ,
+            fontSize = dimensionResource(id = R.dimen.size_28_sp).value.sp,
+            color = colorResource(id = R.color.main_color)
+        )
+        InDivider()
+        for (category in listOf("아침","아점","점심","점저")){
+            CategoryMenu(category,0)
+            if (category!="점저") Spacer(
+                modifier =Modifier.width(dimensionResource(id = R.dimen.size_51))
+            )
+        }
+        InDivider()
+        for (category in listOf("간식","저녁","야식","기타")){
+            CategoryMenu(category,0)
+            if (category!="기타") Spacer(
+                modifier =Modifier.width(dimensionResource(id = R.dimen.size_51))
+            )
+        }
+
+    }
+}
+
+@Composable
+private fun InDivider(){
+    Divider(
+        Modifier
+            .fillMaxWidth()
+            .height(dimensionResource(id = R.dimen.size_1))
+            .padding(
+                start = dimensionResource(id = R.dimen.size_9),
+                top = dimensionResource(id = R.dimen.size_12),
+                end = dimensionResource(id = R.dimen.size_9),
+                bottom = dimensionResource(id = R.dimen.size_15),
+            ),
+        color = colorResource(id = R.color.line_color_deep)
+    )
+}
+
+@Composable
+private fun CategoryMenu(text: String,count:Int){
+    Column {
+        TextBox(
+            text = text,
+            fontWeight = 500 ,
+            fontFamily = Font(R.font.roboto_regular) ,
+            fontSize = dimensionResource(id = R.dimen.size_28_sp).value.sp,
+            color = colorResource(id = R.color.line_color_deep)
+        )
+        TextBox(
+            text = count.toString(),
+            fontWeight = 500 ,
+            fontFamily = Font(R.font.roboto_regular) ,
+            fontSize = dimensionResource(id = R.dimen.size_28_sp).value.sp,
+            color = colorResource(id = R.color.line_color_deep)
+        )
+    }
+}
+
+@Composable
+private fun OptionBox(text: String,drawable:Int?,version:String?){
+    Surface(
+        modifier = Modifier
+            .padding(
+                start = dimensionResource(id = R.dimen.size_16),
+                end = dimensionResource(id = R.dimen.size_16),
+                bottom = dimensionResource(id = R.dimen.size_9),
+            )
+            .paint(
+                painterResource(id = R.drawable.round_rec_stroke)
+            )
+    ) {
+        Row(
+            modifier = Modifier.padding(
+                top = dimensionResource(id = R.dimen.size_17),
+                bottom = dimensionResource(id = R.dimen.size_17),
+                end = dimensionResource(id = R.dimen.size_12),
+                start = dimensionResource(id = R.dimen.size_9)
+            )
+        ){
+            TextBox(
+                text = text,
+                fontWeight = 500,
+                fontFamily = Font(R.font.roboto_regular),
+                fontSize = dimensionResource(id = R.dimen.size_20_sp).value.sp,
+                color = colorResource(id = R.color.black)
+            )
+            Spacer(modifier = Modifier.weight(1f)) //우측 정렬
+            if (drawable!=null) {
+                Image(
+                    modifier = Modifier
+                        .width(dimensionResource(id = R.dimen.size_8))
+                        .height(dimensionResource(id = R.dimen.size_12)),
+                    painter = painterResource(id = drawable),
+                    contentDescription = "",
+                    colorFilter = ColorFilter.tint(Color.Black)
+                )
+            }
+            if (version!=null){
+                TextBox(
+                    text = version,
+                    fontWeight = 500,
+                    fontFamily = Font(R.font.roboto_regular),
+                    fontSize = dimensionResource(id = R.dimen.size_20_sp).value.sp,
+                    color = colorResource(id = R.color.black)
+                )
+            }
+        }
     }
 }

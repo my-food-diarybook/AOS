@@ -5,6 +5,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -17,10 +18,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 
 import androidx.navigation.compose.rememberNavController
-import com.example.myfooddiarybookaos.Data.MainScreen
+import com.example.myfooddiarybookaos.MainData.BottomNavigation
+import com.example.myfooddiarybookaos.MainData.MainScreen
+import com.example.myfooddiarybookaos.MainData.NavigationGraph
 import com.example.myfooddiarybookaos.TabHome.HomeScreen
 import com.example.myfooddiarybookaos.ui.theme.MyFoodDiaryBookAOSTheme
-import org.mozilla.javascript.tools.jsc.Main
 
 
 class MainActivity_jet : ComponentActivity() {
@@ -28,13 +30,7 @@ class MainActivity_jet : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyFoodDiaryBookAOSTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    MainUi()
-                }
+                MainUi()
             }
         }
     }
@@ -42,54 +38,55 @@ class MainActivity_jet : ComponentActivity() {
 
 @Composable
 fun MainUi() {
-
-    ConstraintLayout(
-        Modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
+    // navController
+    // 네비게이션의 중심 API -> 각 화면을 구성하는 컴포저블의 백스택을 추적
+    val navController = rememberNavController()
+    // 기본 material design ui 구현
+    // TopAppBar, BottomAppBar, FloatingActionButton, Drawer
+    Scaffold(
+        // 네비게이션 연결
+        bottomBar = { BottomNavigation(navController = navController)},
+        floatingActionButton = {}
     ) {
-        // constraintLayout id
-        val (button,box) = createRefs()
-        Box(
-            modifier = Modifier
-                .constrainAs(box) {
-                bottom.linkTo(parent.bottom)
-                end.linkTo(parent.end)
-                start.linkTo(parent.start)
-            }
-        ){
-            //bottom navi bar를 위한 navHost 지정
-            // -> 구성 가능한 대상은 컴포저블 간에 이동할 수 있어야 함 (fragment navi화)
-            val navigator = rememberNavController()
-            NavHost(
-                    navController = navigator,
-                    startDestination = MainScreen.Home.name
-            ){
-                composable(MainScreen.Home.name){
-                    HomeScreen()
-                }
-                composable(MainScreen.TimeLine.name){}
-                composable(MainScreen.Search.name){}
-                composable(MainScreen.MyAccount.name){}
-            }
-
-
+        Box(Modifier.padding(it)){
+            // 각 네비게이션에 맞는 뷰를 그러주는 그래프 연결
+            NavigationGraph(navController = navController)
         }
-        // button floating button
-        Image(
-            painter = painterResource(id = R.drawable.baseline_add_circle_24)
-            , contentDescription ="",
-            Modifier
-                .width(dimensionResource(id = R.dimen.size_53_33))
-                .height(dimensionResource(id = R.dimen.size_53_33))
-                .paint(painterResource(id = R.drawable.circle))
-                .constrainAs(button) {
-                    bottom.linkTo(parent.bottom)
-                    end.linkTo(parent.end)
-                    start.linkTo(parent.start)
-                }
-        )
     }
+//    ConstraintLayout(
+//        Modifier
+//            .fillMaxWidth()
+//            .fillMaxHeight()
+//    ) {
+//        // constraintLayout id
+//        val (button,box) = createRefs()
+//        Box(
+//            modifier = Modifier
+//                .constrainAs(box) {
+//                bottom.linkTo(parent.bottom)
+//                end.linkTo(parent.end)
+//                start.linkTo(parent.start)
+//            }
+//        ){
+//
+//
+//
+//        }
+//        // button floating button
+//        Image(
+//            painter = painterResource(id = R.drawable.baseline_add_circle_24)
+//            , contentDescription ="",
+//            Modifier
+//                .width(dimensionResource(id = R.dimen.size_53_33))
+//                .height(dimensionResource(id = R.dimen.size_53_33))
+//                .paint(painterResource(id = R.drawable.circle))
+//                .constrainAs(button) {
+//                    bottom.linkTo(parent.bottom)
+//                    end.linkTo(parent.end)
+//                    start.linkTo(parent.start)
+//                }
+//        )
+//    }
 }
 
 @Preview(showBackground = true)
