@@ -1,4 +1,4 @@
-package com.example.myfooddiarybookaos.MainData
+package com.example.myfooddiarybookaos.BottomaNavi
 
 import androidx.compose.runtime.Composable
 

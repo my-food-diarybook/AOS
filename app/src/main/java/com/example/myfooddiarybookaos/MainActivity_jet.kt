@@ -2,26 +2,15 @@ package com.example.myfooddiarybookaos
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.paint
-import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 
 import androidx.navigation.compose.rememberNavController
-import com.example.myfooddiarybookaos.MainData.BottomNavigation
-import com.example.myfooddiarybookaos.MainData.MainScreen
-import com.example.myfooddiarybookaos.MainData.NavigationGraph
-import com.example.myfooddiarybookaos.TabHome.HomeScreen
+import com.example.myfooddiarybookaos.BottomaNavi.BottomNavigation
+import com.example.myfooddiarybookaos.BottomaNavi.NavigationGraph
 import com.example.myfooddiarybookaos.ui.theme.MyFoodDiaryBookAOSTheme
 
 

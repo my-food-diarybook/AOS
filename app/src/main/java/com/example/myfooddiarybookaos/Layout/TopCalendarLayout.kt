@@ -3,15 +3,18 @@ package com.example.myfooddiarybookaos.Layout
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 
 import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.example.myfooddiarybookaos.R
 import com.example.myfooddiarybookaos.ui.theme.TextBox
@@ -27,7 +30,8 @@ fun TopCalendarLayout(monthString : String){
                 top = dimensionResource(id = R.dimen.size_47),
                 start = dimensionResource(id = R.dimen.size_20),
                 bottom = dimensionResource(id = R.dimen.size_11_59)
-            )
+            ),
+        verticalAlignment = Alignment.Bottom
     ){
         TextBox(
             text = monthString,
@@ -39,7 +43,12 @@ fun TopCalendarLayout(monthString : String){
         Image(
             painter = painterResource(id = R.drawable.downarrow),
             contentDescription = "",
-            Modifier.padding(bottom = dimensionResource(id = R.dimen.size_3_33))
+            Modifier
+                .padding(bottom = dimensionResource(id = R.dimen.size_13))
+                .height(dimensionResource(id = R.dimen.size_14))
+                .width(dimensionResource(id = R.dimen.size_20))
+            ,
+
         )
     }
     Divider(
@@ -48,4 +57,10 @@ fun TopCalendarLayout(monthString : String){
             .height(dimensionResource(id = R.dimen.size_1))
             .fillMaxWidth()
     )
+}
+
+@Preview
+@Composable
+private fun TopCalendarLayoutPreview(){
+    TopCalendarLayout("2023.07")
 }

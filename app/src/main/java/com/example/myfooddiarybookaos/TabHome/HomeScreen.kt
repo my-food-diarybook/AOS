@@ -5,23 +5,30 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.myfooddiarybookaos.Layout.CalendarLayout
 import com.example.myfooddiarybookaos.Layout.TopCalendarLayout
 import java.util.*
+import com.example.myfooddiarybookaos.R
 
 @Composable
 fun HomeScreen(){
-    Column{
-        // 임시 로그인
-        Button(
-            onClick = { /*TODO*/ },
-            modifier = Modifier
-                .wrapContentWidth()
-                .wrapContentHeight(),
-
-        ) {
-            Text("로그인 ui 보기(test)")
-        }
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+    ){
+//        // 임시 로그인
+//        Button(
+//            onClick = { /*TODO*/ },
+//            modifier = Modifier
+//                .wrapContentWidth()
+//                .wrapContentHeight(),
+//
+//        ) {
+//            Text("로그인 ui 보기(test)")
+//        }
 
         // 캘린더 초기화
         val calendarDate = Calendar.getInstance()
@@ -31,6 +38,7 @@ fun HomeScreen(){
                     ".${calendarDate.get(Calendar.MONTH)
                         .plus(1)}"
         )
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_116_86)))
         CalendarLayout(customCalendar)
 
     }
@@ -38,3 +46,8 @@ fun HomeScreen(){
 
 
 
+@Preview
+@Composable
+fun HomeScreenPreview(){
+    HomeScreen()
+}

@@ -1,6 +1,7 @@
 package com.example.myfooddiarybookaos.Layout
 
 
+import android.util.Log
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -20,6 +21,9 @@ import com.example.myfooddiarybookaos.Model.DayDate
 import com.example.myfooddiarybookaos.R
 import com.example.myfooddiarybookaos.ui.theme.TextBox
 import androidx.compose.foundation.Image
+import androidx.compose.ui.draw.paint
+
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.myfooddiarybookaos.TabHome.CustomCalendar
 import java.util.Calendar
 
@@ -28,18 +32,20 @@ fun CalendarLayout(customCalendar : CustomCalendar){
     Column {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            modifier = Modifier.fillMaxWidth()
         ){
             // 요일 적용
             for (day in listOf("S","M","T","W","T","F","S")){
                 DayLayer(text = day)
             }
         }
-        RecyclerView(dayList = customCalendar.dateList)
+        MonthDataView(dayList = customCalendar.dateList)
     }
 }
 
 
+// 일 별 레이어
 @Composable
 private fun DayLayer(text: String){
     Text(
@@ -53,8 +59,9 @@ private fun DayLayer(text: String){
     )
 }
 
+// 리싸이클러 뷰
 @Composable
-private fun RecyclerView(dayList : ArrayList<DayDate> ){
+private fun MonthDataView(dayList : ArrayList<DayDate> ){
     LazyVerticalGrid(
         columns = GridCells.Fixed(7),
         content = {
@@ -66,6 +73,7 @@ private fun RecyclerView(dayList : ArrayList<DayDate> ){
 }
 @Composable
 private fun DayItem(dayDate: DayDate){
+    Log.d("print dayDate ",dayDate.day.toString())
     val isSelected by remember {
         mutableStateOf(dayDate.isSelected)
     }
@@ -73,46 +81,33 @@ private fun DayItem(dayDate: DayDate){
         if (isSelected==1) colorResource(id = R.color.line_color_deep)
         else colorResource(id = R.color.color_day_of_weak)
     )
-    ConstraintLayout(
-        Modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
-    ) {
-        val (viewText,viewImage) = createRefs()
-        Surface(
-            modifier = Modifier
-                .width(dimensionResource(id = R.dimen.size_40))
-                .height(dimensionResource(id = R.dimen.size_40))
-                .constrainAs(viewText) {
-                    bottom.linkTo(parent.bottom)
-                    end.linkTo(parent.end)
-                    start.linkTo(parent.start)
-                    top.linkTo(parent.top)
+    Surface(
+        modifier = Modifier
+            .width(dimensionResource(id = R.dimen.size_40))
+            .height(dimensionResource(id = R.dimen.size_40))
+            .then(
+                if (isSelected==0){
+                    Modifier.paint(painterResource(id = R.drawable.circle_today))
+                }else{
+                    Modifier
                 }
-        ) {
-            TextBox(
-                text = dayDate.day.toString(),
-                fontWeight = 400 ,
-                fontFamily = Font(R.font.roboto_bold),
-                fontSize = dimensionResource(id = R.dimen.size_12_sp).value.sp,
-                color = textView
             )
-        }
-        // today view
-        if (isSelected==0){
-            Image(
-                painter = painterResource(id = R.drawable.circle_today),
-                contentDescription = "",
-                modifier = Modifier
-                    .width(dimensionResource(id = R.dimen.size_40))
-                    .height(dimensionResource(id = R.dimen.size_40))
-                    .constrainAs(viewImage) {
-                        bottom.linkTo(parent.bottom)
-                        end.linkTo(parent.end)
-                        start.linkTo(parent.start)
-                        top.linkTo(parent.top)
-                    }
-            )
-        }
+    ) {
+        TextBox(
+            text = dayDate.day.toString(),
+            fontWeight = 400 ,
+            fontFamily = Font(R.font.roboto_bold),
+            fontSize = dimensionResource(id = R.dimen.size_12_sp).value.sp,
+            color = textView,
+
+        )
     }
+}
+
+@Preview
+@Composable
+private fun CalendarLayoutPreview(){
+    val calendarDate = Calendar.getInstance()
+    val customCalendar  = CustomCalendar(calendarDate.time)
+    CalendarLayout(customCalendar)
 }

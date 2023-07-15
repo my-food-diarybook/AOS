@@ -2,7 +2,9 @@ package com.example.myfooddiarybookaos.TabMyAccount
 import android.widget.TextView
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.material.Surface
@@ -85,10 +87,12 @@ fun PreviewMyScreen(){
 private fun EmailInfo(email : String){
     Row(
         modifier = Modifier
-            .padding(
-                dimensionResource(id = R.dimen.size_17)
+            .padding(dimensionResource(id = R.dimen.size_17))
+            .border(
+                width = dimensionResource(id = R.dimen.size_1),
+                color = colorResource(id = R.color.black),
+                shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_10))
             )
-            .paint(painterResource(id = R.drawable.round_rec_stroke))
 
     ) {
         TextBox(
@@ -130,7 +134,11 @@ private fun Statistics(){
                 end = dimensionResource(id = R.dimen.size_20),
                 bottom = dimensionResource(id = R.dimen.size_11)
             )
-            .paint(painterResource(id = R.drawable.round_rec_stroke))
+            .border(
+                width = dimensionResource(id = R.dimen.size_1),
+                color = colorResource(id = R.color.black),
+                shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_10))
+            )
     ) {
         TextBox(
             text ="모든 식사 일기" ,
@@ -209,8 +217,10 @@ private fun OptionBox(text: String,drawable:Int?,version:String?){
                 end = dimensionResource(id = R.dimen.size_16),
                 bottom = dimensionResource(id = R.dimen.size_9),
             )
-            .paint(
-                painterResource(id = R.drawable.round_rec_stroke)
+            .border(
+                width = dimensionResource(id = R.dimen.size_1),
+                color = colorResource(id = R.color.black),
+                shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_10))
             )
     ) {
         Row(

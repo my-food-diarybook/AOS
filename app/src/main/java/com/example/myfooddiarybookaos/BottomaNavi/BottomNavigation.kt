@@ -1,7 +1,6 @@
-package com.example.myfooddiarybookaos.MainData
+package com.example.myfooddiarybookaos.BottomaNavi
 
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
@@ -14,7 +13,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.myfooddiarybookaos.R
-import okhttp3.internal.wait
 
 @Composable
 fun BottomNavigation (navController: NavHostController){
@@ -22,6 +20,7 @@ fun BottomNavigation (navController: NavHostController){
     val items = listOf(
         BottomNavItem.Home,
         BottomNavItem.TimeLine,
+        BottomNavItem.Spacer,
         BottomNavItem.Search,
         BottomNavItem.MyAccount
     )
@@ -42,29 +41,33 @@ fun BottomNavigation (navController: NavHostController){
         items.forEach {item ->
             BottomNavigationItem(
                 icon = { //image icon
-                    Icon(
-                       painter = painterResource(id = item.icon),
-                       contentDescription = item.title,
-                       modifier = Modifier
-                           .width(dimensionResource(id = R.dimen.size_34))
-                           .height(dimensionResource(id = R.dimen.size_34))
-                    )
+                    if (item.icon!=null) {
+                        Icon(
+                            painter = painterResource(id = item.icon),
+                            contentDescription = item.title,
+                        )
+                    }
                 },
                 label = {}, // label text -> null (un label)
                 selectedContentColor = colorResource(id = R.color.black),
                 unselectedContentColor = colorResource(id = R.color.line_color_deep),
                 selected = currentRoute==item.screenRoute, //select 상태를 설정
                 alwaysShowLabel = false,
+
                 // 아이콘 클릭 동작
+
                 onClick = {
-                    navController.navigate(item.screenRoute) {
-                        navController.graph.startDestinationRoute?.let {// 루트 이동
-                            // popUpTo를 통해서 start route만 스택에 쌓이게 함
-                            // 하나의 인스턴스만 뜨게 지정
-                            popUpTo(it) { saveState = true }
+                    if (item.icon!=null) {
+                        navController.navigate(item.screenRoute) {
+                            navController.graph.startDestinationRoute?.let {// 루트 이동
+                                // popUpTo를 통해서 start route만 스택에 쌓이게 함
+                                // 하나의 인스턴스만 뜨게 지정
+                                popUpTo(it) { saveState = true }
+                            }
+                            launchSingleTop = true // 화면 인스턴스 하나만 생성하게 하기
+                            restoreState = true // 버튼 재 클릭 시 이전 상태 남기기
+
                         }
-                        launchSingleTop = true // 화면 인스턴스 하나만 생성하게 하기
-                        restoreState = true // 버튼 재 클릭 시 이전 상태 남기기
                     }
                 }
             )
