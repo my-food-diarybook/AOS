@@ -33,6 +33,7 @@ fun HomeScreen(){
         // 캘린더 초기화
         val calendarDate = Calendar.getInstance()
         val customCalendar  = CustomCalendar(calendarDate.time)
+        customCalendar.initBaseCalendar()
         TopCalendarLayout(
             "${calendarDate.get(Calendar.YEAR)}" +
                     ".${calendarDate.get(Calendar.MONTH)

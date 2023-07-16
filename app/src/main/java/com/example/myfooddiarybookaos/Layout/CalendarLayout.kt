@@ -21,7 +21,10 @@ import com.example.myfooddiarybookaos.Model.DayDate
 import com.example.myfooddiarybookaos.R
 import com.example.myfooddiarybookaos.ui.theme.TextBox
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.draw.paint
+import androidx.compose.ui.graphics.Color
 
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.myfooddiarybookaos.TabHome.CustomCalendar
@@ -40,6 +43,7 @@ fun CalendarLayout(customCalendar : CustomCalendar){
                 DayLayer(text = day)
             }
         }
+        Log.d("Custom call list",customCalendar.dateList.toString())
         MonthDataView(dayList = customCalendar.dateList)
     }
 }
@@ -86,12 +90,15 @@ private fun DayItem(dayDate: DayDate){
             .width(dimensionResource(id = R.dimen.size_40))
             .height(dimensionResource(id = R.dimen.size_40))
             .then(
-                if (isSelected==0){
-                    Modifier.paint(painterResource(id = R.drawable.circle_today))
-                }else{
+                if (isSelected == 0) {
+                    Modifier.background(
+                        color = colorResource(id = R.color.main_color),
+                        shape = CircleShape
+                    )
+                } else {
                     Modifier
                 }
-            )
+            ),
     ) {
         TextBox(
             text = dayDate.day.toString(),
