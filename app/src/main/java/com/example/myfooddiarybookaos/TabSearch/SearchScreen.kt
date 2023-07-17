@@ -7,6 +7,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
@@ -39,7 +40,10 @@ fun SearchScreen() {
                 .verticalScroll(rememberScrollState())
 
         ) {
-            NotDataView()
+            // 데이터 없음 표시
+            Box(contentAlignment = Alignment.Center) {
+                NotDataView()
+            }
             SearchData()
         }
     }
@@ -56,7 +60,7 @@ private fun SearchBox() {
     var text by remember {
         mutableStateOf(TextFieldValue(""))
     }
-    // Composable icon 생성 -> 비밀번호 표시 아이콘
+    // 검색 아이콘
     val trailingIconView = @Composable {
         IconButton(
             onClick = {}
@@ -73,14 +77,10 @@ private fun SearchBox() {
     }
     Row{
         Surface( // 배경
-            modifier = Modifier.padding(
-                start = dimensionResource(id = R.dimen.size_16),
-                end =  dimensionResource(id = R.dimen.size_16),
-            ),
             shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_4)),
             border = BorderStroke(
                 dimensionResource(id = R.dimen.size_1),
-                colorResource(id = R.color.weak_color)
+                colorResource(id = R.color.black)
             ),
             color = colorResource(id = R.color.white)
         ) {
@@ -97,8 +97,9 @@ private fun SearchBox() {
                         color = colorResource(id = R.color.weak_color),
                         fontSize = dimensionResource(id = R.dimen.size_14_sp).value.sp,
                     )
-                }, //힌트 (텍스트 ,칼라 적용 )
-                trailingIcon = trailingIconView ,
+                },
+                // 맨 앞 아이콘
+                leadingIcon = trailingIconView
             )
         }
 

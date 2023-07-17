@@ -1,4 +1,5 @@
 package com.example.myfooddiarybookaos.TabMyAccount
+
 import android.widget.TextView
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.Image
@@ -26,19 +27,21 @@ import com.example.myfooddiarybookaos.R
 import com.example.myfooddiarybookaos.ui.theme.TextBox
 
 @Composable
-fun MyScreen(){
+fun MyScreen() {
     Column {
-        Column (modifier = Modifier
-            .height(dimensionResource(id = R.dimen.size_90))
-            .fillMaxWidth(),
+        Column(
+            modifier = Modifier
+                .height(dimensionResource(id = R.dimen.size_90))
+                .fillMaxWidth()
+                .padding(bottom = dimensionResource(id = R.dimen.size_14_75)),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Bottom
-        ){
+        ) {
             TextBox(
-                text = "마이" ,
-                fontWeight =500 ,
-                fontFamily = Font(R.font.roboto_regular) ,
-                fontSize = dimensionResource(id = R.dimen.size_18_sp).value.sp ,
+                text = "마이",
+                fontWeight = 500,
+                fontFamily = Font(R.font.roboto_regular),
+                fontSize = dimensionResource(id = R.dimen.size_18_sp).value.sp,
                 color = colorResource(id = R.color.black),
             )
         }
@@ -48,21 +51,31 @@ fun MyScreen(){
                 .height(dimensionResource(id = R.dimen.size_1)),
             color = colorResource(id = R.color.line_color_deep)
         )
+        // 상세 탭
         Column(
             modifier = Modifier
+                .padding(
+                    start = dimensionResource(id = R.dimen.size_20),
+                    end = dimensionResource(id = R.dimen.size_20),
+                    top = dimensionResource(id = R.dimen.size_12)
+                )
                 .fillMaxSize()
                 // 스크롤 부여
                 .verticalScroll(rememberScrollState())
         ) {
             Subject("내 정보")
-            // 임시 이메일
+            // 임시 이메일 -> 실제 이메일 전달
             Surface(
-                modifier = Modifier.padding(
-                    top = dimensionResource(id = R.dimen.size_3),
-                    start = dimensionResource(id = R.dimen.size_20),
-                    end = dimensionResource(id = R.dimen.size_20),
-                    bottom = dimensionResource(id = R.dimen.size_12)
-                )
+                modifier = Modifier
+                    .padding(
+                        top = dimensionResource(id = R.dimen.size_3),
+                        bottom = dimensionResource(id = R.dimen.size_12)
+                    )
+                    .border(
+                        width = dimensionResource(id = R.dimen.size_1),
+                        color = colorResource(id = R.color.black),
+                        shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_10))
+                    )
             ) {
                 EmailInfo("user_email@gmail.com")
             }
@@ -70,51 +83,47 @@ fun MyScreen(){
             Statistics()
             Subject("일반")
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_7)))
-            OptionBox("공지사항",R.drawable.right_side,null)
-            OptionBox("앱 버전 정보",null,"1. 1. 1")
-            OptionBox("의견보내기",R.drawable.message,null)
+            OptionBox("공지사항", R.drawable.right_side, null)
+            OptionBox("앱 버전 정보", null, "1. 1. 1")
+            OptionBox("의견보내기", R.drawable.message, null)
         }
     }
 }
 
 @Preview
 @Composable
-fun PreviewMyScreen(){
+fun PreviewMyScreen() {
     MyScreen()
 }
 
 @Composable
-private fun EmailInfo(email : String){
+private fun EmailInfo(email: String) {
     Row(
         modifier = Modifier
             .padding(dimensionResource(id = R.dimen.size_17))
-            .border(
-                width = dimensionResource(id = R.dimen.size_1),
-                color = colorResource(id = R.color.black),
-                shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_10))
-            )
 
     ) {
         TextBox(
-            text = email ,
-            fontWeight = 500 ,
-            fontFamily = Font(R.font.roboto_regular) ,
-            fontSize = dimensionResource(id = R.dimen.size_20_sp).value.sp ,
-            color = colorResource(id = R.color.black) )
+            text = email,
+            fontWeight = 500,
+            fontFamily = Font(R.font.roboto_regular),
+            fontSize = dimensionResource(id = R.dimen.size_20_sp).value.sp,
+            color = colorResource(id = R.color.black)
+        )
         Spacer(modifier = Modifier.weight(1f)) //우측 정렬
         Image(
             modifier = Modifier
                 .width(dimensionResource(id = R.dimen.size_8))
                 .height(dimensionResource(id = R.dimen.size_12)),
             painter = painterResource(id = R.drawable.right_side),
-            contentDescription ="",
+            contentDescription = "",
             colorFilter = ColorFilter.tint(Color.Black)
         )
     }
 }
 
 @Composable
-private fun Subject(text:String){
+private fun Subject(text: String) {
     TextBox(
         text = text,
         fontFamily = Font(R.font.roboto_regular),
@@ -125,103 +134,113 @@ private fun Subject(text:String){
 }
 
 @Composable
-private fun Statistics(){
+private fun Statistics() {
     Column(
         modifier = Modifier
             .padding(
                 top = dimensionResource(id = R.dimen.size_3),
-                start = dimensionResource(id = R.dimen.size_20),
-                end = dimensionResource(id = R.dimen.size_20),
                 bottom = dimensionResource(id = R.dimen.size_11)
             )
             .border(
                 width = dimensionResource(id = R.dimen.size_1),
                 color = colorResource(id = R.color.black),
                 shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_10))
-            )
+            ),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_12)))
         TextBox(
-            text ="모든 식사 일기" ,
+            text = "모든 식사 일기",
             fontWeight = 400,
-            fontFamily =Font(R.font.roboto_regular) ,
+            fontFamily = Font(R.font.roboto_regular),
             fontSize = dimensionResource(id = R.dimen.size_14_sp).value.sp,
             color = colorResource(id = R.color.black)
         )
         TextBox(
-            text ="10" ,
+            text = "10",
             fontWeight = 700,
-            fontFamily =Font(R.font.roboto_regular) ,
+            fontFamily = Font(R.font.roboto_regular),
             fontSize = dimensionResource(id = R.dimen.size_28_sp).value.sp,
             color = colorResource(id = R.color.main_color)
         )
         InDivider()
-        for (category in listOf("아침","아점","점심","점저")){
-            CategoryMenu(category,0)
-            if (category!="점저") Spacer(
-                modifier =Modifier.width(dimensionResource(id = R.dimen.size_51))
-            )
+        Row(
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            for (category in listOf("아침", "아점", "점심", "점저")) {
+                CategoryMenu(category, 0)
+            }
         }
         InDivider()
-        for (category in listOf("간식","저녁","야식","기타")){
-            CategoryMenu(category,0)
-            if (category!="기타") Spacer(
-                modifier =Modifier.width(dimensionResource(id = R.dimen.size_51))
-            )
+        Row(
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = dimensionResource(id = R.dimen.size_34))
+
+        ) {
+            for (category in listOf("간식", "저녁", "야식", "기타")) {
+                CategoryMenu(category, 0)
+            }
         }
 
     }
 }
 
 @Composable
-private fun InDivider(){
-    Divider(
-        Modifier
-            .fillMaxWidth()
-            .height(dimensionResource(id = R.dimen.size_1))
-            .padding(
-                start = dimensionResource(id = R.dimen.size_9),
-                top = dimensionResource(id = R.dimen.size_12),
-                end = dimensionResource(id = R.dimen.size_9),
-                bottom = dimensionResource(id = R.dimen.size_15),
-            ),
-        color = colorResource(id = R.color.line_color_deep)
-    )
+private fun InDivider() {
+    Surface(
+        Modifier.padding(
+            start = dimensionResource(id = R.dimen.size_9),
+            top = dimensionResource(id = R.dimen.size_12),
+            end = dimensionResource(id = R.dimen.size_9),
+            bottom = dimensionResource(id = R.dimen.size_15),
+        )
+    ) {
+        Divider(
+            Modifier
+                .fillMaxWidth()
+                .height(dimensionResource(id = R.dimen.size_1)),
+            color = colorResource(id = R.color.line_color_deep)
+        )
+    }
 }
 
 @Composable
-private fun CategoryMenu(text: String,count:Int){
-    Column {
+private fun CategoryMenu(text: String, count: Int) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         TextBox(
             text = text,
-            fontWeight = 500 ,
-            fontFamily = Font(R.font.roboto_regular) ,
-            fontSize = dimensionResource(id = R.dimen.size_28_sp).value.sp,
-            color = colorResource(id = R.color.line_color_deep)
+            fontWeight = 500,
+            fontFamily = Font(R.font.roboto_regular),
+            fontSize = dimensionResource(id = R.dimen.size_16_sp).value.sp,
+            color = colorResource(id = R.color.black)
         )
         TextBox(
             text = count.toString(),
-            fontWeight = 500 ,
-            fontFamily = Font(R.font.roboto_regular) ,
-            fontSize = dimensionResource(id = R.dimen.size_28_sp).value.sp,
-            color = colorResource(id = R.color.line_color_deep)
+            fontWeight = 500,
+            fontFamily = Font(R.font.roboto_regular),
+            fontSize = dimensionResource(id = R.dimen.size_16_sp).value.sp,
+            color = colorResource(id = R.color.black)
         )
     }
 }
 
 @Composable
-private fun OptionBox(text: String,drawable:Int?,version:String?){
+private fun OptionBox(text: String, drawable: Int?, version: String?) {
     Surface(
         modifier = Modifier
             .padding(
-                start = dimensionResource(id = R.dimen.size_16),
-                end = dimensionResource(id = R.dimen.size_16),
                 bottom = dimensionResource(id = R.dimen.size_9),
             )
             .border(
                 width = dimensionResource(id = R.dimen.size_1),
                 color = colorResource(id = R.color.black),
                 shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_10))
-            )
+            ),
     ) {
         Row(
             modifier = Modifier.padding(
@@ -229,8 +248,9 @@ private fun OptionBox(text: String,drawable:Int?,version:String?){
                 bottom = dimensionResource(id = R.dimen.size_17),
                 end = dimensionResource(id = R.dimen.size_12),
                 start = dimensionResource(id = R.dimen.size_9)
-            )
-        ){
+            ),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             TextBox(
                 text = text,
                 fontWeight = 500,
@@ -239,17 +259,15 @@ private fun OptionBox(text: String,drawable:Int?,version:String?){
                 color = colorResource(id = R.color.black)
             )
             Spacer(modifier = Modifier.weight(1f)) //우측 정렬
-            if (drawable!=null) {
+            if (drawable != null) {
                 Image(
-                    modifier = Modifier
-                        .width(dimensionResource(id = R.dimen.size_8))
-                        .height(dimensionResource(id = R.dimen.size_12)),
+                    modifier = Modifier.size(dimensionResource(id = R.dimen.size_14)),
                     painter = painterResource(id = drawable),
                     contentDescription = "",
                     colorFilter = ColorFilter.tint(Color.Black)
                 )
             }
-            if (version!=null){
+            if (version != null) {
                 TextBox(
                     text = version,
                     fontWeight = 500,

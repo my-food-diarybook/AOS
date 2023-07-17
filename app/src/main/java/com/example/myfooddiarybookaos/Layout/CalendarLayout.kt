@@ -22,6 +22,8 @@ import com.example.myfooddiarybookaos.R
 import com.example.myfooddiarybookaos.ui.theme.TextBox
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
@@ -29,22 +31,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.myfooddiarybookaos.TabHome.CustomCalendar
 import java.util.Calendar
+private const val DAY_OF_WEAK = 7
 
 @Composable
 fun CalendarLayout(customCalendar : CustomCalendar){
     Column {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            modifier = Modifier.fillMaxWidth()
-        ){
-            // 요일 적용
-            for (day in listOf("S","M","T","W","T","F","S")){
-                DayLayer(text = day)
+
+        val dayList = listOf("S", "M", "T", "W", "T", "F", "S")
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(DAY_OF_WEAK),
+            content = {
+                items(DAY_OF_WEAK) { index ->
+                    DayLayer(text = dayList[index])
+                }
             }
-        }
-        Log.d("Custom call list",customCalendar.dateList.toString())
+        )
         MonthDataView(dayList = customCalendar.dateList)
+
     }
 }
 
@@ -52,69 +55,22 @@ fun CalendarLayout(customCalendar : CustomCalendar){
 // 일 별 레이어
 @Composable
 private fun DayLayer(text: String){
-    Text(
+    Box(
         modifier = Modifier
-            .wrapContentWidth()
-            .wrapContentHeight(),
-        text = text,
-        fontSize = dimensionResource(id = R.dimen.size_12_sp).value.sp,
-        fontFamily = FontFamily(Font(R.font.roboto_bold)),
-        color = colorResource(id = R.color.color_day_of_weak),
-    )
-}
-
-// 리싸이클러 뷰
-@Composable
-private fun MonthDataView(dayList : ArrayList<DayDate> ){
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(7),
-        content = {
-            items(dayList.size){index->
-                DayItem(dayDate = dayList[index])
-            }
-        }
-    )
-}
-@Composable
-private fun DayItem(dayDate: DayDate){
-    Log.d("print dayDate ",dayDate.day.toString())
-    val isSelected by remember {
-        mutableStateOf(dayDate.isSelected)
-    }
-    val textView by animateColorAsState(
-        if (isSelected==1) colorResource(id = R.color.line_color_deep)
-        else colorResource(id = R.color.color_day_of_weak)
-    )
-    Surface(
-        modifier = Modifier
-            .width(dimensionResource(id = R.dimen.size_40))
-            .height(dimensionResource(id = R.dimen.size_40))
-            .then(
-                if (isSelected == 0) {
-                    Modifier.background(
-                        color = colorResource(id = R.color.main_color),
-                        shape = CircleShape
-                    )
-                } else {
-                    Modifier
-                }
+            .padding(
+                top = dimensionResource(id = R.dimen.size_20),
+                bottom = dimensionResource(id = R.dimen.size_20),
+                start = dimensionResource(id = R.dimen.size_12),
+                end = dimensionResource(id = R.dimen.size_12),
             ),
+        contentAlignment = Alignment.Center,
     ) {
-        TextBox(
-            text = dayDate.day.toString(),
-            fontWeight = 400 ,
-            fontFamily = Font(R.font.roboto_bold),
+        Text(
+            text = text,
             fontSize = dimensionResource(id = R.dimen.size_12_sp).value.sp,
-            color = textView,
-
+            fontFamily = FontFamily(Font(R.font.roboto_bold)),
+            color = colorResource(id = R.color.color_day_of_weak),
         )
     }
 }
 
-@Preview
-@Composable
-private fun CalendarLayoutPreview(){
-    val calendarDate = Calendar.getInstance()
-    val customCalendar  = CustomCalendar(calendarDate.time)
-    CalendarLayout(customCalendar)
-}

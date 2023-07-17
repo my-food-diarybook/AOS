@@ -69,9 +69,10 @@
     <dimen name="size_92">92dp</dimen>
     <dimen name="size_111">111dp</dimen>
     <dimen name="size_116_86">116.86dp</dimen>
-
+    <dimen name="size_240">240dp</dimen>
     <dimen name="size_267">267dp</dimen>
     <dimen name="size_270">270dp</dimen>
+    <dimen name="size_280">280dp</dimen>
     <dimen name="size_314">314dp</dimen>
     <dimen name="size_349">349dp</dimen>
     <dimen name="size_460">460dp</dimen>

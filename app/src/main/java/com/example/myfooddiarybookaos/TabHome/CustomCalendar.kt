@@ -32,8 +32,6 @@ class CustomCalendar(
         dateList.clear()
         // 현재 일 세팅
         calendar.set(Calendar.DATE,1)
-        // 해당 달의 마지막 일 구하기
-        val currentMaxDate= calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
 
         // 이전 달 세팅
         prevTail = calendar.get(Calendar.DAY_OF_WEEK)-1
