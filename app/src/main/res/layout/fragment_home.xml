@@ -6,21 +6,24 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".TabHome.HomeFragment">
-    <include
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/size_92"
-        android:id="@+id/calendar_box"
-        layout="@layout/calendar_top_layout" />
+
     <Button
         android:id="@+id/test_login"
         android:layout_gravity="center"
         android:text="테스트 : 로그인 ui 보기 "
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-    <CalendarView
+    <include
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/size_92"
+        android:id="@+id/calendar_box"
+        layout="@layout/calendar_top_layout" />
 
+    <include
+        layout="@layout/calendar_month_layout"
+        android:id="@+id/calendar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    tools:context=".Dialog.SelectCalendarFragment">
+    tools:context=".Dialog.SelectCalenderFragment">
     <LinearLayout
         android:orientation="vertical"
         android:background="@drawable/rectangle_47"
@@ -22,11 +22,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <ImageView
+                    android:id="@+id/left_side_button"
                     android:layout_marginEnd="@dimen/size_61.76"
                     android:src="@drawable/left_side"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
+                    android:id="@+id/year_text"
                     android:textColor="@color/black"
                     android:textFontWeight="600"
                     android:fontFamily="@font/roboto_bold"
@@ -35,6 +37,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <ImageView
+                    android:id="@+id/right_side_buttton"
                     android:layout_marginStart= "@dimen/size_61.76"
                     android:src="@drawable/right_side"
                     android:layout_width="wrap_content"

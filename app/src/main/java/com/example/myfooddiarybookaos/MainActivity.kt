@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
             transaction = fragmentManager!!.beginTransaction()
             when (it.itemId){
                 R.id.fragment_1->{
-                    transaction?.replace(R.id.main_frame,homeFragment!!)?.commit()
+                    transaction?.replace(R.id.main_frame,homeFragment!!,"homeFrag")?.commit()
                     true
                 }
                 R.id.fragment_2->{
@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
         searchFragment = SearchFragment()
         timeLineFragment = TimeLineFragment()
 
-        transaction!!.add(R.id.main_frame,homeFragment!!).commit()
+        transaction!!.add(R.id.main_frame,homeFragment!!,"homeFrag").commit()
     }
 
     private fun setSubFragment(newFrag : Fragment){
