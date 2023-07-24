@@ -1,12 +1,11 @@
 package com.example.myfooddiarybookaos.Layout
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Divider
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -14,27 +13,47 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 
 import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import androidx.fragment.app.FragmentActivity
+import com.example.myfooddiarybookaos.Dialog.SelectCalendarDialog
+import com.example.myfooddiarybookaos.Dialog.SelectCalenderFragment
 import com.example.myfooddiarybookaos.R
 import com.example.myfooddiarybookaos.ui.theme.TextBox
+import java.util.*
 
 
+@SuppressLint("UnrememberedMutableState")
 @Composable
-fun TopCalendarLayout(monthString : String){
+fun TopCalendarLayout(calendarDate : Calendar){
+    var isTopLayoutClick  by remember{ // 캘린더 클릭
+        mutableStateOf(false)
+    }
+    if (isTopLayoutClick){ // 캘린더 클릭 동작
+        SelectCalendarDialog(
+            calendarDate.get(Calendar.YEAR),
+            calendarDate.get(Calendar.MONTH).plus(1),
+            isTopLayoutClick = {// 캘린더 픽 전달 받기
+                isTopLayoutClick = it
+            }
+        )
+
+    }
     Row(
         modifier = Modifier
             .wrapContentHeight()
-            .fillMaxWidth()
+            .wrapContentWidth()
             .padding(
                 top = dimensionResource(id = R.dimen.size_47),
                 start = dimensionResource(id = R.dimen.size_20),
                 bottom = dimensionResource(id = R.dimen.size_11_59)
-            ),
-        verticalAlignment = Alignment.Bottom
+            )
+            .clickable(onClick = { isTopLayoutClick = true }),
+        verticalAlignment = Alignment.Bottom,
+
     ){
         TextBox(
-            text = monthString,
+            text =  "${calendarDate.get(Calendar.YEAR)}" +
+                    ".${calendarDate.get(Calendar.MONTH).plus(1)}",
             fontWeight = 700,
             fontFamily = Font(R.font.roboto_bold),
             fontSize = dimensionResource(id = R.dimen.size_34).value.sp,
@@ -57,10 +76,4 @@ fun TopCalendarLayout(monthString : String){
             .height(dimensionResource(id = R.dimen.size_1))
             .fillMaxWidth()
     )
-}
-
-@Preview
-@Composable
-private fun TopCalendarLayoutPreview(){
-    TopCalendarLayout("2023.07")
 }
