@@ -18,14 +18,7 @@ fun TimeLineScreen() {
     Column {
         // 캘린더 초기화
         val calendarDate = Calendar.getInstance()
-        TopCalendarLayout(
-            monthString =
-            "${calendarDate.get(Calendar.YEAR)}" +
-                    ".${
-                        calendarDate.get(Calendar.MONTH)
-                            .plus(1)
-                    }"
-        )
+        TopCalendarLayout(calendarDate = calendarDate)
         Surface(
             modifier = Modifier
                 .fillMaxWidth()

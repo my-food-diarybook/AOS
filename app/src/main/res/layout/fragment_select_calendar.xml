@@ -12,7 +12,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:background="@drawable/rectangle_47"
-        android:layout_width="@dimen/size_349"
+        android:layout_width="@dimen/size_369"
         android:layout_height="@dimen/size_267">
             <LinearLayout
                 android:layout_marginBottom="@dimen/size_34"

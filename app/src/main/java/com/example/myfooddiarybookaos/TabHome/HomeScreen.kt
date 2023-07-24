@@ -38,11 +38,7 @@ fun HomeScreen() {
         customCalendar.initBaseCalendar()
 
         TopCalendarLayout(
-            "${calendarDate.get(Calendar.YEAR)}" +
-                    ".${
-                        calendarDate.get(Calendar.MONTH)
-                            .plus(1)
-                    }"
+            calendarDate
         )
         Box(
             Modifier
