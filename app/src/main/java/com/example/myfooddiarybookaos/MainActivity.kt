@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.myfooddiarybookaos.Dialog.SelectImageFragment
-import com.example.myfooddiarybookaos.TabHome.HomeFragment
+import com.example.myfooddiarybookaos.Model.TabHome.HomeFragment
 import com.example.myfooddiarybookaos.TabMyAccount.MyFragment
 import com.example.myfooddiarybookaos.TabSearch.SearchFragment
 import com.example.myfooddiarybookaos.TabTimeLine.TimeLineFragment

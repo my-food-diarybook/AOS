@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myfooddiarybookaos.MainActivity
 import com.example.myfooddiarybookaos.R
-import com.example.myfooddiarybookaos.TabHome.CustomCalendar
+import com.example.myfooddiarybookaos.Model.TabHome.CustomCalendar
 import com.example.myfooddiarybookaos.databinding.ItemDayTextBinding
 import java.util.*
 import javax.inject.Inject

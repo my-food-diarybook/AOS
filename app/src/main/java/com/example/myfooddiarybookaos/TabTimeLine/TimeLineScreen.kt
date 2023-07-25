@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.example.myfooddiarybookaos.Layout.NotDataView
 import com.example.myfooddiarybookaos.Layout.TopCalendarLayout
-import com.example.myfooddiarybookaos.TabHome.CustomCalendar
+import com.example.myfooddiarybookaos.Model.TabHome.CustomCalendar
 import java.util.*
 
 @Composable
