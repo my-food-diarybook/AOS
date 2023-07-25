@@ -29,7 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.example.myfooddiarybookaos.Model.DayDate
 import com.example.myfooddiarybookaos.R
-import com.example.myfooddiarybookaos.TabHome.CustomCalendar
+import com.example.myfooddiarybookaos.Model.TabHome.CustomCalendar
 import com.example.myfooddiarybookaos.ui.theme.TextBox
 import java.util.*
 import kotlin.collections.ArrayList

@@ -29,7 +29,7 @@ import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.myfooddiarybookaos.TabHome.CustomCalendar
+import com.example.myfooddiarybookaos.Model.TabHome.CustomCalendar
 import java.util.Calendar
 private const val DAY_OF_WEAK = 7
 

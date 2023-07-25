@@ -1,4 +1,4 @@
-package com.example.myfooddiarybookaos.TabHome
+package com.example.myfooddiarybookaos.Model.TabHome
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.magnifier
@@ -13,9 +13,12 @@ import com.example.myfooddiarybookaos.Layout.CalendarLayout
 import com.example.myfooddiarybookaos.Layout.TopCalendarLayout
 import java.util.*
 import com.example.myfooddiarybookaos.R
+import com.example.myfooddiarybookaos.ViewModel.TodayViewModel
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    todayViewModel : TodayViewModel
+) {
     Column(
         Modifier
             .fillMaxWidth()
@@ -32,14 +35,10 @@ fun HomeScreen() {
 //            Text("로그인 ui 보기(test)")
 //        }
 
-        // 캘린더 초기화
-        val calendarDate = Calendar.getInstance()
-        val customCalendar = CustomCalendar(calendarDate.time)
-        customCalendar.initBaseCalendar()
 
-        TopCalendarLayout(
-            calendarDate
-        )
+        // top calendar
+        todayViewModel.todayCalendar.value?.let { TopCalendarLayout(it) }
+        // mid calendar
         Box(
             Modifier
                 .fillMaxSize()
@@ -50,7 +49,7 @@ fun HomeScreen() {
             ,
             contentAlignment = Alignment.Center
         ) {
-            CalendarLayout(customCalendar)
+            todayViewModel.customCalendar.value?.let { CalendarLayout(it)}
         }
     }
 }
@@ -59,5 +58,5 @@ fun HomeScreen() {
 @Preview
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen()
+//    HomeScreen()
 }
