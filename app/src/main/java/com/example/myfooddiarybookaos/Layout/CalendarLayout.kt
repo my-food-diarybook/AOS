@@ -29,14 +29,14 @@ import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.myfooddiarybookaos.Model.TabHome.CustomCalendar
+import com.example.myfooddiarybookaos.TabHome.CustomCalendar
+import com.example.myfooddiarybookaos.ViewModel.TodayViewModelInterface
 import java.util.Calendar
 private const val DAY_OF_WEAK = 7
 
 @Composable
-fun CalendarLayout(customCalendar : CustomCalendar){
+fun CalendarLayout(todayViewModel : TodayViewModelInterface){
     Column {
-
         val dayList = listOf("S", "M", "T", "W", "T", "F", "S")
         LazyVerticalGrid(
             columns = GridCells.Fixed(DAY_OF_WEAK),
@@ -46,8 +46,9 @@ fun CalendarLayout(customCalendar : CustomCalendar){
                 }
             }
         )
-        MonthDataView(dayList = customCalendar.dateList)
-
+        todayViewModel.customCalendar.value?.let {
+            MonthDataView(dayList = it.dateList)
+        }
     }
 }
 

@@ -11,11 +11,12 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.myfooddiarybookaos.R
+import com.example.myfooddiarybookaos.ViewModel.TodayViewModelInterface
 
 
 @Composable
 fun SelectCalendarDialog(
-    year: Int, month: Int,
+    todayViewModel : TodayViewModelInterface,
     isTopLayoutClick : (Boolean) -> Unit,
 ){
 
@@ -32,7 +33,7 @@ fun SelectCalendarDialog(
             color = Color.White,
             shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_8))
         ) {
-            SelectCalendarScreen(year =year , month = month)
+            SelectCalendarScreen(todayViewModel)
         }
 
     }

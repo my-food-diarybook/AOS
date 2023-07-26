@@ -10,15 +10,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.example.myfooddiarybookaos.Layout.NotDataView
 import com.example.myfooddiarybookaos.Layout.TopCalendarLayout
-import com.example.myfooddiarybookaos.Model.TabHome.CustomCalendar
+import com.example.myfooddiarybookaos.TabHome.CustomCalendar
+import com.example.myfooddiarybookaos.ViewModel.TodayViewModelInterface
 import java.util.*
 
 @Composable
-fun TimeLineScreen() {
+fun TimeLineScreen(
+    todayViewModel: TodayViewModelInterface
+) {
     Column {
         // 캘린더 초기화
-        val calendarDate = Calendar.getInstance()
-        TopCalendarLayout(calendarDate = calendarDate)
+        todayViewModel.todayCalendar.value?.let { TopCalendarLayout(calendarDate = it) }
         Surface(
             modifier = Modifier
                 .fillMaxWidth()

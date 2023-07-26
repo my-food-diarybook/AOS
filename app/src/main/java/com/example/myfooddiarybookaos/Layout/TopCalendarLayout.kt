@@ -18,24 +18,39 @@ import androidx.fragment.app.FragmentActivity
 import com.example.myfooddiarybookaos.Dialog.SelectCalendarDialog
 import com.example.myfooddiarybookaos.Dialog.SelectCalenderFragment
 import com.example.myfooddiarybookaos.R
+import com.example.myfooddiarybookaos.ViewModel.FakeTodayViewModel
+import com.example.myfooddiarybookaos.ViewModel.TodayViewModelInterface
 import com.example.myfooddiarybookaos.ui.theme.TextBox
 import java.util.*
 
 
+
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun TopCalendarLayout(calendarDate : Calendar){
-    var isTopLayoutClick  by remember{ // 캘린더 클릭
+fun TopCalendarLayout(todayViewModel : TodayViewModelInterface){
+    var isTopLayoutClick  by remember{ // 캘린더 클릭 여부
         mutableStateOf(false)
     }
+    val topText by remember {
+        if (todayViewModel.currentCalendar.value!=null){
+            val today = todayViewModel.currentCalendar.value!!
+            mutableStateOf(
+            "${today.get(Calendar.YEAR)}" +
+                    ".${today.get(Calendar.MONTH).plus(1)}"
+            )
+        }else{
+            mutableStateOf("")
+        }
+    }
     if (isTopLayoutClick){ // 캘린더 클릭 동작
-        SelectCalendarDialog(
-            calendarDate.get(Calendar.YEAR),
-            calendarDate.get(Calendar.MONTH).plus(1),
-            isTopLayoutClick = {// 캘린더 픽 전달 받기
-                isTopLayoutClick = it
-            }
-        )
+        todayViewModel.todayCalendar.value?.apply {
+            SelectCalendarDialog(
+                todayViewModel,
+                isTopLayoutClick = {// 캘린더 픽 전달 받기
+                    isTopLayoutClick = it
+                }
+            )
+        }
 
     }
     Row(
@@ -51,9 +66,9 @@ fun TopCalendarLayout(calendarDate : Calendar){
         verticalAlignment = Alignment.Bottom,
 
     ){
+
         TextBox(
-            text =  "${calendarDate.get(Calendar.YEAR)}" +
-                    ".${calendarDate.get(Calendar.MONTH).plus(1)}",
+            text =  topText,
             fontWeight = 700,
             fontFamily = Font(R.font.roboto_bold),
             fontSize = dimensionResource(id = R.dimen.size_34).value.sp,
