@@ -12,8 +12,12 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import com.example.myfooddiarybookaos.ViewModel.FakeTodayViewModel
+import com.example.myfooddiarybookaos.ViewModel.TodayViewModelInterface
 import com.example.myfooddiarybookaos.ui.theme.TextBox
+import java.util.*
 
 
 // SelectCalendar Dialog
@@ -21,9 +25,11 @@ private const val MAX_MONTH = 12
 
 @Composable
 fun SelectCalendarScreen(
-    year : Int,
-    month : Int
+    todayViewModel : TodayViewModelInterface
 ) {
+    val todayDate = (calendarDate.get(Calendar.YEAR))*12+calendarDate.get(Calendar.MONTH)+1
+    val currentDate = currentYear*12+currentMonth
+    val currentSelectDate = selectYear*12 + currentMonth
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -96,3 +102,14 @@ private fun ItemMonth(month : Int){
 }
 
 
+@Composable
+@Preview(showBackground = true)
+fun PreviewSelectCalendar(){
+    val fakeTodayViewModel = FakeTodayViewModel()
+    fakeTodayViewModel.todayCalendar.value!!.apply {
+        SelectCalendarScreen(
+            this.get(Calendar.YEAR),
+            this.get(Calendar.MONTH).plus(1),
+        )
+    }
+}

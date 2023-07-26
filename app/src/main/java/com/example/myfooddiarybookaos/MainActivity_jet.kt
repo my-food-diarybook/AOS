@@ -12,6 +12,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.example.myfooddiarybookaos.BottomaNavi.BottomNavigation
 import com.example.myfooddiarybookaos.BottomaNavi.NavigationGraph
+import com.example.myfooddiarybookaos.ViewModel.FakeTodayViewModel
+import com.example.myfooddiarybookaos.ViewModel.TodayViewModelInterface
 import com.example.myfooddiarybookaos.ViewModel.TodayViewModel
 import com.example.myfooddiarybookaos.ui.theme.MyFoodDiaryBookAOSTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,7 +33,7 @@ class MainActivity_jet : ComponentActivity() {
 }
 
 @Composable
-fun MainUi(todayViewModel:TodayViewModel) {
+fun MainUi(todayViewModel:TodayViewModelInterface) {
     // navController
     // 네비게이션의 중심 API -> 각 화면을 구성하는 컴포저블의 백스택을 추적
     val navController = rememberNavController()
@@ -86,11 +88,12 @@ fun MainUi(todayViewModel:TodayViewModel) {
 //    }
 }
 
+
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview2() {
     MyFoodDiaryBookAOSTheme {
-//        MainUi()
+        MainUi(todayViewModel = FakeTodayViewModel())
 
     }
 }
