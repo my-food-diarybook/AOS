@@ -8,7 +8,7 @@ import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class CustomCalendar(
-    private val date : Date, //현재 뷰 날짜
+    private var date : Date, //현재 뷰 날짜
 ) {
     private val calendar : Calendar = Calendar.getInstance()
     private var calenderDate : Int = 0
@@ -26,6 +26,13 @@ class CustomCalendar(
     }
 
     fun initBaseCalendar(){
+        makeMonthDate()
+    }
+
+    fun initData(newDate : Date){
+        date = newDate
+        calendar.time = date
+        calenderDate = calendar.get(Calendar.DATE)
         makeMonthDate()
     }
     private fun makeMonthDate(){

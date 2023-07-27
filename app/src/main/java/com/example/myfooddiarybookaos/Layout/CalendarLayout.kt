@@ -46,9 +46,7 @@ fun CalendarLayout(todayViewModel : TodayViewModelInterface){
                 }
             }
         )
-        todayViewModel.customCalendar.value?.let {
-            MonthDataView(dayList = it.dateList)
-        }
+        MonthDataView(todayViewModel)
     }
 }
 

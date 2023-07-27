@@ -1,19 +1,25 @@
 package com.example.myfooddiarybookaos.Dialog
 
+import android.annotation.SuppressLint
+import android.util.Log
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import com.example.myfooddiarybookaos.R
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import com.example.myfooddiarybookaos.Model.MonthDate
 import com.example.myfooddiarybookaos.ViewModel.FakeTodayViewModel
 import com.example.myfooddiarybookaos.ViewModel.TodayViewModelInterface
 import com.example.myfooddiarybookaos.ui.theme.TextBox
@@ -23,13 +29,26 @@ import java.util.*
 // SelectCalendar Dialog
 private const val MAX_MONTH = 12
 
+@SuppressLint("UnrememberedMutableState")
 @Composable
 fun SelectCalendarScreen(
-    todayViewModel : TodayViewModelInterface
+    todayViewModel: TodayViewModelInterface,
+    isTopLayoutClick: (Boolean) -> Unit
 ) {
-    val todayDate = (calendarDate.get(Calendar.YEAR))*12+calendarDate.get(Calendar.MONTH)+1
-    val currentDate = currentYear*12+currentMonth
-    val currentSelectDate = selectYear*12 + currentMonth
+    // 오늘 데이터
+    val todayDate = todayViewModel.todayCalendar.value!!.get(Calendar.YEAR)*12+
+            todayViewModel.todayCalendar.value!!.get(Calendar.MONTH)+1 //현재 달
+    // 현재 선택 데이터
+    val currentDate = todayViewModel.currentCalendar.value!!.get(Calendar.YEAR)*12+
+            todayViewModel.currentCalendar.value!!.get(Calendar.MONTH)+1 //현재 달
+    // 현재 뷰어
+    var currentYear by remember { mutableStateOf( //선택 년도
+        todayViewModel.currentCalendar.value!!.get(Calendar.YEAR)
+    ) }
+    // month data 갱신
+    val monthList = rememberSaveable{ mutableStateOf(listOf<MonthDate>())}
+    monthList.value = List(MAX_MONTH) { i -> MonthDate(i + 1,currentYear*12+i+1) } // 리스트 초기화
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -46,10 +65,14 @@ fun SelectCalendarScreen(
                 modifier = Modifier
                     .height(dimensionResource(id = R.dimen.size_29))
                     .width(dimensionResource(id = R.dimen.size_18))
+                    .clickable(onClick = {
+                        currentYear -= 1
+                    }),
+
             )
             Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_61_76)))
             TextBox(
-                text = "$year",600, 
+                text = "$currentYear",600,
                 Font(R.font.roboto_bold),
                 dimensionResource(id = R.dimen.size_36_sp).value.sp,
                 colorResource(id = R.color.black)
@@ -60,6 +83,9 @@ fun SelectCalendarScreen(
                 modifier = Modifier
                     .height(dimensionResource(id = R.dimen.size_29))
                     .width(dimensionResource(id = R.dimen.size_18))
+                    .clickable(onClick = {
+                        currentYear += 1
+                    }),
             )
         }
 
@@ -74,7 +100,14 @@ fun SelectCalendarScreen(
                 columns = GridCells.Fixed(4),
                 content = {
                     items(MAX_MONTH) { index ->
-                        ItemMonth(month = index+1)
+                        ItemMonth(month = monthList.value[index],todayDate,currentDate,
+                            selectMonth = { // month 클릭
+                                // 클릭 시 다이어로그 닫기
+                                isTopLayoutClick(false)
+                                // 뷰 모델 수정
+                                todayViewModel.setCurrentDate(currentYear,it-1)
+                            }
+                        )
                     }
                 }
             )
@@ -83,20 +116,33 @@ fun SelectCalendarScreen(
 }
 
 @Composable
-private fun ItemMonth(month : Int){
+private fun ItemMonth(
+    month : MonthDate,todayDate:Int,currentDate:Int,
+    selectMonth : (Int) -> Unit
+){
+    val textViewColor by animateColorAsState(
+        if (todayDate < month.isSelected) colorResource(id = R.color.line_color_deep)
+        else if (currentDate==month.isSelected) colorResource(id = R.color.main_color)
+        else colorResource(id = R.color.black)
+
+    )
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.padding(
-            top = dimensionResource(id = R.dimen.size_10_5),
-            bottom = dimensionResource(id = R.dimen.size_10_5)
-    ),
+        modifier = Modifier
+            .padding(
+                top = dimensionResource(id = R.dimen.size_10_5),
+                bottom = dimensionResource(id = R.dimen.size_10_5)
+            )
+            .clickable(onClick = {
+                selectMonth(month.month)
+            }),
     ){
         TextBox(
-            text = month.toString() + "월",
+            text = month.month.toString() + "월",
             700,
             Font(R.font.roboto_regular),
             dimensionResource(id = R.dimen.size_20_sp).value.sp,
-            color = colorResource(id = R.color.line_color)
+            color = textViewColor
         )
     }
 }
@@ -105,11 +151,5 @@ private fun ItemMonth(month : Int){
 @Composable
 @Preview(showBackground = true)
 fun PreviewSelectCalendar(){
-    val fakeTodayViewModel = FakeTodayViewModel()
-    fakeTodayViewModel.todayCalendar.value!!.apply {
-        SelectCalendarScreen(
-            this.get(Calendar.YEAR),
-            this.get(Calendar.MONTH).plus(1),
-        )
-    }
+    SelectCalendarScreen(FakeTodayViewModel(), isTopLayoutClick = { true })
 }

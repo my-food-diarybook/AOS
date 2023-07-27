@@ -33,7 +33,10 @@ fun SelectCalendarDialog(
             color = Color.White,
             shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_8))
         ) {
-            SelectCalendarScreen(todayViewModel)
+            SelectCalendarScreen(
+                todayViewModel,
+                isTopLayoutClick
+            )
         }
 
     }

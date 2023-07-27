@@ -1,5 +1,6 @@
 package com.example.myfooddiarybookaos.ViewModel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.myfooddiarybookaos.TabHome.CustomCalendar
@@ -12,7 +13,7 @@ interface TodayViewModelInterface{
     val todayCalendar :LiveData<Calendar>
     val customCalendar : LiveData<CustomCalendar>
     val currentCalendar : LiveData<Calendar>
-
+    fun setCurrentDate(year:Int,month:Int)
 }
 
 //for preview
@@ -30,6 +31,7 @@ class FakeTodayViewModel : TodayViewModelInterface{
     override val currentCalendar : LiveData<Calendar>
         get() = _currentCalendar
 
+    override fun setCurrentDate(year: Int, month: Int) {}
     init {
         _todayCalendar.value =Calendar.getInstance()
         _currentCalendar.value = todayCalendar.value
