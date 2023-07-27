@@ -1,6 +1,7 @@
 package com.example.myfooddiarybookaos.Layout
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -19,6 +20,7 @@ import com.example.myfooddiarybookaos.Dialog.SelectCalendarDialog
 import com.example.myfooddiarybookaos.Dialog.SelectCalenderFragment
 import com.example.myfooddiarybookaos.R
 import com.example.myfooddiarybookaos.ViewModel.FakeTodayViewModel
+import com.example.myfooddiarybookaos.ViewModel.TodayViewModel
 import com.example.myfooddiarybookaos.ViewModel.TodayViewModelInterface
 import com.example.myfooddiarybookaos.ui.theme.TextBox
 import java.util.*
@@ -43,7 +45,8 @@ fun TopCalendarLayout(todayViewModel : TodayViewModelInterface){
         }
     }
     if (isTopLayoutClick){ // 캘린더 클릭 동작
-        todayViewModel.todayCalendar.value?.apply {
+        todayViewModel.currentCalendar.value?.apply {
+            // dialog 생성
             SelectCalendarDialog(
                 todayViewModel,
                 isTopLayoutClick = {// 캘린더 픽 전달 받기

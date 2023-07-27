@@ -1,19 +1,18 @@
 package com.example.myfooddiarybookaos.Layout
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,6 +30,8 @@ import com.example.myfooddiarybookaos.Model.DayDate
 import com.example.myfooddiarybookaos.R
 import com.example.myfooddiarybookaos.TabHome.CustomCalendar
 import com.example.myfooddiarybookaos.ViewModel.FakeTodayViewModel
+import com.example.myfooddiarybookaos.ViewModel.TodayViewModel
+import com.example.myfooddiarybookaos.ViewModel.TodayViewModelInterface
 import com.example.myfooddiarybookaos.ui.theme.TextBox
 import java.util.*
 import kotlin.collections.ArrayList
@@ -38,20 +39,31 @@ import kotlin.collections.ArrayList
 private const val DAY_OF_WEAK = 7
 
 // 리싸이클러 뷰
+@SuppressLint("MutableCollectionMutableState")
 @Composable
-fun MonthDataView(dayList: ArrayList<DayDate>) {
+fun MonthDataView(todayViewModel : TodayViewModelInterface) {
+    val currentView by remember { mutableStateOf(
+        todayViewModel.customCalendar.value!!.dateList
+    ) }
+
     LazyVerticalGrid(
         columns = GridCells.Fixed(DAY_OF_WEAK),
         content = {
-            items(dayList.size) { index ->
-                DayItem(dayDate = dayList[index])
+            items(currentView.size) { index ->
+                DayItem(dayDate = currentView[index], dayClick = {
+                    // 일 클릭 이벤트
+                })
             }
         }
     )
+
 }
 
 @Composable
-fun DayItem(dayDate: DayDate) {
+fun DayItem(
+    dayDate: DayDate,
+    dayClick : (Int) -> Unit
+) {
     val isSelected by remember {
         mutableStateOf(dayDate.isSelected)
     }
@@ -60,13 +72,18 @@ fun DayItem(dayDate: DayDate) {
         else colorResource(id = R.color.color_day_of_weak)
     )
     Box(
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.clickable(
+            onClick = {
+                dayClick(dayDate.day)
+            })
     ) {
             Box(
                 Modifier.then(
                     if (isSelected == 0) {
                         Modifier
-                            .background(colorResource(id = R.color.main_color),
+                            .background(
+                                colorResource(id = R.color.main_color),
                                 CircleShape
                             )
                             .size(dimensionResource(id = R.dimen.size_40))
@@ -97,5 +114,5 @@ fun DayItem(dayDate: DayDate) {
 @Preview(showBackground = true)
 @Composable
 fun MonthDataPreview() {
-    MonthDataView(FakeTodayViewModel().customCalendar.value!!.dateList)
+    MonthDataView(FakeTodayViewModel())
 }

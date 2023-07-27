@@ -20,7 +20,7 @@ fun TimeLineScreen(
 ) {
     Column {
         // 캘린더 초기화
-        todayViewModel.todayCalendar.value?.let { TopCalendarLayout(calendarDate = it) }
+        TopCalendarLayout(todayViewModel)
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
