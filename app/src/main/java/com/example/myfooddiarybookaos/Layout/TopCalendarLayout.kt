@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Divider
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -29,21 +30,15 @@ import java.util.*
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun TopCalendarLayout(todayViewModel : TodayViewModelInterface){
+fun TopCalendarLayout(
+    todayViewModel : TodayViewModelInterface,
+){
     var isTopLayoutClick  by remember{ // 캘린더 클릭 여부
         mutableStateOf(false)
     }
-    val topText by remember {
-        if (todayViewModel.currentCalendar.value!=null){
-            val today = todayViewModel.currentCalendar.value!!
-            mutableStateOf(
-            "${today.get(Calendar.YEAR)}" +
-                    ".${today.get(Calendar.MONTH).plus(1)}"
-            )
-        }else{
-            mutableStateOf("")
-        }
-    }
+    // currentCalendar observe
+    val topTexting = todayViewModel.currentCalendar.observeAsState().value!!
+
     if (isTopLayoutClick){ // 캘린더 클릭 동작
         todayViewModel.currentCalendar.value?.apply {
             // dialog 생성
@@ -71,7 +66,8 @@ fun TopCalendarLayout(todayViewModel : TodayViewModelInterface){
     ){
 
         TextBox(
-            text =  topText,
+            text =   "${topTexting.get(Calendar.YEAR)}" +
+                    ".${topTexting.get(Calendar.MONTH).plus(1)}",
             fontWeight = 700,
             fontFamily = Font(R.font.roboto_bold),
             fontSize = dimensionResource(id = R.dimen.size_34).value.sp,

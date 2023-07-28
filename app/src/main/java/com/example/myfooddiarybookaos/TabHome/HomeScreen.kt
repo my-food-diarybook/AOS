@@ -1,7 +1,8 @@
 package com.example.myfooddiarybookaos.TabHome
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -13,7 +14,7 @@ import com.example.myfooddiarybookaos.ViewModel.TodayViewModelInterface
 
 @Composable
 fun HomeScreen(
-    todayViewModel : TodayViewModelInterface
+    todayViewModel: TodayViewModelInterface
 ) {
     Column(
         Modifier
@@ -31,7 +32,6 @@ fun HomeScreen(
 //            Text("로그인 ui 보기(test)")
 //        }
 
-
         // top calendar
         TopCalendarLayout(todayViewModel)
 
@@ -43,12 +43,10 @@ fun HomeScreen(
                 .padding(
                     start = dimensionResource(id = R.dimen.size_15),
                     end = dimensionResource(id = R.dimen.size_15)
-                )
-            ,
+                ),
             contentAlignment = Alignment.Center
         ) {
             CalendarLayout(todayViewModel)
-
         }
     }
 }

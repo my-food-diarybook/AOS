@@ -1,7 +1,6 @@
 package com.example.myfooddiarybookaos.Adapter
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import com.example.myfooddiarybookaos.R
 import com.example.myfooddiarybookaos.TabHome.CustomCalendar
 import com.example.myfooddiarybookaos.databinding.ItemDayTextBinding
 import java.util.*
-import javax.inject.Inject
 
 
 class CalenderDayAdapter(
@@ -22,8 +20,7 @@ class CalenderDayAdapter(
   private val calendarLayout : LinearLayout // 사이즈 용
 ) : RecyclerView.Adapter<CalenderDayAdapter.ViewHolder>() {
     private lateinit var binding: ItemDayTextBinding
-    private var customCalendar : CustomCalendar =
-        CustomCalendar(date)
+    var customCalendar : CustomCalendar = CustomCalendar()
     init {
         customCalendar.initBaseCalendar()
 
@@ -32,7 +29,7 @@ class CalenderDayAdapter(
     inner class ViewHolder(binding: ItemDayTextBinding)
         : RecyclerView.ViewHolder(binding.root) {
             fun hold(){
-                val date = customCalendar.dateList[absoluteAdapterPosition]
+                val date = customCalendar.dateSet[absoluteAdapterPosition]
                 if (date.day==0) {
                     binding.dayText.text = ""
                 }
@@ -59,7 +56,7 @@ class CalenderDayAdapter(
         return ViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = customCalendar.dateList.size
+    override fun getItemCount(): Int = customCalendar.dateSet.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.hold()
