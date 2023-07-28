@@ -25,6 +25,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 
@@ -37,6 +38,7 @@ private const val DAY_OF_WEAK = 7
 @Composable
 fun CalendarLayout(todayViewModel : TodayViewModelInterface){
     Column {
+        // 요일 뷰
         val dayList = listOf("S", "M", "T", "W", "T", "F", "S")
         LazyVerticalGrid(
             columns = GridCells.Fixed(DAY_OF_WEAK),
@@ -46,6 +48,7 @@ fun CalendarLayout(todayViewModel : TodayViewModelInterface){
                 }
             }
         )
+        // 캘린더
         MonthDataView(todayViewModel)
     }
 }

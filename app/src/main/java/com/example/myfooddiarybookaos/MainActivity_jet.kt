@@ -12,16 +12,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.example.myfooddiarybookaos.BottomaNavi.BottomNavigation
 import com.example.myfooddiarybookaos.BottomaNavi.NavigationGraph
+import com.example.myfooddiarybookaos.TabHome.CustomCalendar
 import com.example.myfooddiarybookaos.ViewModel.FakeTodayViewModel
 import com.example.myfooddiarybookaos.ViewModel.TodayViewModelInterface
 import com.example.myfooddiarybookaos.ViewModel.TodayViewModel
 import com.example.myfooddiarybookaos.ui.theme.MyFoodDiaryBookAOSTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class MainActivity_jet : ComponentActivity() {
     private val todayViewModel:TodayViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

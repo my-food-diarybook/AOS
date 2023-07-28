@@ -1,42 +1,42 @@
 package com.example.myfooddiarybookaos.TabHome
 
-import android.util.Log
+
 import com.example.myfooddiarybookaos.Model.DayDate
-import java.text.SimpleDateFormat
+import com.example.myfooddiarybookaos.Model.MonthDate
+import okhttp3.internal.toImmutableList
 import java.util.*
+import javax.inject.Singleton
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
-class CustomCalendar(
-    private var date : Date, //현재 뷰 날짜
-) {
-    private val calendar : Calendar = Calendar.getInstance()
+@Singleton
+class CustomCalendar :CustomCalendarInterFace{
+    val calendar : Calendar = Calendar.getInstance()
     private var calenderDate : Int = 0
-    var dateList = ArrayList<DayDate>()
-
+    var dateSet = ArrayList<DayDate>()
     var prevTail =  0 // 이전 달 끝부분
     init {
-        calendar.time = date
         calenderDate = calendar.get(Calendar.DATE)
+        initBaseCalendar()
+
     }
 
-    companion object {
-        const val DAY_OF_WEEK = 7
-        const val LOW_OF_CALENDAR = 5
-    }
+//    companion object {
+//        const val DAY_OF_WEEK = 7
+//        const val LOW_OF_CALENDAR = 5
+//    }
 
-    fun initBaseCalendar(){
+    override fun initBaseCalendar(){
         makeMonthDate()
     }
 
-    fun initData(newDate : Date){
-        date = newDate
-        calendar.time = date
+    override fun initData(newDate : Date){
+        calendar.time = newDate
         calenderDate = calendar.get(Calendar.DATE)
         makeMonthDate()
+
     }
-    private fun makeMonthDate(){
-        dateList.clear()
+    override fun makeMonthDate(){
+        dateSet.clear()
         // 현재 일 세팅
         calendar.set(Calendar.DATE,1)
 
@@ -44,20 +44,21 @@ class CustomCalendar(
         prevTail = calendar.get(Calendar.DAY_OF_WEEK)-1
         makePrevTail()
 
+        // 현재 달 세팅
         makeCurrentMonth(calendar)
     }
 
 
     // 블러 처리를 위한 이전 달 마지막 주 세팅
-    private fun makePrevTail(){
+    override fun makePrevTail(){
         for (i in 1..prevTail){
-            dateList.add(
+            dateSet.add(
                 DayDate(0,-1)
             )
         }
     }
 
-    private fun makeCurrentMonth(calender: Calendar){
+    override fun makeCurrentMonth(calender: Calendar){
         val today = Calendar.getInstance() //오늘 캘린더
         val todayDate = today.get(Calendar.YEAR)*12+today.get(Calendar.MONTH) // 오늘 치환
         val currentDate = calender.get(Calendar.YEAR)*12+calendar.get(Calendar.MONTH) //캘린더 치환
@@ -66,7 +67,7 @@ class CustomCalendar(
             // 오늘 데이터 == 캘린더 데이터 && 현재 날짜 == i
             if (todayDate==currentDate && i == calenderDate) ++selected
 
-            dateList.add(
+            dateSet.add(
                 DayDate(i,selected)
             )
 
