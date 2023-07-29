@@ -15,25 +15,20 @@ class TodayViewModel @Inject constructor():ViewModel(),TodayViewModelInterface{
     override val todayCalendar : LiveData<Calendar> get() = _todayCalendar
     override var _currentCalendar=  MutableLiveData<Calendar>() //현재 뷰 데이터
     override val currentCalendar: LiveData<Calendar>  get() = _currentCalendar
-    override var _customDataList: MutableLiveData<CustomCalendar> = MutableLiveData<CustomCalendar>()
-    override val customCalendar: MutableLiveData<CustomCalendar> get() =_customDataList
+    override val dataChanger = MutableLiveData<Boolean>()
     init {
 
         _todayCalendar.value = Calendar.getInstance()
         _currentCalendar.value = Calendar.getInstance()
-        _customDataList.value = CustomCalendar()
+        dataChanger.value= true
     }
-
     override fun setCurrentDate(year : Int, month : Int){
         currentCalendar.value?.apply {
             this.set(Calendar.YEAR,year)
             this.set(Calendar.MONTH,month)
         }
-    }
-
-    override fun setCustomCalendar() {
-        currentCalendar.value?.apply {
-            customCalendar.value?.initData(this.time)
-        }
+        // 뷰 지웠다가 다시 그리기
+        dataChanger.value= false
+        dataChanger.value= true
     }
 }
