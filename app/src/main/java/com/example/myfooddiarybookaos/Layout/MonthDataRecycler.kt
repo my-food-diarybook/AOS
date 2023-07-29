@@ -35,29 +35,29 @@ private const val DAY_OF_WEAK = 7
 @Composable
 fun MonthDataView(todayViewModel : TodayViewModelInterface) {
     // 현재 뷰어
-    val viewCalendar : State<CustomCalendar?> = todayViewModel.customCalendar.observeAsState()
-//    val dataList = List(dateSet.size) { i -> DayDate(dateSet[i].day,dateSet[i].isSelected) }
-    viewCalendar.value?.let {
-        ItemScreen(it.dateSet)
+    val viewCalendar : State<Boolean> = todayViewModel.dataChanger.observeAsState(false)
+    if (viewCalendar.value){
+        ItemScreen(date = todayViewModel.currentCalendar.value!!.time)
     }
 }
 
 @Composable
-fun ItemScreen(data : List<DayDate>){
+fun ItemScreen(date : Date){
+    val newCalendar = CustomCalendar()
+    newCalendar.initData(date)
     LazyVerticalGrid(
         columns = GridCells.Fixed(DAY_OF_WEAK),
         content = {
-            items(data.size) { index ->
-                DayItem(dayDate = data[index], dayClick = {
+            items(newCalendar.dateSet.size) { index ->
+                DayItem(dayDate = newCalendar.dateSet[index], dayClick = {
                     // 일 클릭 이벤트
-                    for (i in data){
-                        Log.d("sdfwlfh",i.day.toString())
-                    }
+
                 })
             }
         }
     )
 }
+
 @Composable
 fun DayItem(
     dayDate: DayDate,

@@ -113,7 +113,6 @@ fun SelectCalendarScreen(
                                 isTopLayoutClick(false)
                                 // 뷰 모델 수정
                                 todayViewModel.setCurrentDate(currentYear,it-1)
-                                todayViewModel.setCustomCalendar()
                             }
                         )
                     }
