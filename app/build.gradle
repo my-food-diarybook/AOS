@@ -9,11 +9,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.myfooddiarybookaos'
+    namespace 'com.android.myfooddiarybookaos'
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.example.myfooddiarybookaos"
+        applicationId "com.android.myfooddiarybookaos"
         minSdk 22
         targetSdk 32
         versionCode 1
