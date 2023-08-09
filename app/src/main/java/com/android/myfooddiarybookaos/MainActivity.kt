@@ -1,112 +1,121 @@
 package com.android.myfooddiarybookaos
-//
-//import androidx.appcompat.app.AppCompatActivity
-//import android.os.Bundle
-//import androidx.fragment.app.Fragment
-//import androidx.fragment.app.FragmentManager
-//import androidx.fragment.app.FragmentTransaction
-//import com.android.myfooddiarybookaos.Dialog.SelectImageFragment
-//import com.android.myfooddiarybookaos.home.HomeFragment
-//import com.android.myfooddiarybookaos.TabMyAccount.MyFragment
-//import com.android.myfooddiarybookaos.TabSearch.SearchFragment
-//import com.android.myfooddiarybookaos.TabTimeLine.TimeLineFragment
-//import com.android.myfooddiarybookaos.databinding.ActivityMainBinding
-//import com.sothree.slidinguppanel.SlidingUpPanelLayout
-//
-//class MainActivity : AppCompatActivity() {
-//    private lateinit var binding: ActivityMainBinding
-//
-//    // 프래그먼트 생성
-//    var homeFragment : com.android.myfooddiarybookaos.home.HomeFragment? = null
-//    var myFragment : MyFragment? = null
-//    var searchFragment : SearchFragment? = null
-//    var timeLineFragment : TimeLineFragment? = null
-//    var transaction: FragmentTransaction? = null // Fragment transaction
-//    var fragmentManager: FragmentManager? = null // Fragment manager
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        binding = ActivityMainBinding.inflate(layoutInflater)
-//        setContentView(binding.root)
-//        fragmentManager = supportFragmentManager
-//        transaction = fragmentManager!!.beginTransaction()
-//
-//        // 프래그먼트 초기화
-//        initFragment()
-//
-//        // 하단 탭 초기화
-//        binding.bottomNavi.setOnItemSelectedListener {
-//            transaction = fragmentManager!!.beginTransaction()
-//            when (it.itemId){
-//                R.id.fragment_1->{
-//                    transaction?.replace(R.id.main_frame,homeFragment!!,"homeFrag")?.commit()
-//                    true
-//                }
-//                R.id.fragment_2->{
-//                    transaction?.replace(R.id.main_frame,timeLineFragment!!)?.commit()
-//                    true
-//                }
-//                R.id.fragment_3->{
-//                    transaction?.replace(R.id.main_frame,searchFragment!!)?.commit()
-//                    true
-//                }
-//                R.id.fragment_4->{
-//                    transaction?.replace(R.id.main_frame,myFragment!!)?.commit()
-//                    true
-//                }
-//                else->{
-//                    false
-//                }
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.FabPosition
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
+import androidx.compose.material.Scaffold
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+
+
+import androidx.navigation.compose.rememberNavController
+import com.android.myfooddiarybookaos.common.bottomaNavi.BottomNavigation
+import com.android.myfooddiarybookaos.common.bottomaNavi.NavigationGraph
+import com.android.myfooddiarybookaos.ui.theme.MyFoodDiaryBookAOSTheme
+import dagger.hilt.android.AndroidEntryPoint
+
+
+@AndroidEntryPoint
+class MainActivity : ComponentActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MyFoodDiaryBookAOSTheme {
+                MainUi()
+            }
+        }
+    }
+}
+
+@Composable
+fun MainUi() {
+    // navController
+    // 네비게이션의 중심 API -> 각 화면을 구성하는 컴포저블의 백스택을 추적
+    val navController = rememberNavController()
+    // 기본 material design ui 구현
+    // TopAppBar, BottomAppBar, FloatingActionButton, Drawer
+    Scaffold(
+        // 네비게이션 연결
+        bottomBar = {
+            BottomNavigation(
+                navController = navController
+            )
+        },
+        floatingActionButtonPosition = FabPosition.Center,
+        isFloatingActionButtonDocked = true,
+        floatingActionButton = {
+            FloatingActionButton(
+                modifier = Modifier.size(dimensionResource(id = R.dimen.size_53_33)),
+                backgroundColor = Color.Transparent,
+                contentColor = colorResource(id = R.color.main_color),
+                onClick = {
+
+            }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.add_button),
+                    null,
+                )
+            }
+        }
+    ) {
+        Box(Modifier.padding(it)){
+            // 각 네비게이션에 맞는 뷰를 그러주는 그래프 연결
+            NavigationGraph(
+                navController = navController
+            )
+        }
+    }
+//    ConstraintLayout(
+//        Modifier
+//            .fillMaxWidth()
+//            .fillMaxHeight()
+//    ) {
+//        // constraintLayout id
+//        val (button,box) = createRefs()
+//        Box(
+//            modifier = Modifier
+//                .constrainAs(box) {
+//                bottom.linkTo(parent.bottom)
+//                end.linkTo(parent.end)
+//                start.linkTo(parent.start)
 //            }
+//        ){
+//
+//
+//
 //        }
-//
-//        // 클릭 이벤트
-//        setUpListener()
+//        // button floating button
+//        Image(
+//            painter = painterResource(id = R.drawable.baseline_add_circle_24)
+//            , contentDescription ="",
+//            Modifier
+//                .width(dimensionResource(id = R.dimen.size_53_33))
+//                .height(dimensionResource(id = R.dimen.size_53_33))
+//                .paint(painterResource(id = R.drawable.circle))
+//                .constrainAs(button) {
+//                    bottom.linkTo(parent.bottom)
+//                    end.linkTo(parent.end)
+//                    start.linkTo(parent.start)
+//                }
+//        )
 //    }
-//
-//    private fun initFragment(){
-//        homeFragment = com.android.myfooddiarybookaos.home.HomeFragment()
-//        myFragment = MyFragment()
-//        searchFragment = SearchFragment()
-//        timeLineFragment = TimeLineFragment()
-//
-//        transaction!!.add(R.id.main_frame,homeFragment!!,"homeFrag").commit()
-//    }
-//
-//    private fun setSubFragment(newFrag : Fragment){
-//        fragmentManager?.beginTransaction()
-//            ?.replace(R.id.slide_layout,newFrag)
-//            ?.addToBackStack(null)
-//            ?.commit()
-//        val state =  binding.frameLayout.panelState
-//        // 닫힌 상태일 경우 열기
-//        if (state == SlidingUpPanelLayout.PanelState.COLLAPSED) {
-//            binding.frameLayout.panelState = SlidingUpPanelLayout.PanelState.ANCHORED
-//        }
-//        // 열린 상태일 경우 닫기
-//        else if (state == SlidingUpPanelLayout.PanelState.EXPANDED) {
-//            binding.frameLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
-//            transaction
-//                ?.remove(newFrag)
-//                ?.commit()
-//        }
-//    }
-//
-//    private fun setUpListener(){
-//        binding.addButton.setOnClickListener {
-//            setSubFragment(SelectImageFragment())
-//        }
-//    }
-//
-//    fun mainFrameChange(newFrag: Fragment){
-//        fragmentManager!!.beginTransaction()
-//            .add(R.id.main_frame,newFrag)
-//            .addToBackStack(null)
-//            .commit()
-//    }
-//
-//    fun mainFrameGoBack(currentFrag : Fragment){
-//        fragmentManager!!.beginTransaction().remove(currentFrag).commit()
-//        fragmentManager!!.popBackStack()
-//    }
-//}
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun DefaultPreview2() {
+    MyFoodDiaryBookAOSTheme {
+        MainUi()
+
+    }
+}
