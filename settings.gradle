@@ -17,3 +17,13 @@ dependencyResolutionManagement {
 }
 rootProject.name = "MyFoodDiaryBookAOS"
 include ':app'
+include ':feature'
+include ':core'
+include ':feature:home'
+include ':feature:timeline'
+include ':feature:search'
+include ':feature:myaccount'
+include ':app:login'
+include ':app:common'
+include ':core:data'
+include ':core:model'
