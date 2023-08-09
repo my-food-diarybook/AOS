@@ -9,19 +9,16 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 
+
 import androidx.navigation.compose.rememberNavController
-import com.android.myfooddiarybookaos.BottomaNavi.BottomNavigation
-import com.android.myfooddiarybookaos.BottomaNavi.NavigationGraph
-import com.android.myfooddiarybookaos.ViewModel.FakeTodayViewModel
-import com.android.myfooddiarybookaos.ViewModel.TodayViewModelInterface
-import com.android.myfooddiarybookaos.ViewModel.TodayViewModel
+import com.android.myfooddiarybookaos.common.BottomaNavi.NavigationGraph
 import com.android.myfooddiarybookaos.ui.theme.MyFoodDiaryBookAOSTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
 class MainActivity_jet : ComponentActivity() {
-    private val todayViewModel:TodayViewModel by viewModels()
+    private val todayViewModel: com.android.myfooddiarybookaos.data.viewModel.TodayViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +31,7 @@ class MainActivity_jet : ComponentActivity() {
 }
 
 @Composable
-fun MainUi(todayViewModel:TodayViewModelInterface) {
+fun MainUi(todayViewModel: com.android.myfooddiarybookaos.data.viewModel.TodayViewModelInterface) {
     // navController
     // 네비게이션의 중심 API -> 각 화면을 구성하는 컴포저블의 백스택을 추적
     val navController = rememberNavController()
@@ -42,14 +39,17 @@ fun MainUi(todayViewModel:TodayViewModelInterface) {
     // TopAppBar, BottomAppBar, FloatingActionButton, Drawer
     Scaffold(
         // 네비게이션 연결
-        bottomBar = { BottomNavigation(navController = navController)},
+        bottomBar = {
+            com.android.myfooddiarybookaos.common.BottomaNavi.BottomNavigation(
+                navController = navController
+            )
+        },
         floatingActionButton = {}
     ) {
         Box(Modifier.padding(it)){
             // 각 네비게이션에 맞는 뷰를 그러주는 그래프 연결
             NavigationGraph(
-                navController = navController,
-                todayViewModel = todayViewModel
+                navController = navController
             )
         }
     }
@@ -94,7 +94,7 @@ fun MainUi(todayViewModel:TodayViewModelInterface) {
 @Composable
 fun DefaultPreview2() {
     MyFoodDiaryBookAOSTheme {
-        MainUi(todayViewModel = FakeTodayViewModel())
+        MainUi(todayViewModel = com.android.myfooddiarybookaos.data.viewModel.FakeTodayViewModel())
 
     }
 }
