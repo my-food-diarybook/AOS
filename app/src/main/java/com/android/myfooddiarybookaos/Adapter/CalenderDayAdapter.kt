@@ -9,7 +9,7 @@ package com.android.myfooddiarybookaos.Adapter
 //import androidx.recyclerview.widget.RecyclerView
 //import com.android.myfooddiarybookaos.MainActivity
 //import com.android.myfooddiarybookaos.R
-//import com.android.myfooddiarybookaos.home.CustomCalendar
+//import com.android.myfooddiarybookaos.home.calendar.CustomCalendar
 //import com.android.myfooddiarybookaos.databinding.ItemDayTextBinding
 //import java.util.*
 
@@ -20,8 +20,8 @@ package com.android.myfooddiarybookaos.Adapter
 //  private val calendarLayout : LinearLayout // 사이즈 용
 //) : RecyclerView.Adapter<CalenderDayAdapter.ViewHolder>() {
 //    private lateinit var binding: ItemDayTextBinding
-//    var customCalendar : com.android.myfooddiarybookaos.home.CustomCalendar =
-//        com.android.myfooddiarybookaos.home.CustomCalendar()
+//    var customCalendar : com.android.myfooddiarybookaos.home.calendar.CustomCalendar =
+//        com.android.myfooddiarybookaos.home.calendar.CustomCalendar()
 //    init {
 //        customCalendar.initBaseCalendar()
 //

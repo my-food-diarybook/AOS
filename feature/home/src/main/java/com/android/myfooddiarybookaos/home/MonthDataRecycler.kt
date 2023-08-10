@@ -24,6 +24,7 @@ import com.android.myfooddiarybookaos.data.viewModel.FakeTodayViewModel
 
 import com.android.myfooddiarybookaos.data.viewModel.TodayViewModelInterface
 import com.android.myfooddiarybookaos.feature.home.R
+import com.android.myfooddiarybookaos.home.calendar.CustomCalendar
 import java.util.*
 
 private const val DAY_OF_WEAK = 7
@@ -41,7 +42,7 @@ fun MonthDataView(todayViewModel : TodayViewModelInterface) {
 
 @Composable
 fun ItemScreen(date : Date){
-    val newCalendar = com.android.myfooddiarybookaos.home.CustomCalendar()
+    val newCalendar = CustomCalendar()
     newCalendar.initData(date)
     LazyVerticalGrid(
         columns = GridCells.Fixed(DAY_OF_WEAK),

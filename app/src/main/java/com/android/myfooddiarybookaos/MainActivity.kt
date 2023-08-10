@@ -3,10 +3,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.FabPosition
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.Scaffold
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,9 +14,12 @@ import androidx.compose.ui.tooling.preview.Preview
 
 
 import androidx.navigation.compose.rememberNavController
+import com.android.myfooddiarybookaos.common.addPicture.SelectAddScreen
 import com.android.myfooddiarybookaos.common.bottomaNavi.BottomNavigation
 import com.android.myfooddiarybookaos.common.bottomaNavi.NavigationGraph
 import com.android.myfooddiarybookaos.ui.theme.MyFoodDiaryBookAOSTheme
+import com.holix.android.bottomsheetdialog.compose.BottomSheetDialog
+import com.holix.android.bottomsheetdialog.compose.BottomSheetDialogProperties
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -38,6 +38,26 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainUi() {
+    // mid click event
+    var showSelectView by remember {
+        mutableStateOf(false)
+    }
+    if (showSelectView){
+        BottomSheetDialog(
+            onDismissRequest = {
+                showSelectView = false
+            },
+            properties = BottomSheetDialogProperties(
+                dismissOnClickOutside = true,
+                dismissOnBackPress = true
+            )
+        ) {
+            SelectAddScreen(closeLog = {
+                // 취소 버튼 or 선택화면으로 전환
+                showSelectView = false
+            })
+        }
+    }
     // navController
     // 네비게이션의 중심 API -> 각 화면을 구성하는 컴포저블의 백스택을 추적
     val navController = rememberNavController()
@@ -58,7 +78,7 @@ fun MainUi() {
                 backgroundColor = Color.Transparent,
                 contentColor = colorResource(id = R.color.main_color),
                 onClick = {
-
+                    showSelectView = true
             }) {
                 Icon(
                     painter = painterResource(id = R.drawable.add_button),
@@ -74,41 +94,8 @@ fun MainUi() {
             )
         }
     }
-//    ConstraintLayout(
-//        Modifier
-//            .fillMaxWidth()
-//            .fillMaxHeight()
-//    ) {
-//        // constraintLayout id
-//        val (button,box) = createRefs()
-//        Box(
-//            modifier = Modifier
-//                .constrainAs(box) {
-//                bottom.linkTo(parent.bottom)
-//                end.linkTo(parent.end)
-//                start.linkTo(parent.start)
-//            }
-//        ){
-//
-//
-//
-//        }
-//        // button floating button
-//        Image(
-//            painter = painterResource(id = R.drawable.baseline_add_circle_24)
-//            , contentDescription ="",
-//            Modifier
-//                .width(dimensionResource(id = R.dimen.size_53_33))
-//                .height(dimensionResource(id = R.dimen.size_53_33))
-//                .paint(painterResource(id = R.drawable.circle))
-//                .constrainAs(button) {
-//                    bottom.linkTo(parent.bottom)
-//                    end.linkTo(parent.end)
-//                    start.linkTo(parent.start)
-//                }
-//        )
-//    }
 }
+
 
 
 @Preview(showBackground = true)
