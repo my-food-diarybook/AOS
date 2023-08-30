@@ -13,18 +13,24 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.android.myfooddiarybookaos.data.robotoBold
 import com.android.myfooddiarybookaos.data.viewModel.FakeTodayViewModel
+import com.android.myfooddiarybookaos.data.viewModel.TodayViewModel
 
 import com.android.myfooddiarybookaos.data.viewModel.TodayViewModelInterface
-import com.android.myfooddiarybookaos.feature.home.R
+import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.home.calendar.CustomCalendar
+import com.android.myfooddiarybookaos.model.DayDate
 import java.util.*
 
 private const val DAY_OF_WEAK = 7
@@ -32,7 +38,9 @@ private const val DAY_OF_WEAK = 7
 // 리싸이클러 뷰
 @SuppressLint("MutableCollectionMutableState")
 @Composable
-fun MonthDataView(todayViewModel : TodayViewModelInterface) {
+fun MonthDataView(
+    todayViewModel: TodayViewModelInterface
+) {
     // 현재 뷰어
     val viewCalendar : State<Boolean> = todayViewModel.dataChanger.observeAsState(false)
     if (viewCalendar.value){
@@ -59,22 +67,30 @@ fun ItemScreen(date : Date){
 
 @Composable
 fun DayItem(
-    dayDate: com.android.myfooddiarybookaos.model.DayDate,
+    dayDate: DayDate,
     dayClick : (Int) -> Unit
 ) {
+    val oneWidth = LocalConfiguration.current.screenWidthDp.dp / 7
+    val oneHeight = LocalConfiguration.current.screenHeightDp.dp*(460/800) / 7
+
     val textView by animateColorAsState(
         if (dayDate.isSelected == 1) colorResource(id = R.color.line_color_deep)
         else colorResource(id = R.color.color_day_of_weak)
     )
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.clickable(
-            onClick = {
-                dayClick(dayDate.day)
-            })
+        modifier = Modifier
+            .clickable(
+                onClick = {
+                    dayClick(dayDate.day)
+                })
+            .padding(start = 2.dp, end = 2.dp)
+            .width(oneWidth)
+            .height(oneHeight),
     ) {
-            Box(
-                Modifier.then(
+        Box(
+            Modifier
+                .then(
                     if (dayDate.isSelected == 0) {
                         Modifier
                             .background(
@@ -82,25 +98,19 @@ fun DayItem(
                                 CircleShape
                             )
                             .size(dimensionResource(id = R.dimen.size_40))
-                    }else{ // 나중에 이미지 여기에 추가 !!
+                    } else { // 나중에 이미지 여기에 추가 !!
                         Modifier
                     }
                 )
-            )
+        )
 
         if (dayDate.day != 0) {
             Text(
                 text = dayDate.day.toString(),
                 fontWeight = FontWeight(400),
-                fontFamily = FontFamily(Font(R.font.roboto_bold)),
+                fontFamily = robotoBold,
                 fontSize = dimensionResource(id = R.dimen.size_12_sp).value.sp,
                 color = textView,
-                modifier = Modifier.padding(
-                    top = dimensionResource(id = R.dimen.size_20),
-                    bottom = dimensionResource(id = R.dimen.size_20),
-                    start = dimensionResource(id = R.dimen.size_12),
-                    end = dimensionResource(id = R.dimen.size_12),
-                ),
             )
         }
     }

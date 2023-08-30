@@ -11,7 +11,7 @@ import com.android.myfooddiarybookaos.Layout.TopCalendarLayout
 
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.android.myfooddiarybookaos.data.viewModel.TodayViewModel
-import com.android.myfooddiarybookaos.feature.home.R
+import com.android.myfooddiarybookaos.core.data.R
 
 @Composable
 fun HomeScreen(
@@ -36,19 +36,19 @@ fun HomeScreen(
         // top calendar
         TopCalendarLayout(todayViewModel)
 
-
         // mid calendar
-        Box(
+        Column(
             Modifier
-                .fillMaxSize()
-                .padding(
-                    start = dimensionResource(id = R.dimen.size_15),
-                    end = dimensionResource(id = R.dimen.size_15)
-                ),
-            contentAlignment = Alignment.Center
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            CalendarLayout(todayViewModel)
+            Spacer(modifier = Modifier.weight(180/800f))
+            Box(modifier = Modifier.weight(460/800f)){
+                CalendarLayout()
+            }
+            Spacer(modifier = Modifier.weight(160/800f))
         }
+
     }
 }
 

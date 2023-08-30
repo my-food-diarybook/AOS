@@ -21,15 +21,6 @@ fun TimeLineScreen(
     Column {
         // 캘린더 초기화
         TopCalendarLayout(todayViewModel)
-        Surface(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight()
-        ) {
-            // 데이터 없음 표시
-            Box(contentAlignment = Alignment.Center) {
-                NotDataView()
-            }
-        }
+        NotDataView()
     }
 }

@@ -1,13 +1,6 @@
 package com.android.myfooddiarybookaos.common.addPicture
 
-import android.app.Activity
-import android.content.Intent
-import android.graphics.Bitmap
-import android.net.Uri
-import android.provider.MediaStore
 import android.util.Log
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -27,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.common.R
 import com.android.myfooddiarybookaos.data.TextBox
+import com.android.myfooddiarybookaos.data.robotoLight
 
 // 사진 촬영, 사진 선택
 @Composable
@@ -76,14 +70,14 @@ fun SelectAddScreen(closeLog: () -> Unit) {
             TextBox(
                 text = "사진 추가",
                 fontWeight = 400,
-                fontFamily = Font(R.font.roboto_light),
+                fontFamily = robotoLight,
                 fontSize = dimensionResource(id = R.dimen.size_13_sp).value.sp,
                 color = colorResource(id = R.color.light_text_color)
             )
             TextBox(
                 text = "사진 촬영 또는 사진 선택을 클릭해주세요.",
                 fontWeight = 400,
-                fontFamily = Font(R.font.roboto_light),
+                fontFamily = robotoLight,
                 fontSize = dimensionResource(id = R.dimen.size_13_sp).value.sp,
                 color = colorResource(id = R.color.light_text_color)
             )

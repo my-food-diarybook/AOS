@@ -9,7 +9,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        minSdk 30
+        minSdk 28
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -60,7 +60,8 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:2.44")
 
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
-
+    // compose hilt viewModel
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
     implementation project(":core:data")
     implementation project(":core:model")
