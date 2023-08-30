@@ -70,8 +70,6 @@ fun DayItem(
     dayDate: DayDate,
     dayClick : (Int) -> Unit
 ) {
-    val oneWidth = LocalConfiguration.current.screenWidthDp.dp / 7
-    val oneHeight = LocalConfiguration.current.screenHeightDp.dp*(460/800) / 7
 
     val textView by animateColorAsState(
         if (dayDate.isSelected == 1) colorResource(id = R.color.line_color_deep)
@@ -85,8 +83,7 @@ fun DayItem(
                     dayClick(dayDate.day)
                 })
             .padding(start = 2.dp, end = 2.dp)
-            .width(oneWidth)
-            .height(oneHeight),
+            .aspectRatio(1f)
     ) {
         Box(
             Modifier

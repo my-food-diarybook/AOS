@@ -1,6 +1,7 @@
 package com.android.myfooddiarybookaos.home.calendar
 
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -32,8 +33,7 @@ private const val DAY_OF_WEAK = 7
 fun CalendarLayout(
     todayViewModel : TodayViewModel = viewModel()
 ){
-    val oneWidth = LocalConfiguration.current.screenWidthDp.dp / 7
-    val oneHeight = LocalConfiguration.current.screenHeightDp.dp*(460/800) / 7
+
     Column {
         // 요일 뷰
         val dayList = listOf("S", "M", "T", "W", "T", "F", "S")
@@ -41,7 +41,7 @@ fun CalendarLayout(
             columns = GridCells.Fixed(DAY_OF_WEAK),
             content = {
                 items(DAY_OF_WEAK) { index ->
-                    DayLayer(text = dayList[index],oneWidth,oneHeight)
+                    DayLayer(text = dayList[index])
                 }
             }
         )
@@ -55,13 +55,10 @@ fun CalendarLayout(
 @Composable
 private fun DayLayer(
     text: String,
-    oneWidth : Dp,
-    oneHeight : Dp
 ){
     Box(
         modifier = Modifier
-            .width(oneWidth)
-            .height(oneHeight)
+            .aspectRatio(1f)
         ,contentAlignment = Alignment.Center,
     ) {
         Text(
