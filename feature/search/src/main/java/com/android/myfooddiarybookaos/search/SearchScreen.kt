@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -67,10 +68,12 @@ private fun SearchBox() {
                 Icon(
                     painter = painterResource(id = R.drawable.search_icon),
                     contentDescription = "",
+                    tint = Color.Black
                 )
             }
         }
     }
+
     Surface( // 배경
         shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_4)),
         border = BorderStroke(
@@ -78,7 +81,14 @@ private fun SearchBox() {
             colorResource(id = R.color.black)
         ),
         color = colorResource(id = R.color.white),
-
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                start = dimensionResource(id = R.dimen.size_20),
+                end = dimensionResource(id = R.dimen.size_20),
+                top = dimensionResource(id = R.dimen.size_33),
+                bottom = dimensionResource(id = R.dimen.size_13)
+            )
     ) {
         TextField(
             value = text,

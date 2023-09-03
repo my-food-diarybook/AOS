@@ -16,8 +16,9 @@ import com.android.myfooddiarybookaos.data.robotoRegular
 @Composable
 fun NotDataView(){
     Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+        , horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         TextBox(
@@ -27,6 +28,7 @@ fun NotDataView(){
             fontSize = dimensionResource(id = R.dimen.size_20).value.sp ,
             color = colorResource(id = R.color.black)
         )
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_24)))
         TextBox(
             text = "오늘 먹은 식사를 사진으로 기록하세요.",
             fontWeight = 300,

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Divider
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -49,23 +50,19 @@ fun TopCalendarLayout(
 
     }
 
-    Box(
+
+    Column(
         modifier = Modifier
-            .padding(
-                bottom = dimensionResource(id = R.dimen.size_1),
-                start = dimensionResource(id = R.dimen.size_20)
-            )
             .height(dimensionResource(id = R.dimen.size_88))
-            .coloredShadow(
-                color = colorResource(id = R.color.black_10),
-                offsetY = 1.dp,
-                blurRadius = 4.dp
-            )
-        , contentAlignment = Alignment.BottomStart
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.Bottom
     ){
         Row(
             modifier = Modifier
                 .wrapContentSize()
+                .padding(
+                    start = dimensionResource(id = R.dimen.size_20)
+                )
                 .clickable(onClick = { isTopLayoutClick = true }),
             verticalAlignment = Alignment.Top
         ){
@@ -88,6 +85,17 @@ fun TopCalendarLayout(
                 )
             }
         }
+
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_10)))
+
+        Divider(modifier = Modifier
+            .height(2.dp)
+            .coloredShadow(
+                color = colorResource(id = R.color.black_10),
+                offsetY = 1.dp,
+                blurRadius = 4.dp
+            )
+        )
     }
 }
 
