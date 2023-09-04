@@ -37,16 +37,11 @@ fun HomeScreen(
         TopCalendarLayout(todayViewModel)
 
         // mid calendar
-        Column(
-            Modifier
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
         ) {
-            Spacer(modifier = Modifier.weight(180/800f))
-            Box(modifier = Modifier.weight(460/800f)){
-                CalendarLayout()
-            }
-            Spacer(modifier = Modifier.weight(160/800f))
+            CalendarLayout()
         }
 
     }

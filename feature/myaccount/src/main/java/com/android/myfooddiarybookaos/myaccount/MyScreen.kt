@@ -163,8 +163,7 @@ private fun Statistics() {
                 width = dimensionResource(id = R.dimen.size_1),
                 color = colorResource(id = R.color.line_color_deep),
                 shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_4))
-            ),
-
+            )
     ) {
         Column(
             modifier = Modifier.padding(

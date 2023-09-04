@@ -3,6 +3,7 @@
     <dimen name="size_0.5">0.5dp</dimen>
     <dimen name="size_1">1dp</dimen>
     <dimen name="size_1_59">1.59dp</dimen>
+    <dimen name="size_2_29">2.29dp</dimen>
     <dimen name="size_3">3dp</dimen>
     <dimen name="size_3.33">3.33dp</dimen>
     <dimen name="size_4">4dp</dimen>

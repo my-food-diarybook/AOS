@@ -82,7 +82,10 @@ fun DayItem(
                 onClick = {
                     dayClick(dayDate.day)
                 })
-            .padding(start = 2.dp, end = 2.dp)
+            .padding(
+                vertical = dimensionResource(id = R.dimen.size_12_86),
+                horizontal = dimensionResource(id = R.dimen.size_2_29)
+            )
             .aspectRatio(1f)
     ) {
         Box(

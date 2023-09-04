@@ -33,8 +33,9 @@ private const val DAY_OF_WEAK = 7
 fun CalendarLayout(
     todayViewModel : TodayViewModel = viewModel()
 ){
-
-    Column {
+    Column(
+        modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.size_12))
+    ) {
         // 요일 뷰
         val dayList = listOf("S", "M", "T", "W", "T", "F", "S")
         LazyVerticalGrid(
@@ -53,13 +54,14 @@ fun CalendarLayout(
 
 // 일 별 레이어
 @Composable
-private fun DayLayer(
-    text: String,
-){
+private fun DayLayer(text: String){
     Box(
         modifier = Modifier
             .aspectRatio(1f)
-        ,contentAlignment = Alignment.Center,
+            .padding(
+                horizontal = dimensionResource(id = R.dimen.size_12_86)
+            ),
+        contentAlignment = Alignment.Center,
     ) {
         Text(
             text = text,
