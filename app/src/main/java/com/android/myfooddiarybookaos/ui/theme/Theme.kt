@@ -19,7 +19,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
-import com.android.myfooddiarybookaos.R
+import com.android.myfooddiarybookaos.core.data.R
 
 private val DarkColorPalette = darkColors(
     primary = Purple200,

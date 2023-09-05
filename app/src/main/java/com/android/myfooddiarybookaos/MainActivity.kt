@@ -12,7 +12,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 
-
+import com.android.myfooddiarybookaos.core.data.R
 import androidx.navigation.compose.rememberNavController
 import com.android.myfooddiarybookaos.common.addPicture.SelectAddScreen
 import com.android.myfooddiarybookaos.common.bottomaNavi.BottomNavigation

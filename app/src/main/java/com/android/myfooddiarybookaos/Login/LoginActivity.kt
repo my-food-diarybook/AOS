@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.Dialog.PasswordChangeFragment
 import com.android.myfooddiarybookaos.Dialog.PasswordFindFragment
-import com.android.myfooddiarybookaos.R
+import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.ui.theme.EditTextBox
 import com.android.myfooddiarybookaos.ui.theme.MyFoodDiaryBookAOSTheme
 import com.android.myfooddiarybookaos.ui.theme.TextBox
