@@ -61,53 +61,59 @@ fun SelectCalendarScreen(
     )
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .width(dimensionResource(id = R.dimen.size_369))
-            .height(dimensionResource(id = R.dimen.size_267))
+        modifier = Modifier.wrapContentSize()
     ) {
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_23_5)))
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_9)))
         Row(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ){
-            Image(
-                painterResource(id = R.drawable.left_side), contentDescription = null,
+            Box(
                 modifier = Modifier
-                    .height(dimensionResource(id = R.dimen.size_29))
-                    .width(dimensionResource(id = R.dimen.size_18))
+                    .size(dimensionResource(id = R.dimen.size_58))
                     .clickable(onClick = {
                         currentYear -= 1
                     }),
-
-            )
-            Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_61_76)))
+                contentAlignment = Alignment.Center
+            ){
+                Image(painterResource(id = R.drawable.left_side), contentDescription = null)
+            }
+            Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_41)))
             TextBox(
                 text = "$currentYear",600,
                 robotoBold,
                 dimensionResource(id = R.dimen.size_36_sp).value.sp,
                 colorResource(id = R.color.black)
             )
-            Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_61_76)))
-            Image(
-                painter = painterResource(id = R.drawable.right_side),
-                contentDescription = null,
-                colorFilter = ColorFilter.tint(rightColorState),
+            Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_41)))
+            Box(
                 modifier = Modifier
-                    .height(dimensionResource(id = R.dimen.size_29))
-                    .width(dimensionResource(id = R.dimen.size_18))
+                    .size(dimensionResource(id = R.dimen.size_58))
                     .clickable(onClick = {
                         // 클릭 조건 (지난 달)
-                        if (currentYear+1 <= todayYear) currentYear += 1
+                        if (currentYear + 1 <= todayYear) currentYear += 1
                     }),
-            )
+                contentAlignment = Alignment.Center
+            ){
+                Image(
+                    painter = painterResource(id = R.drawable.right_side),
+                    contentDescription = null,
+                    // 클릭 색상 변경
+                    colorFilter = ColorFilter.tint(rightColorState)
+                )
+            }
         }
 
-        
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_21_5)))
+
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight()
+                .wrapContentHeight()
+                .padding(
+                    horizontal = dimensionResource(id = R.dimen.size_14_5)
+                )
         ){
             LazyVerticalGrid(
                 columns = GridCells.Fixed(4),
@@ -125,12 +131,13 @@ fun SelectCalendarScreen(
                 }
             )
         }
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_22_5)))
     }
 }
 
 @Composable
 private fun ItemMonth(
-    month : com.android.myfooddiarybookaos.model.MonthDate, todayDate:Int, currentDate:Int,
+    month : MonthDate, todayDate:Int, currentDate:Int,
     selectMonth : (Int) -> Unit
 ){
     val textViewColor by animateColorAsState(
@@ -139,6 +146,7 @@ private fun ItemMonth(
         else colorResource(id = R.color.black)
 
     )
+
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier

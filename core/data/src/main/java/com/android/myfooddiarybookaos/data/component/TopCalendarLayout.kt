@@ -67,7 +67,7 @@ fun TopCalendarLayout(
                     start = dimensionResource(id = R.dimen.size_20)
                 )
                 .clickable(onClick = { isTopLayoutClick = true }),
-            verticalAlignment = Alignment.Top
+            verticalAlignment = Alignment.CenterVertically
         ){
             TextBox(
                 text =   "${topTexting.get(Calendar.YEAR)}" +
@@ -89,7 +89,7 @@ fun TopCalendarLayout(
             }
         }
 
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_10)))
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_1)))
 
         Divider(modifier = Modifier
             .height(2.dp)
