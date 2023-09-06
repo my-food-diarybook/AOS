@@ -71,14 +71,14 @@ fun SelectAddScreen(closeLog: () -> Unit) {
                 text = "사진 추가",
                 fontWeight = 400,
                 fontFamily = robotoLight,
-                fontSize = dimensionResource(id = R.dimen.size_13_sp).value.sp,
+                fontSize = 13.sp,
                 color = colorResource(id = R.color.light_text_color)
             )
             TextBox(
                 text = "사진 촬영 또는 사진 선택을 클릭해주세요.",
                 fontWeight = 400,
                 fontFamily = robotoLight,
-                fontSize = dimensionResource(id = R.dimen.size_13_sp).value.sp,
+                fontSize = 13.sp,
                 color = colorResource(id = R.color.light_text_color)
             )
 
@@ -106,7 +106,7 @@ fun SelectAddScreen(closeLog: () -> Unit) {
                     text = "사진 촬영",
                     fontWeight = FontWeight(400),
                     fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                    fontSize = dimensionResource(id = R.dimen.size_20_sp).value.sp,
+                    fontSize = 20.sp,
                     color = colorResource(id = R.color.blue_text_color),
                     modifier = Modifier.padding(
                         top = dimensionResource(id = R.dimen.size_18),
@@ -131,7 +131,7 @@ fun SelectAddScreen(closeLog: () -> Unit) {
                     text = "사진 선택",
                     fontWeight = FontWeight(400),
                     fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                    fontSize = dimensionResource(id = R.dimen.size_20_sp).value.sp,
+                    fontSize = 20.sp,
                     color = colorResource(id = R.color.blue_text_color),
                     modifier = Modifier.padding(
                         top = dimensionResource(id = R.dimen.size_18),
@@ -161,7 +161,7 @@ fun SelectAddScreen(closeLog: () -> Unit) {
                 text = "취소",
                 fontWeight = FontWeight(400),
                 fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                fontSize = dimensionResource(id = R.dimen.size_20_sp).value.sp,
+                fontSize = 20.sp,
                 color = colorResource(id = R.color.blue_text_color),
                 modifier = Modifier
                     .padding(

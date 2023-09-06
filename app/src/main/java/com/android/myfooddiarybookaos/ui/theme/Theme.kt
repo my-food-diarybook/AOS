@@ -109,7 +109,7 @@ fun EditTextBox(hintText: String) {
                     Text(
                         text = hintText,
                         color = colorResource(id = R.color.weak_color),
-                        fontSize = dimensionResource(id = R.dimen.size_14_sp).value.sp,
+                        fontSize = 14.sp,
                     )
                 }, //힌트 (텍스트 ,칼라 적용 )
                 trailingIcon = if (hintText == "비밀번호") trailingIconView else null,

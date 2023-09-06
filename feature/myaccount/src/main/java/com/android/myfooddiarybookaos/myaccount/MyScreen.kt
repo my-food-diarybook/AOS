@@ -41,7 +41,7 @@ fun MyScreen() {
                 text = "마이",
                 fontWeight = 500,
                 fontFamily = robotoRegular,
-                fontSize = dimensionResource(id = R.dimen.size_18_sp).value.sp,
+                fontSize = 18.sp,
                 color = colorResource(id = R.color.black),
             )
         }
@@ -118,7 +118,7 @@ private fun EmailInfo(email: String) {
             Text(
                 text = email,
                 fontWeight = FontWeight(500),
-                fontSize = dimensionResource(id = R.dimen.size_20).value.sp,
+                fontSize = 20.sp,
                 color = colorResource(id = R.color.black),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -145,7 +145,7 @@ private fun Subject(text: String) {
     TextBox(
         text = text,
         fontFamily = robotoBold,
-        fontSize = dimensionResource(id = R.dimen.size_14_sp).value.sp,
+        fontSize = 14.sp,
         fontWeight = 700,
         color = colorResource(id = R.color._1A1D1D)
     )
@@ -178,14 +178,14 @@ private fun Statistics() {
                 text = "모든 식사 일기",
                 fontWeight = 400,
                 fontFamily = robotoRegular,
-                fontSize = dimensionResource(id = R.dimen.size_16_sp).value.sp,
+                fontSize = 16.sp,
                 color = colorResource(id = R.color.black)
             )
             TextBox(
                 text = "10",
                 fontWeight = 700,
                 fontFamily = robotoBold,
-                fontSize = dimensionResource(id = R.dimen.size_28_sp).value.sp,
+                fontSize = 28.sp,
                 color = colorResource(id = R.color.main_color)
             )
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_12)))
@@ -238,14 +238,14 @@ private fun CategoryMenu(text: String, count: Int) {
                 text = text,
                 fontWeight = 500,
                 fontFamily = robotoRegular,
-                fontSize = dimensionResource(id = R.dimen.size_16_sp).value.sp,
+                fontSize = 16.sp,
                 color = colorResource(id = R.color.black)
             )
             TextBox(
                 text = count.toString(),
                 fontWeight = 500,
                 fontFamily = robotoRegular,
-                fontSize = dimensionResource(id = R.dimen.size_28_sp).value.sp,
+                fontSize = 28.sp,
                 color = colorResource(id = R.color.line_color_deep)
             )
         }
@@ -278,7 +278,7 @@ private fun OptionBox(text: String, drawable: Int?, version: String?) {
                     text = text,
                     fontWeight = 500,
                     fontFamily = robotoRegular,
-                    fontSize = dimensionResource(id = R.dimen.size_20_sp).value.sp,
+                    fontSize = 20.sp,
                     color = colorResource(id = R.color.black)
                 )
             }
@@ -307,7 +307,7 @@ private fun OptionBox(text: String, drawable: Int?, version: String?) {
                         text = version,
                         fontWeight = 500,
                         fontFamily = robotoRegular,
-                        fontSize = dimensionResource(id = R.dimen.size_20_sp).value.sp,
+                        fontSize = 20.sp,
                         color = colorResource(id = R.color.black)
                     )
                 }

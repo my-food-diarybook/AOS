@@ -25,7 +25,7 @@ fun NotDataView(){
             text = "등록한 식사일기가 없습니다.",
             fontWeight = 300,
             fontFamily = robotoRegular,
-            fontSize = dimensionResource(id = R.dimen.size_20).value.sp ,
+            20.sp ,
             color = colorResource(id = R.color.black)
         )
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_24)))
@@ -33,7 +33,7 @@ fun NotDataView(){
             text = "오늘 먹은 식사를 사진으로 기록하세요.",
             fontWeight = 300,
             fontFamily = robotoRegular,
-            fontSize = dimensionResource(id = R.dimen.size_14).value.sp ,
+            fontSize = 14.sp ,
             color = colorResource(id = R.color.black)
         )
     }

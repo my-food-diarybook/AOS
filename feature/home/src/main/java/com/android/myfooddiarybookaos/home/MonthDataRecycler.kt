@@ -109,7 +109,7 @@ fun DayItem(
                 text = dayDate.day.toString(),
                 fontWeight = FontWeight(400),
                 fontFamily = robotoBold,
-                fontSize = dimensionResource(id = R.dimen.size_12_sp).value.sp,
+                fontSize = 12.sp,
                 color = textView,
             )
         }

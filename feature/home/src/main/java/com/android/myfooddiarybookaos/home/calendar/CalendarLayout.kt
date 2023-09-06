@@ -65,7 +65,7 @@ private fun DayLayer(text: String){
     ) {
         Text(
             text = text,
-            fontSize = dimensionResource(id = R.dimen.size_12_sp).value.sp,
+            fontSize = 12.sp,
             fontFamily = robotoRegular,
             fontWeight = FontWeight(400),
             color = colorResource(id = R.color.color_day_of_weak),

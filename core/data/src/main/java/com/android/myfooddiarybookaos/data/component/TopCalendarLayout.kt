@@ -74,7 +74,7 @@ fun TopCalendarLayout(
                         ".${topTexting.get(Calendar.MONTH).plus(1)}",
                 fontWeight = 700,
                 fontFamily = robotoBold,
-                fontSize = dimensionResource(id = R.dimen.size_34_sp).value.sp,
+                fontSize = 34.sp,
                 color = colorResource(id = R.color.black)
             )
             Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_1_59)))

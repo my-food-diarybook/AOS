@@ -82,7 +82,7 @@ fun SelectCalendarScreen(
             TextBox(
                 text = "$currentYear",600,
                 robotoBold,
-                dimensionResource(id = R.dimen.size_36_sp).value.sp,
+                36.sp,
                 colorResource(id = R.color.black)
             )
             Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_41)))
@@ -163,7 +163,7 @@ private fun ItemMonth(
             text = month.month.toString() + "월",
             700,
             robotoBold,
-            dimensionResource(id = R.dimen.size_20_sp).value.sp,
+            20.sp,
             color = textViewColor
         )
     }

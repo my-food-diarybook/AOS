@@ -101,7 +101,7 @@ private fun SearchBox() {
                 Text(
                     text = "식사일기 검색",
                     color = colorResource(id = R.color.calender_next_color),
-                    fontSize = dimensionResource(id = R.dimen.size_16_sp).value.sp,
+                    fontSize = 16.sp,
                 )
             },
             // 맨 앞 아이콘

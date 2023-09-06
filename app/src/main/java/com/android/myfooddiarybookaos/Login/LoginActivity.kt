@@ -86,14 +86,14 @@ fun TopLayout(){
             "식사일기",
             700,
             Font(R.font.roboto_bold),
-            dimensionResource(id = R.dimen.size_22_sp).value.sp,
+            22.sp,
             colorResource(id = R.color.main_color)
         )
         TextBox(
             "오늘 먹은 음식을 사진으로 기록하세요!",
             400,
             Font(R.font.roboto_light),
-            dimensionResource(id = R.dimen.size_16_sp).value.sp,
+            16.sp,
             colorResource(id = R.color.line_color_deep)
         )
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_51)))
@@ -128,7 +128,7 @@ fun MidLayout(){
                 text = "로그인",
                 fontFamily = FontFamily(Font(R.font.roboto_bold)),
                 fontWeight = FontWeight(700),
-                fontSize =dimensionResource(id = R.dimen.size_16_sp).value.sp ,
+                fontSize = 16.sp ,
                 color = colorResource(id = R.color.white),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -155,7 +155,7 @@ fun BottomLayout(){
             text = "비밀번호 찾기",
             fontWeight = 500,
             fontFamily = Font(R.font.roboto_light),
-            dimensionResource(id = R.dimen.size_14_sp).value.sp,
+            14.sp,
             colorResource(id = R.color.login_weak_color)
         )
         // 중앙 선 표현
@@ -171,7 +171,7 @@ fun BottomLayout(){
             text = "회원가입",
             fontWeight = 500,
             fontFamily = Font(R.font.roboto_light),
-            dimensionResource(id = R.dimen.size_14_sp).value.sp,
+            14.sp,
             colorResource(id = R.color.login_weak_color)
         )
     }
@@ -192,7 +192,7 @@ fun BottomLayout(){
             text ="또는" ,
             fontWeight =500 ,
             fontFamily =Font(R.font.roboto_light),
-            fontSize = dimensionResource(id = R.dimen.size_14_sp).value.sp,
+            fontSize = 14.sp,
             color = colorResource(id = R.color.login_weak_color),
         )
         Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_4)))
