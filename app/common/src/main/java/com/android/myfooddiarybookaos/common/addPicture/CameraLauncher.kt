@@ -1,6 +1,7 @@
 package com.android.myfooddiarybookaos.common.addPicture
 
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
@@ -8,9 +9,11 @@ import androidx.compose.runtime.SideEffect
 
 @Composable
 fun TakePhotoFromCameraLauncher(callback : (Bitmap?)->Unit){
+    Log.d("take pho","2")
     val takePhotoFromCameraLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.TakePicturePreview()
     ) { takePhoto ->
+        Log.d("take pho","1")
         callback(takePhoto)
     }
     SideEffect {

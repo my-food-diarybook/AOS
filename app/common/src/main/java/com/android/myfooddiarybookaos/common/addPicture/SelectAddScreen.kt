@@ -1,6 +1,9 @@
 package com.android.myfooddiarybookaos.common.addPicture
 
+import android.Manifest
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -22,6 +25,7 @@ import com.android.myfooddiarybookaos.common.R
 import com.android.myfooddiarybookaos.data.TextBox
 import com.android.myfooddiarybookaos.data.robotoLight
 
+// https://medium.com/@dheerubhadoria/capturing-images-from-camera-in-android-with-jetpack-compose-a-step-by-step-guide-64cd7f52e5de
 // 사진 촬영, 사진 선택
 @Composable
 fun SelectAddScreen(closeLog: () -> Unit) {
@@ -29,20 +33,41 @@ fun SelectAddScreen(closeLog: () -> Unit) {
     var takePicClick by remember {
         mutableStateOf(false)
     }
-    if (takePicClick){
-        TakePhotoFromCameraLauncher(callback = {
-            Log.d("bitmap : ",it.toString())
-            takePicClick = false
-        })
-    }
     // 앨번 선택 view
     var takeAlbum by remember {
         mutableStateOf(false)
     }
+
+    // 카메라 권한
+    val permissionCameraLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ){
+        Log.d("take pho",it.toString())
+        if (it){ takePicClick = true }
+    }
+
+    // 앨범 권한
+    val perMissionAlbumLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ){
+        if (it){ takeAlbum = true }
+    }
+
+    // 촬영 동작
+    if (takePicClick){
+        TakePhotoFromCameraLauncher(callback = {
+            Log.d("bitmap : ",it.toString())
+            takePicClick = false
+            closeLog()
+        })
+    }
+
+    // 앨범 선택 동작
     if (takeAlbum){
         SelectPhotoFromAlbumLauncher(callback = {
             Log.d("selected : ",it.toString())
             takeAlbum = false
+            closeLog()
         })
     }
 
@@ -98,8 +123,9 @@ fun SelectAddScreen(closeLog: () -> Unit) {
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .clickable {
-                        takePicClick = true
-                        closeLog()
+                        permissionCameraLauncher.launch(
+                            Manifest.permission.CAMERA
+                        )
                     }
             ) {
                 Text(
@@ -123,8 +149,9 @@ fun SelectAddScreen(closeLog: () -> Unit) {
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .clickable {
-                        takeAlbum = true
-                        closeLog()
+                        perMissionAlbumLauncher.launch(
+                            Manifest.permission.READ_EXTERNAL_STORAGE
+                        )
                     }
             ) {
                 Text(
