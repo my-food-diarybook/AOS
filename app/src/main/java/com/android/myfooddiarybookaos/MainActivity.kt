@@ -17,7 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.android.myfooddiarybookaos.common.addPicture.SelectAddScreen
 import com.android.myfooddiarybookaos.common.bottomaNavi.BottomNavigation
 import com.android.myfooddiarybookaos.common.bottomaNavi.NavigationGraph
-import com.android.myfooddiarybookaos.ui.theme.MyFoodDiaryBookAOSTheme
+import com.android.myfooddiarybookaos.data.ui.theme.MyFoodDiaryBookAOSTheme
 import com.holix.android.bottomsheetdialog.compose.BottomSheetDialog
 import com.holix.android.bottomsheetdialog.compose.BottomSheetDialogProperties
 import dagger.hilt.android.AndroidEntryPoint

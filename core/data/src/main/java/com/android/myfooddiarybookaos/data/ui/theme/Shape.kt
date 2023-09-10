@@ -1,4 +1,4 @@
-package com.android.myfooddiarybookaos.ui.theme
+package com.android.myfooddiarybookaos.data.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

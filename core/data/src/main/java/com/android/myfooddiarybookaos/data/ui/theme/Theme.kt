@@ -1,4 +1,4 @@
-package com.android.myfooddiarybookaos.ui.theme
+package com.android.myfooddiarybookaos.data.ui.theme
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.isSystemInDarkTheme

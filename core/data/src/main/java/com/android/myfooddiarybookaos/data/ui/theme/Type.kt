@@ -1,4 +1,4 @@
-package com.android.myfooddiarybookaos.ui.theme
+package com.android.myfooddiarybookaos.data.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
