@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.Font
@@ -24,11 +25,13 @@ import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.common.R
 import com.android.myfooddiarybookaos.data.TextBox
 import com.android.myfooddiarybookaos.data.robotoLight
+import java.io.File
 
-// https://medium.com/@dheerubhadoria/capturing-images-from-camera-in-android-with-jetpack-compose-a-step-by-step-guide-64cd7f52e5de
+// https://sungbin.land/jetpack-compose-%EA%B0%A4%EB%9F%AC%EB%A6%AC-%EC%B9%B4%EB%A9%94%EB%9D%BC-%EC%97%90%EC%84%9C-%EC%82%AC%EC%A7%84-%EA%B0%80%EC%A0%B8%EC%98%A4%EA%B8%B0-cf517eaca8bd
 // 사진 촬영, 사진 선택
 @Composable
 fun SelectAddScreen(closeLog: () -> Unit) {
+    val context = LocalContext.current.applicationContext
     // 사진 찍기 view
     var takePicClick by remember {
         mutableStateOf(false)
@@ -42,7 +45,6 @@ fun SelectAddScreen(closeLog: () -> Unit) {
     val permissionCameraLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ){
-        Log.d("take pho",it.toString())
         if (it){ takePicClick = true }
     }
 
@@ -57,6 +59,7 @@ fun SelectAddScreen(closeLog: () -> Unit) {
     if (takePicClick){
         TakePhotoFromCameraLauncher(callback = {
             Log.d("bitmap : ",it.toString())
+            Log.d("getUriDate",makeUriDate().toString())
             takePicClick = false
             closeLog()
         })
@@ -66,6 +69,7 @@ fun SelectAddScreen(closeLog: () -> Unit) {
     if (takeAlbum){
         SelectPhotoFromAlbumLauncher(callback = {
             Log.d("selected : ",it.toString())
+            Log.d("getUriDate",getUriDate(it!!, context).toString())
             takeAlbum = false
             closeLog()
         })

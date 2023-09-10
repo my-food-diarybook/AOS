@@ -9,11 +9,9 @@ import androidx.compose.runtime.SideEffect
 
 @Composable
 fun TakePhotoFromCameraLauncher(callback : (Bitmap?)->Unit){
-    Log.d("take pho","2")
     val takePhotoFromCameraLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.TakePicturePreview()
     ) { takePhoto ->
-        Log.d("take pho","1")
         callback(takePhoto)
     }
     SideEffect {
