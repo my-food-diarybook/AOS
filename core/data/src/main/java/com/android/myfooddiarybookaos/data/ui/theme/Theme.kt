@@ -79,9 +79,7 @@ fun EditTextBox(hintText: String) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_eye_off_black),
                 contentDescription = "",
-                Modifier
-                    .height(dimensionResource(id = R.dimen.size_14))
-                    .width(dimensionResource(id = R.dimen.size_14))
+                Modifier.size(dimensionResource(id = R.dimen.size_14))
             )
         }
     }

@@ -27,6 +27,7 @@ import com.android.myfooddiarybookaos.data.ui.theme.TextBox
 import com.android.myfooddiarybookaos.login.mainSubUi.BottomLayout
 import com.android.myfooddiarybookaos.login.mainSubUi.MidLayout
 import com.android.myfooddiarybookaos.login.mainSubUi.TopLayout
+import com.android.myfooddiarybookaos.login.mainUi.LoginScreen
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,32 +39,7 @@ class LoginActivity : AppCompatActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        TopLayout()
-                        MidLayout()
-                        BottomLayout()
-                        Button(
-                            onClick = {
-//                                PasswordChangeFragment().show(
-//                                    supportFragmentManager,""
-//                                )
-                            },
-                            modifier = Modifier.wrapContentSize()
-                        ){
-                            Text("비밀번호 변경(test)")
-                        }
-
-                        Button(
-                            onClick = {
-//                                PasswordFindFragment().show(
-//                                    supportFragmentManager,""
-//                                )
-                            },
-                            modifier = Modifier.wrapContentSize()
-                        ){
-                            Text("비밀번호 찾기(test)")
-                        }
-                    }
+                    LoginScreen()
                 }
             }
         }

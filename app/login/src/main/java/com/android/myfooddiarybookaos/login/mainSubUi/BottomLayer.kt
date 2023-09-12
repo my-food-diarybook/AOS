@@ -18,7 +18,7 @@ import com.android.myfooddiarybookaos.data.ui.theme.TextBox
 
 @Composable
 fun BottomLayout(){
-    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_13)))
+    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_17)))
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -46,11 +46,15 @@ fun BottomLayout(){
             colorResource(id = R.color.login_weak_color)
         )
     }
-    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_35)))
+    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_51)))
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(dimensionResource(id = R.dimen.size_16))) {
+        modifier = Modifier.padding(
+            start = dimensionResource(id = R.dimen.size_13),
+            end =  dimensionResource(id = R.dimen.size_16)
+        )
+    ) {
         Divider(
             color = colorResource(id = R.color.login_weak_color_40),
             modifier = Modifier
@@ -58,7 +62,7 @@ fun BottomLayout(){
                 .width(0.dp)
                 .height(dimensionResource(id = R.dimen.size_1))
         )
-        Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_4)))
+        Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_7)))
         TextBox(
             text ="또는" ,
             fontWeight =500 ,
@@ -75,7 +79,7 @@ fun BottomLayout(){
                 .height(dimensionResource(id = R.dimen.size_1))
         )
     }
-    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_3)))
+    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_19)))
 
     Row(verticalAlignment = Alignment.CenterVertically){
         Image(

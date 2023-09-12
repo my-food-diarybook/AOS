@@ -19,7 +19,7 @@ import com.android.myfooddiarybookaos.data.ui.theme.TextBox
 @Composable
 fun TopLayout(){
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_44)))
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_41)))
         Image(
             painter = painterResource(
                 id = R.drawable.main_image),
@@ -28,7 +28,7 @@ fun TopLayout(){
                 .width(dimensionResource(id = R.dimen.size_111))
                 .height(dimensionResource(id = R.dimen.size_83))
         )
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_13)))
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_16)))
         TextBox(
             "식사일기",
             700,
@@ -39,10 +39,10 @@ fun TopLayout(){
         TextBox(
             "오늘 먹은 음식을 사진으로 기록하세요!",
             400,
-            Font(R.font.roboto_light),
+            Font(R.font.roboto_serif_regular),
             16.sp,
             colorResource(id = R.color.line_color_deep)
         )
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_51)))
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_55)))
     }
 }

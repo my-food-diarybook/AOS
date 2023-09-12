@@ -14,6 +14,7 @@
     <color name="text_dark_pop">#47484A</color>
     <color name="white">#FFFFFFFF</color>
     <color name="weak_color">#CDCDCD</color>
+    <color name="not_valid_text_color">#FC6262</color>
     <color name="line_color">#3C3C43</color>
     <color name="line_color_deep">#777777</color>
     <color name="slide_back_color">#F5F5F5</color>

@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -17,17 +17,33 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
+import com.android.myfooddiarybookaos.data.robotoBold
+import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.data.ui.theme.EditTextBox
 
 @Composable
 fun MidLayout(){
+    var isValid by remember{
+        mutableStateOf(true)
+    }
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         // EditText - email
         EditTextBox("이메일")
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_8)))
         // EditText - pw
         EditTextBox(hintText = "비밀번호")
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_21)))
+
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_4)))
+        Text(
+            text =  if (!isValid)"*아이디 또는 비밀번호를 잘못 입력했습니다. (n/5)"
+                    else "",
+            color = colorResource(id = R.color.not_valid_text_color),
+            fontFamily = robotoRegular,
+            fontWeight = FontWeight(500),
+            fontSize = 12.sp
+        )
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_7)))
+
         // LoginButton
         Surface( // 배경
             modifier = Modifier
