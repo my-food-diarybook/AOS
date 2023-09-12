@@ -17,6 +17,7 @@
     <dimen name="size_10.5">10.5dp</dimen>
     <dimen name="size_11">11dp</dimen>
     <dimen name="size_11.59">11.59dp</dimen>
+    <dimen name="size_11.5">11.5dp</dimen>
     <dimen name="size_12">12dp</dimen>
     <dimen name="size_12.5">12.5dp</dimen>
     <dimen name="size_12.86">12.86dp</dimen>

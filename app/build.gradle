@@ -175,4 +175,5 @@ dependencies {
     implementation project(":feature:home")
     implementation project(":core:data")
     implementation project(":app:common")
+    implementation project(":app:login")
 }

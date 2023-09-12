@@ -23,7 +23,7 @@ import com.android.myfooddiarybookaos.data.ui.theme.EditTextBox
 
 @Composable
 fun MidLayout(){
-    var isValid by remember{
+    val isValid by remember{
         mutableStateOf(true)
     }
     Column(horizontalAlignment = Alignment.CenterHorizontally) {

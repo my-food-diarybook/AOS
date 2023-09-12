@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -21,12 +22,12 @@ fun TopLayout(){
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_41)))
         Image(
-            painter = painterResource(
-                id = R.drawable.main_image),
+            painter = painterResource(id = R.drawable.main_image),
             contentDescription = "main image",
             modifier = Modifier
                 .width(dimensionResource(id = R.dimen.size_111))
-                .height(dimensionResource(id = R.dimen.size_83))
+                .height(dimensionResource(id = R.dimen.size_83)),
+            colorFilter = ColorFilter.tint(colorResource(id = R.color.main_color))
         )
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_16)))
         TextBox(

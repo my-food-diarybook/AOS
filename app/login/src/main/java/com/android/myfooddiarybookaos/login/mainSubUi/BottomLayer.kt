@@ -1,6 +1,7 @@
 package com.android.myfooddiarybookaos.login.mainSubUi
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
@@ -17,18 +18,26 @@ import com.android.myfooddiarybookaos.data.ui.theme.TextBox
 
 
 @Composable
-fun BottomLayout(){
+fun BottomLayout(
+    findPassword : () -> Unit
+){
     Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_17)))
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-        TextBox(
-            text = "비밀번호 찾기",
-            fontWeight = 500,
-            fontFamily = Font(R.font.roboto_light),
-            14.sp,
-            colorResource(id = R.color.login_weak_color)
-        )
+        Box(
+            Modifier.clickable {
+                findPassword()
+            }
+        ) {
+            TextBox(
+                text = "비밀번호 찾기",
+                fontWeight = 500,
+                fontFamily = Font(R.font.roboto_light),
+                14.sp,
+                colorResource(id = R.color.login_weak_color)
+            )
+        }
         // 중앙 선 표현
         Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_12)))
         Divider(

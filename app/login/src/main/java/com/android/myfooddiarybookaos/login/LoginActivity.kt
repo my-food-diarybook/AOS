@@ -20,6 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.rememberNavController
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.ui.theme.EditTextBox
 import com.android.myfooddiarybookaos.data.ui.theme.MyFoodDiaryBookAOSTheme
@@ -28,6 +29,7 @@ import com.android.myfooddiarybookaos.login.mainSubUi.BottomLayout
 import com.android.myfooddiarybookaos.login.mainSubUi.MidLayout
 import com.android.myfooddiarybookaos.login.mainSubUi.TopLayout
 import com.android.myfooddiarybookaos.login.mainUi.LoginScreen
+import com.android.myfooddiarybookaos.login.navi.NavigationGraph
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +41,8 @@ class LoginActivity : AppCompatActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    LoginScreen()
+                    val navController = rememberNavController()
+                    NavigationGraph(navController = navController)
                 }
             }
         }
@@ -55,11 +58,8 @@ fun DefaultPreview() {
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colors.background
         ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                TopLayout()
-                MidLayout()
-                BottomLayout()
-            }
+            val navController = rememberNavController()
+            NavigationGraph(navController = navController)
         }
     }
 }
