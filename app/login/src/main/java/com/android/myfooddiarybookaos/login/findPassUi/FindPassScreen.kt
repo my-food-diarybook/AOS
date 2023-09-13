@@ -65,8 +65,7 @@ fun FindPassScreen(navController : NavHostController){
             Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_4)))
             Text(
                 "비밀번호 찾기",
-                fontFamily =  FontFamily(Font(R.font.roboto_bold)),
-                fontWeight = FontWeight(700),
+                fontFamily =  FontFamily(Font(R.font.roboto_bold, FontWeight.W700)),
                 fontSize = 18.sp,
                 color = colorResource(id = R.color._1A1D1D)
             )
@@ -74,7 +73,20 @@ fun FindPassScreen(navController : NavHostController){
         
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_16)))
 
-        Image(painter = painterResource(id = R.drawable.popup_title), contentDescription = null)
+        Text(
+            "가입시 등록한 이메일 주소를",
+            fontFamily =  FontFamily(
+                Font(R.font.roboto_bold, FontWeight.W700)
+            ),
+            fontSize = 20.sp,
+            color = colorResource(id = R.color._1A1D1D)
+        )
+        Text(
+            "입력하고 임시 비밀번호를 누르세요.",
+            fontFamily =  FontFamily( Font(R.font.roboto_bold, FontWeight.W700)),
+            fontSize = 20.sp,
+            color = colorResource(id = R.color._1A1D1D)
+        )
 
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_36)))
 
@@ -82,7 +94,7 @@ fun FindPassScreen(navController : NavHostController){
             text = "이메일",
             fontSize = 14.sp,
             fontFamily = robotoRegular,
-            fontWeight = FontWeight(700)
+            fontWeight = FontWeight.W700
         )
 
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_4)))

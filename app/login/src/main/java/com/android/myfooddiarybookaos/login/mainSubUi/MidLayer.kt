@@ -14,6 +14,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
@@ -23,15 +24,21 @@ import com.android.myfooddiarybookaos.data.ui.theme.EditTextBox
 
 @Composable
 fun MidLayout(){
+    var checkEnter by remember {
+        mutableStateOf(0.3f)
+    }
+
     val isValid by remember{
         mutableStateOf(true)
     }
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         // EditText - email
-        EditTextBox("이메일")
+        val emailText = remember { mutableStateOf(TextFieldValue("")) }
+        EditTextBox("이메일",emailText)
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_8)))
         // EditText - pw
-        EditTextBox(hintText = "비밀번호")
+        val pwText = remember { mutableStateOf(TextFieldValue("")) }
+        EditTextBox(hintText = "비밀번호",pwText)
 
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_4)))
         Text(
@@ -44,6 +51,9 @@ fun MidLayout(){
         )
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_7)))
 
+        checkEnter =
+            if (emailText.value.text.isNotEmpty() && pwText.value.text.isNotEmpty()) 1.0f
+            else 0.3f
         // LoginButton
         Surface( // 배경
             modifier = Modifier
@@ -51,7 +61,7 @@ fun MidLayout(){
                     start = dimensionResource(id = R.dimen.size_16),
                     end = dimensionResource(id = R.dimen.size_16),
                 )
-                .alpha(0.3F),
+                .alpha(checkEnter),
             shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_4)),
             border = BorderStroke(
                 dimensionResource(id = R.dimen.size_1),
@@ -68,6 +78,7 @@ fun MidLayout(){
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
+
                     .padding(
                         top = dimensionResource(id = R.dimen.size_10_5),
                         bottom = dimensionResource(id = R.dimen.size_10_5)

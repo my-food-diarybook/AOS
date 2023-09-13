@@ -9,11 +9,13 @@
     <color name="black_10">#1A000000</color>
     <color name="black_87">#DE000000</color>
     <color name="_1A1D1D">#1A1D1D</color>
+    <color name="_3A3A3D">#3A3A3D</color>
     <color name="text_dark">#13112F</color>
     <color name="popup_button_white">#F2F3F4</color>
     <color name="text_dark_pop">#47484A</color>
     <color name="white">#FFFFFFFF</color>
     <color name="weak_color">#CDCDCD</color>
+    <color name="orange_color">#F2994A</color>
     <color name="not_valid_text_color">#FC6262</color>
     <color name="line_color">#3C3C43</color>
     <color name="line_color_deep">#777777</color>

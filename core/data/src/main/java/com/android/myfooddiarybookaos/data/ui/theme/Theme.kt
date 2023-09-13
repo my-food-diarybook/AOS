@@ -72,10 +72,10 @@ fun MyFoodDiaryBookAOSTheme(
 // edit text 디자인
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun EditTextBox(hintText: String) {
-    var text by remember {
-        mutableStateOf(TextFieldValue(""))
-    }
+fun EditTextBox(
+    hintText: String,
+    editText : MutableState<TextFieldValue>
+) {
     var passwordView by remember {
         mutableStateOf(false)
     }
@@ -119,20 +119,20 @@ fun EditTextBox(hintText: String) {
             color = colorResource(id = R.color.white)
         ) {
             BasicTextField(
-                value = text,
-                onValueChange = { text = it }, //값 변경 시 동작
+                value = editText.value,
+                onValueChange = { editText.value= it }, //값 변경 시 동작
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight(),
                 interactionSource = interactionSource,
-                visualTransformation = if (text.text != "" && hintText == "비밀번호" && !passwordView)
+                visualTransformation = if (editText.value.text != "" && hintText == "비밀번호" && !passwordView)
                     PasswordVisualTransformation() else VisualTransformation.None,
             ){
                 TextFieldDefaults.TextFieldDecorationBox(
-                    value = text.text,
+                    value = editText.value.text,
                     innerTextField = it,
                     singleLine = true,
-                    visualTransformation = if (text.text != "" && hintText == "비밀번호" && !passwordView)
+                    visualTransformation = if (editText.value.text != "" && hintText == "비밀번호" && !passwordView)
                     PasswordVisualTransformation() else VisualTransformation.None,
                     trailingIcon = trailingIconView ,
                     placeholder = {
