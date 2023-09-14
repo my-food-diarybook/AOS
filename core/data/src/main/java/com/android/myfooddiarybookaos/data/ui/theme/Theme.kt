@@ -74,7 +74,8 @@ fun MyFoodDiaryBookAOSTheme(
 @Composable
 fun EditTextBox(
     hintText: String,
-    editText : MutableState<TextFieldValue>
+    editText : MutableState<TextFieldValue>,
+    strokeColor : MutableState<Boolean>
 ) {
     var passwordView by remember {
         mutableStateOf(false)
@@ -107,14 +108,13 @@ fun EditTextBox(
     val interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
     Row{
         Surface( // 배경
-            modifier = Modifier.padding(
-                start = dimensionResource(id = R.dimen.size_16),
-                end =  dimensionResource(id = R.dimen.size_16),
-            ),
+            modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_4)),
             border = BorderStroke(
                 dimensionResource(id = R.dimen.size_1),
-                colorResource(id = R.color.weak_color)
+                color = 
+                if (strokeColor.value) colorResource(id = R.color.weak_color)
+                else colorResource(id = R.color.not_valid_text_color)
             ),
             color = colorResource(id = R.color.white)
         ) {

@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.robotoBold
@@ -28,21 +29,21 @@ fun MidLayout(){
         mutableStateOf(0.3f)
     }
 
-    val isValid by remember{
+    val isValid = remember{
         mutableStateOf(true)
     }
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         // EditText - email
         val emailText = remember { mutableStateOf(TextFieldValue("")) }
-        EditTextBox("이메일",emailText)
+        Box(Modifier.padding(horizontal = 16.dp)){EditTextBox("이메일",emailText,isValid)}
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_8)))
         // EditText - pw
         val pwText = remember { mutableStateOf(TextFieldValue("")) }
-        EditTextBox(hintText = "비밀번호",pwText)
+        Box(Modifier.padding(horizontal = 16.dp)){EditTextBox(hintText = "비밀번호",pwText,isValid)}
 
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_4)))
         Text(
-            text =  if (!isValid)"*아이디 또는 비밀번호를 잘못 입력했습니다. (n/5)"
+            text =  if (!isValid.value)"*아이디 또는 비밀번호를 잘못 입력했습니다. (n/5)"
                     else "",
             color = colorResource(id = R.color.not_valid_text_color),
             fontFamily = robotoRegular,

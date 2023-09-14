@@ -19,16 +19,15 @@ import com.android.myfooddiarybookaos.data.ui.theme.TextBox
 
 @Composable
 fun BottomLayout(
-    findPassword : () -> Unit
+    findPassword : () -> Unit,
+    newPassword : () -> Unit
 ){
     Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_17)))
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
-            Modifier.clickable {
-                findPassword()
-            }
+            Modifier.clickable { findPassword() }
         ) {
             TextBox(
                 text = "비밀번호 찾기",
@@ -47,13 +46,17 @@ fun BottomLayout(
                 .height(dimensionResource(id = R.dimen.size_12_86))
         )
         Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_12)))
-        TextBox(
-            text = "회원가입",
-            fontWeight = 500,
-            fontFamily = Font(R.font.roboto_light),
-            14.sp,
-            colorResource(id = R.color.login_weak_color)
-        )
+        Box(
+            Modifier.clickable { newPassword() }
+        ){
+            TextBox(
+                text = "회원가입",
+                fontWeight = 500,
+                fontFamily = Font(R.font.roboto_light),
+                14.sp,
+                colorResource(id = R.color.login_weak_color)
+            )
+        }
     }
     Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_51)))
 

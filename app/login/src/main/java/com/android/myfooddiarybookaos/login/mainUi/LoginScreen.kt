@@ -22,7 +22,8 @@ fun LoginScreen(navController : NavHostController) {
         TopLayout()
         MidLayout()
         BottomLayout(
-            findPassword = { navController.navigate("findPassScreen") }
+            findPassword = { navController.navigate("findPassScreen") },
+            newPassword = {navController.navigate("newPassScreen")}
         )
     }
 }
