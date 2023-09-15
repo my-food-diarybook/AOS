@@ -41,9 +41,9 @@ fun SetNewPassword(
     val newPass = remember { mutableStateOf(TextFieldValue("")) }
     val newPassRe = remember { mutableStateOf(TextFieldValue("")) }
 
-    val isValidPass = remember { mutableStateOf(false) }
-    val isSamePass = remember { mutableStateOf(false) }
-    val isEqualCurrentPass = remember { mutableStateOf(false) }
+    val isEqualCurrentPass = remember { mutableStateOf(false) } // real = current
+    val isValidPass = remember { mutableStateOf(false) } // new pass valid
+    val isSamePass = remember { mutableStateOf(false) } //pass = passRe
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -95,60 +95,14 @@ fun SetNewPassword(
         )
         Spacer(modifier = Modifier.height(6.dp))
 
-        val symbol = "([0-9].*[!,@,#,^,&,*,(,)])|([!,@,#,^,&,*,(,)].*[0-9])"
-        isValidPass.value =
-            newPass.value.text.length >= 8 && newPass.value.text.contains(symbol)
-                    || newPass.value.text.isEmpty() //초기 상태 확인
-        Subject("새 비밀번호")
-        Spacer(modifier = Modifier.height(4.dp))
-        EditTextBox("비밀번호",newPass,isValidPass)
-        Spacer(modifier = Modifier.height(4.dp))
-
-        // check text box
-        Row(verticalAlignment = Alignment.CenterVertically){
-            val passColorState =
-                if (isValidPass.value && newPass.value.text.isNotEmpty()) colorResource(id = R.color.main_color)
-                else colorResource(id = R.color.login_weak_color)
-            Image(
-                painter = painterResource(id = R.drawable.purple_check), contentDescription =null,
-                colorFilter = ColorFilter.tint(passColorState)
-            )
-            Text(
-                text = "8자 이상",
-                fontWeight = FontWeight.W500,
-                fontFamily = robotoRegular,
-                color = passColorState,
-                fontSize=12.sp
-            )
-            Spacer(modifier = Modifier.width(12.dp))
-            Image(
-                painter = painterResource(id = R.drawable.purple_check), contentDescription =null,
-                colorFilter = ColorFilter.tint(passColorState)
-            )
-            Text(
-                text = "숫자, 특수문자 포함",
-                fontWeight = FontWeight.W500,
-                fontFamily = robotoRegular,
-                color = passColorState,
-                fontSize=12.sp
-            )
-        }
-
-        // 비밀번호 확인
-        isSamePass.value = newPass.value.text==newPassRe.value.text
-                || newPassRe.value.text.isEmpty()
-        Spacer(modifier = Modifier.height(24.dp))
-        Subject("새 비밀번호 확인")
-        Spacer(modifier = Modifier.height(4.dp))
-        EditTextBox("비밀번호",newPassRe,isSamePass)
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = if(isSamePass.value)"" else "*비밀번호를 다시 확인해주세요.",
-            fontWeight = FontWeight.W500,
-            fontSize = 12.sp,
-            fontFamily = robotoRegular,
-            color = colorResource(id = R.color.not_valid_text_color)
+        PasswordPolicyLayer(
+            newPass,
+            newPassRe,
+            isSamePass,
+            isValidPass,
+            subjectName = "새 비밀번호"
         )
+
         Spacer(modifier = Modifier.height(24.dp))
 
         checkEnter =
@@ -161,10 +115,6 @@ fun SetNewPassword(
         // 변경 완료
         Surface( // 배경
             modifier = Modifier
-                .padding(
-                    start = dimensionResource(id = R.dimen.size_16),
-                    end = dimensionResource(id = R.dimen.size_16),
-                )
                 .alpha(checkEnter),
             shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_4)),
             border = BorderStroke(
