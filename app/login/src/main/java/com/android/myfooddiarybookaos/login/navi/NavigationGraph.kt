@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.android.myfooddiarybookaos.login.SplashScreen
+import com.android.myfooddiarybookaos.login.mainUi.InsertScreen
 import com.android.myfooddiarybookaos.login.passUi.FindPassScreen
 import com.android.myfooddiarybookaos.login.mainUi.LoginScreen
 import com.android.myfooddiarybookaos.login.passUi.SetNewPassword
@@ -19,6 +20,7 @@ fun NavigationGraph(navController : NavHostController) {
         composable("loginScreen"){ LoginScreen(navController) }
         composable("findPassScreen"){ FindPassScreen(navController) }
         composable("newPassScreen"){ SetNewPassword(navController = navController, realPass = "sample")}
+        composable("insertUserScreen"){ InsertScreen(navController = navController)}
     }
 
 }

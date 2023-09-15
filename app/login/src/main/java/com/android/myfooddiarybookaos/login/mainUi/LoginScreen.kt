@@ -23,7 +23,7 @@ fun LoginScreen(navController : NavHostController) {
         MidLayout()
         BottomLayout(
             findPassword = { navController.navigate("findPassScreen") },
-            newPassword = {navController.navigate("newPassScreen")}
+            insertUser = {navController.navigate("insertUserScreen")}
         )
     }
 }

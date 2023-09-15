@@ -1,15 +1,21 @@
 package com.android.myfooddiarybookaos.login.mainUi
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Checkbox
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -17,12 +23,14 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.android.myfooddiarybookaos.core.data.R
+import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.data.ui.theme.EditTextBox
 import com.android.myfooddiarybookaos.login.passUi.PasswordPolicyLayer
 import com.android.myfooddiarybookaos.login.passUi.Subject
@@ -37,6 +45,9 @@ fun InsertScreen(
     val rePassText = remember { mutableStateOf(TextFieldValue("")) }
     val isValidPass = remember { mutableStateOf(false) }
     val isSamePass = remember { mutableStateOf(false) }
+    val allCheckBox = remember { mutableStateOf(false) }
+    val serviceCheckBox = remember { mutableStateOf(false) }
+    val userInfoCheckBox = remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -83,6 +94,51 @@ fun InsertScreen(
         )
         
         Spacer(modifier = Modifier.height(30.dp))
+        CheckBox(allCheckBox,"전체 약관동의",FontWeight.W700)
+        serviceCheckBox.value = allCheckBox.value
+        userInfoCheckBox.value = allCheckBox.value
+
+        CheckBox(serviceCheckBox,"(필수) 서비스 이용약관 동의",FontWeight.W400)
+        CheckBox(userInfoCheckBox,"(필수) 개인정보 수집/이용 동의 ",FontWeight.W400)
+
+        val boxColor =
+            if (emailText.value.text.isNotEmpty()
+                &&serviceCheckBox.value
+                &&userInfoCheckBox.value
+                &&isSamePass.value
+                &&isValidPass.value
+            ) 1.0f
+            else 0.3f
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Surface( // 배경
+            modifier = Modifier
+                .alpha(boxColor),
+            shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_4)),
+            border = BorderStroke(
+                dimensionResource(id = R.dimen.size_1),
+                colorResource(id = R.color.weak_color)
+            ),
+            color = colorResource(id = R.color.main_color)
+        ) {
+            Text(
+                text = "가입하기",
+                fontFamily = FontFamily(Font(R.font.roboto_bold)),
+                fontWeight = FontWeight(700),
+                fontSize = 16.sp ,
+                color = colorResource(id = R.color.white),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+
+                    .padding(
+                        top = dimensionResource(id = R.dimen.size_10_5),
+                        bottom = dimensionResource(id = R.dimen.size_10_5)
+                    ),
+                textAlign = TextAlign.Center, // 중앙
+            )
+        }
     }
 }
 
@@ -91,4 +147,38 @@ fun InsertScreen(
 @Preview
 fun InsertPreview(){
     InsertScreen(rememberNavController())
+}
+
+@Composable
+fun CheckBox(
+    checkState : MutableState<Boolean>,
+    text : String,
+    fontWeight: FontWeight
+){
+    Row(verticalAlignment = Alignment.CenterVertically){
+        Box(
+            modifier = Modifier
+                .padding(3.dp)
+                .clickable {
+                    checkState.value = !checkState.value
+                }
+            , contentAlignment = Alignment.Center
+        ){
+            Image(
+                painter =
+                if (checkState.value) painterResource(id = R.drawable.check_box_login)
+                else painterResource(id = R.drawable.un_check_box_login),
+                contentDescription = null,
+                modifier = Modifier.size(18.dp)
+            )
+        }
+        Spacer(modifier = Modifier.width(10.dp))
+        Text(
+            text = text,
+            fontFamily = robotoRegular,
+            fontSize = 14.sp,
+            color = colorResource(id = R.color._1A1D1D),
+            fontWeight = fontWeight
+        )
+    }
 }

@@ -20,7 +20,7 @@ import com.android.myfooddiarybookaos.data.ui.theme.TextBox
 @Composable
 fun BottomLayout(
     findPassword : () -> Unit,
-    newPassword : () -> Unit
+    insertUser : () -> Unit
 ){
     Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_17)))
     Row(
@@ -47,7 +47,7 @@ fun BottomLayout(
         )
         Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_12)))
         Box(
-            Modifier.clickable { newPassword() }
+            Modifier.clickable { insertUser() }
         ){
             TextBox(
                 text = "회원가입",
