@@ -6,11 +6,11 @@ plugins {
 
 android {
     namespace 'com.android.myfooddiarybookaos.core.data'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
-        minSdk 28
-        targetSdk 33
+        minSdk 30
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -55,6 +55,7 @@ dependencies {
     implementation "androidx.compose.runtime:runtime-livedata:$compose_ui_version"
 
     implementation project(":core:model")
+    implementation project(":core:api")
 
     // hilt
     implementation("com.google.dagger:hilt-android:2.44")

@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.android.myfooddiarybookaos.core.data.R
@@ -34,11 +35,13 @@ import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.data.ui.theme.EditTextBox
 import com.android.myfooddiarybookaos.login.passUi.PasswordPolicyLayer
 import com.android.myfooddiarybookaos.login.passUi.Subject
+import com.android.myfooddiarybookaos.login.viewModel.LoginViewModel
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun InsertScreen(
     navController : NavHostController,
+    viewModel : LoginViewModel = hiltViewModel()
 ){
     val emailText = remember{ mutableStateOf(TextFieldValue("")) }
     val passText = remember{ mutableStateOf(TextFieldValue("")) }
@@ -113,8 +116,17 @@ fun InsertScreen(
         Spacer(modifier = Modifier.height(8.dp))
 
         Surface( // 배경
-            modifier = Modifier
-                .alpha(boxColor),
+            modifier = if (boxColor == 1.0f) {
+                Modifier
+                    .clickable {
+                        viewModel.createUserRequest(
+                            emailText.value.text,
+                            passText.value.text
+                        )
+                    }
+                    .alpha(boxColor)
+            } else Modifier.alpha(boxColor),
+
             shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_4)),
             border = BorderStroke(
                 dimensionResource(id = R.dimen.size_1),
@@ -131,7 +143,6 @@ fun InsertScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
-
                     .padding(
                         top = dimensionResource(id = R.dimen.size_10_5),
                         bottom = dimensionResource(id = R.dimen.size_10_5)

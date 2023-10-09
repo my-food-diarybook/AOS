@@ -6,11 +6,11 @@ plugins {
 
 android {
     namespace 'com.android.myfooddiarybookaos.core.model'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
-        minSdk 28
-        targetSdk 33
+        minSdk 30
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
