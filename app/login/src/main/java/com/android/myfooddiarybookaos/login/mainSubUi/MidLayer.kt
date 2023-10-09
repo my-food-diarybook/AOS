@@ -1,6 +1,7 @@
 package com.android.myfooddiarybookaos.login.mainSubUi
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
@@ -18,13 +19,17 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.robotoBold
 import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.data.ui.theme.EditTextBox
+import com.android.myfooddiarybookaos.login.viewModel.LoginViewModel
 
 @Composable
-fun MidLayout(){
+fun MidLayout(
+    viewModel: LoginViewModel = hiltViewModel()
+){
     var checkEnter by remember {
         mutableStateOf(0.3f)
     }
@@ -56,8 +61,21 @@ fun MidLayout(){
             if (emailText.value.text.isNotEmpty() && pwText.value.text.isNotEmpty()) 1.0f
             else 0.3f
         // LoginButton
-        Surface( // 배경
-            modifier = Modifier
+        Surface( // 배경 , 1.0f -> 클릭 가능
+            modifier =
+            if (checkEnter==1.0f) Modifier
+                .clickable {
+                    viewModel.loginUserRequest(
+                        emailText.value.text,
+                        pwText.value.text
+                    )
+                }
+                .padding(
+                    start = dimensionResource(id = R.dimen.size_16),
+                    end = dimensionResource(id = R.dimen.size_16),
+                )
+                .alpha(checkEnter)
+            else Modifier
                 .padding(
                     start = dimensionResource(id = R.dimen.size_16),
                     end = dimensionResource(id = R.dimen.size_16),
