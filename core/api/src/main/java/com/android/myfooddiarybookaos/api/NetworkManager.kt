@@ -8,6 +8,10 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
+import java.security.SecureRandom
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509TrustManager
 
 class NetworkManager(
     private val context : Context
@@ -32,24 +36,66 @@ class NetworkManager(
             return instance ?: Retrofit.Builder()
                 .baseUrl("$baseUrl/")
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(buildOkHttpClient(header))
+                .client(unsafeOkHttpClient(header))
                 .build()
         }
 
         // 클라이언트 빌드
-        private fun buildOkHttpClient(header: Interceptor) : OkHttpClient {
-            return OkHttpClient.Builder()
-                .addInterceptor { chain ->
-                    chain.proceed(chain.request().newBuilder().also {
-                        it.addHeader("Accept", "application/json")
-                    }.build())
-                }.also { client ->
-                    client.addInterceptor(header)
-                    //로그 기록 인터셉터 등록
-                    val logInterceptor = HttpLoggingInterceptor()
-                    logInterceptor.level = HttpLoggingInterceptor.Level.BODY
-                    client.addInterceptor(logInterceptor)
-                }.build()
+//        private fun buildOkHttpClient(header: Interceptor) : OkHttpClient {
+//            return OkHttpClient.Builder()
+//                .addInterceptor { chain ->
+//                    chain.proceed(chain.request().newBuilder().also {
+//                        it.addHeader("Accept", "application/json")
+//                    }.build())
+//                }.also { client ->
+//                    client.addInterceptor(header)
+//                    //로그 기록 인터셉터 등록
+//                    val logInterceptor = HttpLoggingInterceptor()
+//                    logInterceptor.level = HttpLoggingInterceptor.Level.BODY
+//                    client.addInterceptor(logInterceptor)
+//                }.build()
+//        }
+
+        // SSL 인증서 체크 + 클라이언트
+        private fun unsafeOkHttpClient(header : Interceptor): OkHttpClient {
+            val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
+                override fun checkClientTrusted(
+                    chain: Array<out java.security.cert.X509Certificate>?,
+                    authType: String?
+                ) {}
+
+                override fun checkServerTrusted(
+                    chain: Array<out java.security.cert.X509Certificate>?,
+                    authType: String?
+                ) {}
+
+                override fun getAcceptedIssuers(): Array<out java.security.cert.X509Certificate>? {
+                    return arrayOf()
+                }
+            })
+
+            val sslContext = SSLContext.getInstance("SSL")
+            sslContext.init(null, trustAllCerts, SecureRandom())
+
+            val sslSocketFactory = sslContext.socketFactory
+
+            val builder = OkHttpClient.Builder()
+            builder.sslSocketFactory(sslSocketFactory, trustAllCerts[0] as X509TrustManager)
+            builder.hostnameVerifier { hostname, session -> true }
+
+            builder.addInterceptor { chain ->
+                chain.proceed(chain.request().newBuilder().also {
+                    it.addHeader("Accept", "application/json")
+                }.build())
+            }.also { client ->
+                client.addInterceptor(header)
+                //로그 기록 인터셉터 등록
+                val logInterceptor = HttpLoggingInterceptor()
+                logInterceptor.level = HttpLoggingInterceptor.Level.BODY
+                client.addInterceptor(logInterceptor)
+            }
+            return builder.build()
+
         }
     }
 

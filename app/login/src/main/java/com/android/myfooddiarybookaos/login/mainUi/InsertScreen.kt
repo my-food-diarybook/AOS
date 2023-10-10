@@ -6,7 +6,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Checkbox
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -119,7 +118,7 @@ fun InsertScreen(
             modifier = if (boxColor == 1.0f) {
                 Modifier
                     .clickable {
-                        viewModel.createUserRequest(
+                        viewModel.createUser(
                             emailText.value.text,
                             passText.value.text
                         )

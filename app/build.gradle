@@ -4,7 +4,7 @@ plugins {
     id 'kotlin-parcelize'
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.kapt'
-    id("com.google.dagger.hilt.android") version "2.44" apply false
+    id("com.google.dagger.hilt.android")
 
 }
 
@@ -28,11 +28,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
     }
     compileOptions {
 
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
 
     }
     kotlinOptions {
@@ -47,77 +48,72 @@ android {
     }
 
     buildFeatures {
-        dataBinding = true
         viewBinding = true
         compose true
     }
 
     // for jetpack
     composeOptions {
-        kotlinCompilerExtensionVersion '1.2.0'
+        kotlinCompilerExtensionVersion = "1.4.3"
     }
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
-
-    // Allow references to generated code
-    kapt {
-        correctErrorTypes = true
-        javacOptions {
-            // These options are normally set automatically via the Hilt Gradle plugin, but we
-            // set them manually to workaround a bug in the Kotlin 1.5.20
-            option("-Adagger.fastInit=ENABLED")
-            option("-Adagger.hilt.android.internal.disableAndroidSuperclassValidation=true")
-        }
-    }
-
 }
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'androidx.core:core-ktx:1.10.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
     //noinspection GradleCompatible
     implementation 'com.android.support:design:28.0.0'
 
     // android x
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation "androidx.constraintlayout:constraintlayout-compose:1.0.0-rc01"
 
 
-    // compose
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
     // ViewModel
-    implementation "androidx.activity:activity-ktx:1.4.1"
-    implementation "androidx.fragment:fragment-ktx:1.4.1"
+    implementation "androidx.activity:activity-ktx:1.7.2"
+    implementation "androidx.fragment:fragment-ktx:1.6.1"
 
 
 
 
     // LiveData
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-process:$lifecycle_version")
 
 
     // compose
-    implementation 'androidx.activity:activity-compose:1.3.1'
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui_version"
-    implementation "androidx.compose.ui:ui:$compose_ui_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
-    implementation 'androidx.compose.material3:material3:1.0.0-alpha11'
-    implementation 'androidx.compose.material:material:1.2.0'
-    implementation "androidx.compose.foundation:foundation-layout:$compose_ui_version"
+    implementation("androidx.compose.material:material:$compose_ui_version")
+    implementation("androidx.compose.ui:ui:$compose_ui_version")
+    implementation("androidx.compose.ui:ui-tooling-preview:$compose_ui_version")
+    implementation ("androidx.compose.ui:ui-test-junit4:$compose_ui_version")
+    implementation ("androidx.compose.ui:ui-tooling:$compose_ui_version")
+    implementation ("androidx.compose.ui:ui-test-manifest:$compose_ui_version")
+    // compose view model
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07")
+    // image ui
+    implementation ("io.coil-kt:coil-compose:1.3.2")
+    // compose navi
+    implementation("androidx.navigation:navigation-compose:2.7.0")
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0-alpha01")
+    // compose live data
     implementation "androidx.compose.runtime:runtime-livedata:$compose_ui_version"
+    // hilt
+    implementation("com.google.dagger:hilt-android:$hilt_version")
+    kapt("com.google.dagger:hilt-compiler:$hilt_version")
 
     // bottom sheet
-    implementation "com.holix.android:bottomsheetdialog-compose:$compose_ui_version"
-    
-    // compose nav
-    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
-    implementation("androidx.navigation:navigation-compose:$nav_version")
-    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+    implementation ("com.holix.android:bottomsheetdialog-compose:1.3.1")
+
 
 
     testImplementation 'junit:junit:4.13.2'
@@ -135,9 +131,14 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
 
-    // for retrofit, gson
-    implementation 'com.squareup.retrofit2:retrofit:2.6.4'
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.4'
+    //Retrofit2
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+    implementation("com.squareup.okhttp3:okhttp-urlconnection:4.9.1")
+    implementation("com.google.code.gson:gson:2.9.0")
+
     //레트로핏 의존성
     implementation 'com.squareup.retrofit2:converter-scalars:2.5.0'
 
@@ -161,18 +162,12 @@ dependencies {
     // 카드뷰
     implementation "androidx.cardview:cardview:1.0.0"
 
-    // hilt
-    implementation("com.google.dagger:hilt-android:2.44")
-    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
-
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
-
     //room
     implementation "androidx.room:room-runtime:2.3.0"
     annotationProcessor "androidx.room:room-compiler:2.3.0"
 
     implementation project(":feature:home")
+
     implementation project(":core:data")
     implementation project(":app:common")
     implementation project(":app:login")
