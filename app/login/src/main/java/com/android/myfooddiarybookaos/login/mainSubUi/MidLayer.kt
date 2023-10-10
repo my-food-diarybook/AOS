@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.core.data.R
-import com.android.myfooddiarybookaos.data.robotoBold
 import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.data.ui.theme.EditTextBox
 import com.android.myfooddiarybookaos.login.viewModel.LoginViewModel
@@ -65,7 +64,7 @@ fun MidLayout(
             modifier =
             if (checkEnter==1.0f) Modifier
                 .clickable {
-                    viewModel.loginUserRequest(
+                    viewModel.loginUser(
                         emailText.value.text,
                         pwText.value.text
                     )

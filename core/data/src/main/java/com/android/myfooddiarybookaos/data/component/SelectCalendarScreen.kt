@@ -173,5 +173,5 @@ private fun ItemMonth(
 @Composable
 @Preview(showBackground = true)
 fun PreviewSelectCalendar(){
-    SelectCalendarScreen(FakeTodayViewModel(), isTopLayoutClick = { true })
+    SelectCalendarScreen(FakeTodayViewModel(), isTopLayoutClick = { })
 }
