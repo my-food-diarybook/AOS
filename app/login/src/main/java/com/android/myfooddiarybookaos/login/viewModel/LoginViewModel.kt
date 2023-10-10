@@ -15,13 +15,25 @@ class LoginViewModel @Inject constructor(
         email : String,
         pw : String,
     ){
-        val (state, token) = repository.loginUserRequest(email,pw)
-        Log.d("state",state)
+        repository.loginUserRequest(
+            email,pw,
+            result = { status, token ->
+                Log.d("status",status.toString())
+                Log.d("token",token.toString())
+            }
+        )
+
     }
 
     fun createUser(
         email: String, pw: String,
     ){
-        val (state, token) = repository.createUserRequest(email,pw)
+        repository.createUserRequest(
+            email,pw,
+            result = { status, token ->
+                Log.d("status",status.toString())
+                Log.d("token",token.toString())
+            }
+        )
     }
 }

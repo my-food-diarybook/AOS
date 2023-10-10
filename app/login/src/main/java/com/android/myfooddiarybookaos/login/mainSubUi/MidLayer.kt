@@ -47,7 +47,7 @@ fun MidLayout(
 
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_4)))
         Text(
-            text =  if (!isValid.value)"*아이디 또는 비밀번호를 잘못 입력했습니다. (n/5)"
+            text =  if (!isValid.value) "*아이디 또는 비밀번호를 잘못 입력했습니다. (n/5)"
                     else "",
             color = colorResource(id = R.color.not_valid_text_color),
             fontFamily = robotoRegular,
