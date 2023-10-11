@@ -3,6 +3,7 @@ package com.android.myfooddiarybookaos.data.dataLogin.repository
 import android.util.Log
 import com.android.myfooddiarybookaos.api.NetworkManager
 import com.android.myfooddiarybookaos.model.login.CreateUserResponse
+import com.android.myfooddiarybookaos.model.login.UserRequest
 import com.android.myfooddiarybookaos.model.login.LoginResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -19,7 +20,7 @@ class LoginRepository @Inject constructor(
         result : (status : String,token : String?)->Unit
     ) {
         try {
-            manager.createUser(email,pw)
+            manager.createUser(UserRequest(email,pw))
                .enqueue(object : Callback<CreateUserResponse> {
                    override fun onResponse(
                        call: Call<CreateUserResponse>,
@@ -51,7 +52,7 @@ class LoginRepository @Inject constructor(
         result : (status : String,token : String?)->Unit
     )  {
         try{
-            manager.userLogin(email,pw)
+            manager.userLogin(UserRequest( email,pw))
                 .enqueue(object : Callback<LoginResponse>{
                     override fun onResponse(
                         call: Call<LoginResponse>,

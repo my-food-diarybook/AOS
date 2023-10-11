@@ -25,7 +25,7 @@ class NetworkManager(
                 val original = it.request()
                 if (tokenData.accessToken!=null && tokenData.accessToken!=""){
                     val request = original.newBuilder()
-                        .header("Authorization","Bearer ${tokenData.accessToken}")
+                        .header("Authorization","token ${tokenData.accessToken}")
                         .build()
                     it.proceed(request)
                 } else {
@@ -53,8 +53,7 @@ class NetworkManager(
 //                    val logInterceptor = HttpLoggingInterceptor()
 //                    logInterceptor.level = HttpLoggingInterceptor.Level.BODY
 //                    client.addInterceptor(logInterceptor)
-//                }.build()
-//        }
+//                }.경
 
         // SSL 인증서 체크 + 클라이언트
         private fun unsafeOkHttpClient(header : Interceptor): OkHttpClient {
@@ -85,7 +84,8 @@ class NetworkManager(
 
             builder.addInterceptor { chain ->
                 chain.proceed(chain.request().newBuilder().also {
-                    it.addHeader("Accept", "application/json")
+                    it.addHeader("login-from","none")
+                    it.addHeader("Content-Type", "application/json")
                 }.build())
             }.also { client ->
                 client.addInterceptor(header)
