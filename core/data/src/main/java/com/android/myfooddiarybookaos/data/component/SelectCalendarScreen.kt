@@ -14,15 +14,14 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.TextBox
 import com.android.myfooddiarybookaos.data.robotoBold
-import com.android.myfooddiarybookaos.data.viewModel.FakeTodayViewModel
+import com.android.myfooddiarybookaos.data.todayViewModel.FakeTodayViewModel
 
-import com.android.myfooddiarybookaos.data.viewModel.TodayViewModelInterface
+import com.android.myfooddiarybookaos.data.todayViewModel.TodayViewModelInterface
 import com.android.myfooddiarybookaos.model.MonthDate
 
 import java.util.*

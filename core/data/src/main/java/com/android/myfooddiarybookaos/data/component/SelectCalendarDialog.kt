@@ -10,7 +10,7 @@ import androidx.compose.ui.window.DialogProperties
 import com.android.myfooddiarybookaos.core.data.R
 @Composable
 fun SelectCalendarDialog(
-    todayViewModel : com.android.myfooddiarybookaos.data.viewModel.TodayViewModelInterface,
+    todayViewModel : com.android.myfooddiarybookaos.data.todayViewModel.TodayViewModelInterface,
     isTopLayoutClick : (Boolean) -> Unit,
 ){
 

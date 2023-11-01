@@ -10,13 +10,15 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-fun getUriDate(uri : Uri, context : Context)  : LocalDateTime? {
+fun getUriDate(uri : Uri?, context : Context)  : LocalDateTime? {
     var exifDate  :LocalDateTime? = null
-    context.contentResolver.openInputStream(uri)?.use { stream->
-        val exif = ExifInterface(stream)
-        val exifDateFormatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss")
-        val exifDateString = exif.getAttribute(ExifInterface.TAG_DATETIME_ORIGINAL)
-        exifDate = LocalDateTime.parse(exifDateString, exifDateFormatter)
+    if (uri != null) {
+        context.contentResolver.openInputStream(uri)?.use { stream->
+            val exif = ExifInterface(stream)
+            val exifDateFormatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss")
+            val exifDateString = exif.getAttribute(ExifInterface.TAG_DATETIME_ORIGINAL)
+            exifDate = LocalDateTime.parse(exifDateString, exifDateFormatter)
+        }
     }
     return exifDate
 

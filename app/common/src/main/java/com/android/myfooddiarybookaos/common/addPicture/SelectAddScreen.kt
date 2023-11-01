@@ -69,7 +69,7 @@ fun SelectAddScreen(closeLog: () -> Unit) {
     if (takeAlbum){
         SelectPhotoFromAlbumLauncher(callback = {
             Log.d("selected : ",it.toString())
-            Log.d("getUriDate",getUriDate(it!!, context).toString())
+            Log.d("getUriDate",getUriDate(it, context).toString())
             takeAlbum = false
             closeLog()
         })

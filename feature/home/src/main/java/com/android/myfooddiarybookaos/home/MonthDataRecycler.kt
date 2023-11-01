@@ -13,21 +13,15 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.data.robotoBold
-import com.android.myfooddiarybookaos.data.viewModel.FakeTodayViewModel
-import com.android.myfooddiarybookaos.data.viewModel.TodayViewModel
+import com.android.myfooddiarybookaos.data.todayViewModel.FakeTodayViewModel
 
-import com.android.myfooddiarybookaos.data.viewModel.TodayViewModelInterface
+import com.android.myfooddiarybookaos.data.todayViewModel.TodayViewModelInterface
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.home.calendar.CustomCalendar
 import com.android.myfooddiarybookaos.model.DayDate
