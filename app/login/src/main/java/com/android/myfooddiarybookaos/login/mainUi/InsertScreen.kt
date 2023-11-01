@@ -8,13 +8,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -51,12 +49,17 @@ fun InsertScreen(
     val serviceCheckBox = remember { mutableStateOf(false) }
     val userInfoCheckBox = remember { mutableStateOf(false) }
 
+    var goMainResult by remember {
+        mutableStateOf(false)
+    }
+    if (goMainResult) viewModel.goMain(LocalContext.current.applicationContext)
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = dimensionResource(id = R.dimen.size_16))
+            .padding(horizontal = 16.dp)
     ) {
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_40)))
+        Spacer(modifier = Modifier.height(40.dp))
 
         Row(
             verticalAlignment = Alignment.CenterVertically
@@ -68,7 +71,7 @@ fun InsertScreen(
                     navController.popBackStack()
                 }
             )
-            Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_4)))
+            Spacer(modifier = Modifier.width(4.dp))
             Text(
                 "회원가입",
                 fontFamily = FontFamily(Font(R.font.roboto_bold, FontWeight.W700)),
@@ -120,13 +123,16 @@ fun InsertScreen(
                     .clickable {
                         viewModel.createUser(
                             emailText.value.text,
-                            passText.value.text
+                            passText.value.text,
+                            userState = {
+                                goMainResult = it
+                            }
                         )
                     }
                     .alpha(boxColor)
             } else Modifier.alpha(boxColor),
 
-            shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_4)),
+            shape = RoundedCornerShape(4.dp),
             border = BorderStroke(
                 dimensionResource(id = R.dimen.size_1),
                 colorResource(id = R.color.weak_color)
@@ -143,8 +149,8 @@ fun InsertScreen(
                     .fillMaxWidth()
                     .wrapContentHeight()
                     .padding(
-                        top = dimensionResource(id = R.dimen.size_10_5),
-                        bottom = dimensionResource(id = R.dimen.size_10_5)
+                        top = 10.5.dp,
+                        bottom = 10.5.dp
                     ),
                 textAlign = TextAlign.Center, // 중앙
             )

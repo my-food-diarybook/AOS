@@ -25,13 +25,13 @@ fun FailFindEmailScreen(){
     Surface(
         modifier = Modifier.background(
             color = Color.White,
-            RoundedCornerShape(dimensionResource(id = R.dimen.size_8))
+            RoundedCornerShape(8.dp)
         ),
     ) {
         Column(
             modifier = Modifier
                 .wrapContentSize()
-                .padding(dimensionResource(id = R.dimen.size_24)),
+                .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
@@ -42,7 +42,7 @@ fun FailFindEmailScreen(){
                 color = colorResource(id = R.color.text_dark)
             )
 
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_28)))
+            Spacer(modifier = Modifier.height(28.dp))
 
             Text(
                 "입력하신 이메일로 가입한 회원을 \n" +
@@ -56,14 +56,14 @@ fun FailFindEmailScreen(){
                 color = colorResource(id = R.color.text_dark_pop)
             )
 
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_28)))
+            Spacer(modifier = Modifier.height(28.dp))
 
             Row(modifier = Modifier.wrapContentSize()){
                 Box(
                     modifier = Modifier
                         .background(
                             color = colorResource(id = R.color.popup_button_white),
-                            shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_4))
+                            shape = RoundedCornerShape(4.dp)
                         )
                     ,
                     contentAlignment = Alignment.Center
@@ -78,19 +78,19 @@ fun FailFindEmailScreen(){
                         modifier = Modifier
                             .width(110.dp)
                             .padding(
-                                vertical = dimensionResource(id = R.dimen.size_10_5),
-                                horizontal = dimensionResource(id = R.dimen.size_12)
+                                vertical = 10.5.dp,
+                                horizontal = 12.dp
                             )
                     )
                 }
 
-                Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_8)))
+                Spacer(modifier = Modifier.width(8.dp))
 
                 Box(
                     modifier = Modifier
                         .background(
                             color = colorResource(id = R.color.main_color),
-                            shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_4))
+                            shape = RoundedCornerShape(4.dp)
                         ),
                     contentAlignment = Alignment.Center
                 ) {
@@ -104,8 +104,8 @@ fun FailFindEmailScreen(){
                         modifier = Modifier
                             .width(110.dp)
                             .padding(
-                                vertical = dimensionResource(id = R.dimen.size_10_5),
-                                horizontal = dimensionResource(id = R.dimen.size_12)
+                                vertical = 10.5.dp,
+                                horizontal = 12.dp
                             )
                     )
                 }

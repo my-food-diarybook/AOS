@@ -47,9 +47,9 @@ fun SetNewPassword(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = dimensionResource(id = R.dimen.size_16))
+            .padding(horizontal = 16.dp)
     ) {
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_40)))
+        Spacer(modifier = Modifier.height(40.dp))
 
         Row(
             verticalAlignment = Alignment.CenterVertically
@@ -61,7 +61,7 @@ fun SetNewPassword(
                     navController.popBackStack()
                 }
             )
-            Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_4)))
+            Spacer(modifier = Modifier.width(4.dp))
             Text(
                 "비밀번호 설정",
                 fontFamily = FontFamily(Font(R.font.roboto_bold, FontWeight.W700)),
@@ -116,7 +116,7 @@ fun SetNewPassword(
         Surface( // 배경
             modifier = Modifier
                 .alpha(checkEnter),
-            shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_4)),
+            shape = RoundedCornerShape(4.dp),
             border = BorderStroke(
                 dimensionResource(id = R.dimen.size_1),
                 colorResource(id = R.color.weak_color)
@@ -134,8 +134,8 @@ fun SetNewPassword(
                     .wrapContentHeight()
 
                     .padding(
-                        top = dimensionResource(id = R.dimen.size_10_5),
-                        bottom = dimensionResource(id = R.dimen.size_10_5)
+                        top = 10.5.dp,
+                        bottom = 10.5.dp
                     ),
                 textAlign = TextAlign.Center, // 중앙
             )

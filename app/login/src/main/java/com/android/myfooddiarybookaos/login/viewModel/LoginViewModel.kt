@@ -1,6 +1,9 @@
 package com.android.myfooddiarybookaos.login.viewModel
 
+import android.content.Context
+import android.content.Intent
 import android.util.Log
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import com.android.myfooddiarybookaos.data.dataLogin.repository.LoginRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,12 +17,12 @@ class LoginViewModel @Inject constructor(
     fun loginUser(
         email : String,
         pw : String,
+        userState : (Boolean) -> Unit
     ){
         repository.loginUserRequest(
             email,pw,
             result = { status, token ->
-                Log.d("status",status.toString())
-                Log.d("token",token.toString())
+                userState(saveUserState(status,token))
             }
         )
 
@@ -27,13 +30,34 @@ class LoginViewModel @Inject constructor(
 
     fun createUser(
         email: String, pw: String,
+        userState : (Boolean) -> Unit
     ){
         repository.createUserRequest(
             email,pw,
             result = { status, token ->
-                Log.d("status",status.toString())
-                Log.d("token",token.toString())
+                userState(saveUserState(status,token))
             }
         )
+    }
+
+    private fun saveUserState(
+        status : String,
+        token : String?
+    ) : Boolean {
+        return if (status=="성공") {
+            // 토큰 저장 !
+            repository.saveUserToken(token)
+            true
+        }
+        else false
+    }
+
+    fun goMain(context: Context){
+        val intent = Intent(
+            context,
+            Class.forName("com.android.myfooddiarybookaos.MainActivity")
+        )
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        context.startActivity(intent)
     }
 }

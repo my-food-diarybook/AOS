@@ -13,6 +13,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.ui.theme.TextBox
@@ -20,16 +21,16 @@ import com.android.myfooddiarybookaos.data.ui.theme.TextBox
 @Composable
 fun TopLayout(){
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_41)))
+        Spacer(modifier = Modifier.height(41.dp))
         Image(
             painter = painterResource(id = R.drawable.main_image),
             contentDescription = "main image",
             modifier = Modifier
-                .width(dimensionResource(id = R.dimen.size_111))
-                .height(dimensionResource(id = R.dimen.size_83)),
+                .width(111.dp)
+                .height(83.dp),
             colorFilter = ColorFilter.tint(colorResource(id = R.color.main_color))
         )
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_16)))
+        Spacer(modifier = Modifier.height(16.dp))
         TextBox(
             "식사일기",
             700,
@@ -44,6 +45,6 @@ fun TopLayout(){
             16.sp,
             colorResource(id = R.color.line_color_deep)
         )
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_55)))
+        Spacer(modifier = Modifier.height(55.dp))
     }
 }

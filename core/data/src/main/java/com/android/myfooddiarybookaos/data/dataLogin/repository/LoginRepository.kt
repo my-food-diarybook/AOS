@@ -1,7 +1,9 @@
 package com.android.myfooddiarybookaos.data.dataLogin.repository
 
+import android.content.Context
 import android.util.Log
 import com.android.myfooddiarybookaos.api.NetworkManager
+import com.android.myfooddiarybookaos.api.UserInfoSharedPreferences
 import com.android.myfooddiarybookaos.model.login.CreateUserResponse
 import com.android.myfooddiarybookaos.model.login.UserRequest
 import com.android.myfooddiarybookaos.model.login.LoginResponse
@@ -12,7 +14,8 @@ import java.lang.Exception
 import javax.inject.Inject
 
 class LoginRepository @Inject constructor(
-    private val networkManager: NetworkManager
+    private val networkManager: NetworkManager,
+    private val context: Context
 ) {
     private val manager = networkManager.getLoginApiService()
     fun createUserRequest(
@@ -75,5 +78,9 @@ class LoginRepository @Inject constructor(
             Log.d("e",e.toString())
             result("네트워크 에러",null)
         }
+    }
+
+    fun saveUserToken(newToken : String?){
+        UserInfoSharedPreferences(context).accessToken = newToken
     }
 }
