@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.Font
@@ -29,6 +30,11 @@ import com.android.myfooddiarybookaos.login.viewModel.LoginViewModel
 fun MidLayout(
     viewModel: LoginViewModel = hiltViewModel()
 ){
+    var goMainResult by remember {
+        mutableStateOf(false)
+    }
+    if (goMainResult) viewModel.goMain(LocalContext.current.applicationContext)
+
     var checkEnter by remember {
         mutableStateOf(0.3f)
     }
@@ -54,7 +60,7 @@ fun MidLayout(
             fontWeight = FontWeight(500),
             fontSize = 12.sp
         )
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_7)))
+        Spacer(modifier = Modifier.height(7.dp))
 
         checkEnter =
             if (emailText.value.text.isNotEmpty() && pwText.value.text.isNotEmpty()) 1.0f
@@ -66,23 +72,26 @@ fun MidLayout(
                 .clickable {
                     viewModel.loginUser(
                         emailText.value.text,
-                        pwText.value.text
+                        pwText.value.text,
+                        userState = {
+                            goMainResult = it
+                        }
                     )
                 }
                 .padding(
-                    start = dimensionResource(id = R.dimen.size_16),
-                    end = dimensionResource(id = R.dimen.size_16),
+                    start = 16.dp,
+                    end = 16.dp,
                 )
                 .alpha(checkEnter)
             else Modifier
                 .padding(
-                    start = dimensionResource(id = R.dimen.size_16),
-                    end = dimensionResource(id = R.dimen.size_16),
+                    start = 16.dp,
+                    end = 16.dp,
                 )
                 .alpha(checkEnter),
-            shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_4)),
+            shape = RoundedCornerShape(4.dp),
             border = BorderStroke(
-                dimensionResource(id = R.dimen.size_1),
+                1.dp,
                 colorResource(id = R.color.weak_color)
             ),
             color = colorResource(id = R.color.main_color)
@@ -98,8 +107,8 @@ fun MidLayout(
                     .wrapContentHeight()
 
                     .padding(
-                        top = dimensionResource(id = R.dimen.size_10_5),
-                        bottom = dimensionResource(id = R.dimen.size_10_5)
+                        top = 10.5.dp,
+                        bottom = 10.5.dp
                     ),
                 textAlign = TextAlign.Center, // 중앙
             )

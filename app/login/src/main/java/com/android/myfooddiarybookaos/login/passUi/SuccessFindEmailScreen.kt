@@ -33,13 +33,13 @@ fun SuccessFindEmailScreen(
     Surface(
         modifier = Modifier.background(
             color = Color.White,
-            RoundedCornerShape(dimensionResource(id = R.dimen.size_8))
+            RoundedCornerShape(8.dp)
         ),
     ) {
         Column(
             modifier = Modifier
                 .wrapContentSize()
-                .padding(dimensionResource(id = R.dimen.size_24)),
+                .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
@@ -52,7 +52,7 @@ fun SuccessFindEmailScreen(
                 textAlign = TextAlign.Center
             )
 
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_28)))
+            Spacer(modifier = Modifier.height(28.dp))
 
             Text(
                 text = buildAnnotatedString {
@@ -79,7 +79,7 @@ fun SuccessFindEmailScreen(
                 modifier = Modifier.width(276.dp)
             )
 
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_28)))
+            Spacer(modifier = Modifier.height(28.dp))
 
 
             Box(
@@ -87,7 +87,7 @@ fun SuccessFindEmailScreen(
                     .width(276.dp)
                     .background(
                         color = colorResource(id = R.color.main_color),
-                        shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_4))
+                        shape = RoundedCornerShape(4.dp)
                     ),
                 contentAlignment = Alignment.Center
             ) {
@@ -100,8 +100,8 @@ fun SuccessFindEmailScreen(
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .padding(
-                            vertical = dimensionResource(id = R.dimen.size_10_5),
-                            horizontal = dimensionResource(id = R.dimen.size_12)
+                            vertical = 10.5.dp,
+                            horizontal = 12.dp
                         )
                 )
             }

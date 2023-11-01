@@ -25,8 +25,9 @@ import androidx.navigation.NavHostController
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.robotoRegular
 import androidx.compose.ui.text.TextStyle
+
 @Composable
-fun FindPassScreen(navController : NavHostController){
+fun FindPassScreen(navController: NavHostController) {
 
     var emailText by remember {
         mutableStateOf("")
@@ -38,8 +39,11 @@ fun FindPassScreen(navController : NavHostController){
     }
 
     checkEmailValid =
-        if (emailText.isEmpty()){ 0.3f }
-        else{ 1.0f }
+        if (emailText.isEmpty()) {
+            0.3f
+        } else {
+            1.0f
+        }
 
     Column(
         modifier = Modifier
@@ -49,28 +53,29 @@ fun FindPassScreen(navController : NavHostController){
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_40)))
 
         Row(
-           verticalAlignment = Alignment.CenterVertically 
-        ){
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Image(
-                painter = painterResource(id = R.drawable.pass_left_side), contentDescription = null,
+                painter = painterResource(id = R.drawable.pass_left_side),
+                contentDescription = null,
                 modifier = Modifier.clickable {
                     navController.popBackStack()
                 }
             )
-            Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_4)))
+            Spacer(modifier = Modifier.width(4.dp))
             Text(
                 "비밀번호 찾기",
-                fontFamily =  FontFamily(Font(R.font.roboto_bold, FontWeight.W700)),
+                fontFamily = FontFamily(Font(R.font.roboto_bold, FontWeight.W700)),
                 fontSize = 18.sp,
                 color = colorResource(id = R.color._1A1D1D)
             )
         }
-        
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_16)))
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         Text(
             "가입시 등록한 이메일 주소를",
-            fontFamily =  FontFamily(
+            fontFamily = FontFamily(
                 Font(R.font.roboto_bold, FontWeight.W700)
             ),
             fontSize = 20.sp,
@@ -78,12 +83,12 @@ fun FindPassScreen(navController : NavHostController){
         )
         Text(
             "입력하고 임시 비밀번호를 누르세요.",
-            fontFamily =  FontFamily( Font(R.font.roboto_bold, FontWeight.W700)),
+            fontFamily = FontFamily(Font(R.font.roboto_bold, FontWeight.W700)),
             fontSize = 20.sp,
             color = colorResource(id = R.color._1A1D1D)
         )
 
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_36)))
+        Spacer(modifier = Modifier.height(36.dp))
 
         Text(
             text = "이메일",
@@ -92,23 +97,22 @@ fun FindPassScreen(navController : NavHostController){
             fontWeight = FontWeight.W700
         )
 
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_4)))
-        
+        Spacer(modifier = Modifier.height(4.dp))
+
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-        ){
+        ) {
             Surface(
                 modifier = Modifier
                     .width(0.dp)
                     .weight(1f)
-                    .wrapContentHeight()
-                ,shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_4)),
+                    .wrapContentHeight(), shape = RoundedCornerShape(4.dp),
                 border = BorderStroke(
-                    dimensionResource(id = R.dimen.size_1),
-                    colorResource(id = R.color.weak_color)
+                    width = 1.dp,
+                    color = colorResource(id = R.color.weak_color)
                 )
             ) {
                 BasicTextField(
@@ -122,13 +126,13 @@ fun FindPassScreen(navController : NavHostController){
                     ),
                     modifier = Modifier
                         .padding(
-                            horizontal = dimensionResource(id = R.dimen.size_12),
-                            vertical = dimensionResource(id = R.dimen.size_11_5)
+                            horizontal = 12.dp,
+                            vertical = 11.5.dp
                         )
                         .wrapContentHeight(),
                     cursorBrush = SolidColor(colorResource(id = R.color.main_color)),
                     maxLines = 1,
-                    decorationBox = {innerTextField->
+                    decorationBox = { innerTextField ->
                         if (emailText.isEmpty()) {
                             Text(
                                 text = "이메일",
@@ -143,16 +147,15 @@ fun FindPassScreen(navController : NavHostController){
                 )
             }
 
-            Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_8)))
+            Spacer(modifier = Modifier.width(8.dp))
 
             Surface(
                 modifier = Modifier
                     .wrapContentSize()
-                    .alpha(checkEmailValid)
-                ,shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_4)),
+                    .alpha(checkEmailValid), shape = RoundedCornerShape(4.dp),
                 border = BorderStroke(
-                    dimensionResource(id = R.dimen.size_1),
-                    colorResource(id = R.color.main_color)
+                    width = 1.dp,
+                    color = colorResource(id = R.color.main_color)
                 ),
                 color = colorResource(id = R.color.main_color)
             ) {
@@ -160,8 +163,8 @@ fun FindPassScreen(navController : NavHostController){
                     text = "임시 비밀번호",
                     fontSize = 15.sp,
                     modifier = Modifier.padding(
-                        horizontal = dimensionResource(id = R.dimen.size_12),
-                        vertical = dimensionResource(id = R.dimen.size_11_5)
+                        horizontal = 12.dp,
+                        vertical = 11.5.dp
                     ),
                     fontWeight = FontWeight(700),
                     fontFamily = robotoRegular,
