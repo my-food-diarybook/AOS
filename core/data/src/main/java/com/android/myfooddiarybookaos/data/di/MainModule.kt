@@ -25,6 +25,7 @@ object MainModule {
     @ViewModelScoped
     @Provides
     fun provideHomeRepository(
-        networkManager: NetworkManager
-    ) = HomeRepository(networkManager)
+        networkManager: NetworkManager,
+        @ApplicationContext context: Context
+    ) = HomeRepository(networkManager,context)
 }

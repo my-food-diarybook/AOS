@@ -1,15 +1,19 @@
 package com.android.myfooddiarybookaos.api.diaryApi
 
+import com.android.myfooddiarybookaos.model.diary.PlaceInfo
 import com.android.myfooddiarybookaos.model.login.LoginResponse
+import okhttp3.MultipartBody
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface DiaryRetrofitService {
 
+    @Multipart
     @POST("diary/new")
     fun newDiary(
-    ): Call<Unit>
+        @Query("createTime")createTime : String,
+        @Part placeInfo : PlaceInfo,
+        @Part files : List<MultipartBody.Part>
+    ): Call<String>
 
 }

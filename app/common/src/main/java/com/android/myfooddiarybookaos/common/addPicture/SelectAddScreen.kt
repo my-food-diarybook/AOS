@@ -21,16 +21,22 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.common.R
 import com.android.myfooddiarybookaos.data.TextBox
 import com.android.myfooddiarybookaos.data.robotoLight
+import com.android.myfooddiarybookaos.home.viewModel.DiaryViewModel
 import java.io.File
 
 // https://sungbin.land/jetpack-compose-%EA%B0%A4%EB%9F%AC%EB%A6%AC-%EC%B9%B4%EB%A9%94%EB%9D%BC-%EC%97%90%EC%84%9C-%EC%82%AC%EC%A7%84-%EA%B0%80%EC%A0%B8%EC%98%A4%EA%B8%B0-cf517eaca8bd
 // 사진 촬영, 사진 선택
 @Composable
-fun SelectAddScreen(closeLog: () -> Unit) {
+fun SelectAddScreen(
+    closeLog: () -> Unit,
+    viewModel : DiaryViewModel = hiltViewModel()
+) {
     val context = LocalContext.current.applicationContext
     // 사진 찍기 view
     var takePicClick by remember {
@@ -84,7 +90,7 @@ fun SelectAddScreen(closeLog: () -> Unit) {
                 .wrapContentHeight()
                 .background(
                     colorResource(id = R.color.light_back_color),
-                    RoundedCornerShape(dimensionResource(id = R.dimen.size_13))
+                    RoundedCornerShape(13.dp)
                 )
                 .padding()
 
@@ -92,7 +98,7 @@ fun SelectAddScreen(closeLog: () -> Unit) {
 
             Spacer(
                 modifier = Modifier
-                    .height(dimensionResource(id = R.dimen.size_12))
+                    .height(12.dp)
                     .background(colorResource(id = R.color.light_line_color))
             )
 
