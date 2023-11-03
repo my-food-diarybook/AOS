@@ -19,14 +19,18 @@ class NetworkManager(
 ) {
     companion object{
         private val instance : Retrofit? = null
-
-        private fun getRetrofit(context : Context) : Retrofit{
+        private val CONTENT_APPLICATION = "application/json"
+        private val CONTENT_MULTI_PART = "multipart/form-data"
+        private fun getRetrofit(
+            context : Context,
+            contentType: String
+        ) : Retrofit{
             val tokenData = UserInfoSharedPreferences(context)
             val header = Interceptor{
                 val original = it.request()
                 if (tokenData.accessToken!=null && tokenData.accessToken!=""){
                     val request = original.newBuilder()
-                        .header("Authorization","token ${tokenData.accessToken}")
+                        .header("token","${tokenData.accessToken}")
                         .build()
                     it.proceed(request)
                 } else {
@@ -37,7 +41,7 @@ class NetworkManager(
             return instance ?: Retrofit.Builder()
                 .baseUrl("$baseUrl/")
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(unsafeOkHttpClient(header))
+                .client(unsafeOkHttpClient(header,contentType))
                 .build()
         }
 
@@ -57,7 +61,10 @@ class NetworkManager(
 //                }.경
 
         // SSL 인증서 체크 + 클라이언트
-        private fun unsafeOkHttpClient(header : Interceptor): OkHttpClient {
+        private fun unsafeOkHttpClient(
+            header : Interceptor,
+            contentType : String
+        ): OkHttpClient {
             val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
                 override fun checkClientTrusted(
                     chain: Array<out java.security.cert.X509Certificate>?,
@@ -86,7 +93,7 @@ class NetworkManager(
             builder.addInterceptor { chain ->
                 chain.proceed(chain.request().newBuilder().also {
                     it.addHeader("login-from","none")
-                    it.addHeader("Content-Type", "application/json")
+                    it.addHeader("Content-Type", contentType)
                 }.build())
             }.also { client ->
                 client.addInterceptor(header)
@@ -101,8 +108,8 @@ class NetworkManager(
     }
 
     fun getLoginApiService() : UserRetrofitService =
-        getRetrofit(context).create(UserRetrofitService::class.java)
+        getRetrofit(context, CONTENT_APPLICATION).create(UserRetrofitService::class.java)
 
     fun getDiaryApiService() : DiaryRetrofitService =
-        getRetrofit(context).create(DiaryRetrofitService::class.java)
+        getRetrofit(context, CONTENT_MULTI_PART).create(DiaryRetrofitService::class.java)
 }

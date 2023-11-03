@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.android.myfooddiarybookaos.common.R
@@ -29,7 +30,7 @@ fun BottomNavigation (navController: NavHostController){
     androidx.compose.material.BottomNavigation(
         backgroundColor = Color.White,
         contentColor = Color.Black,
-        modifier = Modifier.height(dimensionResource(id = R.dimen.size_68))
+        modifier = Modifier.height(68.dp)
     ) {
         // 어떤 Bottom Navigation Item이 선택되었는지 저장
         // currentRoute에 현재 보고있는 Item 상태 저장

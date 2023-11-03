@@ -14,16 +14,16 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.data.robotoBold
-import com.android.myfooddiarybookaos.data.todayViewModel.FakeTodayViewModel
 
-import com.android.myfooddiarybookaos.data.todayViewModel.TodayViewModelInterface
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.home.calendar.CustomCalendar
+import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 import com.android.myfooddiarybookaos.model.DayDate
 import java.util.*
 
@@ -33,12 +33,15 @@ private const val DAY_OF_WEAK = 7
 @SuppressLint("MutableCollectionMutableState")
 @Composable
 fun MonthDataView(
-    todayViewModel: TodayViewModelInterface
+    todayViewModel: TodayViewModel = hiltViewModel()
 ) {
     // 현재 뷰어
-    val viewCalendar : State<Boolean> = todayViewModel.dataChanger.observeAsState(false)
+    val viewCalendar : State<Boolean> = todayViewModel
+        .todayRepository.dataChanger.observeAsState(false)
+
     if (viewCalendar.value){
-        ItemScreen(date = todayViewModel.currentCalendar.value!!.time)
+        ItemScreen(date = todayViewModel
+            .todayRepository.currentCalendar.value!!.time)
     }
 }
 
@@ -77,8 +80,8 @@ fun DayItem(
                     dayClick(dayDate.day)
                 })
             .padding(
-                vertical = dimensionResource(id = R.dimen.size_12_86),
-                horizontal = dimensionResource(id = R.dimen.size_2_29)
+                vertical = 12.86.dp,
+                horizontal = 2.29.dp
             )
             .aspectRatio(1f)
     ) {
@@ -91,7 +94,7 @@ fun DayItem(
                                 colorResource(id = R.color.main_color),
                                 CircleShape
                             )
-                            .size(dimensionResource(id = R.dimen.size_40))
+                            .size(40.dp)
                     } else { // 나중에 이미지 여기에 추가 !!
                         Modifier
                     }
@@ -113,5 +116,5 @@ fun DayItem(
 @Preview(showBackground = true)
 @Composable
 fun MonthDataPreview() {
-    MonthDataView(FakeTodayViewModel())
+    MonthDataView()
 }

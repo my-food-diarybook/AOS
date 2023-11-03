@@ -15,12 +15,13 @@ import androidx.compose.ui.res.painterResource
 
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.Dialog.SelectCalendarDialog
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.TextBox
 import com.android.myfooddiarybookaos.data.component.coloredShadow
+import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 import com.android.myfooddiarybookaos.data.robotoBold
-import com.android.myfooddiarybookaos.data.todayViewModel.TodayViewModelInterface
 import java.util.*
 
 
@@ -28,16 +29,17 @@ import java.util.*
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun TopCalendarLayout(
-    todayViewModel : TodayViewModelInterface,
+    todayViewModel : TodayViewModel = hiltViewModel()
 ){
     var isTopLayoutClick  by remember{ // 캘린더 클릭 여부
         mutableStateOf(false)
     }
     // currentCalendar observe
-    val topTexting = todayViewModel.currentCalendar.observeAsState().value!!
+    val topTexting = todayViewModel.todayRepository
+        .currentCalendar.observeAsState().value!!
 
     if (isTopLayoutClick){ // 캘린더 클릭 동작
-        todayViewModel.currentCalendar.value?.apply {
+        todayViewModel.todayRepository.currentCalendar.value?.apply {
             // dialog 생성
             SelectCalendarDialog(
                 todayViewModel,
@@ -52,7 +54,7 @@ fun TopCalendarLayout(
 
     Column(
         modifier = Modifier
-            .height(dimensionResource(id = R.dimen.size_88))
+            .height(88.dp)
             .fillMaxWidth(),
         verticalArrangement = Arrangement.Bottom
     ){
@@ -60,7 +62,7 @@ fun TopCalendarLayout(
             modifier = Modifier
                 .wrapContentSize()
                 .padding(
-                    start = dimensionResource(id = R.dimen.size_20)
+                    start = 20.dp
                 )
                 .clickable(onClick = { isTopLayoutClick = true }),
             verticalAlignment = Alignment.CenterVertically
@@ -73,9 +75,9 @@ fun TopCalendarLayout(
                 fontSize = 34.sp,
                 color = colorResource(id = R.color.black)
             )
-            Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_1_59)))
+            Spacer(modifier = Modifier.width(1.59.dp))
             Box(
-                modifier = Modifier.size(dimensionResource(id = R.dimen.size_40)),
+                modifier = Modifier.size(40.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Image(
@@ -85,7 +87,7 @@ fun TopCalendarLayout(
             }
         }
 
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_1)))
+        Spacer(modifier = Modifier.height(1.dp))
 
         Divider(modifier = Modifier
             .height(2.dp)

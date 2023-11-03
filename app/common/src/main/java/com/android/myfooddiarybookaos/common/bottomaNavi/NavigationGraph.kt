@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import com.android.myfooddiarybookaos.TabMyAccount.MyScreen
 import com.android.myfooddiarybookaos.TabSearch.SearchScreen
 import com.android.myfooddiarybookaos.TabTimeLine.TimeLineScreen
+import com.android.myfooddiarybookaos.data.state.DiaryState
 
 import com.android.myfooddiarybookaos.home.HomeScreen
 
@@ -16,13 +17,14 @@ import com.android.myfooddiarybookaos.home.HomeScreen
 @Composable
 fun NavigationGraph(
     navController: NavHostController,
+    diaryState : DiaryState
 ) {
     NavHost(
         navController = navController,
         startDestination = BottomNavItem.Home.screenRoute
     ){
         composable(BottomNavItem.Home.screenRoute){
-            HomeScreen()
+            HomeScreen(diaryState)
         }
         composable(BottomNavItem.TimeLine.screenRoute){
             TimeLineScreen()

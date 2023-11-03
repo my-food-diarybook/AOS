@@ -1,20 +1,38 @@
 package com.android.myfooddiarybookaos.home
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.home.calendar.CalendarLayout
 import com.android.myfooddiarybookaos.Layout.TopCalendarLayout
 
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.android.myfooddiarybookaos.data.todayViewModel.TodayViewModel
+import com.android.myfooddiarybookaos.data.state.DiaryState
+import com.android.myfooddiarybookaos.home.viewModel.HomeViewModel
+import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 
 @Composable
 fun HomeScreen(
-    todayViewModel: TodayViewModel = viewModel()
+    diaryState : DiaryState,
+    todayViewModel: TodayViewModel = hiltViewModel(),
+    homeViewModel: HomeViewModel = hiltViewModel(),
 ) {
+    // 업로드 시도
+    if (diaryState.isSelectedGallery.value){
+        homeViewModel.makeNewDiary(
+            todayViewModel.getCurrentDate(),
+            diaryState.multiPartList,
+            diaryState = {
+                if (it) {
+                    Log.d("uploadSuccess???", "12l4j12l4j12l4j12l4")
+                }
+            }
+        )
+        diaryState.isSelectedGallery.value = false
+    }
     Column(
         Modifier
             .fillMaxWidth()

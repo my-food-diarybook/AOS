@@ -3,9 +3,12 @@ package com.android.myfooddiarybookaos.data.dataHome.repository
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
+import android.util.Log
 import com.android.myfooddiarybookaos.api.NetworkManager
 import com.android.myfooddiarybookaos.file.getFilePath
 import com.android.myfooddiarybookaos.model.diary.PlaceInfo
+import com.android.myfooddiarybookaos.model.diary.PlaceInfoBody
+import com.google.gson.Gson
 import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
@@ -13,7 +16,9 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okio.BufferedSink
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,24 +35,43 @@ class HomeRepository(
         place: String?,
         longitude: Double?,
         latitude: Double?,
-        fileList : List<MultipartBody.Part>
+        fileList : List<MultipartBody.Part>,
+        isSuccess : (Boolean) -> Unit
     ){
         try {
-            val placeInfo = PlaceInfo(place, longitude, latitude)
-
+            val placeRequest = PlaceInfoBody(
+                placeInfo = PlaceInfo("place",0.0,0.0)
+            )
+            val json = Gson().toJson(placeRequest)
+            val requestBody = json.toRequestBody("application/json".toMediaType())
             manager.newDiary(
                 createTime,
-                placeInfo,
+                requestBody,
                 fileList
-            ).enqueue(object : Callback<String> {
-                override fun onResponse(call: Call<String>, response: Response<String>) {
-
+            ).enqueue(object : Callback<Unit> {
+                override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+                    if (response.isSuccessful){
+                        isSuccess(true)
+                    }else{
+                        Log.d("homerepoerrorbody",response.errorBody()!!.string())
+                        Log.d("homerepoerrorbody",response.message().toString())
+                        Log.d("homerepoerrorbody",response.toString())
+                        Log.d("homerepoerrorbody",response.body().toString())
+                        Log.d("lfjslfjwelwefjl",response.code().toString())
+                        isSuccess(false)
+                    }
                 }
 
-                override fun onFailure(call: Call<String>, t: Throwable) {}
+                override fun onFailure(call: Call<Unit>, t: Throwable) {
+                    Log.d("homerepoonFailure",t.toString())
+                    isSuccess(false)
+                }
 
             })
-        } catch (e: Exception) { }
+        } catch (e: Exception) {
+            Log.d("homerepoException",e.toString())
+            isSuccess(false)
+        }
     }
 
     fun makePartListFromUri(
@@ -66,6 +90,7 @@ class HomeRepository(
         return listOf(makeMultiPartFromBitmap(imageBitmap))
     }
 
+
     private fun makeMultiPartFromUri(uri: Uri): MultipartBody.Part {
         val path = getFilePath(context, uri)
         val file = File(path)
@@ -83,7 +108,7 @@ class HomeRepository(
         val bitmapRequestBody = BitmapRequestBody(bitmap)
         val bitmapCode: String = bitmap.toString().split("@").last()
         return MultipartBody.Part.createFormData(
-            "multipartFile",
+            "files",
             bitmapCode,
             bitmapRequestBody
         )
@@ -96,4 +121,7 @@ class HomeRepository(
             bitmap.compress(Bitmap.CompressFormat.JPEG,99,sink.outputStream())
         }
     }
+
+    private fun String?.toPlainRequestBody () =
+        requireNotNull(this).toRequestBody("text/plain".toMediaTypeOrNull())
 }

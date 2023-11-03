@@ -5,15 +5,12 @@ import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.android.myfooddiarybookaos.Layout.NotDataView
 import com.android.myfooddiarybookaos.Layout.TopCalendarLayout
-import com.android.myfooddiarybookaos.data.todayViewModel.TodayViewModel
 
 @Composable
-fun TimeLineScreen(
-    todayViewModel: TodayViewModel = viewModel()
-) {
+fun TimeLineScreen() {
     Column {
         // 캘린더 초기화
-        TopCalendarLayout(todayViewModel)
+        TopCalendarLayout()
         NotDataView()
     }
 }

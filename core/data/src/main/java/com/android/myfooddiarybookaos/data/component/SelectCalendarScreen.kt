@@ -15,9 +15,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.TextBox
+import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 import com.android.myfooddiarybookaos.data.robotoBold
 import com.android.myfooddiarybookaos.data.todayViewModel.FakeTodayViewModel
 
@@ -33,18 +36,19 @@ private const val MAX_MONTH = 12
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun SelectCalendarScreen(
-    todayViewModel: TodayViewModelInterface,
+    todayViewModel: TodayViewModel,
     isTopLayoutClick: (Boolean) -> Unit
 ) {
+    val todayRepository = todayViewModel.todayRepository
     // 오늘 데이터
-    val todayYear = todayViewModel.todayCalendar.value!!.get(Calendar.YEAR)
-    val todayDate = todayYear*12+ todayViewModel.todayCalendar.value!!.get(Calendar.MONTH)+1 //현재 달
+    val todayYear = todayRepository.todayCalendar.value!!.get(Calendar.YEAR)
+    val todayDate = todayYear*12+ todayRepository.todayCalendar.value!!.get(Calendar.MONTH)+1 //현재 달
     // 현재 선택 데이터
-    val currentDate = todayViewModel.currentCalendar.value!!.get(Calendar.YEAR)*12+
-            todayViewModel.currentCalendar.value!!.get(Calendar.MONTH)+1 //현재 달
+    val currentDate = todayRepository.currentCalendar.value!!.get(Calendar.YEAR)*12+
+            todayRepository.currentCalendar.value!!.get(Calendar.MONTH)+1 //현재 달
     // 현재 뷰어
     var currentYear by remember { mutableStateOf( //선택 년도
-        todayViewModel.currentCalendar.value!!.get(Calendar.YEAR)
+        todayRepository.currentCalendar.value!!.get(Calendar.YEAR)
     ) }
     // month data 갱신
     val monthList = List(MAX_MONTH) { i ->
@@ -62,14 +66,14 @@ fun SelectCalendarScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.wrapContentSize()
     ) {
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_9)))
+        Spacer(modifier = Modifier.height(9.dp))
         Row(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ){
             Box(
                 modifier = Modifier
-                    .size(dimensionResource(id = R.dimen.size_58))
+                    .size(58.dp)
                     .clickable(onClick = {
                         currentYear -= 1
                     }),
@@ -77,17 +81,17 @@ fun SelectCalendarScreen(
             ){
                 Image(painterResource(id = R.drawable.left_side), contentDescription = null)
             }
-            Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_41)))
+            Spacer(modifier = Modifier.width(41.dp))
             TextBox(
                 text = "$currentYear",600,
                 robotoBold,
                 36.sp,
                 colorResource(id = R.color.black)
             )
-            Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_41)))
+            Spacer(modifier = Modifier.width(41.dp))
             Box(
                 modifier = Modifier
-                    .size(dimensionResource(id = R.dimen.size_58))
+                    .size(58.dp)
                     .clickable(onClick = {
                         // 클릭 조건 (지난 달)
                         if (currentYear + 1 <= todayYear) currentYear += 1
@@ -103,7 +107,7 @@ fun SelectCalendarScreen(
             }
         }
 
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_21_5)))
+        Spacer(modifier = Modifier.height(21.5.dp))
 
         Box(
             contentAlignment = Alignment.Center,
@@ -111,7 +115,7 @@ fun SelectCalendarScreen(
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .padding(
-                    horizontal = dimensionResource(id = R.dimen.size_14_5)
+                    horizontal = 14.5.dp
                 )
         ){
             LazyVerticalGrid(
@@ -130,7 +134,7 @@ fun SelectCalendarScreen(
                 }
             )
         }
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_22_5)))
+        Spacer(modifier = Modifier.height(22.5.dp))
     }
 }
 
@@ -150,8 +154,8 @@ private fun ItemMonth(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .padding(
-                top = dimensionResource(id = R.dimen.size_10_5),
-                bottom = dimensionResource(id = R.dimen.size_10_5)
+                top = 10.5.dp,
+                bottom = 10.5.dp
             )
             .clickable(onClick = {
                 // 클릭 조건 (지난 달)
@@ -172,5 +176,8 @@ private fun ItemMonth(
 @Composable
 @Preview(showBackground = true)
 fun PreviewSelectCalendar(){
-    SelectCalendarScreen(FakeTodayViewModel(), isTopLayoutClick = { })
+    SelectCalendarScreen(
+        hiltViewModel(),
+        isTopLayoutClick = { }
+    )
 }

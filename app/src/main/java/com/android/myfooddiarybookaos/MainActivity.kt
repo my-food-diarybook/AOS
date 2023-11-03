@@ -1,5 +1,6 @@
 package com.android.myfooddiarybookaos
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -11,12 +12,14 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 
 import com.android.myfooddiarybookaos.core.data.R
 import androidx.navigation.compose.rememberNavController
 import com.android.myfooddiarybookaos.common.addPicture.SelectAddScreen
 import com.android.myfooddiarybookaos.common.bottomaNavi.BottomNavigation
 import com.android.myfooddiarybookaos.common.bottomaNavi.NavigationGraph
+import com.android.myfooddiarybookaos.data.state.rememberDiaryState
 import com.android.myfooddiarybookaos.data.ui.theme.MyFoodDiaryBookAOSTheme
 import com.holix.android.bottomsheetdialog.compose.BottomSheetDialog
 import com.holix.android.bottomsheetdialog.compose.BottomSheetDialogProperties
@@ -38,6 +41,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainUi() {
+
+    // 이미지 추가 시 다이어리 상태 변경
+    val diaryState = rememberDiaryState()
     // mid click event
     var showSelectView by remember {
         mutableStateOf(false)
@@ -52,10 +58,13 @@ fun MainUi() {
                 dismissOnBackPress = true
             )
         ) {
-            SelectAddScreen(closeLog = {
-                // 취소 버튼 or 선택화면으로 전환
-                showSelectView = false
-            })
+            SelectAddScreen(
+                diaryState = diaryState,
+                closeLog = {
+                    // 취소 버튼 or 선택화면으로 전환
+                    showSelectView = false
+                }
+            )
         }
     }
     // navController
@@ -63,6 +72,7 @@ fun MainUi() {
     val navController = rememberNavController()
     // 기본 material design ui 구현
     // TopAppBar, BottomAppBar, FloatingActionButton, Drawer
+
     Scaffold(
         // 네비게이션 연결
         bottomBar = {
@@ -73,8 +83,9 @@ fun MainUi() {
         floatingActionButtonPosition = FabPosition.Center,
         isFloatingActionButtonDocked = true,
         floatingActionButton = {
+
             FloatingActionButton(
-                modifier = Modifier.size(dimensionResource(id = R.dimen.size_53_33)),
+                modifier = Modifier.size(53.33.dp),
                 backgroundColor = Color.Transparent,
                 contentColor = colorResource(id = R.color.main_color),
                 onClick = {
@@ -90,7 +101,8 @@ fun MainUi() {
         Box(Modifier.padding(it)){
             // 각 네비게이션에 맞는 뷰를 그러주는 그래프 연결
             NavigationGraph(
-                navController = navController
+                navController = navController,
+                diaryState = diaryState
             )
         }
     }

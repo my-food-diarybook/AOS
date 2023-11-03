@@ -1,7 +1,7 @@
 package com.android.myfooddiarybookaos.model.diary
-
-class PlaceInfo(
-    place: String?,
-    longitude: Double?,
-    latitude: Double?
+import com.google.gson.annotations.SerializedName
+data class PlaceInfo(
+    @SerializedName("place") val place: String?,
+    @SerializedName("longitude") val longitude: Double?,
+    @SerializedName("latitude") val latitude: Double?
 ): java.io.Serializable

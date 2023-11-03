@@ -12,18 +12,18 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.Layout.MonthDataView
 
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.robotoRegular
-import com.android.myfooddiarybookaos.data.todayViewModel.TodayViewModel
+import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 
 private const val DAY_OF_WEAK = 7
 
 @Composable
 fun CalendarLayout(
-    todayViewModel : TodayViewModel = viewModel()
+    todayViewModel : TodayViewModel = hiltViewModel()
 ){
     Column(
         modifier = Modifier.padding(horizontal = 12.dp)
@@ -39,7 +39,7 @@ fun CalendarLayout(
             }
         )
         // 캘린더
-        MonthDataView(todayViewModel)
+        MonthDataView()
     }
 }
 
