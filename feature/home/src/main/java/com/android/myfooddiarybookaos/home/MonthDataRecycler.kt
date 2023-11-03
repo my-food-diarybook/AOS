@@ -1,6 +1,7 @@
 package com.android.myfooddiarybookaos.Layout
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,9 +23,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.data.robotoBold
 
 import com.android.myfooddiarybookaos.core.data.R
-import com.android.myfooddiarybookaos.home.calendar.CustomCalendar
+import com.android.myfooddiarybookaos.data.dataCalendar.repository.CustomCalendarImpl
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
+import com.android.myfooddiarybookaos.home.item.ItemDiary
+import com.android.myfooddiarybookaos.home.viewModel.HomeViewModel
 import com.android.myfooddiarybookaos.model.DayDate
+import com.android.myfooddiarybookaos.model.diary.Diary
 import java.util.*
 
 private const val DAY_OF_WEAK = 7
@@ -39,6 +43,7 @@ fun MonthDataView(
     val viewCalendar : State<Boolean> = todayViewModel
         .todayRepository.dataChanger.observeAsState(false)
 
+
     if (viewCalendar.value){
         ItemScreen(date = todayViewModel
             .todayRepository.currentCalendar.value!!.time)
@@ -46,72 +51,45 @@ fun MonthDataView(
 }
 
 @Composable
-fun ItemScreen(date : Date){
-    val newCalendar = CustomCalendar()
+fun ItemScreen(
+    date : Date,
+    todayViewModel: TodayViewModel = hiltViewModel(),
+    homeViewModel : HomeViewModel = hiltViewModel()
+){
+    var currentDiaryList: List<Diary> = listOf()
+    // 다이어리 변화 관찰
+    homeViewModel.homeDiaryList.observeAsState().value?.let {
+        currentDiaryList = it
+    }
+    LaunchedEffect(Unit){
+        todayViewModel.getCurrentYearMonth()?.let {
+            homeViewModel.getDiaryList(it)
+        }
+    }
+    Log.d("dslfjsdlf",currentDiaryList.toString())
+
+    val newCalendar = CustomCalendarImpl()
     newCalendar.initData(date)
     LazyVerticalGrid(
         columns = GridCells.Fixed(DAY_OF_WEAK),
         content = {
             items(newCalendar.dateSet.size) { index ->
-                DayItem(dayDate = newCalendar.dateSet[index], dayClick = {
-                    // 일 클릭 이벤트
+                ItemDiary(
+                    dayDate = newCalendar.dateSet[index],
+                    dayClick = {
+                        // 일 클릭 이벤트
 
-                })
+                    },
+                    imageByte = homeViewModel.getByteString(
+                        todayViewModel.getCurrentYearMonth(),
+                        newCalendar.dateSet[index].day.toString()
+                    )
+                )
             }
         }
     )
 }
 
-@Composable
-fun DayItem(
-    dayDate: DayDate,
-    dayClick : (Int) -> Unit
-) {
-
-    val textView by animateColorAsState(
-        if (dayDate.isSelected == 1) colorResource(id = R.color.line_color_deep)
-        else colorResource(id = R.color.color_day_of_weak)
-    )
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .clickable(
-                onClick = {
-                    dayClick(dayDate.day)
-                })
-            .padding(
-                vertical = 12.86.dp,
-                horizontal = 2.29.dp
-            )
-            .aspectRatio(1f)
-    ) {
-        Box(
-            Modifier
-                .then(
-                    if (dayDate.isSelected == 0) {
-                        Modifier
-                            .background(
-                                colorResource(id = R.color.main_color),
-                                CircleShape
-                            )
-                            .size(40.dp)
-                    } else { // 나중에 이미지 여기에 추가 !!
-                        Modifier
-                    }
-                )
-        )
-
-        if (dayDate.day != 0) {
-            Text(
-                text = dayDate.day.toString(),
-                fontWeight = FontWeight(400),
-                fontFamily = robotoBold,
-                fontSize = 12.sp,
-                color = textView,
-            )
-        }
-    }
-}
 
 @Preview(showBackground = true)
 @Composable

@@ -44,14 +44,14 @@ fun MidLayout(
     }
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         // EditText - email
-        val emailText = remember { mutableStateOf(TextFieldValue("")) }
+        val emailText = remember { mutableStateOf(TextFieldValue("test_user@naver.com")) }
         Box(Modifier.padding(horizontal = 16.dp)){EditTextBox("이메일",emailText,isValid)}
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_8)))
+        Spacer(modifier = Modifier.height(8.dp))
         // EditText - pw
-        val pwText = remember { mutableStateOf(TextFieldValue("")) }
+        val pwText = remember { mutableStateOf(TextFieldValue("qwer1234@@")) }
         Box(Modifier.padding(horizontal = 16.dp)){EditTextBox(hintText = "비밀번호",pwText,isValid)}
 
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_4)))
+        Spacer(modifier = Modifier.height(4.dp))
         Text(
             text =  if (!isValid.value) "*아이디 또는 비밀번호를 잘못 입력했습니다. (n/5)"
                     else "",

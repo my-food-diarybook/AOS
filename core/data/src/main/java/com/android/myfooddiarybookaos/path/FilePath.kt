@@ -2,9 +2,13 @@ package com.android.myfooddiarybookaos.path
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.MediaStore
 import android.provider.OpenableColumns
+import android.util.Base64
+import android.util.Log
 
 //Uri를 String으로 전환
 @SuppressLint("Recycle")
@@ -62,4 +66,10 @@ fun getFilePath(context: Context, contentUri: Uri): String{
     }
 
     return "null"
+}
+
+fun byteStringToBitmap(byteString: String): Bitmap {
+    val data = Base64.decode(byteString,Base64.DEFAULT)
+    Log.d("data",data.toString())
+    return BitmapFactory.decodeByteArray(data, 0, data.size)
 }

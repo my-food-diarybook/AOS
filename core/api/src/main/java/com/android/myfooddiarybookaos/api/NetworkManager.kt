@@ -1,6 +1,7 @@
 package com.android.myfooddiarybookaos.api
 
 import android.content.Context
+import com.android.myfooddiarybookaos.api.diaryApi.DiaryPostRetrofitService
 import com.android.myfooddiarybookaos.api.diaryApi.DiaryRetrofitService
 import com.android.myfooddiarybookaos.api.userApi.UserRetrofitService
 import okhttp3.Interceptor
@@ -109,8 +110,8 @@ class NetworkManager(
     fun getLoginApiService() : UserRetrofitService =
         getRetrofit(context, CONTENT_APPLICATION).create(UserRetrofitService::class.java)
 
-    fun getDiaryMultiPartApiService() : DiaryRetrofitService =
-        getRetrofit(context, CONTENT_MULTI_PART).create(DiaryRetrofitService::class.java)
+    fun getDiaryMultiPartApiService() : DiaryPostRetrofitService =
+        getRetrofit(context, CONTENT_MULTI_PART).create(DiaryPostRetrofitService::class.java)
     fun getDiaryAppApiService() : DiaryRetrofitService =
         getRetrofit(context, CONTENT_APPLICATION).create(DiaryRetrofitService::class.java)
 }
