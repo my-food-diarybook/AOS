@@ -3,14 +3,14 @@ package com.android.myfooddiarybookaos.home.viewModel
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.lifecycle.ViewModel
-import com.android.myfooddiarybookaos.data.dataHome.repository.HomeRepository
+import com.android.myfooddiarybookaos.data.dataHome.repository.HomePostRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import okhttp3.MultipartBody
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val homeRepository: HomeRepository
+    private val homePostRepository: HomePostRepository
 ) : ViewModel() {
 
     fun makeNewDiary(
@@ -18,7 +18,7 @@ class HomeViewModel @Inject constructor(
         files : List<MultipartBody.Part>,
         diaryState : (Boolean) -> Unit
     ){
-        homeRepository.postNewDiary(
+        homePostRepository.postNewDiary(
             createTime,
             null,null,null,
             files,
@@ -31,13 +31,13 @@ class HomeViewModel @Inject constructor(
     fun getMultiPartFromBitmap(
         cameraBitmap : Bitmap
     ) : List<MultipartBody.Part> {
-        return homeRepository.makePartListFromBitmap(cameraBitmap)
+        return homePostRepository.makePartListFromBitmap(cameraBitmap)
     }
 
     fun getMultiPartFromUri(
         uriList : List<Uri>
     ) : List<MultipartBody.Part>{
-        return homeRepository.makePartListFromUri(uriList)
+        return homePostRepository.makePartListFromUri(uriList)
     }
 
 

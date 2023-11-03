@@ -8,7 +8,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import java.security.SecureRandom
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
@@ -19,8 +18,8 @@ class NetworkManager(
 ) {
     companion object{
         private val instance : Retrofit? = null
-        private val CONTENT_APPLICATION = "application/json"
-        private val CONTENT_MULTI_PART = "multipart/form-data"
+        private const val CONTENT_APPLICATION = "application/json"
+        private const val CONTENT_MULTI_PART = "multipart/form-data"
         private fun getRetrofit(
             context : Context,
             contentType: String
@@ -110,6 +109,8 @@ class NetworkManager(
     fun getLoginApiService() : UserRetrofitService =
         getRetrofit(context, CONTENT_APPLICATION).create(UserRetrofitService::class.java)
 
-    fun getDiaryApiService() : DiaryRetrofitService =
+    fun getDiaryMultiPartApiService() : DiaryRetrofitService =
         getRetrofit(context, CONTENT_MULTI_PART).create(DiaryRetrofitService::class.java)
+    fun getDiaryAppApiService() : DiaryRetrofitService =
+        getRetrofit(context, CONTENT_APPLICATION).create(DiaryRetrofitService::class.java)
 }
