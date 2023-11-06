@@ -10,7 +10,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 
 import androidx.compose.ui.unit.dp
@@ -19,7 +18,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.Dialog.SelectCalendarDialog
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.TextBox
-import com.android.myfooddiarybookaos.data.component.coloredShadow
+import com.android.myfooddiarybookaos.data.component.coloredInnerShadow
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 import com.android.myfooddiarybookaos.data.robotoBold
 import java.util.*
@@ -92,7 +91,7 @@ fun TopCalendarLayout(
 
         Divider(modifier = Modifier
             .height(2.dp)
-            .coloredShadow(
+            .coloredInnerShadow(
                 color = colorResource(id = R.color.black_10),
                 offsetY = 1.dp,
                 blurRadius = 4.dp

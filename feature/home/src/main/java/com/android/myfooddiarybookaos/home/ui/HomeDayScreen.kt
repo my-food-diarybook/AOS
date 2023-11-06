@@ -12,7 +12,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.android.myfooddiarybookaos.core.data.R
-import com.android.myfooddiarybookaos.data.component.coloredShadow
+import com.android.myfooddiarybookaos.data.component.coloredInnerShadow
 @Composable
 fun HomeDayScreen(
 
@@ -43,7 +43,7 @@ fun HomeDayScreen(
                     .height(2.dp)
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter)
-                    .coloredShadow(
+                    .coloredInnerShadow(
                         color = colorResource(id = R.color.black_10),
                         offsetY = 1.dp,
                         blurRadius = 4.dp
