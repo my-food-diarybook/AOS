@@ -85,8 +85,10 @@ fun MainUi() {
         floatingActionButton = {
 
             FloatingActionButton(
-                modifier = Modifier.size(53.33.dp),
-                backgroundColor = Color.Transparent,
+                modifier = Modifier
+                    .size(64.dp)
+                    .padding(5.33.dp),
+                backgroundColor = Color.White,
                 contentColor = colorResource(id = R.color.main_color),
                 onClick = {
                     showSelectView = true

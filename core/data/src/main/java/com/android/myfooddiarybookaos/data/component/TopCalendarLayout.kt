@@ -34,6 +34,7 @@ fun TopCalendarLayout(
     var isTopLayoutClick  by remember{ // 캘린더 클릭 여부
         mutableStateOf(false)
     }
+
     // currentCalendar observe
     val topTexting = todayViewModel.todayRepository
         .currentCalendar.observeAsState().value!!
@@ -54,7 +55,7 @@ fun TopCalendarLayout(
 
     Column(
         modifier = Modifier
-            .height(88.dp)
+            .height(90.dp)
             .fillMaxWidth(),
         verticalArrangement = Arrangement.Bottom
     ){
