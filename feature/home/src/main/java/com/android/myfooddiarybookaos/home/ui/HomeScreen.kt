@@ -20,14 +20,19 @@ fun HomeScreen(
     todayViewModel: TodayViewModel = hiltViewModel(),
     homeViewModel: HomeViewModel = hiltViewModel(),
 ) {
+    //set diary State
+    homeViewModel.initDiaryState(diaryState)
+
     // 업로드 시도
-    if (diaryState.isSelectedGallery.value){
+    if (diaryState.isSelectedGallery.value) {
         homeViewModel.makeNewDiary(
             todayViewModel.getCurrentDate(),
             diaryState.multiPartList,
-            diaryState = {
-                if (it) {
-                    Log.d("uploadSuccess???", "12l4j12l4j12l4j12l4")
+            diaryState = { isUpdate ->
+                if (isUpdate) {
+                    todayViewModel.getCurrentYearMonth()?.let {
+                        homeViewModel.getDiaryList(it)
+                    }
                 }
             }
         )

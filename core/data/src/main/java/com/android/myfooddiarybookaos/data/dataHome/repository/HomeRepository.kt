@@ -3,6 +3,7 @@ package com.android.myfooddiarybookaos.data.dataHome.repository
 import android.content.Context
 import com.android.myfooddiarybookaos.api.NetworkManager
 import com.android.myfooddiarybookaos.model.diary.Diary
+import com.android.myfooddiarybookaos.model.home.DiaryHomeDay
 import dagger.hilt.android.qualifiers.ApplicationContext
 import retrofit2.Call
 import retrofit2.Callback
@@ -34,4 +35,25 @@ class HomeRepository(
 
             })
     }
+
+    fun getCurrentHomeDay(
+        date: String,
+        dataState: (DiaryHomeDay?)-> Unit
+    ){
+        manager.getHomeDay(date)
+            .enqueue(object : Callback<DiaryHomeDay>{
+                override fun onResponse(
+                    call: Call<DiaryHomeDay>,
+                    response: Response<DiaryHomeDay>
+                ) {
+                    dataState(response.body())
+                }
+
+                override fun onFailure(call: Call<DiaryHomeDay>, t: Throwable) {
+                    dataState(null)
+                }
+
+            })
+    }
+
 }

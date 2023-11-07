@@ -45,13 +45,11 @@ fun MainUi() {
     // 이미지 추가 시 다이어리 상태 변경
     val diaryState = rememberDiaryState()
     // mid click event
-    var showSelectView by remember {
-        mutableStateOf(false)
-    }
-    if (showSelectView){
+
+    if (diaryState.showSelectView.value){
         BottomSheetDialog(
             onDismissRequest = {
-                showSelectView = false
+                diaryState.showSelectView.value = false
             },
             properties = BottomSheetDialogProperties(
                 dismissOnClickOutside = true,
@@ -62,7 +60,7 @@ fun MainUi() {
                 diaryState = diaryState,
                 closeLog = {
                     // 취소 버튼 or 선택화면으로 전환
-                    showSelectView = false
+                    diaryState.showSelectView.value = false
                 }
             )
         }
@@ -91,7 +89,7 @@ fun MainUi() {
                 backgroundColor = Color.White,
                 contentColor = colorResource(id = R.color.main_color),
                 onClick = {
-                    showSelectView = true
+                    diaryState.showSelectView.value = true
             }) {
                 Icon(
                     painter = painterResource(id = R.drawable.add_button),

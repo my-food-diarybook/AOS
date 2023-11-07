@@ -8,4 +8,5 @@ import okhttp3.MultipartBody
 class DiaryState(
     val isSelectedGallery : MutableState<Boolean>,
     var multiPartList : List<MultipartBody.Part>,
+    val showSelectView: MutableState<Boolean>,
 ) {}

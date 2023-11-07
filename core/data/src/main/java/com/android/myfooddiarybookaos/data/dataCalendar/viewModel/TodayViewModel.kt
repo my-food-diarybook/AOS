@@ -6,8 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.android.myfooddiarybookaos.data.dataCalendar.repository.TodayRepository
 import com.android.myfooddiarybookaos.data.todayViewModel.TodayViewModelInterface
+import com.android.myfooddiarybookaos.home.function.getLocalDateDayOfWeek
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -17,6 +19,7 @@ import javax.inject.Inject
 class TodayViewModel @Inject constructor(
     val todayRepository: TodayRepository
 ):ViewModel() {
+    private var homeDay: String? = null
     fun setCurrentDate(year : Int, month : Int){
         todayRepository.setCurrentDate(year,month)
     }
@@ -25,6 +28,23 @@ class TodayViewModel @Inject constructor(
         val now: LocalDateTime = LocalDateTime.now()
         return now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
     }
+
+    @SuppressLint("SimpleDateFormat")
+    fun setDayDate(day: Int) {
+        val dateFormat = "yyyy-MM-dd"
+        val date = todayRepository.currentCalendar.value
+        date?.set(Calendar.DAY_OF_MONTH,day)
+        homeDay = SimpleDateFormat(dateFormat).format(date)
+    }
+
+    fun getTopDate(date: String): String{
+        val now = LocalDate.now()
+        val strNow = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+        val dateNow = LocalDate.parse(strNow,DateTimeFormatter.ISO_DATE)
+        return "${dateNow.month}/${dateNow.dayOfMonth} ${getLocalDateDayOfWeek(dateNow)}"
+    }
+
+    fun getDayDate(): String? = homeDay
 
     @SuppressLint("SimpleDateFormat")
     fun getCurrentYearMonth(): String? {

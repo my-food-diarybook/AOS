@@ -7,7 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.android.myfooddiarybookaos.data.dataHome.repository.HomePostRepository
 import com.android.myfooddiarybookaos.data.dataHome.repository.HomeRepository
+import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.model.diary.Diary
+import com.android.myfooddiarybookaos.model.home.DiaryHomeDay
 import dagger.hilt.android.lifecycle.HiltViewModel
 import okhttp3.MultipartBody
 import javax.inject.Inject
@@ -17,8 +19,20 @@ class HomeViewModel @Inject constructor(
     private val homePostRepository: HomePostRepository,
     private val homeRepository: HomeRepository
 ) : ViewModel() {
+    private val _diaryState = MutableLiveData<DiaryState>()
+    val diaryState : LiveData<DiaryState> get() = _diaryState
+
     private val _homeDiaryList = MutableLiveData<List<Diary>>()
     val homeDiaryList : LiveData<List<Diary>> get() = _homeDiaryList
+
+    private val _homeDayInDiary = MutableLiveData<DiaryHomeDay>()
+    val homeDayInDiary: LiveData<DiaryHomeDay> get() = _homeDayInDiary
+
+    fun initDiaryState(
+        state: DiaryState
+    ){
+        _diaryState.value= state
+    }
 
     fun getDiaryList(
         yearMonth: String
@@ -30,6 +44,18 @@ class HomeViewModel @Inject constructor(
             }
         )
     }
+
+    fun getHomeDayInDiary(
+        date: String
+    ){
+        homeRepository.getCurrentHomeDay(
+            date,
+            dataState = {
+                _homeDayInDiary.value = it
+            }
+        )
+    }
+
     fun makeNewDiary(
         createTime : String,
         files : List<MultipartBody.Part>,
@@ -44,7 +70,6 @@ class HomeViewModel @Inject constructor(
             }
         )
     }
-
 
     fun getMultiPartFromBitmap(
         cameraBitmap : Bitmap
