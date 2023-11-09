@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.android.myfooddiarybookaos.data.dataHome.repository.HomePostRepository
 import com.android.myfooddiarybookaos.data.dataHome.repository.HomeRepository
+import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.model.diary.Diary
 import com.android.myfooddiarybookaos.model.home.DiaryHomeDay
@@ -19,6 +20,9 @@ class HomeViewModel @Inject constructor(
     private val homePostRepository: HomePostRepository,
     private val homeRepository: HomeRepository
 ) : ViewModel() {
+    private val _appState = MutableLiveData<ApplicationState>()
+    val appState : LiveData<ApplicationState> get() = _appState
+
     private val _diaryState = MutableLiveData<DiaryState>()
     val diaryState : LiveData<DiaryState> get() = _diaryState
 
@@ -28,10 +32,12 @@ class HomeViewModel @Inject constructor(
     private val _homeDayInDiary = MutableLiveData<DiaryHomeDay>()
     val homeDayInDiary: LiveData<DiaryHomeDay> get() = _homeDayInDiary
 
-    fun initDiaryState(
-        state: DiaryState
+    fun initState(
+        state1: ApplicationState,
+        state2: DiaryState,
     ){
-        _diaryState.value= state
+        _appState.value = state1
+        _diaryState.value= state2
     }
 
     fun getDiaryList(

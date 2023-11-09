@@ -14,6 +14,7 @@ import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 import com.android.myfooddiarybookaos.home.item.ItemDiary
 import com.android.myfooddiarybookaos.home.viewModel.HomeViewModel
 import com.android.myfooddiarybookaos.model.diary.Diary
+import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 import java.util.*
 
 private const val DAY_OF_WEAK = 7
@@ -25,30 +26,32 @@ fun MonthDataView(
     todayViewModel: TodayViewModel = hiltViewModel()
 ) {
     // 현재 뷰어
-    val viewCalendar : State<Boolean> = todayViewModel
+    val viewCalendar: State<Boolean> = todayViewModel
         .todayRepository.dataChanger.observeAsState(false)
 
 
-    if (viewCalendar.value){
-        ItemScreen(date = todayViewModel
-            .todayRepository.currentCalendar.value!!.time)
+    if (viewCalendar.value) {
+        ItemScreen(
+            date = todayViewModel
+                .todayRepository.currentCalendar.value!!.time
+        )
     }
 }
 
 @Composable
 fun ItemScreen(
-    date : Date,
+    date: Date,
     todayViewModel: TodayViewModel = hiltViewModel(),
-    homeViewModel : HomeViewModel = hiltViewModel()
-){
+    homeViewModel: HomeViewModel = hiltViewModel()
+) {
     // 다이어리 변화 관찰
     var currentDiaryList: List<Diary> = listOf()
     homeViewModel.homeDiaryList.observeAsState().value?.let {
         currentDiaryList = it
     }
 
-    val yearMonth =  todayViewModel.getCurrentYearMonth()
-    LaunchedEffect(Unit){
+    val yearMonth = todayViewModel.getCurrentYearMonth()
+    LaunchedEffect(Unit) {
         yearMonth?.let {
             homeViewModel.getDiaryList(it)
         }
@@ -66,10 +69,11 @@ fun ItemScreen(
                 ItemDiary(
                     dayDate = newCalendar.dateSet[index],
                     dayClick = {
-                        todayViewModel.setDayDate(newCalendar.dateSet[index].day)
+                        val dayDate = todayViewModel.getDayDate(newCalendar.dateSet[index].day)
+                        dayDate?.let { homeViewModel.diaryState.value?.currentHomeDay?.value = it }
                         if (imageByte != null) {
                             // 해당 날짜로 이동
-                            homeViewModel.diaryState.value?.isHomeDay?.value = true
+                            homeViewModel.appState.value?.navController?.navigate(ScreenRoot.HOME_DAY)
                         } else {
                             // 해당 날짜로 새로 생성
                             homeViewModel.diaryState.value?.showSelectView?.value = true

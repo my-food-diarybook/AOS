@@ -19,7 +19,6 @@ import javax.inject.Inject
 class TodayViewModel @Inject constructor(
     val todayRepository: TodayRepository
 ):ViewModel() {
-    private var homeDay: String? = null
     fun setCurrentDate(year : Int, month : Int){
         todayRepository.setCurrentDate(year,month)
     }
@@ -30,11 +29,11 @@ class TodayViewModel @Inject constructor(
     }
 
     @SuppressLint("SimpleDateFormat")
-    fun setDayDate(day: Int) {
+    fun getDayDate(day: Int): String? {
         val dateFormat = "yyyy-MM-dd"
         val date = todayRepository.currentCalendar.value
         date?.set(Calendar.DAY_OF_MONTH, day)
-        date?.time?.let { homeDay = SimpleDateFormat(dateFormat).format(it) }
+        return date?.time?.let {  SimpleDateFormat(dateFormat).format(it) }
     }
 
     fun getTopDate(date: String?): String{
@@ -45,8 +44,6 @@ class TodayViewModel @Inject constructor(
         return "${dateNow.monthValue}/${dateNow.dayOfMonth} ${getLocalDateDayOfWeek(dateNow)}"
     }
 
-    fun getDayDate(): String? = homeDay
-    fun reSetDayDate(){ homeDay = null }
 
     @SuppressLint("SimpleDateFormat")
     fun getCurrentYearMonth(): String? {

@@ -28,19 +28,24 @@ import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.Layout.MonthDataView
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 import com.android.myfooddiarybookaos.data.robotoRegular
+import com.android.myfooddiarybookaos.data.state.ApplicationState
+import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.home.component.HomeDayTopLayer
 import com.android.myfooddiarybookaos.home.item.ItemHomeDay
 import com.android.myfooddiarybookaos.home.viewModel.HomeViewModel
 
 @Composable
 fun HomeDayScreen(
-    currentDate: String,
+    diaryState: DiaryState,
+    appState: ApplicationState,
     todayViewModel: TodayViewModel = hiltViewModel(),
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
+    val currentDate = diaryState.currentHomeDay.value
     // 뒤로가기 제어
     BackHandler(enabled = true, onBack = {
-        homeViewModel.diaryState.value?.isHomeDay?.value = false
+        diaryState.currentHomeDay.value = ""
+        appState.navController.popBackStack()
     })
 
     LaunchedEffect(Unit){
@@ -60,7 +65,7 @@ fun HomeDayScreen(
                 modifier = Modifier
                     .size(34.dp)
                     .clickable {
-                        homeViewModel.diaryState.value?.isHomeDay?.value = false
+                        appState.navController.popBackStack()
                     }
                     .align(Alignment.BottomStart),
                 contentAlignment = Alignment.Center

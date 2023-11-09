@@ -9,5 +9,5 @@ class DiaryState(
     val isSelectedGallery : MutableState<Boolean>,
     var multiPartList : List<MultipartBody.Part>,
     val showSelectView: MutableState<Boolean>,
-    val isHomeDay: MutableState<Boolean>
+    val currentHomeDay: MutableState<String>
 ) {}
