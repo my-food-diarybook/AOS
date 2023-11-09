@@ -18,9 +18,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-import com.android.myfooddiarybookaos.data.component.customOuterShadow
 import com.android.myfooddiarybookaos.core.data.R
-import com.android.myfooddiarybookaos.data.robotoRegular
+import com.android.myfooddiarybookaos.data.component.coloredInnerShadow
+import com.android.myfooddiarybookaos.home.function.diaryTimeData
 import com.android.myfooddiarybookaos.model.home.HomeDay
 import com.android.myfooddiarybookaos.path.byteStringToBitmap
 
@@ -28,6 +28,11 @@ import com.android.myfooddiarybookaos.path.byteStringToBitmap
 fun ItemHomeDay(
     homeDay: HomeDay
 ) {
+    val homeDayTags =
+        if (homeDay.tags.isNotEmpty()) "#" +
+                homeDay.tags.joinToString(" #")
+        else ""
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -37,13 +42,13 @@ fun ItemHomeDay(
                 horizontal = 20.dp
             )
             .clip(RoundedCornerShape(4.dp))
-            .customOuterShadow(
+            .coloredInnerShadow(
                 color = colorResource(id = R.color.black_10),
                 offsetY = 1.dp,
-                blurRadius = 4f
+                blurRadius = 4.dp
             )
     ) {
-        Column {
+        Column(modifier = Modifier.fillMaxWidth()) {
             Image(
                 rememberAsyncImagePainter(byteStringToBitmap(homeDay.image.bytes)),
                 contentDescription = null,
@@ -54,25 +59,28 @@ fun ItemHomeDay(
                 contentScale = ContentScale.Crop,
             )
 
-            Box(
-                modifier = Modifier
+
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp)) {
+                Box(modifier = Modifier
                     .height(34.dp)
-                    .width(41.dp)
-            ) {
-                Text(
-                    text = homeDay.diaryTime,
-                    fontFamily = FontFamily(Font(R.font.roboto_bold, FontWeight.W700)),
-                    fontSize = 12.sp,
-                    color = Color.Black,
-                    modifier = Modifier.align(Alignment.TopStart)
-                )
-                Text(
-                    text = "#"+homeDay.tags.joinToString(" #"),
-                    fontFamily = FontFamily(Font(R.font.roboto_bold, FontWeight.W700)),
-                    fontSize = 16.sp,
-                    color = colorResource(id = R.color.main_color),
-                    modifier = Modifier.align(Alignment.TopStart)
-                )
+                    .fillMaxWidth()) {
+                    Text(
+                        text = diaryTimeData(homeDay.diaryTime),
+                        fontFamily = FontFamily(Font(R.font.roboto_bold, FontWeight.W700)),
+                        fontSize = 12.sp,
+                        color = Color.Black,
+                        modifier = Modifier.align(Alignment.TopStart)
+                    )
+                    Text(
+                        text = homeDayTags,
+                        fontFamily = FontFamily(Font(R.font.roboto_bold, FontWeight.W700)),
+                        fontSize = 16.sp,
+                        color = colorResource(id = R.color.main_color),
+                        modifier = Modifier.align(Alignment.BottomStart)
+                    )
+                }
             }
 
         }

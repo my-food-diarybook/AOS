@@ -13,6 +13,7 @@ import com.android.myfooddiarybookaos.data.dataCalendar.repository.CustomCalenda
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 import com.android.myfooddiarybookaos.home.item.ItemDiary
 import com.android.myfooddiarybookaos.home.viewModel.HomeViewModel
+import com.android.myfooddiarybookaos.model.diary.Diary
 import java.util.*
 
 private const val DAY_OF_WEAK = 7
@@ -40,8 +41,15 @@ fun ItemScreen(
     todayViewModel: TodayViewModel = hiltViewModel(),
     homeViewModel : HomeViewModel = hiltViewModel()
 ){
+    // 다이어리 변화 관찰
+    var currentDiaryList: List<Diary> = listOf()
+    homeViewModel.homeDiaryList.observeAsState().value?.let {
+        currentDiaryList = it
+    }
+
+    val yearMonth =  todayViewModel.getCurrentYearMonth()
     LaunchedEffect(Unit){
-        todayViewModel.getCurrentYearMonth()?.let {
+        yearMonth?.let {
             homeViewModel.getDiaryList(it)
         }
     }
@@ -53,18 +61,15 @@ fun ItemScreen(
         content = {
             items(newCalendar.dateSet.size) { index ->
                 val imageByte = homeViewModel.getByteString(
-                    todayViewModel.getCurrentYearMonth(),
-                    newCalendar.dateSet[index].day.toString()
+                    yearMonth, newCalendar.dateSet[index].day.toString()
                 )
                 ItemDiary(
                     dayDate = newCalendar.dateSet[index],
                     dayClick = {
+                        todayViewModel.setDayDate(newCalendar.dateSet[index].day)
                         if (imageByte != null) {
                             // 해당 날짜로 이동
-                            todayViewModel.setDayDate(newCalendar.dateSet[index].day)
-                            if (todayViewModel.getDayDate() != null) {
-
-                            }
+                            homeViewModel.diaryState.value?.isHomeDay?.value = true
                         } else {
                             // 해당 날짜로 새로 생성
                             homeViewModel.diaryState.value?.showSelectView?.value = true

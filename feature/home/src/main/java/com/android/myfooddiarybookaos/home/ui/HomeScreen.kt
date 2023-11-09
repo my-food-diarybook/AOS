@@ -13,10 +13,13 @@ import com.android.myfooddiarybookaos.Layout.TopCalendarLayout
 import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.home.viewModel.HomeViewModel
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
+import com.android.myfooddiarybookaos.data.state.ApplicationState
+import com.android.myfooddiarybookaos.home.ui.HomeDayScreen
 
 @Composable
 fun HomeScreen(
     diaryState : DiaryState,
+    appState: ApplicationState,
     todayViewModel: TodayViewModel = hiltViewModel(),
     homeViewModel: HomeViewModel = hiltViewModel(),
 ) {
@@ -38,22 +41,23 @@ fun HomeScreen(
         )
         diaryState.isSelectedGallery.value = false
     }
-    Column(
-        Modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
-    ) {
-        // top calendar
-        TopCalendarLayout(todayViewModel)
 
-        // mid calendar
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            CalendarLayout()
+    // main view
+    Column {
+        val homeDayDate = todayViewModel.getDayDate()
+        if (diaryState.isHomeDay.value && homeDayDate!=null){
+            HomeDayScreen(currentDate = homeDayDate)
+        } else {
+            // top calendar
+            TopCalendarLayout(todayViewModel)
+            // mid calendar
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CalendarLayout()
+            }
         }
-
     }
 }
 

@@ -22,9 +22,7 @@ import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 private const val DAY_OF_WEAK = 7
 
 @Composable
-fun CalendarLayout(
-    todayViewModel : TodayViewModel = hiltViewModel()
-){
+fun CalendarLayout(){
     Column(
         modifier = Modifier.padding(horizontal = 12.dp)
     ) {

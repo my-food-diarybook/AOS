@@ -19,6 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import com.android.myfooddiarybookaos.common.addPicture.SelectAddScreen
 import com.android.myfooddiarybookaos.common.bottomaNavi.BottomNavigation
 import com.android.myfooddiarybookaos.common.bottomaNavi.NavigationGraph
+import com.android.myfooddiarybookaos.data.state.rememberApplicationState
 import com.android.myfooddiarybookaos.data.state.rememberDiaryState
 import com.android.myfooddiarybookaos.data.ui.theme.MyFoodDiaryBookAOSTheme
 import com.holix.android.bottomsheetdialog.compose.BottomSheetDialog
@@ -44,8 +45,10 @@ fun MainUi() {
 
     // 이미지 추가 시 다이어리 상태 변경
     val diaryState = rememberDiaryState()
-    // mid click event
+    // bottom state
+    val appState = rememberApplicationState()
 
+    // mid click event
     if (diaryState.showSelectView.value){
         BottomSheetDialog(
             onDismissRequest = {
@@ -65,23 +68,17 @@ fun MainUi() {
             )
         }
     }
-    // navController
-    // 네비게이션의 중심 API -> 각 화면을 구성하는 컴포저블의 백스택을 추적
-    val navController = rememberNavController()
-    // 기본 material design ui 구현
-    // TopAppBar, BottomAppBar, FloatingActionButton, Drawer
 
     Scaffold(
         // 네비게이션 연결
         bottomBar = {
             BottomNavigation(
-                navController = navController
+                navController = appState.navController
             )
         },
         floatingActionButtonPosition = FabPosition.Center,
         isFloatingActionButtonDocked = true,
         floatingActionButton = {
-
             FloatingActionButton(
                 modifier = Modifier
                     .size(64.dp)
@@ -101,7 +98,7 @@ fun MainUi() {
         Box(Modifier.padding(it)){
             // 각 네비게이션에 맞는 뷰를 그러주는 그래프 연결
             NavigationGraph(
-                navController = navController,
+                appState = appState,
                 diaryState = diaryState
             )
         }

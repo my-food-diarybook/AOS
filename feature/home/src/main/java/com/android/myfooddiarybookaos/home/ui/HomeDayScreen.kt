@@ -1,5 +1,6 @@
 package com.android.myfooddiarybookaos.home.ui
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -37,6 +38,11 @@ fun HomeDayScreen(
     todayViewModel: TodayViewModel = hiltViewModel(),
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
+    // 뒤로가기 제어
+    BackHandler(enabled = true, onBack = {
+        homeViewModel.diaryState.value?.isHomeDay?.value = false
+    })
+
     LaunchedEffect(Unit){
         homeViewModel.getHomeDayInDiary(currentDate)
     }
@@ -47,12 +53,15 @@ fun HomeDayScreen(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(92.dp)
+                .height(90.dp)
+                .padding(start = 10.dp, bottom = 9.dp)
         ) {
             Box(
                 modifier = Modifier
                     .size(34.dp)
-                    .padding(start = 10.dp, bottom = 9.dp)
+                    .clickable {
+                        homeViewModel.diaryState.value?.isHomeDay?.value = false
+                    }
                     .align(Alignment.BottomStart),
                 contentAlignment = Alignment.Center
             ){
@@ -61,18 +70,17 @@ fun HomeDayScreen(
                     contentDescription = null
                 )
             }
-            Divider(
-                modifier = Modifier
-                    .height(2.dp)
-                    .fillMaxWidth()
-                    .align(Alignment.BottomCenter)
-                    .coloredInnerShadow(
-                        color = colorResource(id = R.color.black_10),
-                        offsetY = 1.dp,
-                        blurRadius = 4.dp
-                    )
-            )
         }
+        Divider(
+            modifier = Modifier
+                .height(2.dp)
+                .fillMaxWidth()
+                .coloredInnerShadow(
+                    color = colorResource(id = R.color.black_10),
+                    offsetY = 1.dp,
+                    blurRadius = 4.dp
+                )
+        )
         
         Spacer(modifier = Modifier.height(6.dp))
 
@@ -100,26 +108,6 @@ fun HomeDayScreen(
                     ItemHomeDay(homeDay = homeDay)
                 }
             }
-        }
-    }
-
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(Color.Transparent)){
-        Box(
-            modifier = Modifier
-                .size(64.dp)
-                .padding(5.33.dp)
-                .clickable {
-
-                }
-                .background(Color.White),
-            contentAlignment = Alignment.Center
-        ){
-            Image(
-                painter = painterResource(id = R.drawable.add_button),
-                contentDescription = null
-            )
         }
     }
 }

@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import com.android.myfooddiarybookaos.TabMyAccount.MyScreen
 import com.android.myfooddiarybookaos.TabSearch.SearchScreen
 import com.android.myfooddiarybookaos.TabTimeLine.TimeLineScreen
+import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
 
 import com.android.myfooddiarybookaos.home.HomeScreen
@@ -16,15 +17,15 @@ import com.android.myfooddiarybookaos.home.HomeScreen
 // NavController : 대상을 이동 시키는 요소 
 @Composable
 fun NavigationGraph(
-    navController: NavHostController,
+    appState: ApplicationState,
     diaryState : DiaryState
 ) {
     NavHost(
-        navController = navController,
+        navController = appState.navController,
         startDestination = BottomNavItem.Home.screenRoute
     ){
         composable(BottomNavItem.Home.screenRoute){
-            HomeScreen(diaryState)
+            HomeScreen(diaryState,appState)
         }
         composable(BottomNavItem.TimeLine.screenRoute){
             TimeLineScreen()

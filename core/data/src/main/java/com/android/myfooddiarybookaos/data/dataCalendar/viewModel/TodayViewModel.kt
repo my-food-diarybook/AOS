@@ -33,18 +33,20 @@ class TodayViewModel @Inject constructor(
     fun setDayDate(day: Int) {
         val dateFormat = "yyyy-MM-dd"
         val date = todayRepository.currentCalendar.value
-        date?.set(Calendar.DAY_OF_MONTH,day)
-        homeDay = SimpleDateFormat(dateFormat).format(date)
+        date?.set(Calendar.DAY_OF_MONTH, day)
+        date?.time?.let { homeDay = SimpleDateFormat(dateFormat).format(it) }
     }
 
-    fun getTopDate(date: String): String{
+    fun getTopDate(date: String?): String{
+        if (date == null) return ""
         val now = LocalDate.now()
         val strNow = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
         val dateNow = LocalDate.parse(strNow,DateTimeFormatter.ISO_DATE)
-        return "${dateNow.month}/${dateNow.dayOfMonth} ${getLocalDateDayOfWeek(dateNow)}"
+        return "${dateNow.monthValue}/${dateNow.dayOfMonth} ${getLocalDateDayOfWeek(dateNow)}"
     }
 
     fun getDayDate(): String? = homeDay
+    fun reSetDayDate(){ homeDay = null }
 
     @SuppressLint("SimpleDateFormat")
     fun getCurrentYearMonth(): String? {

@@ -10,11 +10,13 @@ import okhttp3.MultipartBody
 fun rememberDiaryState(
     isSelectedGallery : MutableState<Boolean> = remember{ mutableStateOf(false)},
     selectedList : List<MultipartBody.Part> = listOf(),
-    showSelectView: MutableState<Boolean> = remember { mutableStateOf(false) }
+    showSelectView: MutableState<Boolean> = remember { mutableStateOf(false) },
+    isHomeDay: MutableState<Boolean> = remember { mutableStateOf(false) }
 ) = remember(isSelectedGallery,selectedList,showSelectView){
     DiaryState(
         isSelectedGallery,
         selectedList,
-        showSelectView
+        showSelectView,
+        isHomeDay
     )
 }
