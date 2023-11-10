@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.component.coloredInnerShadow
+import com.android.myfooddiarybookaos.data.component.customOuterShadow
 import com.android.myfooddiarybookaos.home.function.diaryTimeData
 import com.android.myfooddiarybookaos.model.home.HomeDay
 import com.android.myfooddiarybookaos.path.byteStringToBitmap
@@ -37,15 +38,10 @@ fun ItemHomeDay(
         modifier = Modifier
             .fillMaxWidth()
             .height(146.dp)
-            .padding(
-                vertical = 8.dp,
-                horizontal = 20.dp
-            )
-            .clip(RoundedCornerShape(4.dp))
-            .coloredInnerShadow(
+            .customOuterShadow(
                 color = colorResource(id = R.color.black_10),
                 offsetY = 1.dp,
-                blurRadius = 4.dp
+                blurRadius = 4f
             )
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
@@ -68,15 +64,15 @@ fun ItemHomeDay(
                     .fillMaxWidth()) {
                     Text(
                         text = diaryTimeData(homeDay.diaryTime),
-                        fontFamily = FontFamily(Font(R.font.roboto_bold, FontWeight.W700)),
-                        fontSize = 12.sp,
+                        fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W500)),
+                        fontSize = 16.sp,
                         color = Color.Black,
                         modifier = Modifier.align(Alignment.TopStart)
                     )
                     Text(
                         text = homeDayTags,
-                        fontFamily = FontFamily(Font(R.font.roboto_bold, FontWeight.W700)),
-                        fontSize = 16.sp,
+                        fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W500)),
+                        fontSize = 12.sp,
                         color = colorResource(id = R.color.main_color),
                         modifier = Modifier.align(Alignment.BottomStart)
                     )

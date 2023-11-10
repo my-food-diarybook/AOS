@@ -1,6 +1,7 @@
 package com.android.myfooddiarybookaos
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.*
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,6 +32,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainUi() {
+    // 뒤로가기 제어
+    BackHandler(enabled = true, onBack = {})
 
     // 이미지 추가 시 다이어리 상태 변경
     val diaryState = rememberDiaryState()

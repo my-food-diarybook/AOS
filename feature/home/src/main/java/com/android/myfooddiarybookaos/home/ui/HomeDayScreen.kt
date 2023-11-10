@@ -48,7 +48,7 @@ fun HomeDayScreen(
         appState.navController.popBackStack()
     })
 
-    LaunchedEffect(Unit){
+    LaunchedEffect(Unit) {
         homeViewModel.getHomeDayInDiary(currentDate)
     }
 
@@ -69,7 +69,7 @@ fun HomeDayScreen(
                     }
                     .align(Alignment.BottomStart),
                 contentAlignment = Alignment.Center
-            ){
+            ) {
                 Image(
                     painter = painterResource(id = R.drawable.main_left),
                     contentDescription = null
@@ -86,16 +86,18 @@ fun HomeDayScreen(
                     blurRadius = 4.dp
                 )
         )
-        
+
         Spacer(modifier = Modifier.height(6.dp))
 
         // 박스 (좌우)
-        Box(modifier = Modifier.fillMaxWidth().height(34.dp)){
+        Box(modifier = Modifier
+            .fillMaxWidth()
+            .height(34.dp)) {
             homeViewModel.homeDayInDiary.value?.let {
                 HomeDayTopLayer(
                     currentDate = todayViewModel.getTopDate(currentDate),
                     prevDate = todayViewModel.getTopDate(it.beforeDay),
-                    nextDate =todayViewModel.getTopDate(it.afterday)
+                    nextDate = todayViewModel.getTopDate(it.afterday)
                 )
             }
         }
@@ -106,10 +108,14 @@ fun HomeDayScreen(
         //여기 아이템 리스트 추가
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(
+                vertical = 8.dp,
+                horizontal = 20.dp
+            ),
             state = rememberLazyListState()
-        ){
-            homeViewModel.homeDayInDiary.value?.homeDayList?.let{ homeDays->
-                items(homeDays){homeDay ->
+        ) {
+            homeViewModel.homeDayInDiary.value?.homeDayList?.let { homeDays ->
+                items(homeDays) { homeDay ->
                     ItemHomeDay(homeDay = homeDay)
                 }
             }
