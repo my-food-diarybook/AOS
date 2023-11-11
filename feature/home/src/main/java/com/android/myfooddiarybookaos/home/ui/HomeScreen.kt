@@ -22,7 +22,9 @@ fun HomeScreen(
     homeViewModel: HomeViewModel = hiltViewModel(),
 ) {
     //set diary State
-    homeViewModel.initState(appState,diaryState)
+    LaunchedEffect(Unit) {
+        homeViewModel.initState(appState,diaryState)
+    }
 
     // 업로드 시도
     if (diaryState.isSelectedGallery.value) {

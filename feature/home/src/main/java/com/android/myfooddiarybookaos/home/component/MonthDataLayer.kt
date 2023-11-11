@@ -25,17 +25,11 @@ private const val DAY_OF_WEAK = 7
 fun MonthDataView(
     todayViewModel: TodayViewModel = hiltViewModel()
 ) {
-    // 현재 뷰어
-    val viewCalendar: State<Boolean> = todayViewModel
-        .todayRepository.dataChanger.observeAsState(false)
 
-
-    if (viewCalendar.value) {
-        ItemScreen(
-            date = todayViewModel
-                .todayRepository.currentCalendar.value!!.time
-        )
-    }
+    ItemScreen(
+        date = todayViewModel.todayRepository
+            .currentCalendar.value!!.time
+    )
 }
 
 @Composable
@@ -49,27 +43,26 @@ fun ItemScreen(
     homeViewModel.homeDiaryList.observeAsState().value?.let {
         currentDiaryList = it
     }
-
     val yearMonth = todayViewModel.getCurrentYearMonth()
+    val calendar = todayViewModel.customCalendarImpl
+
     LaunchedEffect(Unit) {
         yearMonth?.let {
             homeViewModel.getDiaryList(it)
         }
+        todayViewModel.customCalendarImpl.initData(date)
     }
-
-    val newCalendar = CustomCalendarImpl()
-    newCalendar.initData(date)
     LazyVerticalGrid(
         columns = GridCells.Fixed(DAY_OF_WEAK),
         content = {
-            items(newCalendar.dateSet.size) { index ->
+            items(calendar.dateSet.size) { index ->
                 val imageByte = homeViewModel.getByteString(
-                    yearMonth, newCalendar.dateSet[index].day.toString()
+                    yearMonth, calendar.dateSet[index].day.toString()
                 )
                 ItemDiary(
-                    dayDate = newCalendar.dateSet[index],
+                    dayDate = calendar.dateSet[index],
                     dayClick = {
-                        val dayDate = todayViewModel.getDayDate(newCalendar.dateSet[index].day)
+                        val dayDate = todayViewModel.getDayDate(calendar.dateSet[index].day)
                         dayDate?.let { homeViewModel.diaryState.value?.currentHomeDay?.value = it }
                         if (imageByte != null) {
                             // 해당 날짜로 이동

@@ -1,5 +1,7 @@
 package com.android.myfooddiarybookaos.data.di
 
+import com.android.myfooddiarybookaos.data.dataCalendar.domain.CustomCalendarInterFace
+import com.android.myfooddiarybookaos.data.dataCalendar.repository.CustomCalendarImpl
 import com.android.myfooddiarybookaos.data.dataCalendar.repository.TodayRepository
 import com.android.myfooddiarybookaos.data.todayViewModel.TodayViewModelInterface
 import dagger.Binds
@@ -19,4 +21,10 @@ abstract class TodayModule {
     abstract fun bindTodayRepository(
         todayRepository: TodayRepository
     ) : TodayViewModelInterface
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindCalendarRepository(
+        customCalendarImpl: CustomCalendarImpl
+    ): CustomCalendarInterFace
 }

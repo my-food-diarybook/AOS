@@ -49,32 +49,26 @@ fun ItemHomeDay(
                 rememberAsyncImagePainter(byteStringToBitmap(homeDay.image.bytes)),
                 contentDescription = null,
                 modifier = Modifier
-                    .clip(RoundedCornerShape(4.dp))
+                    .clip(RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp))
                     .fillMaxWidth()
                     .height(96.dp),
                 contentScale = ContentScale.Crop,
             )
 
 
-            Box(modifier = Modifier
-                .fillMaxSize()
-                .padding(8.dp)) {
-                Box(modifier = Modifier
-                    .height(34.dp)
-                    .fillMaxWidth()) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.CenterStart) {
+                Column(modifier = Modifier.padding(start = 8.dp)) {
                     Text(
                         text = diaryTimeData(homeDay.diaryTime),
                         fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W500)),
                         fontSize = 16.sp,
                         color = Color.Black,
-                        modifier = Modifier.align(Alignment.TopStart)
                     )
                     Text(
                         text = homeDayTags,
                         fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W500)),
                         fontSize = 12.sp,
                         color = colorResource(id = R.color.main_color),
-                        modifier = Modifier.align(Alignment.BottomStart)
                     )
                 }
             }

@@ -41,11 +41,11 @@ fun HomeDayScreen(
     todayViewModel: TodayViewModel = hiltViewModel(),
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
+    diaryState.isHomeDay.value = true
     val currentDate = diaryState.currentHomeDay.value
     // 뒤로가기 제어
     BackHandler(enabled = true, onBack = {
-        diaryState.currentHomeDay.value = ""
-        appState.navController.popBackStack()
+        backStage(diaryState, appState)
     })
 
     LaunchedEffect(Unit) {
@@ -65,7 +65,7 @@ fun HomeDayScreen(
                 modifier = Modifier
                     .size(34.dp)
                     .clickable {
-                        appState.navController.popBackStack()
+                        backStage(diaryState, appState)
                     }
                     .align(Alignment.BottomStart),
                 contentAlignment = Alignment.Center
@@ -121,4 +121,16 @@ fun HomeDayScreen(
             }
         }
     }
+
+    fun backStage(){
+        diaryState.currentHomeDay.value = ""
+        diaryState.isHomeDay.value = false
+        appState.navController.popBackStack()
+    }
+}
+
+fun backStage(diaryState: DiaryState,appState: ApplicationState){
+    diaryState.currentHomeDay.value = ""
+    diaryState.isHomeDay.value = false
+    appState.navController.popBackStack()
 }

@@ -1,6 +1,5 @@
 package com.android.myfooddiarybookaos.home.item
 
-import android.util.Log
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -12,7 +11,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -21,9 +19,9 @@ import com.android.myfooddiarybookaos.data.robotoBold
 import com.android.myfooddiarybookaos.model.DayDate
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import coil.compose.rememberAsyncImagePainter
 import com.android.myfooddiarybookaos.path.byteStringToBitmap
@@ -34,9 +32,15 @@ fun ItemDiary(
     dayClick : (Int) -> Unit,
     imageByte : String?
 ) {
-    val isSelected = dayDate.isSelected == 0
+    val dayDateState by remember {
+        mutableStateOf(dayDate.isSelected)
+    }
+    val dayState by remember {
+        mutableStateOf(dayDate.day)
+    }
+
     val textView by animateColorAsState(
-        if (dayDate.isSelected == 1) colorResource(id = R.color.line_color_deep)
+        if (dayDateState == 1) colorResource(id = R.color.line_color_deep)
         else colorResource(id = R.color.color_day_of_weak)
     )
     Box(
@@ -44,11 +48,11 @@ fun ItemDiary(
         modifier = Modifier
             .clickable(
                 onClick = {
-                    dayClick(dayDate.day)
+                    dayClick(dayState)
                 })
             .aspectRatio(1f),
     ) {
-        if (isSelected && imageByte==null){
+        if (dayDateState == 0 && imageByte==null){
             Box(
                 Modifier
                     .fillMaxSize()
@@ -59,9 +63,9 @@ fun ItemDiary(
             )
         }
 
-        if (dayDate.day != 0 && imageByte==null) {
+        if (dayState != 0 && imageByte==null) {
             Text(
-                text = dayDate.day.toString(),
+                text = dayState.toString(),
                 fontWeight = FontWeight(400),
                 fontFamily = robotoBold,
                 fontSize = 12.sp,
