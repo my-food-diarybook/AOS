@@ -19,4 +19,5 @@ abstract class TodayModule {
     abstract fun bindTodayRepository(
         todayRepository: TodayRepository
     ) : TodayViewModelInterface
+
 }
