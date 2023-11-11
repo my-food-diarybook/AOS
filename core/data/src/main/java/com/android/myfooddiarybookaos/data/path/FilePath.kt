@@ -1,4 +1,4 @@
-package com.android.myfooddiarybookaos.path
+package com.android.myfooddiarybookaos.data.path
 
 import android.annotation.SuppressLint
 import android.content.Context

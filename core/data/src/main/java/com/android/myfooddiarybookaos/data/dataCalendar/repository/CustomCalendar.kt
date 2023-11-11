@@ -4,13 +4,11 @@ package com.android.myfooddiarybookaos.data.dataCalendar.repository
 import com.android.myfooddiarybookaos.data.dataCalendar.domain.CustomCalendarInterFace
 import com.android.myfooddiarybookaos.model.DayDate
 import java.util.*
-import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.collections.ArrayList
 
-class CustomCalendarImpl @Inject constructor(
-
-): CustomCalendarInterFace {
+@Singleton
+class CustomCalendar : CustomCalendarInterFace {
     val calendar : Calendar = Calendar.getInstance()
     private var calenderDate : Int = 0
     var dateSet = ArrayList<DayDate>()

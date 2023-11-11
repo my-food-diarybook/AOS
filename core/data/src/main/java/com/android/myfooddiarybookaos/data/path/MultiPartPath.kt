@@ -1,4 +1,4 @@
-package com.android.myfooddiarybookaos.path
+package com.android.myfooddiarybookaos.data.path
 
 import android.content.Context
 import android.net.Uri

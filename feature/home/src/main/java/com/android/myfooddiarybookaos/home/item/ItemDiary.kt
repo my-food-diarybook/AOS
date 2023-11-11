@@ -24,7 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import coil.compose.rememberAsyncImagePainter
-import com.android.myfooddiarybookaos.path.byteStringToBitmap
+import com.android.myfooddiarybookaos.data.path.byteStringToBitmap
 
 @Composable
 fun ItemDiary(
@@ -32,27 +32,22 @@ fun ItemDiary(
     dayClick : (Int) -> Unit,
     imageByte : String?
 ) {
-    val dayDateState by remember {
-        mutableStateOf(dayDate.isSelected)
-    }
-    val dayState by remember {
-        mutableStateOf(dayDate.day)
-    }
 
     val textView by animateColorAsState(
-        if (dayDateState == 1) colorResource(id = R.color.line_color_deep)
+        if (dayDate.isSelected == 1) colorResource(id = R.color.line_color_deep)
         else colorResource(id = R.color.color_day_of_weak)
     )
+
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .clickable(
                 onClick = {
-                    dayClick(dayState)
+                    dayClick(dayDate.isSelected)
                 })
             .aspectRatio(1f),
     ) {
-        if (dayDateState == 0 && imageByte==null){
+        if (dayDate.isSelected == 0 && imageByte==null){
             Box(
                 Modifier
                     .fillMaxSize()
@@ -63,9 +58,9 @@ fun ItemDiary(
             )
         }
 
-        if (dayState != 0 && imageByte==null) {
+        if (dayDate.day != 0 && imageByte==null) {
             Text(
-                text = dayState.toString(),
+                text = dayDate.day.toString(),
                 fontWeight = FontWeight(400),
                 fontFamily = robotoBold,
                 fontSize = 12.sp,

@@ -4,9 +4,8 @@ import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.android.myfooddiarybookaos.data.dataCalendar.repository.CustomCalendarImpl
+import com.android.myfooddiarybookaos.data.dataCalendar.repository.CustomCalendar
 import com.android.myfooddiarybookaos.data.dataCalendar.repository.TodayRepository
-import com.android.myfooddiarybookaos.data.todayViewModel.TodayViewModelInterface
 import com.android.myfooddiarybookaos.home.function.getLocalDateDayOfWeek
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.text.SimpleDateFormat
@@ -19,10 +18,11 @@ import javax.inject.Inject
 @HiltViewModel
 class TodayViewModel @Inject constructor(
     val todayRepository: TodayRepository,
-    val customCalendarImpl: CustomCalendarImpl
 ):ViewModel() {
+    val customView = CustomCalendar()
     fun setCurrentDate(year : Int, month : Int){
         todayRepository.setCurrentDate(year,month)
+        todayRepository.currentCalendar.value?.let { customView.initData(it.time) }
     }
 
     fun getCurrentDate(): String{

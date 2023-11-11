@@ -6,8 +6,8 @@ import android.net.Uri
 import com.android.myfooddiarybookaos.api.NetworkManager
 import com.android.myfooddiarybookaos.model.diary.PlaceInfo
 import com.android.myfooddiarybookaos.model.diary.PlaceInfoBody
-import com.android.myfooddiarybookaos.path.makeMultiPartFromUri
-import com.android.myfooddiarybookaos.path.toApplicationRequestBody
+import com.android.myfooddiarybookaos.data.path.makeMultiPartFromUri
+import com.android.myfooddiarybookaos.data.path.toApplicationRequestBody
 import com.google.gson.Gson
 import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.MediaType

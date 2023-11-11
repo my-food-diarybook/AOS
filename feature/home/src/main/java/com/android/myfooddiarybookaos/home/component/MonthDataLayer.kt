@@ -9,7 +9,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 
-import com.android.myfooddiarybookaos.data.dataCalendar.repository.CustomCalendarImpl
+import com.android.myfooddiarybookaos.data.dataCalendar.repository.CustomCalendar
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 import com.android.myfooddiarybookaos.home.item.ItemDiary
 import com.android.myfooddiarybookaos.home.viewModel.HomeViewModel
@@ -25,16 +25,20 @@ private const val DAY_OF_WEAK = 7
 fun MonthDataView(
     todayViewModel: TodayViewModel = hiltViewModel()
 ) {
+    // 현재 뷰어
+    val viewCalendar: State<Boolean> = todayViewModel
+        .todayRepository.dataChanger.observeAsState(false)
+    val calendar = todayViewModel.customView
 
-    ItemScreen(
-        date = todayViewModel.todayRepository
-            .currentCalendar.value!!.time
-    )
+    if (viewCalendar.value) {
+        ItemScreen(calendar)
+    }
+
 }
 
 @Composable
 fun ItemScreen(
-    date: Date,
+    calendar : CustomCalendar,
     todayViewModel: TodayViewModel = hiltViewModel(),
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
@@ -44,14 +48,12 @@ fun ItemScreen(
         currentDiaryList = it
     }
     val yearMonth = todayViewModel.getCurrentYearMonth()
-    val calendar = todayViewModel.customCalendarImpl
-
     LaunchedEffect(Unit) {
         yearMonth?.let {
             homeViewModel.getDiaryList(it)
         }
-        todayViewModel.customCalendarImpl.initData(date)
     }
+
     LazyVerticalGrid(
         columns = GridCells.Fixed(DAY_OF_WEAK),
         content = {

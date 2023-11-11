@@ -1,4 +1,4 @@
-package com.android.myfooddiarybookaos.path
+package com.android.myfooddiarybookaos.data.path
 
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaType

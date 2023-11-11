@@ -23,7 +23,7 @@ import com.android.myfooddiarybookaos.data.component.coloredInnerShadow
 import com.android.myfooddiarybookaos.data.component.customOuterShadow
 import com.android.myfooddiarybookaos.home.function.diaryTimeData
 import com.android.myfooddiarybookaos.model.home.HomeDay
-import com.android.myfooddiarybookaos.path.byteStringToBitmap
+import com.android.myfooddiarybookaos.data.path.byteStringToBitmap
 
 @Composable
 fun ItemHomeDay(
