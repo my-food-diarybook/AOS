@@ -22,6 +22,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import coil.compose.rememberAsyncImagePainter
 import com.android.myfooddiarybookaos.data.path.byteStringToBitmap
@@ -34,8 +35,11 @@ fun ItemDiary(
 ) {
 
     val textView by animateColorAsState(
-        if (dayDate.isSelected == 1) colorResource(id = R.color.line_color_deep)
-        else colorResource(id = R.color.color_day_of_weak)
+        when (dayDate.isSelected) {
+            1 -> colorResource(id = R.color.line_color_deep)
+            0 -> Color.White
+            else -> colorResource(id = R.color.color_day_of_weak)
+        }
     )
 
     Box(
@@ -51,6 +55,7 @@ fun ItemDiary(
             Box(
                 Modifier
                     .fillMaxSize()
+                    .padding(2.29.dp)
                     .background(
                         colorResource(id = R.color.main_color),
                         CircleShape

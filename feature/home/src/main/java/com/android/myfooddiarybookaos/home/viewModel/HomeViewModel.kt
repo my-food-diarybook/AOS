@@ -11,6 +11,7 @@ import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.model.diary.Diary
 import com.android.myfooddiarybookaos.model.home.DiaryHomeDay
+import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 import dagger.hilt.android.lifecycle.HiltViewModel
 import okhttp3.MultipartBody
 import javax.inject.Inject
@@ -21,13 +22,13 @@ class HomeViewModel @Inject constructor(
     private val homeRepository: HomeRepository
 ) : ViewModel() {
     private val _appState = MutableLiveData<ApplicationState>()
-    val appState : LiveData<ApplicationState> get() = _appState
+    val appState: LiveData<ApplicationState> get() = _appState
 
     private val _diaryState = MutableLiveData<DiaryState>()
-    val diaryState : LiveData<DiaryState> get() = _diaryState
+    val diaryState: LiveData<DiaryState> get() = _diaryState
 
     private val _homeDiaryList = MutableLiveData<List<Diary>>()
-    val homeDiaryList : LiveData<List<Diary>> get() = _homeDiaryList
+    val homeDiaryList: LiveData<List<Diary>> get() = _homeDiaryList
 
     private val _homeDayInDiary = MutableLiveData<DiaryHomeDay>()
     val homeDayInDiary: LiveData<DiaryHomeDay> get() = _homeDayInDiary
@@ -35,14 +36,14 @@ class HomeViewModel @Inject constructor(
     fun initState(
         state1: ApplicationState,
         state2: DiaryState,
-    ){
+    ) {
         _appState.value = state1
-        _diaryState.value= state2
+        _diaryState.value = state2
     }
 
     fun getDiaryList(
         yearMonth: String
-    ){
+    ) {
         homeRepository.getCurrentHomeDiary(
             yearMonth,
             dataState = {
@@ -53,7 +54,7 @@ class HomeViewModel @Inject constructor(
 
     fun getHomeDayInDiary(
         date: String
-    ){
+    ) {
         homeRepository.getCurrentHomeDay(
             date,
             dataState = {
@@ -63,13 +64,13 @@ class HomeViewModel @Inject constructor(
     }
 
     fun makeNewDiary(
-        createTime : String,
-        files : List<MultipartBody.Part>,
-        diaryState : (Boolean) -> Unit
-    ){
+        createTime: String,
+        files: List<MultipartBody.Part>,
+        diaryState: (Boolean) -> Unit
+    ) {
         homePostRepository.postNewDiary(
             createTime,
-            null,null,null,
+            null, null, null,
             files,
             isSuccess = {
                 diaryState(it)
@@ -77,27 +78,44 @@ class HomeViewModel @Inject constructor(
         )
     }
 
+    fun addDiaryImage(
+        diaryId: Int,
+        file: List<MultipartBody.Part>,
+        addState: (Boolean) -> Unit
+    ) {
+        homePostRepository.postDiaryImage(
+            diaryId, file,
+            isSuccess = { result ->
+                addState(result)
+            }
+        )
+    }
+
     fun getMultiPartFromBitmap(
-        cameraBitmap : Bitmap
-    ) : List<MultipartBody.Part> {
+        cameraBitmap: Bitmap
+    ): List<MultipartBody.Part> {
         return homePostRepository.makePartListFromBitmap(cameraBitmap)
     }
 
     fun getMultiPartFromUri(
-        uriList : List<Uri>
-    ) : List<MultipartBody.Part>{
+        uriList: List<Uri>
+    ): List<MultipartBody.Part> {
         return homePostRepository.makePartListFromUri(uriList)
     }
 
-    fun getByteString(
+    fun getCurrentDiary(
         yearMonth: String?,
-        day : String
-    ) : String? {
+        day: String
+    ): Diary? {
         val currentDay = if (day.length == 1) "0$day" else day
         val timeData = "$yearMonth-$currentDay"
         return homeDiaryList.value?.find {
             it.time == timeData
-        }?.bytes
+        }
+    }
+
+    fun goHomeDayView() {
+        appState.value?.navController?.navigate(ScreenRoot.HOME_DAY)
     }
 
 }

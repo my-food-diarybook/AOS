@@ -15,4 +15,11 @@ interface DiaryPostRetrofitService {
         @Part files : List<MultipartBody.Part>
     ): Call<Unit>
 
+
+    @Multipart
+    @POST("diary/{diaryId}/images")
+    fun addDiaryImage(
+        @Path("diaryId") diaryId : Int,
+        @Part file : MultipartBody.Part
+    ): Call<Unit>
 }

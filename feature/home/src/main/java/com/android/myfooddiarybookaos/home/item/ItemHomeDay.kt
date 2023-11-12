@@ -1,9 +1,11 @@
 package com.android.myfooddiarybookaos.home.item
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,45 +36,50 @@ fun ItemHomeDay(
                 homeDay.tags.joinToString(" #")
         else ""
 
-    Card(
+    Surface(
         modifier = Modifier
-            .fillMaxWidth()
-            .height(146.dp)
+            .padding(vertical = 8.dp)
             .customOuterShadow(
                 color = colorResource(id = R.color.black_10),
                 offsetY = 1.dp,
                 blurRadius = 4f
             )
     ) {
-        Column(modifier = Modifier.fillMaxWidth()) {
-            Image(
-                rememberAsyncImagePainter(byteStringToBitmap(homeDay.image.bytes)),
-                contentDescription = null,
-                modifier = Modifier
-                    .clip(RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp))
-                    .fillMaxWidth()
-                    .height(96.dp),
-                contentScale = ContentScale.Crop,
-            )
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(146.dp)
+        ) {
+            Column {
+                Image(
+                    rememberAsyncImagePainter(byteStringToBitmap(homeDay.image.bytes)),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp))
+                        .fillMaxWidth()
+                        .height(96.dp),
+                    contentScale = ContentScale.Crop,
+                )
 
 
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.CenterStart) {
-                Column(modifier = Modifier.padding(start = 8.dp)) {
-                    Text(
-                        text = diaryTimeData(homeDay.diaryTime),
-                        fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W500)),
-                        fontSize = 16.sp,
-                        color = Color.Black,
-                    )
-                    Text(
-                        text = homeDayTags,
-                        fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W500)),
-                        fontSize = 12.sp,
-                        color = colorResource(id = R.color.main_color),
-                    )
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.CenterStart) {
+                    Column(modifier = Modifier.padding(start = 8.dp)) {
+                        Text(
+                            text = diaryTimeData(homeDay.diaryTime),
+                            fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W500)),
+                            fontSize = 16.sp,
+                            color = Color.Black,
+                        )
+                        Text(
+                            text = homeDayTags,
+                            fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W500)),
+                            fontSize = 12.sp,
+                            color = colorResource(id = R.color.main_color),
+                        )
+                    }
                 }
-            }
 
+            }
         }
     }
 }

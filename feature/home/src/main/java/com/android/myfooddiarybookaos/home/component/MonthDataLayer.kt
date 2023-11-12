@@ -1,7 +1,6 @@
 package com.android.myfooddiarybookaos.Layout
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -54,13 +53,12 @@ fun ItemScreen(
             homeViewModel.getDiaryList(it)
         }
     }
-    Log.d("lfjwljelwf12341l2j4l12",calendarDataList.map { it.isSelected }.toString())
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(DAY_OF_WEAK),
         content = {
             items(calendarDataList.size) { index ->
-                val imageByte = homeViewModel.getByteString(
+                val currentDiary = homeViewModel.getCurrentDiary(
                     yearMonth, calendarDataList[index].day.toString()
                 )
                 ItemDiary(
@@ -68,15 +66,15 @@ fun ItemScreen(
                     dayClick = {
                         val dayDate = todayViewModel.getDayDate(calendarDataList[index].day)
                         dayDate?.let { homeViewModel.diaryState.value?.currentHomeDay?.value = it }
-                        if (imageByte != null) {
+                        if (currentDiary != null) {
                             // 해당 날짜로 이동
-                            homeViewModel.appState.value?.navController?.navigate(ScreenRoot.HOME_DAY)
+                            homeViewModel.goHomeDayView()
                         } else {
                             // 해당 날짜로 새로 생성
                             homeViewModel.diaryState.value?.showSelectView?.value = true
                         }
                     },
-                    imageByte = imageByte
+                    imageByte = currentDiary?.bytes
                 )
             }
         }

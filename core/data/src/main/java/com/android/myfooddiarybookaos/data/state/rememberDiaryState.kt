@@ -9,14 +9,12 @@ import okhttp3.MultipartBody
 @Composable
 fun rememberDiaryState(
     isSelectedGallery : MutableState<Boolean> = remember{ mutableStateOf(false)},
-    isHomeDay: MutableState<Boolean> = remember{ mutableStateOf(false) },
     selectedList : List<MultipartBody.Part> = listOf(),
     showSelectView: MutableState<Boolean> = remember { mutableStateOf(false) },
     currentHomeDay: MutableState<String> = remember { mutableStateOf("") }
-) = remember(isSelectedGallery,isHomeDay,selectedList,showSelectView,currentHomeDay){
+) = remember(isSelectedGallery,selectedList,showSelectView,currentHomeDay){
     DiaryState(
         isSelectedGallery,
-        isHomeDay,
         selectedList,
         showSelectView,
         currentHomeDay

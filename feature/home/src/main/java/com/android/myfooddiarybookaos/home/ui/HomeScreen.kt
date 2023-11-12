@@ -1,5 +1,6 @@
 package com.android.myfooddiarybookaos.home
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -13,6 +14,7 @@ import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.home.viewModel.HomeViewModel
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 import com.android.myfooddiarybookaos.data.state.ApplicationState
+import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 
 @Composable
 fun HomeScreen(
@@ -28,18 +30,22 @@ fun HomeScreen(
 
     // 업로드 시도
     if (diaryState.isSelectedGallery.value) {
-        homeViewModel.makeNewDiary(
-            todayViewModel.getCurrentDate(),
-            diaryState.multiPartList,
-            diaryState = { isUpdate ->
-                if (isUpdate) {
-                    todayViewModel.getCurrentYearMonth()?.let {
-                        homeViewModel.getDiaryList(it)
+        val current = appState.navController.currentDestination?.route
+        if (current == ScreenRoot.HOME){
+            homeViewModel.makeNewDiary(
+                todayViewModel.getTodayDate(),
+                diaryState.multiPartList,
+                diaryState = { isUpdate ->
+                    if (isUpdate) {
+                        todayViewModel.getCurrentYearMonth()?.let {
+                            homeViewModel.getDiaryList(it)
+                        }
                     }
                 }
-            }
-        )
-        diaryState.isSelectedGallery.value = false
+            )
+            diaryState.isSelectedGallery.value = false
+            diaryState.multiPartList = listOf()
+        }
     }
 
     // main view

@@ -1,8 +1,6 @@
 package com.android.myfooddiarybookaos.data.dataCalendar.viewModel
 
 import android.annotation.SuppressLint
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.android.myfooddiarybookaos.data.dataCalendar.repository.CustomCalendarRepository
 import com.android.myfooddiarybookaos.data.dataCalendar.repository.TodayRepository
@@ -33,7 +31,7 @@ class TodayViewModel @Inject constructor(
         }
     }
 
-    fun getCurrentDate(): String {
+    fun getTodayDate(): String {
         val now: LocalDateTime = LocalDateTime.now()
         return now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
     }
