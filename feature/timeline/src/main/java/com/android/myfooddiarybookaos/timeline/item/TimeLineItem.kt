@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
@@ -44,7 +45,8 @@ fun TimeLineItem(
             modifier = Modifier.padding(start = 20.dp, bottom = 2.dp, top = 12.dp),
             text = todayViewModel.getTopDate(timeLine.date),
             fontFamily = currentFont,
-            color = Color.Black
+            color = Color.Black,
+            fontSize = 14.sp
         )
 
         LazyRow(
