@@ -8,6 +8,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.data.TextBox
 import com.android.myfooddiarybookaos.core.data.R
@@ -28,7 +29,7 @@ fun NotDataView(){
             20.sp ,
             color = colorResource(id = R.color.black)
         )
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_24)))
+        Spacer(modifier = Modifier.height(24.dp))
         TextBox(
             text = "오늘 먹은 식사를 사진으로 기록하세요.",
             fontWeight = 300,
@@ -36,6 +37,7 @@ fun NotDataView(){
             fontSize = 14.sp ,
             color = colorResource(id = R.color.black)
         )
+        Spacer(modifier = Modifier.height(41.dp))
     }
 }
 
