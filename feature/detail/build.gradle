@@ -1,22 +1,20 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.kapt'
     id("com.google.dagger.hilt.android")
-
 }
 
 android {
-    namespace 'com.android.myfooddiarybookaos.feature.detail'
+    namespace 'com.android.myfooddiarybookaos.detail'
     compileSdk 34
 
     defaultConfig {
-        minSdk 24
+        minSdk 30
         targetSdk 34
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -73,6 +71,8 @@ dependencies {
     kapt("com.google.dagger:hilt-compiler:$hilt_version")
     // image ui
     implementation ("io.coil-kt:coil-compose:2.4.0")
+
+    // module
     implementation project(":core:data")
     implementation project(":core:model")
 }
