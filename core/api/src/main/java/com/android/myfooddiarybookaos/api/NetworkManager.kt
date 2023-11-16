@@ -3,34 +3,36 @@ package com.android.myfooddiarybookaos.api
 import android.content.Context
 import com.android.myfooddiarybookaos.api.diaryApi.DiaryPostRetrofitService
 import com.android.myfooddiarybookaos.api.diaryApi.DiaryRetrofitService
+import com.android.myfooddiarybookaos.api.diaryApi.TimeLineRetrofitService
 import com.android.myfooddiarybookaos.api.userApi.UserRetrofitService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import java.security.SecureRandom
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
 class NetworkManager(
-    private val context : Context
+    private val context: Context
 ) {
-    companion object{
-        private val instance : Retrofit? = null
+    companion object {
+        private val instance: Retrofit? = null
         private const val CONTENT_APPLICATION = "application/json"
         private const val CONTENT_MULTI_PART = "multipart/form-data"
         private fun getRetrofit(
-            context : Context,
+            context: Context,
             contentType: String
-        ) : Retrofit{
+        ): Retrofit {
             val tokenData = UserInfoSharedPreferences(context)
-            val header = Interceptor{
+            val header = Interceptor {
                 val original = it.request()
-                if (tokenData.accessToken!=null && tokenData.accessToken!=""){
+                if (tokenData.accessToken != null && tokenData.accessToken != "") {
                     val request = original.newBuilder()
-                        .header("token","${tokenData.accessToken}")
+                        .header("token", "${tokenData.accessToken}")
                         .build()
                     it.proceed(request)
                 } else {
@@ -41,7 +43,7 @@ class NetworkManager(
             return instance ?: Retrofit.Builder()
                 .baseUrl("$baseUrl/")
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(unsafeOkHttpClient(header,contentType))
+                .client(unsafeOkHttpClient(header, contentType))
                 .build()
         }
 
@@ -62,19 +64,21 @@ class NetworkManager(
 
         // SSL 인증서 체크 + 클라이언트
         private fun unsafeOkHttpClient(
-            header : Interceptor,
-            contentType : String
+            header: Interceptor,
+            contentType: String
         ): OkHttpClient {
             val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
                 override fun checkClientTrusted(
                     chain: Array<out java.security.cert.X509Certificate>?,
                     authType: String?
-                ) {}
+                ) {
+                }
 
                 override fun checkServerTrusted(
                     chain: Array<out java.security.cert.X509Certificate>?,
                     authType: String?
-                ) {}
+                ) {
+                }
 
                 override fun getAcceptedIssuers(): Array<out java.security.cert.X509Certificate>? {
                     return arrayOf()
@@ -92,7 +96,7 @@ class NetworkManager(
 
             builder.addInterceptor { chain ->
                 chain.proceed(chain.request().newBuilder().also {
-                    it.addHeader("login-from","none")
+                    it.addHeader("login-from", "none")
                     it.addHeader("Content-Type", contentType)
                 }.build())
             }.also { client ->
@@ -107,11 +111,15 @@ class NetworkManager(
         }
     }
 
-    fun getLoginApiService() : UserRetrofitService =
+    fun getLoginApiService(): UserRetrofitService =
         getRetrofit(context, CONTENT_APPLICATION).create(UserRetrofitService::class.java)
 
-    fun getDiaryMultiPartApiService() : DiaryPostRetrofitService =
+    fun getDiaryMultiPartApiService(): DiaryPostRetrofitService =
         getRetrofit(context, CONTENT_MULTI_PART).create(DiaryPostRetrofitService::class.java)
-    fun getDiaryAppApiService() : DiaryRetrofitService =
+
+    fun getDiaryAppApiService(): DiaryRetrofitService =
         getRetrofit(context, CONTENT_APPLICATION).create(DiaryRetrofitService::class.java)
+
+    fun getTimeLineApiService():TimeLineRetrofitService =
+        getRetrofit(context, CONTENT_APPLICATION).create(TimeLineRetrofitService::class.java)
 }

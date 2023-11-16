@@ -7,6 +7,7 @@ import com.android.myfooddiarybookaos.data.dataCalendar.repository.TodayReposito
 import com.android.myfooddiarybookaos.data.dataHome.repository.HomePostRepository
 import com.android.myfooddiarybookaos.data.dataHome.repository.HomeRepository
 import com.android.myfooddiarybookaos.data.dataLogin.repository.LoginRepository
+import com.android.myfooddiarybookaos.data.dataTimeLine.TimeLineRepository
 import com.android.myfooddiarybookaos.data.todayViewModel.TodayViewModelInterface
 import dagger.Binds
 import dagger.Module
@@ -40,6 +41,12 @@ object MainModule {
         networkManager: NetworkManager,
         @ApplicationContext context: Context
     ) = HomeRepository(networkManager, context)
+
+    @ViewModelScoped
+    @Provides
+    fun provideTimeLineRepository(
+        networkManager: NetworkManager
+    ) = TimeLineRepository(networkManager)
 
     @Provides
     @ViewModelScoped
