@@ -10,4 +10,14 @@ class DiaryState(
     var multiPartList: List<MultipartBody.Part>,
     val showSelectView: MutableState<Boolean>,
     val currentHomeDay: MutableState<String>,
-) {}
+    val addScreenState: MutableState<AddScreenState>
+) {
+    fun resetSelectedInfo(){
+        isSelectedGallery.value = false
+        multiPartList = listOf()
+    }
+
+    fun resetHomeDay(){
+        currentHomeDay.value = ""
+    }
+}

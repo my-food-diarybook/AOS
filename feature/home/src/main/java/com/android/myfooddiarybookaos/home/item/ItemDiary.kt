@@ -30,8 +30,8 @@ import com.android.myfooddiarybookaos.data.path.byteStringToBitmap
 @Composable
 fun ItemDiary(
     dayDate: DayDate,
-    dayClick : (Int) -> Unit,
-    imageByte : String?
+    dayClick: () -> Unit,
+    imageByte: String?
 ) {
 
     val textView by animateColorAsState(
@@ -47,11 +47,11 @@ fun ItemDiary(
         modifier = Modifier
             .clickable(
                 onClick = {
-                    dayClick(dayDate.isSelected)
+                    if (dayDate.isSelected < 1) dayClick()
                 })
             .aspectRatio(1f),
     ) {
-        if (dayDate.isSelected == 0 && imageByte==null){
+        if (dayDate.isSelected == 0 && imageByte == null) {
             Box(
                 Modifier
                     .fillMaxSize()
@@ -63,7 +63,7 @@ fun ItemDiary(
             )
         }
 
-        if (dayDate.day != 0 && imageByte==null) {
+        if (dayDate.day != 0 && imageByte == null) {
             Text(
                 text = dayDate.day.toString(),
                 fontWeight = FontWeight(400),
@@ -72,7 +72,7 @@ fun ItemDiary(
                 color = textView,
             )
         }
-        if (imageByte!=null){
+        if (imageByte != null) {
             Image(
                 rememberAsyncImagePainter(byteStringToBitmap(imageByte)),
                 contentDescription = null,

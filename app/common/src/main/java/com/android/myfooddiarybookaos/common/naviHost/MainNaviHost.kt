@@ -18,6 +18,7 @@ import androidx.navigation.compose.composable
 import com.android.myfooddiarybookaos.common.bottomaNavi.BottomNavigation
 import com.android.myfooddiarybookaos.common.bottomaNavi.bottomGraph
 import com.android.myfooddiarybookaos.core.data.R
+import com.android.myfooddiarybookaos.data.state.AddScreenState
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.home.ui.HomeDayScreen
@@ -43,6 +44,11 @@ fun MainNaviHost(
                 contentColor = colorResource(id = R.color.main_color),
                 onClick = {
                     diaryState.showSelectView.value = true
+                    if (diaryState.currentHomeDay.value=="") {
+                        diaryState.addScreenState.value = AddScreenState.ADD_HOME_TODAY
+                    } else{
+                        diaryState.addScreenState.value = AddScreenState.ADD_HOME_DAY
+                    }
                 }) {
                 Icon(
                     painter = painterResource(id = R.drawable.add_button),

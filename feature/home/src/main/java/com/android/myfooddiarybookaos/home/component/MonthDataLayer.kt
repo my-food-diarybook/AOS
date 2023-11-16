@@ -9,11 +9,12 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
+import com.android.myfooddiarybookaos.data.state.AddScreenState
 import com.android.myfooddiarybookaos.home.item.ItemDiary
 import com.android.myfooddiarybookaos.home.viewModel.HomeViewModel
 import com.android.myfooddiarybookaos.model.DayDate
 import com.android.myfooddiarybookaos.model.diary.Diary
-import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
+import kotlinx.coroutines.delay
 import java.util.*
 
 private const val DAY_OF_WEAK = 7
@@ -43,10 +44,8 @@ fun ItemScreen(
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     // 다이어리 변화 관찰
-    var currentDiaryList: List<Diary> = listOf()
-    homeViewModel.homeDiaryList.observeAsState().value?.let {
-        currentDiaryList = it
-    }
+    var currentDiaryList: List<Diary>? = homeViewModel.homeDiaryList.observeAsState().value
+
     val yearMonth = todayViewModel.getCurrentYearMonth()
     LaunchedEffect(Unit) {
         yearMonth?.let {
@@ -71,7 +70,10 @@ fun ItemScreen(
                             homeViewModel.goHomeDayView()
                         } else {
                             // 해당 날짜로 새로 생성
-                            homeViewModel.diaryState.value?.showSelectView?.value = true
+                            homeViewModel.diaryState.value?.apply {
+                                addScreenState.value = AddScreenState.ADD_NO_DATA_DAY
+                                showSelectView.value = true
+                            }
                         }
                     },
                     imageByte = currentDiary?.bytes

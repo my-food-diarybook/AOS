@@ -22,7 +22,7 @@ class HomeViewModel @Inject constructor(
     private val homeRepository: HomeRepository
 ) : ViewModel() {
     private val _appState = MutableLiveData<ApplicationState>()
-    val appState: LiveData<ApplicationState> get() = _appState
+    private val appState: LiveData<ApplicationState> get() = _appState
 
     private val _diaryState = MutableLiveData<DiaryState>()
     val diaryState: LiveData<DiaryState> get() = _diaryState
@@ -117,5 +117,7 @@ class HomeViewModel @Inject constructor(
     fun goHomeDayView() {
         appState.value?.navController?.navigate(ScreenRoot.HOME_DAY)
     }
+
+    fun getHomeDaySize(): Int = homeDiaryList.value?.size ?: 0
 
 }

@@ -31,6 +31,8 @@ import com.android.myfooddiarybookaos.data.path.byteStringToBitmap
 fun ItemHomeDay(
     homeDay: HomeDay
 ) {
+    val imagePainter  = rememberAsyncImagePainter(byteStringToBitmap(homeDay.image.bytes))
+
     val homeDayTags =
         if (homeDay.tags.isNotEmpty()) "#" +
                 homeDay.tags.joinToString(" #")
@@ -52,7 +54,7 @@ fun ItemHomeDay(
         ) {
             Column {
                 Image(
-                    rememberAsyncImagePainter(byteStringToBitmap(homeDay.image.bytes)),
+                    imagePainter,
                     contentDescription = null,
                     modifier = Modifier
                         .clip(RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp))

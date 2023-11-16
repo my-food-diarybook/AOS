@@ -45,11 +45,10 @@ class TodayViewModel @Inject constructor(
     }
 
     fun getTopDate(date: String?): String {
-        if (date == null) return ""
-        val now = LocalDate.now()
-        val strNow = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-        val dateNow = LocalDate.parse(strNow, DateTimeFormatter.ISO_DATE)
-        return "${dateNow.monthValue}/${dateNow.dayOfMonth} ${getLocalDateDayOfWeek(dateNow)}"
+        if (date == null || date == "") return ""
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val topDate = LocalDate.parse(date, formatter)
+        return "${topDate.monthValue}/${topDate.dayOfMonth} ${getLocalDateDayOfWeek(topDate)}"
     }
 
 

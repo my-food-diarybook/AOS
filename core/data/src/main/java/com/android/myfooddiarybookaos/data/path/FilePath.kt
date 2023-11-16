@@ -70,6 +70,5 @@ fun getFilePath(context: Context, contentUri: Uri): String{
 
 fun byteStringToBitmap(byteString: String): Bitmap {
     val data = Base64.decode(byteString,Base64.DEFAULT)
-    Log.d("data",data.toString())
     return BitmapFactory.decodeByteArray(data, 0, data.size)
 }

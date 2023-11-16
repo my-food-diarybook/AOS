@@ -20,6 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.component.coloredInnerShadow
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
+import com.android.myfooddiarybookaos.data.state.AddScreenState
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.home.component.HomeDayTopLayer
@@ -29,6 +30,7 @@ import com.android.myfooddiarybookaos.model.diary.Diary
 import com.android.myfooddiarybookaos.model.home.DiaryHomeDay
 import com.android.myfooddiarybookaos.model.home.HomeDay
 import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
+import kotlinx.coroutines.delay
 
 @Composable
 fun HomeDayScreen(
@@ -43,19 +45,16 @@ fun HomeDayScreen(
         backStage(diaryState, appState)
     })
 
+    // 다이어리 변화 관찰
+    val currentHomeDay: DiaryHomeDay? = homeViewModel.homeDayInDiary.observeAsState().value
+
     LaunchedEffect(Unit) {
         homeViewModel.getHomeDayInDiary(currentDate)
-    }
-    // 다이어리 변화 관찰
-    var currentHomeDay: DiaryHomeDay? = null
-    homeViewModel.homeDayInDiary.observeAsState().value?.let {
-        currentHomeDay = it
     }
 
     // 업로드 시도
     if (diaryState.isSelectedGallery.value) {
-        val currentView = appState.navController.currentDestination?.route
-        if (currentView == ScreenRoot.HOME_DAY){
+        if (diaryState.addScreenState.value == AddScreenState.ADD_HOME_DAY) {
             homeViewModel.makeNewDiary(
                 currentDate,
                 diaryState.multiPartList,
@@ -65,8 +64,7 @@ fun HomeDayScreen(
                     }
                 }
             )
-            diaryState.isSelectedGallery.value = false
-            diaryState.multiPartList = listOf()
+            diaryState.resetSelectedInfo()
         }
     }
 
@@ -109,9 +107,11 @@ fun HomeDayScreen(
         Spacer(modifier = Modifier.height(6.dp))
 
         // 박스 (좌우)
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .height(34.dp)) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(34.dp)
+        ) {
             currentHomeDay?.let {
                 HomeDayTopLayer(
                     currentDate = todayViewModel.getTopDate(currentDate),
@@ -131,7 +131,7 @@ fun HomeDayScreen(
             state = rememberLazyListState()
         ) {
             currentHomeDay?.homeDayList?.let { homeDays ->
-                items(homeDays) { homeDay ->
+                items(homeDays){homeDay ->
                     ItemHomeDay(homeDay = homeDay)
                 }
             }
@@ -140,7 +140,7 @@ fun HomeDayScreen(
 
 }
 
-fun backStage(diaryState: DiaryState,appState: ApplicationState){
-    diaryState.currentHomeDay.value = ""
+fun backStage(diaryState: DiaryState, appState: ApplicationState) {
+    diaryState.resetHomeDay()
     appState.navController.popBackStack()
 }
