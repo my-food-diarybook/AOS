@@ -64,7 +64,7 @@ fun MainUi() {
     val navBackStackEntry by appState.navController.currentBackStackEntryAsState()
     ManageBottomBarState(
         navBackStackEntry = navBackStackEntry,
-        bottomBarState = appState.bottomBarState
+        appState = appState
     )
     MainNaviHost(appState = appState, diaryState = diaryState)
 }

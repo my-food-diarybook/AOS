@@ -37,40 +37,42 @@ fun MainNaviHost(
         floatingActionButtonPosition = FabPosition.Center,
         isFloatingActionButtonDocked = true,
         floatingActionButton = {
-            FloatingActionButton(
-                modifier = Modifier
-                    .size(64.dp)
-                    .padding(5.33.dp),
-                backgroundColor = Color.White,
-                contentColor = colorResource(id = R.color.main_color),
-                onClick = {
-                    diaryState.showSelectView.value = true
-                    if (diaryState.currentHomeDay.value=="") {
-                        diaryState.addScreenState.value = AddScreenState.ADD_HOME_TODAY
-                    } else{
-                        diaryState.addScreenState.value = AddScreenState.ADD_HOME_DAY
-                    }
-                }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.add_button),
-                    null,
-                )
+            if (appState.addFloatButtonViewState.value) {
+                FloatingActionButton(
+                    modifier = Modifier
+                        .size(64.dp)
+                        .padding(5.33.dp),
+                    backgroundColor = Color.White,
+                    contentColor = colorResource(id = R.color.main_color),
+                    onClick = {
+                        diaryState.showSelectView.value = true
+                        if (diaryState.currentHomeDay.value == "") {
+                            diaryState.addScreenState.value = AddScreenState.ADD_HOME_TODAY
+                        } else {
+                            diaryState.addScreenState.value = AddScreenState.ADD_HOME_DAY
+                        }
+                    }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.add_button),
+                        null,
+                    )
+                }
             }
         }
     ) {
         NavHost(
             appState.navController,
             startDestination = ScreenRoot.MAIN_GRAPH
-        ){
+        ) {
             // main View
-            bottomGraph(appState,diaryState)
+            bottomGraph(appState, diaryState)
 
-            composable(ScreenRoot.HOME_DAY){
-                HomeDayScreen(diaryState,appState)
+            composable(ScreenRoot.HOME_DAY) {
+                HomeDayScreen(diaryState, appState)
             }
 
-            composable(ScreenRoot.DETAIL_DIARY){
-                DetailScreen(appState,diaryState)
+            composable(ScreenRoot.DETAIL_DIARY) {
+                DetailScreen(appState, diaryState)
             }
         }
     }

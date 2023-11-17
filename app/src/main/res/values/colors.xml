@@ -15,6 +15,7 @@
     <color name="line_color_deep">#777777</color>
     <color name="slide_back_color">#F5F5F5</color>
     <color name="main_color">#2EB394</color>
+    <color name="main_color_50">#802EB394</color>
     <color name="bar_color">#8B90B9</color>
     <color name="calender_next_color">#8C8C8C</color>
     <color name="login_weak_color">#8B90B9</color>

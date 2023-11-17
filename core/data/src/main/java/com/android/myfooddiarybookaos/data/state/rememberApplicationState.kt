@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 
@@ -14,13 +13,21 @@ import androidx.navigation.compose.rememberNavController
 fun rememberApplicationState(
     bottomBarState: MutableState<Boolean> = mutableStateOf(false),
     navController: NavHostController = rememberNavController(),
-    addFloatButtonState: MutableState<Boolean> = mutableStateOf(false),
+    addFloatButtonViewState: MutableState<Boolean> = mutableStateOf(false),
+    popAddFloatButtonState: MutableState<Boolean> = mutableStateOf(false),
     scaffoldState: ScaffoldState = rememberScaffoldState(),
-) = remember(bottomBarState,navController,addFloatButtonState,scaffoldState){
+) = remember(
+    bottomBarState,
+    navController,
+    addFloatButtonViewState,
+    popAddFloatButtonState,
+    scaffoldState
+) {
     ApplicationState(
         bottomBarState,
         navController,
-        addFloatButtonState,
+        addFloatButtonViewState,
+        popAddFloatButtonState,
         scaffoldState
     )
 }

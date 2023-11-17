@@ -7,6 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="black_10">#1A000000</color>
+    <color name="pop_up_shadow">#4D232940</color> <!--30%-->
     <color name="black_87">#DE000000</color>
     <color name="_1A1D1D">#1A1D1D</color>
     <color name="_3A3A3D">#3A3A3D</color>
@@ -22,6 +23,7 @@
     <color name="line_color_deep">#777777</color>
     <color name="slide_back_color">#F5F5F5</color>
     <color name="main_color">#2EB394</color>
+    <color name="main_color_50">#802EB394</color>
     <color name="hint_color_email">#A5A6A6</color>
     <color name="bar_color">#8B90B9</color>
     <color name="calender_next_color">#8C8C8C</color>

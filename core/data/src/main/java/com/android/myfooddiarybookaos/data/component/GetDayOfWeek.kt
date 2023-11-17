@@ -7,12 +7,12 @@ fun getLocalDateDayOfWeek(
     date : LocalDate
 ): String {
     return when (date.dayOfWeek.value) {
-        1 -> "일"
-        2 -> "월"
-        3 -> "화"
-        4 -> "수"
-        5 -> "목"
-        6 -> "금"
-        else -> "토"
+        1 -> "월"
+        2 -> "화"
+        3 -> "수"
+        4 -> "목"
+        5 -> "금"
+        6 -> "토"
+        else -> "일"
     }
 }

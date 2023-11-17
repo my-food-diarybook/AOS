@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -15,16 +17,23 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
+import com.android.myfooddiarybookaos.detail.popup.DetailPopupScreen
 import com.android.myfooddiarybookaos.detail.viewModel.DetailViewModel
+import com.holix.android.bottomsheetdialog.compose.BottomSheetDialog
+import com.holix.android.bottomsheetdialog.compose.BottomSheetDialogProperties
 
 @Composable
 fun DetailTopLayer(
-    detailViewModel: DetailViewModel = hiltViewModel(),
-    todayViewModel: TodayViewModel = hiltViewModel()
+    topDate: String,
+    detailViewModel: DetailViewModel = hiltViewModel()
 ) {
+    val popUpState = remember { mutableStateOf(false) }
+
     Box(
         Modifier
             .height(90.dp)
@@ -54,7 +63,7 @@ fun DetailTopLayer(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 14.75.dp),
-            text = todayViewModel.getTopDate(detailViewModel.diaryDetail.value?.date),
+            text = topDate,
             color = Color.Black,
             fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W500)),
             fontSize = 18.sp
@@ -69,13 +78,23 @@ fun DetailTopLayer(
                 modifier = Modifier
                     .size(44.dp)
                     .clickable {
-
+                        popUpState.value = true
                     },
                 contentAlignment = Alignment.Center
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.more_vert_24px),
                     contentDescription = null
+                )
+            }
+
+            if (popUpState.value){
+                DetailPopupScreen(
+                    popUpState,
+                    fixImage = {  },
+                    addImage = {  },
+                    fixMemo = { },
+                    deleteDiary = {}
                 )
             }
         }
