@@ -1,5 +1,6 @@
 package com.android.myfooddiarybookaos.detail.ui
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
@@ -42,11 +43,14 @@ fun DetailScreen(
     diaryState: DiaryState,
     detailViewModel: DetailViewModel = hiltViewModel()
 ) {
-    val currentHeight = LocalConfiguration.current.screenHeightDp.dp
+    BackHandler(enabled = true, onBack = {
+        detailViewModel.goBack()
+    })
     val diaryDetail = detailViewModel.diaryDetail.observeAsState().value
 
     LaunchedEffect(Unit) {
         detailViewModel.initAppState(appState,diaryState)
+        detailViewModel.setDiaryDetail()
     }
 
     Column {
@@ -54,11 +58,11 @@ fun DetailScreen(
 
         Image(
             // 여기 넘기는 페이지 처리 해야함
-            rememberAsyncImagePainter(diaryDetail?.images?.firstOrNull()),
+            rememberAsyncImagePainter(diaryDetail?.images?.firstOrNull()?.bytes),
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(499 * currentHeight / 800),
+                .height(499.dp),
             contentScale = ContentScale.Crop,
         )
 

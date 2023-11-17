@@ -19,8 +19,6 @@ import com.android.myfooddiarybookaos.data.robotoBold
 import com.android.myfooddiarybookaos.model.DayDate
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale

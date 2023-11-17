@@ -4,6 +4,7 @@ import android.content.Context
 import com.android.myfooddiarybookaos.api.NetworkManager
 import com.android.myfooddiarybookaos.data.dataCalendar.repository.CustomCalendarRepository
 import com.android.myfooddiarybookaos.data.dataCalendar.repository.TodayRepository
+import com.android.myfooddiarybookaos.data.dataDetail.DetailRepository
 import com.android.myfooddiarybookaos.data.dataHome.repository.HomePostRepository
 import com.android.myfooddiarybookaos.data.dataHome.repository.HomeRepository
 import com.android.myfooddiarybookaos.data.dataLogin.repository.LoginRepository
@@ -48,8 +49,16 @@ object MainModule {
         networkManager: NetworkManager
     ) = TimeLineRepository(networkManager)
 
+
+    @ViewModelScoped
+    @Provides
+    fun provideDetailRepository(
+        networkManager: NetworkManager
+    ) = DetailRepository(networkManager)
+
     @Provides
     @ViewModelScoped
     fun bindCustomCalendarRepository()
     = CustomCalendarRepository()
+
 }

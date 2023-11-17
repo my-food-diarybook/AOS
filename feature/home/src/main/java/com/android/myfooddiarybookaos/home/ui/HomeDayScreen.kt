@@ -49,6 +49,7 @@ fun HomeDayScreen(
     val currentHomeDay: DiaryHomeDay? = homeViewModel.homeDayInDiary.observeAsState().value
 
     LaunchedEffect(Unit) {
+        homeViewModel.initState(appState,diaryState)
         homeViewModel.getHomeDayInDiary(currentDate)
     }
 

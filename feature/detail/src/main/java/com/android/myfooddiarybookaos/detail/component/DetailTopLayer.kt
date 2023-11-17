@@ -14,13 +14,16 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.core.data.R
+import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 import com.android.myfooddiarybookaos.detail.viewModel.DetailViewModel
 
 @Composable
 fun DetailTopLayer(
-    detailViewModel: DetailViewModel = hiltViewModel()
+    detailViewModel: DetailViewModel = hiltViewModel(),
+    todayViewModel: TodayViewModel = hiltViewModel()
 ) {
     Box(
         Modifier
@@ -51,9 +54,10 @@ fun DetailTopLayer(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 14.75.dp),
-            text = "top",
+            text = todayViewModel.getTopDate(detailViewModel.diaryDetail.value?.date),
             color = Color.Black,
             fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W500)),
+            fontSize = 18.sp
         )
 
         Surface(

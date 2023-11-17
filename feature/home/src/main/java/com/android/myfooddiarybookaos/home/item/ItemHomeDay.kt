@@ -41,9 +41,6 @@ fun ItemHomeDay(
     Surface(
         modifier = Modifier
             .padding(vertical = 8.dp)
-            .clickable {
-                clickDiary()
-            }
             .customOuterShadow(
                 color = colorResource(id = R.color.black_10),
                 offsetY = 1.dp,
@@ -54,6 +51,9 @@ fun ItemHomeDay(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(146.dp)
+                .clickable {
+                    clickDiary()
+                }
         ) {
             Column {
                 Image(
