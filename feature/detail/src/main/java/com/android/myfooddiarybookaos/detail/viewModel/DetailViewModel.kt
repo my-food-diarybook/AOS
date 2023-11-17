@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.android.myfooddiarybookaos.data.state.ApplicationState
+import com.android.myfooddiarybookaos.data.state.DiaryState
+import com.android.myfooddiarybookaos.model.detail.DiaryDetail
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -16,8 +18,18 @@ class DetailViewModel @Inject constructor(
     private val _appState = MutableLiveData<ApplicationState>()
     private val appState: LiveData<ApplicationState> get() = _appState
 
-    fun initAppState(state: ApplicationState){
-        _appState.value = state
+    private val _diaryState = MutableLiveData<DiaryState>()
+    private val diaryState: LiveData<DiaryState> get() = _diaryState
+
+    private val _diaryDetail = MutableLiveData<DiaryDetail>()
+    val diaryDetail: LiveData<DiaryDetail> get() = _diaryDetail
+
+    fun initAppState(state1: ApplicationState,state2: DiaryState){
+        _appState.value = state1
+        _diaryState.value = state2
     }
 
+    fun goBack(){
+        appState.value?.navController?.popBackStack()
+    }
 }

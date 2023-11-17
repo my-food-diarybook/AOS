@@ -118,6 +118,11 @@ class HomeViewModel @Inject constructor(
         appState.value?.navController?.navigate(ScreenRoot.HOME_DAY)
     }
 
+    fun goDetailView(diaryId: Int) {
+        appState.value?.navController?.navigate(ScreenRoot.DETAIL_DIARY)
+        diaryState.value?.setDiaryDetail(diaryId)
+    }
+
     fun getHomeDaySize(): Int = homeDiaryList.value?.size ?: 0
 
 }

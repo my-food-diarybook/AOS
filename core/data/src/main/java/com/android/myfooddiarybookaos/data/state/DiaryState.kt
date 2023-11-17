@@ -2,6 +2,7 @@ package com.android.myfooddiarybookaos.data.state
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.Stable
+import com.android.myfooddiarybookaos.model.detail.DiaryDetail
 import okhttp3.MultipartBody
 
 @Stable
@@ -10,7 +11,8 @@ class DiaryState(
     var multiPartList: List<MultipartBody.Part>,
     val showSelectView: MutableState<Boolean>,
     val currentHomeDay: MutableState<String>,
-    val addScreenState: MutableState<AddScreenState>
+    val addScreenState: MutableState<AddScreenState>,
+    val currentDiaryDetail: MutableState<Int>
 ) {
     fun resetSelectedInfo(){
         isSelectedGallery.value = false
@@ -19,5 +21,13 @@ class DiaryState(
 
     fun resetHomeDay(){
         currentHomeDay.value = ""
+    }
+
+    fun setDiaryDetail(id : Int){
+        currentDiaryDetail.value = id
+    }
+
+    fun resetDiaryDetail(){
+        currentDiaryDetail.value = -1
     }
 }

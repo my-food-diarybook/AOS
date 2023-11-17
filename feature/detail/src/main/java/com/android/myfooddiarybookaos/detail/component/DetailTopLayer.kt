@@ -1,6 +1,7 @@
 package com.android.myfooddiarybookaos.detail.component
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -13,10 +14,14 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.core.data.R
+import com.android.myfooddiarybookaos.detail.viewModel.DetailViewModel
 
 @Composable
-fun DetailTopLayer() {
+fun DetailTopLayer(
+    detailViewModel: DetailViewModel = hiltViewModel()
+) {
     Box(
         Modifier
             .height(90.dp)
@@ -28,7 +33,11 @@ fun DetailTopLayer() {
                 .align(Alignment.BottomStart)
         ) {
             Box(
-                modifier = Modifier.size(44.dp),
+                modifier = Modifier
+                    .size(44.dp)
+                    .clickable {
+                        detailViewModel.goBack()
+                    },
                 contentAlignment = Alignment.Center
             ) {
                 Image(
@@ -53,11 +62,15 @@ fun DetailTopLayer() {
                 .align(Alignment.BottomEnd)
         ) {
             Box(
-                modifier = Modifier.size(44.dp),
+                modifier = Modifier
+                    .size(44.dp)
+                    .clickable {
+
+                    },
                 contentAlignment = Alignment.Center
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.main_left),
+                    painter = painterResource(id = R.drawable.more_vert_24px),
                     contentDescription = null
                 )
             }

@@ -17,7 +17,8 @@ fun ManageBottomBarState(
         ->{
             bottomBarState.value = true
         }
-        ScreenRoot.HOME_DAY
+        ScreenRoot.HOME_DAY,ScreenRoot.DETAIL_DIARY,ScreenRoot.DETAIL_LOCATION,
+            ScreenRoot.DETAIL_MEMO
         -> {
             bottomBarState.value = false
         }

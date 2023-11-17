@@ -132,7 +132,12 @@ fun HomeDayScreen(
         ) {
             currentHomeDay?.homeDayList?.let { homeDays ->
                 items(homeDays){homeDay ->
-                    ItemHomeDay(homeDay = homeDay)
+                    ItemHomeDay(
+                        homeDay = homeDay,
+                        clickDiary = {
+                            homeViewModel.goDetailView(homeDay.id)
+                        }
+                    )
                 }
             }
         }

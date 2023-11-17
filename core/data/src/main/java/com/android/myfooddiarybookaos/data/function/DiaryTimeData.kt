@@ -1,4 +1,4 @@
-package com.android.myfooddiarybookaos.home.function
+package com.android.myfooddiarybookaos.data.function
 
 fun diaryTimeData(code: String): String {
     return when (code) {

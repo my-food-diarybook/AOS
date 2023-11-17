@@ -78,4 +78,5 @@ dependencies {
     implementation project(":feature:search")
     implementation project(":feature:timeline")
     implementation project(":feature:myaccount")
+    implementation project(":feature:detail")
 }

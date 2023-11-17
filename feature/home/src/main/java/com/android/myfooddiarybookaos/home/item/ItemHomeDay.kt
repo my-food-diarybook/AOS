@@ -1,7 +1,7 @@
 package com.android.myfooddiarybookaos.home.item
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -21,15 +21,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.android.myfooddiarybookaos.core.data.R
-import com.android.myfooddiarybookaos.data.component.coloredInnerShadow
 import com.android.myfooddiarybookaos.data.component.customOuterShadow
-import com.android.myfooddiarybookaos.home.function.diaryTimeData
+import com.android.myfooddiarybookaos.data.function.diaryTimeData
 import com.android.myfooddiarybookaos.model.home.HomeDay
 import com.android.myfooddiarybookaos.data.path.byteStringToBitmap
 
 @Composable
 fun ItemHomeDay(
-    homeDay: HomeDay
+    homeDay: HomeDay,
+    clickDiary: ()-> Unit
 ) {
     val imagePainter  = rememberAsyncImagePainter(byteStringToBitmap(homeDay.image.bytes))
 
@@ -41,6 +41,9 @@ fun ItemHomeDay(
     Surface(
         modifier = Modifier
             .padding(vertical = 8.dp)
+            .clickable {
+                clickDiary()
+            }
             .customOuterShadow(
                 color = colorResource(id = R.color.black_10),
                 offsetY = 1.dp,
