@@ -1,4 +1,4 @@
-package com.android.myfooddiarybookaos.detail.component
+package com.android.myfooddiarybookaos.detail.mainUi.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

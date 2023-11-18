@@ -23,7 +23,7 @@ fun ManageBottomBarState(
             appState.bottomBarState.value = false
             appState.addFloatButtonViewState.value = true
         }
-        ScreenRoot.DETAIL_DIARY, ScreenRoot.DETAIL_LOCATION, ScreenRoot.DETAIL_MEMO
+        ScreenRoot.DETAIL_DIARY
         -> {
             appState.bottomBarState.value = false
             appState.addFloatButtonViewState.value = false

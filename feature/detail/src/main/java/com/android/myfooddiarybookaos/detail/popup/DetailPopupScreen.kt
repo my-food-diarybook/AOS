@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.component.customOuterShadow
-import com.android.myfooddiarybookaos.data.function.diaryTimeData
 import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.model.detail.DiaryDetail
 

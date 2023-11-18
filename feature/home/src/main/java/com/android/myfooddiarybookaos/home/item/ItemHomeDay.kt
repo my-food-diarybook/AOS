@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.component.customOuterShadow
-import com.android.myfooddiarybookaos.data.function.diaryTimeData
+import com.android.myfooddiarybookaos.data.function.DiaryTime
 import com.android.myfooddiarybookaos.model.home.HomeDay
 import com.android.myfooddiarybookaos.data.path.byteStringToBitmap
 
@@ -70,7 +70,7 @@ fun ItemHomeDay(
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.CenterStart) {
                     Column(modifier = Modifier.padding(start = 8.dp)) {
                         Text(
-                            text = diaryTimeData(homeDay.diaryTime),
+                            text = DiaryTime.getDiaryTimeData(homeDay.diaryTime),
                             fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W500)),
                             fontSize = 16.sp,
                             color = Color.Black,

@@ -1,4 +1,4 @@
-package com.android.myfooddiarybookaos.detail.component
+package com.android.myfooddiarybookaos.detail.mainUi.component
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable

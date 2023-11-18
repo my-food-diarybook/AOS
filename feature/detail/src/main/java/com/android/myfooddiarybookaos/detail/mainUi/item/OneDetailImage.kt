@@ -1,4 +1,4 @@
-package com.android.myfooddiarybookaos.detail.item
+package com.android.myfooddiarybookaos.detail.mainUi.item
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize

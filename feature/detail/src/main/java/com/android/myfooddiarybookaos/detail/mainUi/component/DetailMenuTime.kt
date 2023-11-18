@@ -1,4 +1,4 @@
-package com.android.myfooddiarybookaos.detail.component
+package com.android.myfooddiarybookaos.detail.mainUi.component
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -17,7 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
-import com.android.myfooddiarybookaos.data.function.diaryTimeData
+import com.android.myfooddiarybookaos.data.function.DiaryTime
 import com.android.myfooddiarybookaos.model.detail.DiaryDetail
 
 @Composable
@@ -38,7 +38,7 @@ fun DetailMenuTime(
         diaryDetail?.diaryTime?.let { timeData ->
             Text(
                 color = colorResource(id = R.color.main_color),
-                text = diaryTimeData(timeData),
+                text = DiaryTime.getDiaryTimeData(timeData),
                 fontSize = 20.sp,
                 fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W100))
             )

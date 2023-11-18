@@ -9,6 +9,4 @@ object ScreenRoot {
     const val SEARCH = "mainSearch"
     const val MY_ACCOUNT = "mainMy"
     const val DETAIL_DIARY = "detailDiary"
-    const val DETAIL_MEMO = "detailMemo"
-    const val DETAIL_LOCATION = "detailLocation"
 }

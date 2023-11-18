@@ -1,4 +1,4 @@
-package com.android.myfooddiarybookaos.detail.component
+package com.android.myfooddiarybookaos.detail.mainUi.component
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -11,12 +11,13 @@ import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.model.detail.DiaryDetail
 
 @Composable
-fun DetailLocation(
+fun DetailTag(
     diaryDetail : DiaryDetail?
+
 ) {
-    if (diaryDetail?.place == null || diaryDetail.place == "") {
+    if (diaryDetail?.tags == null || diaryDetail.tags.isEmpty()) {
         Text(
-            text = "위치 추가",
+            text = "#태그",
             fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W500)),
             fontSize = 18.sp,
             color = colorResource(id = R.color.calender_next_color),

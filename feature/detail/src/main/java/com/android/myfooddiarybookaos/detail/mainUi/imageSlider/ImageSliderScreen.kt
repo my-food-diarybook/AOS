@@ -1,4 +1,4 @@
-package com.android.myfooddiarybookaos.detail.imageSlider
+package com.android.myfooddiarybookaos.detail.mainUi.imageSlider
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -21,7 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.data.robotoBold
-import com.android.myfooddiarybookaos.detail.item.OneDetailImage
+import com.android.myfooddiarybookaos.detail.mainUi.item.OneDetailImage
 import com.android.myfooddiarybookaos.model.image.Image
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -45,7 +45,7 @@ fun ImageSliderScreen(
                 OneDetailImage(image = images[page])
             }
 
-            if (images.size > 1){
+            if (images.size > 1) {
                 Surface(
                     modifier = Modifier
                         .padding(
@@ -64,7 +64,7 @@ fun ImageSliderScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "${pagerState.currentPage+1} / ${images.size}",
+                            text = "${pagerState.currentPage + 1} / ${images.size}",
                             fontSize = 18.sp,
                             fontFamily = robotoBold,
                             fontWeight = FontWeight.W700,
