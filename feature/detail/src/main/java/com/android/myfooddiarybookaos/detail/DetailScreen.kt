@@ -1,12 +1,7 @@
 package com.android.myfooddiarybookaos.detail
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
@@ -16,13 +11,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.detail.function.DiaryViewState
-import com.android.myfooddiarybookaos.detail.mainUi.component.*
-import com.android.myfooddiarybookaos.detail.mainUi.imageSlider.ImageSliderScreen
+import com.android.myfooddiarybookaos.detail.locationUi.ui.DetailLocationScreen
+import com.android.myfooddiarybookaos.detail.mainUi.ui.DetailMemoScreen
 import com.android.myfooddiarybookaos.detail.mainUi.ui.MainDetailScreen
 import com.android.myfooddiarybookaos.detail.state.rememberDiaryFixState
 import com.android.myfooddiarybookaos.detail.viewModel.DetailViewModel
-import com.android.myfooddiarybookaos.model.detail.Tag
-
 
 @Composable
 fun DetailScreen(
@@ -37,10 +30,9 @@ fun DetailScreen(
 
     val diaryDetail = detailViewModel.diaryDetail.observeAsState().value
     val topDate = todayViewModel.getTopDate(diaryDetail?.date)
-    val currentViewState = remember {
-        mutableStateOf(DiaryViewState.MAIN)
-    }
+
     // diary state
+    val currentViewState = remember { mutableStateOf(DiaryViewState.MAIN) }
     val diaryFixState = rememberDiaryFixState(diaryDetail = diaryDetail)
 
     LaunchedEffect(Unit) {
@@ -48,22 +40,17 @@ fun DetailScreen(
         detailViewModel.setDiaryDetail()
     }
 
-    Column {
 
-        when(currentViewState.value){
-            DiaryViewState.MAIN -> {
-                MainDetailScreen(
-                    topDate
-                    ,diaryDetail
-                )
-            }
-            DiaryViewState.MEMO -> {
-
-            }
-            DiaryViewState.LOCATION -> {
-
-            }
+    when (currentViewState.value) {
+        DiaryViewState.MAIN -> {
+            MainDetailScreen(topDate, diaryDetail, currentViewState)
         }
-
+        DiaryViewState.MEMO -> {
+            DetailMemoScreen(diaryFixState, currentViewState)
+        }
+        DiaryViewState.LOCATION -> {
+            DetailLocationScreen(diaryFixState, currentViewState)
+        }
     }
+
 }

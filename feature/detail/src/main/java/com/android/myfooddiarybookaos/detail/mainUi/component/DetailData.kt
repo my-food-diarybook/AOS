@@ -9,16 +9,17 @@ import com.android.myfooddiarybookaos.model.detail.DiaryDetail
 
 @Composable
 fun DetailData(
-    diaryDetail: DiaryDetail?
+    diaryDetail: DiaryDetail?,
+    fixMemo: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 19.dp, end = 11.dp)
             .clickable {
-//                    initMemo()
+                fixMemo()
             }
-    ){
+    ) {
         DetailMemo(diaryDetail)
         Spacer(modifier = Modifier.height(15.dp))
         DetailLocation(diaryDetail)

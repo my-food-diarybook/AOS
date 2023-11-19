@@ -11,6 +11,7 @@ enum class DiaryTime(private val nameCode: String) {
     LATESNACK("야식"),
     NO("기타");
 
+    fun getNameCode() = this.nameCode
     companion object {
         fun getDiaryTimeData(code: String): String {
             return when (code) {
@@ -24,5 +25,7 @@ enum class DiaryTime(private val nameCode: String) {
                 else -> NO.nameCode
             }
         }
+
+        fun getDiaryTimeData(): List<DiaryTime> = DiaryTime.values().toList()
     }
 }
