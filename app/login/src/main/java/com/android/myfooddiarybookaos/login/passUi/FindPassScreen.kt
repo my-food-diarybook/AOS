@@ -48,9 +48,9 @@ fun FindPassScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = dimensionResource(id = R.dimen.size_16))
+            .padding(horizontal = 16.dp)
     ) {
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_40)))
+        Spacer(modifier = Modifier.height(40.dp))
 
         Row(
             verticalAlignment = Alignment.CenterVertically

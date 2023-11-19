@@ -2,6 +2,7 @@ package com.android.myfooddiarybookaos.detail.state
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.toMutableStateList
 import com.android.myfooddiarybookaos.model.detail.DiaryDetail
 import com.android.myfooddiarybookaos.model.detail.Tag
 
@@ -13,15 +14,15 @@ class DetailFixState(
     var longitude: MutableState<Double?>,
     var latitude: MutableState<Double?>
 ) {
-    fun initData(
-        diaryDetail: DiaryDetail
+    fun initMemo(
+        diaryDetail: DiaryDetail?
     ){
-        tags = diaryDetail.tags.toMutableList()
-        memo.value = diaryDetail.memo
-        diaryTimeData.value = diaryDetail.diaryTime
-        place.value = diaryDetail.place
-        longitude.value = diaryDetail.longitude
-        latitude.value = diaryDetail.latitude
+        tags = if (diaryDetail?.tags == null) mutableListOf() else diaryDetail.tags.toMutableStateList()
+        memo = if (diaryDetail?.memo == null) mutableStateOf("") else mutableStateOf(diaryDetail.memo)
+        diaryTimeData = if (diaryDetail?.diaryTime == null) mutableStateOf("ETC") else mutableStateOf(diaryDetail.diaryTime)
+        place = mutableStateOf(diaryDetail?.place.orEmpty())
+        longitude = mutableStateOf(diaryDetail?.longitude)
+        latitude = mutableStateOf(diaryDetail?.latitude)
     }
 
     fun setMemo(
@@ -32,8 +33,11 @@ class DetailFixState(
 
     fun checkMemo(): Boolean = memo.value.isBlank()
 
-    fun addTag(newTag: Tag) {
-        tags.add(newTag)
+    fun addTag(newTag: String) {
+        tags.add(Tag((tags.lastOrNull()?.id ?: 0) + 1, newTag))
+    }
+    fun removeTag(tag: Tag){
+        tags.remove(tag)
     }
 
     fun checkTag(): Boolean = tags.isEmpty()

@@ -32,7 +32,7 @@ class DetailViewModel @Inject constructor(
     }
 
     fun setDiaryDetail(
-        setData : (detail: DiaryDetail?) -> Unit
+        initData: (DiaryDetail?)-> Unit
     ) {
         diaryState.value?.currentDiaryDetail?.let {
             if (it.value != -1) {
@@ -40,7 +40,7 @@ class DetailViewModel @Inject constructor(
                     it.value,
                     isUpdate = { detail ->
                         _diaryDetail.value = detail
-                        setData(detail)
+                        initData(detail)
                     }
                 )
             }

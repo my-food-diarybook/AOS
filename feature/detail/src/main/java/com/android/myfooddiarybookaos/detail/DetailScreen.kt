@@ -14,6 +14,7 @@ import com.android.myfooddiarybookaos.detail.function.DiaryViewState
 import com.android.myfooddiarybookaos.detail.locationUi.ui.DetailLocationScreen
 import com.android.myfooddiarybookaos.detail.mainUi.ui.DetailMemoScreen
 import com.android.myfooddiarybookaos.detail.mainUi.ui.MainDetailScreen
+import com.android.myfooddiarybookaos.detail.state.DetailFixState
 import com.android.myfooddiarybookaos.detail.state.rememberDiaryFixState
 import com.android.myfooddiarybookaos.detail.viewModel.DetailViewModel
 
@@ -21,6 +22,7 @@ import com.android.myfooddiarybookaos.detail.viewModel.DetailViewModel
 fun DetailScreen(
     appState: ApplicationState,
     diaryState: DiaryState,
+    diaryFixState: DetailFixState,
     detailViewModel: DetailViewModel = hiltViewModel(),
     todayViewModel: TodayViewModel = hiltViewModel()
 ) {
@@ -33,14 +35,11 @@ fun DetailScreen(
 
     // diary state
     val currentViewState = remember { mutableStateOf(DiaryViewState.MAIN) }
-    val diaryFixState = rememberDiaryFixState()
 
     LaunchedEffect(Unit) {
         detailViewModel.initAppState(appState, diaryState)
         detailViewModel.setDiaryDetail(
-            setData = { detail ->
-                detail?.let { it -> diaryFixState.initData(it) }
-            }
+            initData = { diaryFixState.initMemo(it) }
         )
     }
 

@@ -20,10 +20,10 @@ fun DetailData(
                 fixMemo()
             }
     ) {
-        DetailMemo(diaryDetail)
+        DetailMemo(diaryDetail?.memo)
         Spacer(modifier = Modifier.height(15.dp))
-        DetailLocation(diaryDetail)
+        DetailLocation(diaryDetail?.place)
         Spacer(modifier = Modifier.height(15.dp))
-        DetailTag(diaryDetail)
+        DetailTag(diaryDetail?.tags)
     }
 }

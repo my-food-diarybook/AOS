@@ -22,7 +22,7 @@ fun SelectTimeLayer(
     LazyRow(
         modifier = Modifier
             .wrapContentSize()
-            .padding(horizontal = 20.dp),
+            .padding(start = 20.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         state = rememberLazyListState(),
     ) {

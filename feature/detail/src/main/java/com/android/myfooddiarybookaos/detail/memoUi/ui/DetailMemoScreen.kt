@@ -1,5 +1,6 @@
 package com.android.myfooddiarybookaos.detail.mainUi.ui
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
@@ -14,19 +15,25 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.material.Text
 import androidx.compose.runtime.MutableState
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
-import com.android.myfooddiarybookaos.data.robotoRegular
+import androidx.compose.material.Surface
 import com.android.myfooddiarybookaos.detail.function.DiaryViewState
+import com.android.myfooddiarybookaos.detail.mainUi.component.DetailLocation
 import com.android.myfooddiarybookaos.detail.memoUi.component.MemoTopLayer
 import com.android.myfooddiarybookaos.detail.memoUi.component.SelectTimeLayer
+import com.android.myfooddiarybookaos.detail.memoUi.component.TypeMemo
+import com.android.myfooddiarybookaos.detail.memoUi.component.TypeTag
 import com.android.myfooddiarybookaos.detail.state.DetailFixState
+import com.android.myfooddiarybookaos.model.detail.Tag
 
 @Composable
 fun DetailMemoScreen(
     diaryFixState: DetailFixState,
     currentViewState: MutableState<DiaryViewState>
 ) {
+    // 뒤로가기 제어
+    BackHandler(enabled = true, onBack = {
+        currentViewState.value = DiaryViewState.MAIN
+    })
     Column {
         MemoTopLayer(
             backStage = {
@@ -40,5 +47,28 @@ fun DetailMemoScreen(
         Spacer(modifier = Modifier.height(22.dp))
         SelectTimeLayer(diaryFixState.diaryTimeData)
 
+        Column(
+            modifier = Modifier.padding(start = 20.dp, end = 10.dp, top = 12.dp)
+        ) {
+            TypeMemo(text = diaryFixState.memo, editMemo = {diaryFixState.setMemo(it)})
+            Spacer(modifier = Modifier.height(15.dp))
+            Box(
+                modifier = Modifier.clickable {
+                    currentViewState.value = DiaryViewState.LOCATION
+                }
+            ) {
+                DetailLocation(diaryFixState.place.value)
+            }
+            Spacer(modifier = Modifier.height(15.dp))
+            TypeTag(
+                tags = diaryFixState.tags,
+                addTag = {
+                    diaryFixState.addTag(it)
+                         },
+                removeTag = {
+                    diaryFixState.removeTag(it)
+                }
+            )
+        }
     }
 }

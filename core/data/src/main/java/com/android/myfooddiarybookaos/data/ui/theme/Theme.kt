@@ -89,19 +89,19 @@ fun EditTextBox(
                 }
             ) {
                 Box(
-                    modifier = Modifier.size(dimensionResource(id = R.dimen.size_20)),
+                    modifier = Modifier.size(20.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_eye_off_black),
                         contentDescription = "",
-                        Modifier.size(dimensionResource(id = R.dimen.size_14)),
+                        Modifier.size(14.dp),
                         tint = colorResource(id = R.color.text_dark)
                     )
                 }
             }
         }else{
-            Box(modifier = Modifier.size(dimensionResource(id = R.dimen.size_20)))
+            Box(modifier = Modifier.size(20.dp))
         }
     }
 
@@ -109,9 +109,9 @@ fun EditTextBox(
     Row{
         Surface( // 배경
             modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_4)),
+            shape = RoundedCornerShape(4.dp),
             border = BorderStroke(
-                dimensionResource(id = R.dimen.size_1),
+                1.dp,
                 color = 
                 if (strokeColor.value) colorResource(id = R.color.weak_color)
                 else colorResource(id = R.color.not_valid_text_color)
@@ -146,10 +146,10 @@ fun EditTextBox(
                     colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.White),
                     interactionSource = interactionSource,
                     contentPadding = TextFieldDefaults.textFieldWithoutLabelPadding(
-                        start = dimensionResource(id = R.dimen.size_12),
-                        end =  dimensionResource(id = R.dimen.size_12),
-                        top =  dimensionResource(id = R.dimen.size_11_5),
-                        bottom =  dimensionResource(id = R.dimen.size_11_5)
+                        start = 12.dp,
+                        end =  12.dp,
+                        top =  11.5.dp,
+                        bottom =  11.5.dp
                     )
                 )
             }
