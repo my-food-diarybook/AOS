@@ -19,6 +19,7 @@ import com.android.myfooddiarybookaos.detail.function.DiaryViewState
 import com.android.myfooddiarybookaos.detail.mainUi.component.*
 import com.android.myfooddiarybookaos.detail.mainUi.imageSlider.ImageSliderScreen
 import com.android.myfooddiarybookaos.detail.mainUi.ui.MainDetailScreen
+import com.android.myfooddiarybookaos.detail.state.rememberDiaryFixState
 import com.android.myfooddiarybookaos.detail.viewModel.DetailViewModel
 import com.android.myfooddiarybookaos.model.detail.Tag
 
@@ -39,12 +40,8 @@ fun DetailScreen(
     val currentViewState = remember {
         mutableStateOf(DiaryViewState.MAIN)
     }
-    // state로 따로 빼기
-    val tags = remember { mutableListOf(diaryDetail?.tags) }
-    val memo = remember { mutableStateOf(diaryDetail?.memo) }
-    val place = remember { mutableStateOf(diaryDetail?.place) }
-    val longitude = remember { mutableStateOf(diaryDetail?.longitude) }
-    val latitude = remember { mutableStateOf(diaryDetail?.latitude) }
+    // diary state
+    val diaryFixState = rememberDiaryFixState(diaryDetail = diaryDetail)
 
     LaunchedEffect(Unit) {
         detailViewModel.initAppState(appState, diaryState)
@@ -60,10 +57,10 @@ fun DetailScreen(
                     ,diaryDetail
                 )
             }
-            DiaryViewState.LOCATION -> {
+            DiaryViewState.MEMO -> {
 
             }
-            DiaryViewState.MEMO -> {
+            DiaryViewState.LOCATION -> {
 
             }
         }
