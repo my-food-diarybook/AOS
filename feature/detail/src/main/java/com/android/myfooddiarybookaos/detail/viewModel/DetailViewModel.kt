@@ -31,13 +31,16 @@ class DetailViewModel @Inject constructor(
         _diaryState.value = state2
     }
 
-    fun setDiaryDetail() {
+    fun setDiaryDetail(
+        setData : (detail: DiaryDetail?) -> Unit
+    ) {
         diaryState.value?.currentDiaryDetail?.let {
             if (it.value != -1) {
                 detailRepository.getDetailDiary(
                     it.value,
                     isUpdate = { detail ->
                         _diaryDetail.value = detail
+                        setData(detail)
                     }
                 )
             }

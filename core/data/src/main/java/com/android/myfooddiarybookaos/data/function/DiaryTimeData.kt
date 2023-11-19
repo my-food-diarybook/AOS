@@ -9,7 +9,7 @@ enum class DiaryTime(private val nameCode: String) {
     SNACK("간식"),
     DINNER("저녁"),
     LATESNACK("야식"),
-    NO("기타");
+    ETC("기타");
 
     fun getNameCode() = this.nameCode
     companion object {
@@ -22,7 +22,7 @@ enum class DiaryTime(private val nameCode: String) {
                 "LINNER" -> LINNER.nameCode
                 "DINNER" -> DINNER.nameCode
                 "LATESNACK" -> LATESNACK.nameCode
-                else -> NO.nameCode
+                else -> ETC.nameCode
             }
         }
 

@@ -33,11 +33,15 @@ fun DetailScreen(
 
     // diary state
     val currentViewState = remember { mutableStateOf(DiaryViewState.MAIN) }
-    val diaryFixState = rememberDiaryFixState(diaryDetail = diaryDetail)
+    val diaryFixState = rememberDiaryFixState()
 
     LaunchedEffect(Unit) {
         detailViewModel.initAppState(appState, diaryState)
-        detailViewModel.setDiaryDetail()
+        detailViewModel.setDiaryDetail(
+            setData = { detail ->
+                detail?.let { it -> diaryFixState.initData(it) }
+            }
+        )
     }
 
 

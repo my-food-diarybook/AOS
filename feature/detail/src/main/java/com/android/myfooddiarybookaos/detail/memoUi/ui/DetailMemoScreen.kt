@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.detail.function.DiaryViewState
 import com.android.myfooddiarybookaos.detail.memoUi.component.MemoTopLayer
+import com.android.myfooddiarybookaos.detail.memoUi.component.SelectTimeLayer
 import com.android.myfooddiarybookaos.detail.state.DetailFixState
 
 @Composable
@@ -37,7 +38,7 @@ fun DetailMemoScreen(
             }
         )
         Spacer(modifier = Modifier.height(22.dp))
-
+        SelectTimeLayer(diaryFixState.diaryTimeData)
 
     }
 }

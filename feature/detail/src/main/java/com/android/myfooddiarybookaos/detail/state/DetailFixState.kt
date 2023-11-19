@@ -1,16 +1,29 @@
 package com.android.myfooddiarybookaos.detail.state
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import com.android.myfooddiarybookaos.model.detail.DiaryDetail
 import com.android.myfooddiarybookaos.model.detail.Tag
 
 class DetailFixState(
-    private val tags: MutableList<Tag>,
-    private val memo: MutableState<String>,
-    private val timeData: MutableState<String>,
-    private val place: MutableState<String?>,
-    private val longitude: MutableState<Double?>,
-    private val latitude: MutableState<Double?>
+    var tags: MutableList<Tag>,
+    var memo: MutableState<String>,
+    var diaryTimeData: MutableState<String>,
+    var place: MutableState<String?>,
+    var longitude: MutableState<Double?>,
+    var latitude: MutableState<Double?>
 ) {
+    fun initData(
+        diaryDetail: DiaryDetail
+    ){
+        tags = diaryDetail.tags.toMutableList()
+        memo.value = diaryDetail.memo
+        diaryTimeData.value = diaryDetail.diaryTime
+        place.value = diaryDetail.place
+        longitude.value = diaryDetail.longitude
+        latitude.value = diaryDetail.latitude
+    }
+
     fun setMemo(
         memoFlow: String
     ) {
@@ -36,4 +49,8 @@ class DetailFixState(
     }
 
     fun checkLocation(): Boolean = place.value.isNullOrBlank()
+
+    fun setTimeData(new: MutableState<String> ){
+        diaryTimeData.value =  new.value
+    }
 }
