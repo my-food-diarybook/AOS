@@ -6,8 +6,9 @@ import com.android.myfooddiarybookaos.model.timeLine.TimeLineDiary
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class TimeLineRepository(
+class TimeLineRepository @Inject constructor(
     private val networkManager: NetworkManager
 ) {
     private val manager = networkManager.getTimeLineApiService()

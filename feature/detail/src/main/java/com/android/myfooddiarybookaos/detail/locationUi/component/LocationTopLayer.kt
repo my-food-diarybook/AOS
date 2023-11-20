@@ -1,9 +1,11 @@
 package com.android.myfooddiarybookaos.detail.locationUi.component
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -27,28 +29,15 @@ fun LocationTopLayer(
     submitEnabled: State<Boolean>,
     search: (String) -> Unit,
     goBack: () -> Unit,
+    onDelete: () -> Unit
 ) {
     val interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 
     val trailingIconView = @Composable {
         if (submitEnabled.value) {
             IconButton(
-                onClick = { }
-            ) {
-                Box(
-                    modifier = Modifier.size(30.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.search_icon),
-                        contentDescription = null,
-                    )
-                }
-            }
-        } else {
-            IconButton(
                 onClick = {
-                    // delete
+                    onDelete()
                 }
             ) {
                 Box(
@@ -57,6 +46,18 @@ fun LocationTopLayer(
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.close_24px_copy),
+                        contentDescription = null,
+                    )
+                }
+            }
+        } else {
+            IconButton(onClick = { }) {
+                Box(
+                    modifier = Modifier.size(30.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.search_icon),
                         contentDescription = null,
                     )
                 }
@@ -86,12 +87,18 @@ fun LocationTopLayer(
                 contentDescription = null
             )
         }
+
         BasicTextField(
             value = userInput,
             onValueChange = {
                 search(it)
             },
             modifier = Modifier
+                .border(
+                    1.dp,
+                    Color.Black,
+                    RoundedCornerShape(4.dp)
+                )
                 .fillMaxWidth()
                 .wrapContentHeight(),
             interactionSource = interactionSource,
