@@ -2,6 +2,7 @@ package com.android.myfooddiarybookaos.detail.locationUi.item
 
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
@@ -27,7 +28,11 @@ fun SearchResultItem(
         if (place.distance == null) ""
         else (place.distance!!.toDouble() / 1000).toInt().toString() + "km"
 
-    Column {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth().wrapContentHeight()
+            .clickable { onSelected() }
+    ) {
         Text(
             text = place.place_name,
             fontFamily = robotoRegular,

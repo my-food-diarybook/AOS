@@ -33,6 +33,7 @@ class MapSearchRepository @Inject constructor(
         myLocation: MyLocation?,
         result: (ResultSearchKeyword?) -> Unit
     ) {
+
         manager.getCurrentLocationKeyword(
             x = myLocation?.x,
             y = myLocation?.y
@@ -57,6 +58,7 @@ class MapSearchRepository @Inject constructor(
         myLocation: MyLocation?,
         result: (ResultSearchKeyword?) -> Unit
     ) {
+        Log.d("sdlfjsfldjsdfl",keyword)
         manager.getSearchKeyword(
             query = keyword,
             x = myLocation?.x,
@@ -66,6 +68,7 @@ class MapSearchRepository @Inject constructor(
                 call: Call<ResultSearchKeyword>,
                 response: Response<ResultSearchKeyword>
             ) {
+                Log.d("sdlfjsfldjsdfl",response.body().toString())
                 result(response.body())
             }
 

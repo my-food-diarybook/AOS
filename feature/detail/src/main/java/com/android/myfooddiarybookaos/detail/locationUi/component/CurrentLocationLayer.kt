@@ -17,7 +17,8 @@ import com.android.myfooddiarybookaos.model.map.Place
 
 @Composable
 fun CurrentLocationLayer(
-    currentLocationResult: State<List<Place>?>
+    currentLocationResult: State<List<Place>?>,
+    selectedLocation: (Place)->Unit
 ) {
     LazyColumn(
         state = rememberLazyListState(),
@@ -31,7 +32,7 @@ fun CurrentLocationLayer(
                 CurrentLocationItem(
                     place = place,
                     onSelected = {
-                        // 선택
+                        selectedLocation(place)
                     }
                 )
             }

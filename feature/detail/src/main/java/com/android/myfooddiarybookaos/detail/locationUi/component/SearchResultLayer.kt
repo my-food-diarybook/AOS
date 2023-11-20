@@ -18,6 +18,7 @@ import com.android.myfooddiarybookaos.model.map.Place
 fun SearchResultLayer(
     userInput: String,
     searchResult: State<List<Place>?>,
+    selectedLocation: (Place)->Unit
 ) {
     LazyColumn(
         state = rememberLazyListState(),
@@ -32,7 +33,7 @@ fun SearchResultLayer(
                     query = userInput,
                     place = place,
                     onSelected = {
-                        // 선택
+                        selectedLocation(place)
                     }
                 )
             }

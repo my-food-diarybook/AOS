@@ -13,6 +13,7 @@ import com.android.myfooddiarybookaos.detail.locationUi.component.CurrentLocatio
 import com.android.myfooddiarybookaos.detail.locationUi.component.LocationTopLayer
 import com.android.myfooddiarybookaos.detail.locationUi.component.SearchResultLayer
 import com.android.myfooddiarybookaos.detail.viewModel.DetailViewModel
+import com.android.myfooddiarybookaos.model.map.Place
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -28,6 +29,14 @@ fun DetailLocationScreen(
     val submitEnabled = remember { derivedStateOf { userInputValid(userInput) } }
     val currentLocationResult = detailViewModel.currentLocationResult.observeAsState()
     val searchResult = detailViewModel.searchResult.observeAsState()
+    fun setSelectLocation(place: Place) {
+        try {
+            diaryFixState.place.value = place.place_name
+            diaryFixState.longitude.value = place.x.toDouble()
+            diaryFixState.latitude.value = place.y.toDouble()
+        } catch (_:Exception){ }
+    }
+
     // 뒤로가기 제어
     BackHandler(enabled = true, onBack = {
         currentViewState.value = DiaryViewState.MEMO
@@ -57,9 +66,22 @@ fun DetailLocationScreen(
         )
 
         if (submitEnabled.value) {
-            SearchResultLayer(userInput, searchResult)
+            SearchResultLayer(
+                userInput,
+                searchResult,
+                selectedLocation = {
+                    setSelectLocation(it)
+                    currentViewState.value = DiaryViewState.MEMO
+                }
+            )
         } else {
-            CurrentLocationLayer(currentLocationResult)
+            CurrentLocationLayer(
+                currentLocationResult,
+                selectedLocation = {
+                    setSelectLocation(it)
+                    currentViewState.value = DiaryViewState.MEMO
+                }
+            )
         }
     }
 
