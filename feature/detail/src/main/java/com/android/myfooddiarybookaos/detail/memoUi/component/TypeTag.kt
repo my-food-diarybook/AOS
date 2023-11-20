@@ -64,8 +64,7 @@ fun TypeTag(
                 keyboardController?.hide()
             }),
             modifier = Modifier
-                .wrapContentSize()
-                .weight(1f),
+                .width(IntrinsicSize.Max),
             maxLines = 1,
             decorationBox = { innerTextField ->
                 if (newTagText.value.isEmpty()) {
@@ -75,7 +74,6 @@ fun TypeTag(
                         fontSize = 18.sp,
                         color = colorResource(id = R.color.calender_next_color),
                         maxLines = 1,
-                        modifier = Modifier.padding(horizontal = 5.dp)
                     )
                 }
                 innerTextField()
