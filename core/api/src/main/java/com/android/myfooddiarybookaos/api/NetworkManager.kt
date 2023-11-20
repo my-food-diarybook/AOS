@@ -10,7 +10,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import java.security.SecureRandom
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
@@ -41,7 +40,7 @@ class NetworkManager(
             }
 
             return instance ?: Retrofit.Builder()
-                .baseUrl("$baseUrl/")
+                .baseUrl("$BASE_URL/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(unsafeOkHttpClient(header, contentType))
                 .build()

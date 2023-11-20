@@ -80,8 +80,8 @@ dependencies {
     implementation "androidx.activity:activity-ktx:1.7.2"
     implementation "androidx.fragment:fragment-ktx:1.6.1"
 
-
-
+    // kakao
+    implementation "com.kakao.sdk:v2-all:2.18.0" // 전체 모듈 설치, 2.11.0 버전부터 지원
 
     // LiveData
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
