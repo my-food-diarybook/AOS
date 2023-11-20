@@ -15,7 +15,7 @@ interface KakaoRetrofitService {
         @Query("x") x: String?,
         @Query("y") y: String?,
         @Query("page") page: Int = 1,
-        @Query("size") size: Int = 20,
+        @Query("size") size: Int = 15,
     ): Call<ResultSearchKeyword>
 
     @GET("v2/local/search/category.json")

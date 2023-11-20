@@ -60,7 +60,7 @@ class DetailViewModel @Inject constructor(
     }
 
     fun getSearchResult(
-        data: String
+        data: String,
     ) {
         mapSearchRepository.getSearchKeyword(
             data,

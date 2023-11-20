@@ -115,6 +115,7 @@ class MapSearchRepository @Inject constructor(
             permissionsLocation,
             REQUEST_LOCATION
         )
+
     }
 
 
@@ -127,15 +128,35 @@ class MapSearchRepository @Inject constructor(
             LocationServices.getFusedLocationProviderClient(context)
 
         fusedLocationProviderClient.lastLocation
-            .addOnSuccessListener { success: Location? ->
-                Log.d("checkMyresult", "addOnSuccessListener" + success.toString())
-                success?.let { location ->
+            .addOnSuccessListener { location: Location? ->
+                Log.d("checkMyresult", "addOnSuccessListener" + location.toString())
+                if (location != null) {
                     locationData(
                         MyLocation(
                             location.longitude.toString(),
                             location.latitude.toString()
                         )
                     )
+                } else {
+                    val mRequest = LocationRequest.create().apply {
+                        interval = 300
+                        fastestInterval = 200
+                        priority = Priority.PRIORITY_HIGH_ACCURACY
+                        maxWaitTime = 100
+                    }
+                    val mLocationCallback = object  : LocationCallback(){
+                        override fun onLocationResult(locationResult: LocationResult) {
+                            locationResult ?: return
+                            locationResult.locations.forEach{
+                                MyLocation(
+                                    it.longitude.toString(),
+                                    it.latitude.toString()
+                                )
+                                fusedLocationProviderClient.removeLocationUpdates(this)
+                            }
+                        }
+                    }
+                    fusedLocationProviderClient.requestLocationUpdates(mRequest,mLocationCallback,null)
                 }
             }
             .addOnFailureListener { _ ->

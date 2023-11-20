@@ -44,7 +44,7 @@ fun DetailLocationScreen(
             search = {
                 userInput = it
                 coroutineScope.launch {// 로드 딜레이
-                    delay(100)
+                    delay(500)
                     detailViewModel.getSearchResult(userInput)
                 }
             },

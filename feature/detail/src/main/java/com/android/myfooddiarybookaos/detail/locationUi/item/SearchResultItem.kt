@@ -1,5 +1,6 @@
 package com.android.myfooddiarybookaos.detail.locationUi.item
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
@@ -22,6 +23,10 @@ fun SearchResultItem(
     place: Place,
     onSelected: () -> Unit
 ) {
+    val placeDistance =
+        if (place.distance == null) ""
+        else (place.distance!!.toDouble() / 1000).toInt().toString() + "km"
+
     Column {
         Text(
             text = place.place_name,
@@ -31,6 +36,7 @@ fun SearchResultItem(
             color = Color.Black
         )
         Row(
+            modifier = Modifier.wrapContentHeight(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
@@ -40,16 +46,16 @@ fun SearchResultItem(
                 fontFamily = robotoRegular,
                 color = colorResource(id = R.color.line_color_deep)
             )
-            Spacer(modifier = Modifier.width(2.dp))
+            Spacer(modifier = Modifier.width(5.dp))
             Divider(
                 Modifier
-                    .fillMaxHeight()
+                    .height(12.dp)
                     .width(1.dp)
                     .background(colorResource(id = R.color.line_color_deep))
             )
-            Spacer(modifier = Modifier.width(2.dp))
+            Spacer(modifier = Modifier.width(5.dp))
             Text(
-                text = place.distanc,
+                text = placeDistance,
                 fontWeight = FontWeight.W500,
                 fontSize = 12.sp,
                 fontFamily = robotoRegular,
