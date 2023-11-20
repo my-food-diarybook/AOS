@@ -23,21 +23,12 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun LocationTopLayer(
+    userInput: String,
+    submitEnabled: State<Boolean>,
+    search: (String) -> Unit,
     goBack: () -> Unit,
-    location: (String) -> Unit
 ) {
-    val coroutineScope = rememberCoroutineScope()
     val interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
-    var userInput by remember { mutableStateOf("") }
-    val submitEnabled = remember { derivedStateOf { userInputValid(userInput) } }
-    val sendLocation = remember { mutableStateOf("") }
-    if (sendLocation.value.isNotEmpty()) {
-        coroutineScope.launch {
-            delay(100)
-            location(sendLocation.value)
-            sendLocation.value = ""
-        }
-    }
 
     val trailingIconView = @Composable {
         if (submitEnabled.value) {
@@ -98,8 +89,7 @@ fun LocationTopLayer(
         BasicTextField(
             value = userInput,
             onValueChange = {
-                userInput = it
-                sendLocation.value = it
+                search(it)
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -133,5 +123,3 @@ fun LocationTopLayer(
         }
     }
 }
-
-private fun userInputValid(userInput: String) = userInput.isNotEmpty()
