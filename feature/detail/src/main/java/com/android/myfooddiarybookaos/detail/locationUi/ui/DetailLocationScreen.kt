@@ -1,13 +1,20 @@
 package com.android.myfooddiarybookaos.detail.locationUi.ui
 
 import android.app.Activity
+import android.content.Context
+import android.content.pm.PackageManager
+import android.util.Log
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
 import com.android.myfooddiarybookaos.detail.function.DiaryViewState
 import com.android.myfooddiarybookaos.detail.state.DetailFixState
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.detail.locationUi.component.CurrentLocationLayer
 import com.android.myfooddiarybookaos.detail.locationUi.component.LocationTopLayer
@@ -23,12 +30,34 @@ fun DetailLocationScreen(
     currentViewState: MutableState<DiaryViewState>,
     detailViewModel: DetailViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
-    val activity = LocalContext.current as Activity
     var userInput by remember { mutableStateOf("") }
+    var prevInput by remember { mutableStateOf("") }
+    var currentLoad by remember { mutableStateOf(false) }
+    val searchUpdate = remember { derivedStateOf { userInputUpdate(userInput,prevInput) }}
     val submitEnabled = remember { derivedStateOf { userInputValid(userInput) } }
     val currentLocationResult = detailViewModel.currentLocationResult.observeAsState()
     val searchResult = detailViewModel.searchResult.observeAsState()
+
+    val launcherMultiplePermissions = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissionsMap ->
+        val areGranted = permissionsMap.values.reduce { acc, next -> acc && next }
+        /** 권한 요청시 동의 했을 경우 **/
+        if (areGranted) {
+            currentLoad = true
+        }
+        /** 권한 요청시 거부 했을 경우 **/
+//        else {
+//
+//        }
+    }
+    if (currentLoad){
+        detailViewModel.setMyLocation()
+        currentLoad = false
+    }
+
     fun setSelectLocation(place: Place) {
         try {
             diaryFixState.place.value = place.place_name
@@ -43,7 +72,13 @@ fun DetailLocationScreen(
     })
 
     LaunchedEffect(Unit) {
-        detailViewModel.setMyLocation(activity)
+        detailViewModel.requestPermission(
+            context,
+            launcherMultiplePermissions,
+            permissionResult = {
+                currentLoad = true
+            }
+        )
     }
 
     Column {
@@ -54,7 +89,8 @@ fun DetailLocationScreen(
                 userInput = it
                 coroutineScope.launch {// 로드 딜레이
                     delay(500)
-                    detailViewModel.getSearchResult(userInput)
+                    prevInput = it
+                    if (searchUpdate.value) detailViewModel.getSearchResult(userInput)
                 }
             },
             goBack = {
@@ -88,3 +124,4 @@ fun DetailLocationScreen(
 }
 
 private fun userInputValid(userInput: String) = userInput.isNotEmpty()
+private fun userInputUpdate(userInput: String,prevInput:String) = userInput == prevInput

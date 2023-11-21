@@ -7,7 +7,12 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.util.Log
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResultRegistryOwner
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.android.myfooddiarybookaos.api.KakaoApiManager
 import com.android.myfooddiarybookaos.model.map.MyLocation
 import com.android.myfooddiarybookaos.model.map.ResultSearchKeyword
@@ -23,9 +28,8 @@ class MapSearchRepository @Inject constructor(
 ) {
     private val manager = kakaoApiManager.getKakaoService()
     private val permissionsLocation = arrayOf(
-        Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.ACCESS_BACKGROUND_LOCATION
+        Manifest.permission.ACCESS_FINE_LOCATION
     )
 
 
@@ -58,7 +62,6 @@ class MapSearchRepository @Inject constructor(
         myLocation: MyLocation?,
         result: (ResultSearchKeyword?) -> Unit
     ) {
-        Log.d("sdlfjsfldjsdfl",keyword)
         manager.getSearchKeyword(
             query = keyword,
             x = myLocation?.x,
@@ -68,7 +71,6 @@ class MapSearchRepository @Inject constructor(
                 call: Call<ResultSearchKeyword>,
                 response: Response<ResultSearchKeyword>
             ) {
-                Log.d("sdlfjsfldjsdfl",response.body().toString())
                 result(response.body())
             }
 
@@ -80,12 +82,8 @@ class MapSearchRepository @Inject constructor(
     }
 
     fun initLocation(
-        activity: Activity,
         setLocation: (MyLocation) -> Unit,
     ) {
-        if (notCheckPermission()) {
-            requestLocation(activity)
-        }
         loadLocation(
             locationData = {
                 it?.let { setLocation(it) }
@@ -93,33 +91,25 @@ class MapSearchRepository @Inject constructor(
         )
 
     }
-
-    private fun notCheckPermission(): Boolean {
-        return (ActivityCompat.checkSelfPermission(
-            context,
-            permissionsLocation[0]
-        ) != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(
-            context,
-            permissionsLocation[1]
-        ) != PackageManager.PERMISSION_GRANTED ||
-                ActivityCompat.checkSelfPermission(
-                    context,
-                    permissionsLocation[2]
-                ) != PackageManager.PERMISSION_GRANTED
-                )
-    }
-
-    private fun requestLocation(
-        activity: Activity
+    fun checkAndRequestPermissions(
+        context: Context,
+        launcher: ManagedActivityResultLauncher<Array<String>, Map<String, Boolean>>,
+        result : (Boolean) -> Unit
     ) {
-        ActivityCompat.requestPermissions(
-            activity,
-            permissionsLocation,
-            REQUEST_LOCATION
-        )
-
+        if (permissionsLocation.all {
+                ContextCompat.checkSelfPermission(
+                    context,
+                    it
+                ) == PackageManager.PERMISSION_GRANTED
+            }) {
+            result(true)
+        }
+        else {
+            launcher.launch(permissionsLocation)
+        }
     }
+
+    fun getPermission() = permissionsLocation
 
 
     @SuppressLint("MissingPermission")
@@ -170,5 +160,6 @@ class MapSearchRepository @Inject constructor(
 
     companion object {
         const val REQUEST_LOCATION = 1
+        const val GRANT_RESULT = 100
     }
 }

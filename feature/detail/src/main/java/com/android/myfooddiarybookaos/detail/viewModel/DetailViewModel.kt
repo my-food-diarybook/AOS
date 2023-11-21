@@ -1,6 +1,8 @@
 package com.android.myfooddiarybookaos.detail.viewModel
 
 import android.app.Activity
+import android.content.Context
+import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -71,17 +73,19 @@ class DetailViewModel @Inject constructor(
         )
     }
 
-    fun setMyLocation(
-        activity: Activity
-    ) {
+    fun setMyLocation() {
         mapSearchRepository.initLocation(
-            activity,
             setLocation = {
                 _myLocation.value = it
                 getCurrentLocationData()
             }
         )
     }
+    fun requestPermission(
+        context: Context,
+        launcher: ManagedActivityResultLauncher<Array<String>, Map<String, Boolean>>,
+        permissionResult: (Boolean) -> Unit
+    ) = mapSearchRepository.checkAndRequestPermissions(context,launcher, result = {permissionResult(it)})
 
     private fun getCurrentLocationData() {
         mapSearchRepository.getCurrentLocationData(

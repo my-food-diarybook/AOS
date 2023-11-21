@@ -62,6 +62,7 @@ fun SearchResultItem(
             fontWeight = FontWeight.W500,
             color = Color.Black
         )
+
         Row(
             modifier = Modifier.wrapContentHeight(),
             verticalAlignment = Alignment.CenterVertically

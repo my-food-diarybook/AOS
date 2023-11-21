@@ -9,10 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.detail.locationUi.item.CurrentLocationItem
-import com.android.myfooddiarybookaos.detail.locationUi.item.SearchResultItem
-import com.android.myfooddiarybookaos.detail.viewModel.DetailViewModel
 import com.android.myfooddiarybookaos.model.map.Place
 
 @Composable
