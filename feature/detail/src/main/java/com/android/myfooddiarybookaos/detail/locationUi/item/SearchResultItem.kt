@@ -12,7 +12,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.substring
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.data.robotoRegular
@@ -27,14 +31,32 @@ fun SearchResultItem(
     val placeDistance =
         if (place.distance == null) ""
         else (place.distance!!.toDouble() / 1000).toInt().toString() + "km"
-
+    val indexList = query.indexOfAll(place.place_name)
+    val currentTextSize = place.place_name.length
     Column(
         modifier = Modifier
-            .fillMaxWidth().wrapContentHeight()
+            .fillMaxWidth()
+            .wrapContentHeight()
             .clickable { onSelected() }
     ) {
         Text(
-            text = place.place_name,
+            text = buildAnnotatedString { 
+                if (indexList.isEmpty()) { append(place.place_name) }
+                else {
+                    indexList.forEach{ idx ->
+                        withStyle(
+                            SpanStyle(color = colorResource(id = R.color.main_color))
+                        ){
+                            append(place.place_name.substring(indexList[idx],indexList[idx]+currentTextSize))
+                        }
+                        if (idx == indexList.size -1 ){
+                            append(place.place_name.substring(indexList[idx]+currentTextSize))
+                        } else {
+                            append(place.place_name.substring(indexList[idx]+currentTextSize,indexList[idx+1]))
+                        }
+                    }
+                }
+            },
             fontFamily = robotoRegular,
             fontSize = 18.sp,
             fontWeight = FontWeight.W500,
@@ -68,4 +90,15 @@ fun SearchResultItem(
             )
         }
     }
+}
+
+fun String.indexOfAll(str: String): MutableList<Int>{
+    var index = this.indexOf(str)
+    val returnIndex = mutableListOf<Int>()
+
+    while (index != -1){
+        returnIndex.add(index)
+        index = this.indexOf(str,index+1)
+    }
+    return returnIndex
 }
