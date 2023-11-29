@@ -9,6 +9,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.android.myfooddiarybookaos.common.addPicture.SelectAddScreen
 import com.android.myfooddiarybookaos.common.naviHost.MainNaviHost
+import com.android.myfooddiarybookaos.data.state.ApplicationState
+import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.data.state.rememberApplicationState
 import com.android.myfooddiarybookaos.data.state.rememberDiaryState
 import com.android.myfooddiarybookaos.data.ui.theme.MyFoodDiaryBookAOSTheme
@@ -25,22 +27,24 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
+            // 이미지 추가 시 다이어리 상태 변경
+            val diaryState = rememberDiaryState()
+            // bottom state
+            val appState = rememberApplicationState()
             MyFoodDiaryBookAOSTheme {
-                MainUi()
+                MainUi(diaryState,appState)
             }
         }
     }
 }
 
 @Composable
-fun MainUi() {
+fun MainUi(
+    diaryState: DiaryState,
+    appState: ApplicationState
+) {
     // 뒤로가기 제어
     BackHandler(enabled = true, onBack = {})
-
-    // 이미지 추가 시 다이어리 상태 변경
-    val diaryState = rememberDiaryState()
-    // bottom state
-    val appState = rememberApplicationState()
 
     // mid click event
     if (diaryState.showSelectView.value){
@@ -72,12 +76,12 @@ fun MainUi() {
 }
 
 
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview2() {
-    MyFoodDiaryBookAOSTheme {
-        MainUi()
-
-    }
-}
+//
+//@Preview(showBackground = true)
+//@Composable
+//fun DefaultPreview2() {
+//    MyFoodDiaryBookAOSTheme {
+//        MainUi()
+//
+//    }
+//}

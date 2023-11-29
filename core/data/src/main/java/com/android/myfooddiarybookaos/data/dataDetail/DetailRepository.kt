@@ -1,7 +1,9 @@
 package com.android.myfooddiarybookaos.data.dataDetail
 
 import com.android.myfooddiarybookaos.api.NetworkManager
+import com.android.myfooddiarybookaos.data.state.DetailFixState
 import com.android.myfooddiarybookaos.model.detail.DiaryDetail
+import com.android.myfooddiarybookaos.model.detail.FixDiary
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,6 +28,25 @@ class DetailRepository @Inject constructor(
                 override fun onFailure(call: Call<DiaryDetail>, t: Throwable) {
                     isUpdate(null)
                 }
+            })
+    }
+
+    fun fixDetailDiary(
+        diaryId: Int,
+        fixDiary: FixDiary,
+        state : (Boolean) -> Unit
+    ){
+        manager.setDiaryMemo(diaryId,fixDiary)
+            .enqueue(object : Callback<Unit>{
+                override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+                    if (response.isSuccessful) state(true)
+                    else state(false)
+                }
+
+                override fun onFailure(call: Call<Unit>, t: Throwable) {
+                    state(true)
+                }
+
             })
     }
 }

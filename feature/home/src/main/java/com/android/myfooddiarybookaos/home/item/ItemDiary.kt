@@ -22,6 +22,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.android.myfooddiarybookaos.data.path.byteStringToBitmap
 
@@ -71,12 +72,13 @@ fun ItemDiary(
             )
         }
         if (imageByte != null) {
-            Image(
-                rememberAsyncImagePainter(byteStringToBitmap(imageByte)),
+            AsyncImage(
+                model = byteStringToBitmap(imageByte),
                 contentDescription = null,
                 modifier = Modifier
                     .clip(RoundedCornerShape(4.dp)),
                 contentScale = ContentScale.Crop,
+                onSuccess = {}
             )
         }
     }

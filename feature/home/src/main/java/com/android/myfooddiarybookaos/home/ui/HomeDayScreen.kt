@@ -26,11 +26,7 @@ import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.home.component.HomeDayTopLayer
 import com.android.myfooddiarybookaos.home.item.ItemHomeDay
 import com.android.myfooddiarybookaos.home.viewModel.HomeViewModel
-import com.android.myfooddiarybookaos.model.diary.Diary
-import com.android.myfooddiarybookaos.model.home.DiaryHomeDay
-import com.android.myfooddiarybookaos.model.home.HomeDay
-import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
-import kotlinx.coroutines.delay
+
 
 @Composable
 fun HomeDayScreen(
@@ -46,10 +42,10 @@ fun HomeDayScreen(
     })
 
     // 다이어리 변화 관찰
-    val currentHomeDay: DiaryHomeDay? = homeViewModel.homeDayInDiary.observeAsState().value
+    homeViewModel.homeDayInDiary.observeAsState().value
 
     LaunchedEffect(Unit) {
-        homeViewModel.initState(appState,diaryState)
+        homeViewModel.initState(appState, diaryState)
         homeViewModel.getHomeDayInDiary(currentDate)
     }
 
@@ -113,11 +109,11 @@ fun HomeDayScreen(
                 .fillMaxWidth()
                 .height(34.dp)
         ) {
-            currentHomeDay?.let {
+            todayViewModel.apply {
                 HomeDayTopLayer(
-                    currentDate = todayViewModel.getTopDate(currentDate),
-                    prevDate = todayViewModel.getTopDate(it.beforeDay),
-                    nextDate = todayViewModel.getTopDate(it.afterday)
+                    currentDate = getTopDate(currentDate),
+                    prevDate = getTopDate(homeViewModel.getPrevHomeDay()),
+                    nextDate = getTopDate(homeViewModel.getNextHomeDay())
                 )
             }
         }
@@ -131,12 +127,12 @@ fun HomeDayScreen(
             contentPadding = PaddingValues(horizontal = 20.dp),
             state = rememberLazyListState()
         ) {
-            currentHomeDay?.homeDayList?.let { homeDays ->
-                items(homeDays){homeDay ->
+            homeViewModel.getHomeDays()?.let { homeDays ->
+                items(homeDays.size) { index ->
                     ItemHomeDay(
-                        homeDay = homeDay,
+                        homeDay = homeDays[index],
                         clickDiary = {
-                            homeViewModel.goDetailView(homeDay.id)
+                            homeViewModel.goDetailView(homeDays[index].id)
                         }
                     )
                 }

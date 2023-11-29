@@ -9,7 +9,9 @@ import androidx.lifecycle.ViewModel
 import com.android.myfooddiarybookaos.data.dataDetail.DetailRepository
 import com.android.myfooddiarybookaos.data.dataMap.repository.MapSearchRepository
 import com.android.myfooddiarybookaos.data.state.ApplicationState
+import com.android.myfooddiarybookaos.data.state.DetailFixState
 import com.android.myfooddiarybookaos.data.state.DiaryState
+import com.android.myfooddiarybookaos.detail.function.DiaryViewState
 import com.android.myfooddiarybookaos.model.detail.DiaryDetail
 import com.android.myfooddiarybookaos.model.map.MyLocation
 import com.android.myfooddiarybookaos.model.map.Place
@@ -86,6 +88,22 @@ class DetailViewModel @Inject constructor(
         launcher: ManagedActivityResultLauncher<Array<String>, Map<String, Boolean>>,
         permissionResult: (Boolean) -> Unit
     ) = mapSearchRepository.checkAndRequestPermissions(context,launcher, result = {permissionResult(it)})
+
+    fun setFixResult(detailFixState: DetailFixState){
+        diaryState.value?.currentDiaryDetail?.value?.let {diaryId ->
+            detailRepository.fixDetailDiary(
+                diaryId,
+                detailFixState.diaryToFix(),
+                state = { change ->
+                    if (change){
+                        diaryDetail.value?.let{ diaryDetail->
+                            _diaryDetail.value = detailFixState.submitResult(diaryDetail)
+                        }
+                    }
+                }
+            )
+        }
+    }
 
     private fun getCurrentLocationData() {
         mapSearchRepository.getCurrentLocationData(

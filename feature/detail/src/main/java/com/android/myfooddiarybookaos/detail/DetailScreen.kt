@@ -14,8 +14,7 @@ import com.android.myfooddiarybookaos.detail.function.DiaryViewState
 import com.android.myfooddiarybookaos.detail.locationUi.ui.DetailLocationScreen
 import com.android.myfooddiarybookaos.detail.mainUi.ui.DetailMemoScreen
 import com.android.myfooddiarybookaos.detail.mainUi.ui.MainDetailScreen
-import com.android.myfooddiarybookaos.detail.state.DetailFixState
-import com.android.myfooddiarybookaos.detail.state.rememberDiaryFixState
+import com.android.myfooddiarybookaos.data.state.DetailFixState
 import com.android.myfooddiarybookaos.detail.viewModel.DetailViewModel
 
 @Composable

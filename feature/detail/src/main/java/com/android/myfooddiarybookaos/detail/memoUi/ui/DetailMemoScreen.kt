@@ -1,34 +1,28 @@
 package com.android.myfooddiarybookaos.detail.mainUi.ui
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.android.myfooddiarybookaos.core.data.R
-import com.android.myfooddiarybookaos.data.component.coloredInnerShadow
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.material.Text
 import androidx.compose.runtime.MutableState
-import androidx.compose.material.Surface
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.detail.function.DiaryViewState
 import com.android.myfooddiarybookaos.detail.mainUi.component.DetailLocation
 import com.android.myfooddiarybookaos.detail.memoUi.component.MemoTopLayer
 import com.android.myfooddiarybookaos.detail.memoUi.component.SelectTimeLayer
 import com.android.myfooddiarybookaos.detail.memoUi.component.TypeMemo
 import com.android.myfooddiarybookaos.detail.memoUi.component.TypeTag
-import com.android.myfooddiarybookaos.detail.state.DetailFixState
-import com.android.myfooddiarybookaos.model.detail.Tag
+import com.android.myfooddiarybookaos.data.state.DetailFixState
+import com.android.myfooddiarybookaos.detail.viewModel.DetailViewModel
 
 @Composable
 fun DetailMemoScreen(
     diaryFixState: DetailFixState,
-    currentViewState: MutableState<DiaryViewState>
+    currentViewState: MutableState<DiaryViewState>,
+    detailViewModel : DetailViewModel = hiltViewModel()
 ) {
     // 뒤로가기 제어
     BackHandler(enabled = true, onBack = {
@@ -42,6 +36,7 @@ fun DetailMemoScreen(
             nextStage = {
                 currentViewState.value = DiaryViewState.MAIN
                 // + 상태 저장
+                detailViewModel.setFixResult(diaryFixState)
             }
         )
         Spacer(modifier = Modifier.height(22.dp))

@@ -23,6 +23,10 @@ class DiaryState(
         currentHomeDay.value = ""
     }
 
+    fun setHomeDay(day:String?){
+        day?.let{currentHomeDay.value = day}
+    }
+
     fun setDiaryDetail(id : Int){
         currentDiaryDetail.value = id
     }

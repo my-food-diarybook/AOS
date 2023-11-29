@@ -44,9 +44,9 @@ fun ItemScreen(
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     // 다이어리 변화 관찰
-    var currentDiaryList: List<Diary>? = homeViewModel.homeDiaryList.observeAsState().value
+    homeViewModel.homeDiaryList.observeAsState().value
 
-    val yearMonth = todayViewModel.getCurrentYearMonth()
+    val yearMonth = remember { todayViewModel.getCurrentYearMonth() }
     LaunchedEffect(Unit) {
         yearMonth?.let {
             homeViewModel.getDiaryList(it)
@@ -64,7 +64,7 @@ fun ItemScreen(
                     dayDate = calendarDataList[index],
                     dayClick = {
                         val dayDate = todayViewModel.getDayDate(calendarDataList[index].day)
-                        dayDate?.let { homeViewModel.diaryState.value?.currentHomeDay?.value = it }
+                        homeViewModel.diaryState.value?.setHomeDay(dayDate)
                         if (currentDiary != null) {
                             // 해당 날짜로 이동
                             homeViewModel.goHomeDayView()

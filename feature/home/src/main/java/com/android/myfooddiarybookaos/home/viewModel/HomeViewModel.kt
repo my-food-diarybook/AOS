@@ -34,6 +34,7 @@ class HomeViewModel @Inject constructor(
     private val _homeDayInDiary = MutableLiveData<DiaryHomeDay>()
     val homeDayInDiary: LiveData<DiaryHomeDay> get() = _homeDayInDiary
 
+
     fun initState(
         state1: ApplicationState,
         state2: DiaryState,
@@ -41,6 +42,8 @@ class HomeViewModel @Inject constructor(
         _appState.value = state1
         _diaryState.value = state2
     }
+
+
 
     fun getDiaryList(
         yearMonth: String
@@ -119,9 +122,13 @@ class HomeViewModel @Inject constructor(
         appState.value?.navController?.navigate(ScreenRoot.HOME_DAY)
     }
 
+    fun getPrevHomeDay() = homeDayInDiary.value?.beforeDay ?: ""
+    fun getNextHomeDay() = homeDayInDiary.value?.afterday ?: ""
+    fun getHomeDays() = homeDayInDiary.value?.homeDayList
+
     fun goDetailView(diaryId: Int) {
-        appState.value?.navController?.navigate(ScreenRoot.DETAIL_DIARY)
         diaryState.value?.setDiaryDetail(diaryId)
+        appState.value?.navController?.navigate(ScreenRoot.DETAIL_DIARY)
     }
 
     fun getHomeDaySize(): Int = homeDiaryList.value?.size ?: 0

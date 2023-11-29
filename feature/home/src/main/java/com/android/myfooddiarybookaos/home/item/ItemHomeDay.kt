@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.component.customOuterShadow
@@ -31,12 +32,13 @@ fun ItemHomeDay(
     homeDay: HomeDay,
     clickDiary: ()-> Unit
 ) {
-    val imagePainter  = rememberAsyncImagePainter(byteStringToBitmap(homeDay.image.bytes))
 
+    // 여기 태그 수정 필요
     val homeDayTags =
         if (homeDay.tags.isNotEmpty()) "#" +
                 homeDay.tags.joinToString(" #")
         else ""
+    val imageBitmap = byteStringToBitmap(homeDay.image.bytes)
 
     Surface(
         modifier = Modifier
@@ -56,14 +58,15 @@ fun ItemHomeDay(
                 }
         ) {
             Column {
-                Image(
-                    imagePainter,
-                    contentDescription = null,
+                AsyncImage(
+                    model = imageBitmap,
                     modifier = Modifier
                         .clip(RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp))
                         .fillMaxWidth()
                         .height(96.dp),
+                    contentDescription = null,
                     contentScale = ContentScale.Crop,
+                    onSuccess = {}
                 )
 
 

@@ -1,6 +1,7 @@
 package com.android.myfooddiarybookaos.detail.state
 
 import androidx.compose.runtime.*
+import com.android.myfooddiarybookaos.data.state.DetailFixState
 import com.android.myfooddiarybookaos.model.detail.Tag
 
 @Composable

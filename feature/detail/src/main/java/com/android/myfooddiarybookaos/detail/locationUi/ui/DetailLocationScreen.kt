@@ -1,20 +1,14 @@
 package com.android.myfooddiarybookaos.detail.locationUi.ui
 
-import android.app.Activity
-import android.content.Context
-import android.content.pm.PackageManager
-import android.util.Log
 import androidx.activity.compose.BackHandler
-import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
 import com.android.myfooddiarybookaos.detail.function.DiaryViewState
-import com.android.myfooddiarybookaos.detail.state.DetailFixState
+import com.android.myfooddiarybookaos.data.state.DetailFixState
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.detail.locationUi.component.CurrentLocationLayer
 import com.android.myfooddiarybookaos.detail.locationUi.component.LocationTopLayer
