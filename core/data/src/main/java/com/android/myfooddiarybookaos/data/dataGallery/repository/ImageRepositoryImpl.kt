@@ -40,7 +40,7 @@ class ImageRepositoryImpl @Inject constructor(
         val galleryImageList = mutableListOf<GalleryImage>()
 
         val offset = (page - 1) * loadSize // 오프셋 위치
-        val query = getQuery(offset, loadSize, null, null)
+        val query = getQuery(offset, loadSize)
 
         query?.use { cursor ->
             while (cursor.moveToNext()){
@@ -71,16 +71,14 @@ class ImageRepositoryImpl @Inject constructor(
     private fun getQuery(
         offset: Int,
         limit: Int,
-        selection: String?,
-        selectionArgs: Array<String>?,
     ) : Cursor?{
         val bundle = bundleOf(
             ContentResolver.QUERY_ARG_OFFSET to offset,
             ContentResolver.QUERY_ARG_LIMIT to limit,
             ContentResolver.QUERY_ARG_SORT_COLUMNS to arrayOf(MediaStore.Files.FileColumns.DATE_MODIFIED),
             ContentResolver.QUERY_ARG_SORT_DIRECTION to ContentResolver.QUERY_SORT_DIRECTION_DESCENDING,
-            ContentResolver.QUERY_ARG_SQL_SELECTION to selection,
-            ContentResolver.QUERY_ARG_SQL_SELECTION_ARGS to selectionArgs,
+            ContentResolver.QUERY_ARG_SQL_SELECTION to null,
+            ContentResolver.QUERY_ARG_SQL_SELECTION_ARGS to null,
         )
         return contentResolver.query(uriExternal, projection, bundle, null)
     }
