@@ -1,17 +1,16 @@
 package com.android.myfooddiarybookaos.detail.viewModel
 
-import android.app.Activity
 import android.content.Context
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.android.myfooddiarybookaos.data.dataDetail.DetailRepository
+import com.android.myfooddiarybookaos.data.dataGallery.domain.ImageRepository
 import com.android.myfooddiarybookaos.data.dataMap.repository.MapSearchRepository
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DetailFixState
 import com.android.myfooddiarybookaos.data.state.DiaryState
-import com.android.myfooddiarybookaos.detail.function.DiaryViewState
 import com.android.myfooddiarybookaos.model.detail.DiaryDetail
 import com.android.myfooddiarybookaos.model.map.MyLocation
 import com.android.myfooddiarybookaos.model.map.Place
@@ -21,7 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val detailRepository: DetailRepository,
-    private val mapSearchRepository: MapSearchRepository
+    private val mapSearchRepository: MapSearchRepository,
+    private val imageRepository: ImageRepository // for fix image
 ) : ViewModel() {
 
     private val _appState = MutableLiveData<ApplicationState>()
