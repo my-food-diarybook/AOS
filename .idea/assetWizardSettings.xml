@@ -34,8 +34,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="close_24px_copy" />
-                            <entry key="sourceFile" value="$USER_HOME$/icon_list/navigation/close_24px copy.svg" />
+                            <entry key="outputName" value="bottom_arrow" />
+                            <entry key="sourceFile" value="$USER_HOME$/icon_list/bottom_arrow.svg" />
                           </map>
                         </option>
                       </PersistentState>
