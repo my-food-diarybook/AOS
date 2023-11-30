@@ -22,6 +22,7 @@ import com.android.myfooddiarybookaos.data.state.AddScreenState
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.detail.DetailScreen
+import com.android.myfooddiarybookaos.detail.galleryUi.ui.GalleryScreen
 import com.android.myfooddiarybookaos.detail.state.rememberDiaryFixState
 import com.android.myfooddiarybookaos.home.ui.HomeDayScreen
 import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
@@ -74,6 +75,10 @@ fun MainNaviHost(
 
             composable(ScreenRoot.DETAIL_DIARY) {
                 DetailScreen(appState, diaryState, rememberDiaryFixState())
+            }
+
+            composable(ScreenRoot.GALLERY) {
+                GalleryScreen()
             }
         }
     }
