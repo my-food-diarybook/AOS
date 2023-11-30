@@ -1,13 +1,14 @@
 package com.android.myfooddiarybookaos.detail.galleryUi.component
 
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.android.myfooddiarybookaos.model.image.GalleryImage
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.ui.draw.rotate
@@ -15,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
@@ -73,6 +75,32 @@ fun GalleryTopBar(
                     .rotate(if (isDropDownMenuExpanded) 180f else 0f), // 회전
                 contentDescription = null,
             )
+        }
+
+        // 갤러리 선택 메뉴
+        DropdownMenu(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.DarkGray)
+                .border(
+                    BorderStroke(1.dp, Color.White.copy(alpha = 0.8f))
+                ),
+            expanded = isDropDownMenuExpanded,
+            onDismissRequest = { isDropDownMenuExpanded = false}
+        ) {
+            directories.map{
+                DropdownMenuItem(onClick = {
+                    isDropDownMenuExpanded =false
+                    setCurrentDirectory(it)
+                }) {
+                    Text(
+                        text = it.first,
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            }
         }
 
         Text(
