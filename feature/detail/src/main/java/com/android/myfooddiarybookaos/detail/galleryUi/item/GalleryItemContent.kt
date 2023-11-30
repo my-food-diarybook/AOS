@@ -33,14 +33,14 @@ fun GalleryItemContent(
         if (isSelected) Modifier
             .aspectRatio(1f)
             .animateContentSize()
-            .border(1.dp, Color.Black)
+            .border(4.dp, colorResource(id = R.color.main_color))
             .clickable {
-                setSelectImage(galleryImage)
+                removeImage(galleryImage.id)
             }
         else Modifier
             .aspectRatio(1f)
             .animateContentSize()
-            .border(4.dp, colorResource(id = R.color.main_color))
+            .border(1.dp, Color.Black)
             .clickable {
                 setSelectImage(galleryImage)
             }
@@ -67,9 +67,6 @@ fun GalleryItemContent(
                     .clip(CircleShape)
                     .background(color = colorResource(id = R.color.main_color))
                     .align(Alignment.TopEnd)
-                    .clickable {
-                        removeImage(galleryImage.id)
-                    }
             )
         }
     }

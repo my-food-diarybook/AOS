@@ -82,7 +82,9 @@ fun SelectAddScreen(
 
     // 앨범 선택 동작
     if (takeAlbum) {
+        closeLog()
         appState.navController.navigate(ScreenRoot.GALLERY)
+        takeAlbum = false
 //        SelectPhotoFromAlbumLauncher(callback = {
 //            if (it!=null) {
 //                Log.d("getUriDate", getUriDate(it, context).toString())

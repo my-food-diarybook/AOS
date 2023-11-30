@@ -78,7 +78,7 @@ fun MainNaviHost(
             }
 
             composable(ScreenRoot.GALLERY) {
-                GalleryScreen()
+                GalleryScreen(appState,diaryState)
             }
         }
     }

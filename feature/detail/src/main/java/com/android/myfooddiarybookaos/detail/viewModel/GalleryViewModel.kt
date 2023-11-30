@@ -1,6 +1,6 @@
 package com.android.myfooddiarybookaos.detail.viewModel
 
-import android.graphics.Bitmap
+import android.net.Uri
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -14,6 +14,7 @@ import androidx.paging.cachedIn
 import com.android.myfooddiarybookaos.data.dataGallery.domain.ImageRepository
 import com.android.myfooddiarybookaos.data.dataGallery.remote.GalleryPagingSource
 import com.android.myfooddiarybookaos.data.dataGallery.remote.GalleryPagingSource.Companion.PAGING_SIZE
+import com.android.myfooddiarybookaos.data.dataHome.repository.HomePostRepository
 import com.android.myfooddiarybookaos.model.image.GalleryImage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,10 +22,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 import javax.inject.Inject
 
 @HiltViewModel
 class GalleryViewModel @Inject constructor(
+    private val homePostRepository: HomePostRepository,
     private val imageRepository: ImageRepository
 ): ViewModel() {
     // 이미지 리스트
@@ -90,6 +93,12 @@ class GalleryViewModel @Inject constructor(
         removedImage?.let {
             _selectedImages.remove(removedImage)
         }
+    }
+
+    fun getMultiPartFromUri(): List<MultipartBody.Part> {
+        return homePostRepository.makePartListFromUri(
+            selectedImages.map { it.uri }
+        )
     }
 
 }

@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.android.myfooddiarybookaos.data.state.ApplicationState
+import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.detail.galleryUi.component.GalleryItemContent
 import com.android.myfooddiarybookaos.detail.galleryUi.component.GalleryTopBar
 import com.android.myfooddiarybookaos.detail.viewModel.DetailViewModel
@@ -25,6 +26,8 @@ import com.android.myfooddiarybookaos.model.image.GalleryImage
 
 @Composable
 fun GalleryScreen(
+    appState: ApplicationState,
+    diaryState: DiaryState,
     viewModel: GalleryViewModel = hiltViewModel()
 ) {
 
@@ -50,9 +53,15 @@ fun GalleryScreen(
             },
             backStage = {
                 // back
+                appState.navController.popBackStack()
             },
             nextStage = {
                 // 저장
+                if (pagingItems.itemCount > 0){
+                    diaryState.multiPartList = viewModel.getMultiPartFromUri()
+                    diaryState.isSelectedGallery.value = true
+                    appState.navController.popBackStack()
+                }
             }
         )
 
@@ -70,7 +79,7 @@ fun GalleryScreen(
             LazyVerticalGrid(
                 modifier = Modifier
                     .weight(1f)
-                    .background(Color.DarkGray),
+                    .background(Color.White),
                 columns = GridCells.Fixed(3),
             ){
                 items(pagingItems.itemCount){ index ->
