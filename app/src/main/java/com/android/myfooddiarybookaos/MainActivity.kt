@@ -59,6 +59,7 @@ fun MainUi(
         ) {
             SelectAddScreen(
                 diaryState = diaryState,
+                appState = appState,
                 closeLog = {
                     // 취소 버튼 or 선택화면으로 전환
                     diaryState.showSelectView.value = false

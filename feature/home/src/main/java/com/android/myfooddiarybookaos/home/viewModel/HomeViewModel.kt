@@ -22,7 +22,6 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val homePostRepository: HomePostRepository,
     private val homeRepository: HomeRepository,
-    private val imageRepository: ImageRepository
 ) : ViewModel() {
     private val _appState = MutableLiveData<ApplicationState>()
     private val appState: LiveData<ApplicationState> get() = _appState

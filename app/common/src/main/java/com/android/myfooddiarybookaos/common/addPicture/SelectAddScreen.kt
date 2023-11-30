@@ -25,14 +25,17 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.common.R
 import com.android.myfooddiarybookaos.data.TextBox
 import com.android.myfooddiarybookaos.data.robotoLight
+import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.home.viewModel.HomeViewModel
+import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 
 // https://sungbin.land/jetpack-compose-%EA%B0%A4%EB%9F%AC%EB%A6%AC-%EC%B9%B4%EB%A9%94%EB%9D%BC-%EC%97%90%EC%84%9C-%EC%82%AC%EC%A7%84-%EA%B0%80%EC%A0%B8%EC%98%A4%EA%B8%B0-cf517eaca8bd
 // 사진 촬영, 사진 선택
 @Composable
 fun SelectAddScreen(
     diaryState : DiaryState,
+    appState: ApplicationState,
     closeLog: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
@@ -79,15 +82,16 @@ fun SelectAddScreen(
 
     // 앨범 선택 동작
     if (takeAlbum) {
-        SelectPhotoFromAlbumLauncher(callback = {
-            if (it!=null) {
-                Log.d("getUriDate", getUriDate(it, context).toString())
-                diaryState.multiPartList = viewModel.getMultiPartFromUri(listOf(it))
-                diaryState.isSelectedGallery.value = true
-            }
-            takeAlbum = false
-            closeLog()
-        })
+        appState.navController.navigate(ScreenRoot.GALLERY)
+//        SelectPhotoFromAlbumLauncher(callback = {
+//            if (it!=null) {
+//                Log.d("getUriDate", getUriDate(it, context).toString())
+//                diaryState.multiPartList = viewModel.getMultiPartFromUri(listOf(it))
+//                diaryState.isSelectedGallery.value = true
+//            }
+//            takeAlbum = false
+//            closeLog()
+//        })
     }
 
     Column {
