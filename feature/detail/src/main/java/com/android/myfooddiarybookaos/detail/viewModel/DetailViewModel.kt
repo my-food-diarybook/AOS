@@ -21,7 +21,6 @@ import com.android.myfooddiarybookaos.model.image.GalleryImage
 import com.android.myfooddiarybookaos.model.map.MyLocation
 import com.android.myfooddiarybookaos.model.map.Place
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,6 +28,7 @@ import javax.inject.Inject
 class DetailViewModel @Inject constructor(
     private val detailRepository: DetailRepository,
     private val mapSearchRepository: MapSearchRepository,
+    private val imageRepository: ImageRepository // for fix image
 ) : ViewModel() {
 
     private val _appState = MutableLiveData<ApplicationState>()
@@ -50,17 +50,6 @@ class DetailViewModel @Inject constructor(
     // 내 위치 정보
     private val _myLocation = MutableLiveData<MyLocation>()
     private val myLocation: LiveData<MyLocation> get() = _myLocation
-
-    // 폴더 리스트
-    private val _folders = mutableStateListOf<Pair<String,String?>>("최근사진" to null)
-    val folders get() = _folders
-
-    // 이미지 리스트
-    private val _customGalleryPhotoList =
-        MutableStateFlow<PagingData<GalleryImage>>(PagingData.empty())
-
-    val customGalleryPhotoList : StateFlow<PagingData<GalleryImage>> =
-        _customGalleryPhotoList.asStateFlow()
 
     // 현재 폴더
     private val _currentFolder = mutableStateOf<Pair<String, String?>>("최근사진" to null)
@@ -148,26 +137,4 @@ class DetailViewModel @Inject constructor(
         diaryState.value?.resetDiaryDetail()
     }
 
-
-    // 페이징 처리 함수
-    fun getGalleryPagingImages() = viewModelScope.launch {
-        _customGalleryPhotoList.value = PagingData.empty()
-        Pager(
-            config = PagingConfig(
-                pageSize = PAGING_SIZE,
-                enablePlaceholders = true
-            ),
-            pagingSourceFactory = {
-                GalleryPagingSource(
-                    imageRepository = imageRepository,
-//                    currentLocation =  null
-                    // null -> 모든 위치 사진 가져오기,
-                    currentLocation = currentFolder.value.second,
-                    // currentFolder.value... -> 해당 위치 사진 가져오기
-                )
-            },
-        ).flow.cachedIn(viewModelScope).collectLatest {
-            _customGalleryPhotoList.value = it
-        }
-    }
 }

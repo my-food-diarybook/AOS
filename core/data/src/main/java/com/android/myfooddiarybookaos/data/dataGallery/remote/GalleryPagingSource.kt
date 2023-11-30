@@ -6,7 +6,8 @@ import com.android.myfooddiarybookaos.data.dataGallery.domain.ImageRepository
 import com.android.myfooddiarybookaos.model.image.GalleryImage
 
 class GalleryPagingSource(
-    private val imageRepository: ImageRepository
+    private val imageRepository: ImageRepository,
+    private val currentLocation : String?
 ): PagingSource<Int, GalleryImage>() {
 
     override fun getRefreshKey(state: PagingState<Int, GalleryImage>): Int? {
@@ -22,6 +23,7 @@ class GalleryPagingSource(
             val data = imageRepository.getAllPhotos(
                 page = position, // start page position
                 loadSize = params.loadSize, // load size
+                currentLocation = currentLocation // current location -> 현재 폴더 위치,
             )
             val endOfPaginationReached = data.isEmpty()
             // 이전 key, 첫번째 페이지인 경우 null 반환, else -> position - 1
