@@ -8,7 +8,12 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.util.Base64
-import android.util.Log
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okio.BufferedSink
+import okio.source
 
 //Uri를 String으로 전환
 @SuppressLint("Recycle")
@@ -40,35 +45,40 @@ fun getVideoFilePath(context: Context, contentUri: Uri): String {
     }
     return cursor.getString(columnIndex)
 }
+
 // document (문서)에 등록 된 파일을 찾음
 @SuppressLint("Recycle", "Range")
-fun getFilePath(context: Context, contentUri: Uri): String{
-    val cursor  = context.contentResolver.query(contentUri,
-        null,null,null)
+fun getMultipartFromUri(
+    context: Context,
+    contentUri: Uri,
+    isOneImage: Boolean
+): MultipartBody.Part? {
+    return context.contentResolver.query(
+        contentUri,
+        null, null, null
+    )?.use {
+        val name = if(isOneImage) "file" else "files"
+        if (it.moveToNext()) {
+            val displayName = it.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+            val requestBody = object : RequestBody() {
+                override fun contentType(): MediaType? {
+                    return context.contentResolver.getType(contentUri)?.toMediaType()
+                }
 
-    cursor?.use {
-        if (it.moveToFirst()){ // 첫 발견
-            val displayName :String = it.getString(it
-                .getColumnIndex(OpenableColumns.DISPLAY_NAME))
-            val projection = arrayOf(MediaStore.Video.Media.DATA)
-            val newCursor = context.contentResolver.query(
-                MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-                ,projection,null,null,null)
-            newCursor?.use {it2->
-                if (it2.moveToFirst()){
-                    val data = it2.getString(it2.getColumnIndex(MediaStore.Video.Media.DATA))
-                    if (data.contains(displayName)){
-                        return data
-                    }
+                override fun writeTo(sink: BufferedSink) {
+                    sink.writeAll(context.contentResolver.openInputStream(contentUri)?.source()!!)
                 }
             }
+            it.close()
+            MultipartBody.Part.createFormData(name, displayName, requestBody)
+        } else {
+            it.close()
+            null
         }
     }
-
-    return "null"
 }
 
 fun byteStringToBitmap(byteString: String): Bitmap {
-    val data = Base64.decode(byteString,Base64.DEFAULT)
+    val data = Base64.decode(byteString, Base64.DEFAULT)
     return BitmapFactory.decodeByteArray(data, 0, data.size)
 }

@@ -22,7 +22,7 @@ import com.android.myfooddiarybookaos.detail.viewModel.DetailViewModel
 fun DetailMemoScreen(
     diaryFixState: DetailFixState,
     currentViewState: MutableState<DiaryViewState>,
-    detailViewModel : DetailViewModel = hiltViewModel()
+    detailViewModel: DetailViewModel = hiltViewModel()
 ) {
     // 뒤로가기 제어
     BackHandler(enabled = true, onBack = {
@@ -34,9 +34,13 @@ fun DetailMemoScreen(
                 currentViewState.value = DiaryViewState.MAIN
             },
             nextStage = {
-                currentViewState.value = DiaryViewState.MAIN
-                // + 상태 저장
-                detailViewModel.setFixResult(diaryFixState)
+                //  상태 저장
+                detailViewModel.setFixResult(
+                    diaryFixState,
+                    initCurrentData = {
+                        currentViewState.value = DiaryViewState.MAIN
+                    }
+                )
             }
         )
         Spacer(modifier = Modifier.height(22.dp))
@@ -45,7 +49,7 @@ fun DetailMemoScreen(
         Column(
             modifier = Modifier.padding(start = 20.dp, end = 10.dp, top = 12.dp)
         ) {
-            TypeMemo(text = diaryFixState.memo, editMemo = {diaryFixState.setMemo(it)})
+            TypeMemo(text = diaryFixState.memo, editMemo = { diaryFixState.setMemo(it) })
             Spacer(modifier = Modifier.height(15.dp))
             Box(
                 modifier = Modifier.clickable {
@@ -59,7 +63,7 @@ fun DetailMemoScreen(
                 tags = diaryFixState.tags,
                 addTag = {
                     diaryFixState.addTag(it)
-                         },
+                },
                 removeTag = {
                     diaryFixState.removeTag(it)
                 }

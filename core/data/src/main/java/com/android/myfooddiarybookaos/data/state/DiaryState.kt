@@ -12,7 +12,8 @@ class DiaryState(
     val showSelectView: MutableState<Boolean>,
     val currentHomeDay: MutableState<String>,
     val addScreenState: MutableState<AddScreenState>,
-    val currentDiaryDetail: MutableState<Int>
+    val currentDiaryDetail: MutableState<Int>,
+    val fixImageId : MutableState<Int>
 ) {
     fun resetSelectedInfo(){
         isSelectedGallery.value = false
@@ -33,5 +34,9 @@ class DiaryState(
 
     fun resetDiaryDetail(){
         currentDiaryDetail.value = -1
+    }
+
+    fun setFixImageId(id : Int){
+        fixImageId.value= id
     }
 }

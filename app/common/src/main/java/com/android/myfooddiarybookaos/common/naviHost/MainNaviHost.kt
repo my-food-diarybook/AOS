@@ -8,13 +8,17 @@ import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.android.myfooddiarybookaos.common.bottomaNavi.BottomNavigation
 import com.android.myfooddiarybookaos.common.bottomaNavi.bottomGraph
 import com.android.myfooddiarybookaos.core.data.R
@@ -22,6 +26,7 @@ import com.android.myfooddiarybookaos.data.state.AddScreenState
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.detail.DetailScreen
+import com.android.myfooddiarybookaos.detail.galleryUi.ui.GalleryScreen
 import com.android.myfooddiarybookaos.detail.state.rememberDiaryFixState
 import com.android.myfooddiarybookaos.home.ui.HomeDayScreen
 import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
@@ -74,6 +79,17 @@ fun MainNaviHost(
 
             composable(ScreenRoot.DETAIL_DIARY) {
                 DetailScreen(appState, diaryState, rememberDiaryFixState())
+            }
+
+            // 인자 전달
+            composable(
+                route = "${ScreenRoot.GALLERY}/{multiSelectType}",
+                arguments = listOf(
+                    navArgument("multiSelectType") { type = NavType.BoolType }
+                )
+            ) { entry ->
+                val isMultiSelectView = entry.arguments?.getBoolean("multiSelectType") ?: true
+                GalleryScreen(appState, diaryState, isMultiSelectView)
             }
         }
     }

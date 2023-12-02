@@ -27,25 +27,23 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            // 이미지 추가 시 다이어리 상태 변경
-            val diaryState = rememberDiaryState()
-            // bottom state
-            val appState = rememberApplicationState()
+
             MyFoodDiaryBookAOSTheme {
-                MainUi(diaryState,appState)
+                MainUi()
             }
         }
     }
 }
 
 @Composable
-fun MainUi(
-    diaryState: DiaryState,
-    appState: ApplicationState
-) {
+fun MainUi() {
     // 뒤로가기 제어
     BackHandler(enabled = true, onBack = {})
 
+    // 이미지 추가 시 다이어리 상태 변경
+    val diaryState = rememberDiaryState()
+    // bottom state
+    val appState = rememberApplicationState()
     // mid click event
     if (diaryState.showSelectView.value){
         BottomSheetDialog(
@@ -59,6 +57,7 @@ fun MainUi(
         ) {
             SelectAddScreen(
                 diaryState = diaryState,
+                appState = appState,
                 closeLog = {
                     // 취소 버튼 or 선택화면으로 전환
                     diaryState.showSelectView.value = false

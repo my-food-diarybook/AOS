@@ -38,6 +38,7 @@ fun NavGraphBuilder.bottomGraph(
         composable(BottomNavItem.MyAccount.screenRoute){
             MyScreen()
         }
+
     }
 
 }

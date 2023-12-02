@@ -18,7 +18,7 @@ fun TimeLineScreen(
     timeLineViewModel: TimeLineViewModel = hiltViewModel()
 ) {
 
-    val timeLineData = timeLineViewModel.timeLine.observeAsState().value
+    val timeLineData = timeLineViewModel.timeLine.value
 
     LaunchedEffect(Unit){
         timeLineViewModel.setTimeLineData(todayViewModel.getTodayDate())

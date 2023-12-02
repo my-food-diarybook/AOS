@@ -76,7 +76,11 @@ dependencies {
     implementation("com.google.accompanist:accompanist-pager:0.20.1")
     implementation("com.google.accompanist:accompanist-pager-indicators:0.20.1")
 
-    // module
+    // optional - Jetpack Compose integration
+    implementation("androidx.paging:paging-compose:1.0.0-alpha17")
+    // paging dependencies 추가
+    implementation("androidx.paging:paging-runtime:$paging_version")
+
     implementation project(":core:data")
     implementation project(":core:model")
 }

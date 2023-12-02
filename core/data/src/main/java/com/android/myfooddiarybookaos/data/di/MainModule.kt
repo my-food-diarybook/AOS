@@ -60,6 +60,7 @@ object MainModule {
     fun bindCustomCalendarRepository()
     = CustomCalendarRepository()
 
+
     @Provides
     @ViewModelScoped
     fun bindMapSearchRepository(

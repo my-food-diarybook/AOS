@@ -22,13 +22,16 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
+import com.android.myfooddiarybookaos.data.state.AddScreenState
 import com.android.myfooddiarybookaos.detail.popup.DetailPopupScreen
 import com.android.myfooddiarybookaos.detail.viewModel.DetailViewModel
+import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 import com.holix.android.bottomsheetdialog.compose.BottomSheetDialog
 import com.holix.android.bottomsheetdialog.compose.BottomSheetDialogProperties
 
 @Composable
 fun DetailTopLayer(
+    currentViewImageId: Int,
     topDate: String,
     detailViewModel: DetailViewModel = hiltViewModel()
 ) {
@@ -91,10 +94,33 @@ fun DetailTopLayer(
             if (popUpState.value){
                 DetailPopupScreen(
                     popUpState,
-                    fixImage = {  },
-                    addImage = {  },
-                    fixMemo = { },
-                    deleteDiary = {}
+                    fixImage = {
+                        popUpState.value = false
+                        detailViewModel.diaryState.value
+                            ?.fixImageId
+                            ?.value = currentViewImageId
+                        detailViewModel.diaryState.value
+                            ?.addScreenState
+                            ?.value = AddScreenState.FIX_IMAGE_IN_DETAIL
+                        detailViewModel.appState.value
+                            ?.navController
+                            ?.navigate("${ScreenRoot.GALLERY}/false")
+                    },
+                    addImage = {
+                        popUpState.value = false
+                        detailViewModel.diaryState.value
+                            ?.addScreenState
+                            ?.value = AddScreenState.ADD_IMAGE_IN_DETAIL
+                        detailViewModel.appState.value
+                            ?.navController
+                            ?.navigate("${ScreenRoot.GALLERY}/true")
+                    },
+                    fixMemo = {
+                        popUpState.value = false
+                    },
+                    deleteDiary = {
+                        popUpState.value = false
+                    }
                 )
             }
         }

@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.android.myfooddiarybookaos.data.dataGallery.domain.ImageRepository
 import com.android.myfooddiarybookaos.data.dataHome.repository.HomePostRepository
 import com.android.myfooddiarybookaos.data.dataHome.repository.HomeRepository
 import com.android.myfooddiarybookaos.data.state.ApplicationState
@@ -20,7 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val homePostRepository: HomePostRepository,
-    private val homeRepository: HomeRepository
+    private val homeRepository: HomeRepository,
 ) : ViewModel() {
     private val _appState = MutableLiveData<ApplicationState>()
     private val appState: LiveData<ApplicationState> get() = _appState
@@ -82,30 +83,18 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    fun addDiaryImage(
-        diaryId: Int,
-        file: List<MultipartBody.Part>,
-        addState: (Boolean) -> Unit
-    ) {
-        homePostRepository.postDiaryImage(
-            diaryId, file,
-            isSuccess = { result ->
-                addState(result)
-            }
-        )
-    }
-
+    // 비트맵 -> 멀티파트
     fun getMultiPartFromBitmap(
         cameraBitmap: Bitmap
     ): List<MultipartBody.Part> {
         return homePostRepository.makePartListFromBitmap(cameraBitmap)
     }
 
-    fun getMultiPartFromUri(
-        uriList: List<Uri>
-    ): List<MultipartBody.Part> {
-        return homePostRepository.makePartListFromUri(uriList)
-    }
+//    fun getMultiPartFromUri(
+//        uriList: List<Uri>
+//    ): List<MultipartBody.Part> {
+//        return homePostRepository.makePartListFromUri(uriList)
+//    }
 
     fun getCurrentDiary(
         yearMonth: String?,
