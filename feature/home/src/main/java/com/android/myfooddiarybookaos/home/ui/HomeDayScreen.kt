@@ -41,8 +41,6 @@ fun HomeDayScreen(
         backStage(diaryState, appState)
     })
 
-    // 다이어리 변화 관찰
-    homeViewModel.homeDayInDiary.observeAsState().value
 
     LaunchedEffect(Unit) {
         homeViewModel.initState(appState, diaryState)

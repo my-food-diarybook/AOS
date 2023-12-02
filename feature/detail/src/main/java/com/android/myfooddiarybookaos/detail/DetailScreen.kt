@@ -29,7 +29,7 @@ fun DetailScreen(
         detailViewModel.goBack()
     })
 
-    val diaryDetail = detailViewModel.diaryDetail.observeAsState().value
+    val diaryDetail = detailViewModel.diaryDetail.value
     val topDate = todayViewModel.getTopDate(diaryDetail?.date)
 
     // diary state

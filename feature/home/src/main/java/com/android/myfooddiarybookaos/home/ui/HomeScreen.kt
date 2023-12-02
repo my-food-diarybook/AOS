@@ -31,8 +31,6 @@ fun HomeScreen(
 
     // 업로드 시도
     if (diaryState.isSelectedGallery.value) {
-        Log.d("sdlfjsdljsdlfsjdldsfj",diaryState.multiPartList.toString())
-        Log.d("sdlfjsdljsdlfsjdldsfj",diaryState.addScreenState.toString())
         when (diaryState.addScreenState.value){
             AddScreenState.ADD_HOME_TODAY -> {
                 homeViewModel.makeNewDiary(

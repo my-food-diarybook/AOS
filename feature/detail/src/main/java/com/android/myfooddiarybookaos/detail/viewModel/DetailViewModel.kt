@@ -32,10 +32,10 @@ class DetailViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _appState = MutableLiveData<ApplicationState>()
-    private val appState: LiveData<ApplicationState> get() = _appState
+    val appState: LiveData<ApplicationState> get() = _appState
 
     private val _diaryState = MutableLiveData<DiaryState>()
-    private val diaryState: LiveData<DiaryState> get() = _diaryState
+    val diaryState: LiveData<DiaryState> get() = _diaryState
 
     private val _diaryDetail = MutableLiveData<DiaryDetail>()
     val diaryDetail: LiveData<DiaryDetail> get() = _diaryDetail

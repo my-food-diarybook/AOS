@@ -8,13 +8,17 @@ import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.android.myfooddiarybookaos.common.bottomaNavi.BottomNavigation
 import com.android.myfooddiarybookaos.common.bottomaNavi.bottomGraph
 import com.android.myfooddiarybookaos.core.data.R
@@ -77,8 +81,16 @@ fun MainNaviHost(
                 DetailScreen(appState, diaryState, rememberDiaryFixState())
             }
 
-            composable(ScreenRoot.GALLERY) {
-                GalleryScreen(appState,diaryState)
+            // 인자 전달
+            composable(
+                route = "${ScreenRoot.GALLERY}/{multiSelectType}",
+                arguments = listOf(
+                    navArgument("multiSelectType") { type = NavType.BoolType }
+                )
+            ) { entry ->
+
+                val isMultiSelectView = entry.arguments?.getBoolean("multiSelectType") ?: true
+                GalleryScreen(appState, diaryState, isMultiSelectView)
             }
         }
     }

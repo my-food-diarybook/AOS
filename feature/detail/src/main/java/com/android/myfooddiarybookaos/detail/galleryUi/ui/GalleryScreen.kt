@@ -7,9 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
@@ -28,9 +26,9 @@ import com.android.myfooddiarybookaos.model.image.GalleryImage
 fun GalleryScreen(
     appState: ApplicationState,
     diaryState: DiaryState,
+    isMultiSelectView: Boolean,
     viewModel: GalleryViewModel = hiltViewModel()
 ) {
-
     val pagingItems = viewModel.customGalleryPhotoList.collectAsLazyPagingItems()
 
     LaunchedEffect(viewModel.currentFolder.value){
@@ -87,6 +85,7 @@ fun GalleryScreen(
                         GalleryItemContent(
                             galleryImage = galleryImage,
                             selectedImages = viewModel.selectedImages,
+                            isMultiSelectView = isMultiSelectView,
                             setSelectImage = { image->// 이미지 셋
                                 viewModel.addSelectedImage(image)
                             },
