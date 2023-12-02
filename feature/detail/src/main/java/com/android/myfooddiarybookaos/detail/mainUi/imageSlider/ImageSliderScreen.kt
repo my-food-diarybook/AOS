@@ -48,13 +48,13 @@ fun ImageSliderScreen(
             }
 
             if (images.size > 1) {
-                Surface(
+                Box(
                     modifier = Modifier
                         .padding(
                             top = 19.dp, end = 15.dp
                         )
                         .background(Color.Transparent)
-                        .align(Alignment.TopEnd)
+                        .align(Alignment.TopEnd),
                 ) {
                     Box(
                         modifier = Modifier

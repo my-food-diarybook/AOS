@@ -35,13 +35,14 @@ fun HomeDayScreen(
     todayViewModel: TodayViewModel = hiltViewModel(),
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
-    val currentDate = diaryState.currentHomeDay.value
+
     // 뒤로가기 제어
     BackHandler(enabled = true, onBack = {
         backStage(diaryState, appState)
     })
 
-
+    val homeDays = homeViewModel.homeDayInDiary.value?.homeDayList
+    val currentDate = diaryState.currentHomeDay.value
     LaunchedEffect(Unit) {
         homeViewModel.initState(appState, diaryState)
         homeViewModel.getHomeDayInDiary(currentDate)
@@ -125,7 +126,7 @@ fun HomeDayScreen(
             contentPadding = PaddingValues(horizontal = 20.dp),
             state = rememberLazyListState()
         ) {
-            homeViewModel.getHomeDays()?.let { homeDays ->
+            homeDays?.let { homeDays ->
                 items(homeDays.size) { index ->
                     ItemHomeDay(
                         homeDay = homeDays[index],
