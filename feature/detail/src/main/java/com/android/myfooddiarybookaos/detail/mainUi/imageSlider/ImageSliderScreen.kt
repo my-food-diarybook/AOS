@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,7 +28,8 @@ import com.android.myfooddiarybookaos.model.image.Image
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ImageSliderScreen(
-    images: List<Image>?
+    images: List<Image>?,
+    currentViewImageId: MutableState<Int>
 ) {
     val imageHeight = 499.dp * LocalConfiguration.current.screenHeightDp / 800
 
@@ -43,6 +45,7 @@ fun ImageSliderScreen(
                 state = pagerState
             ) { page ->
                 OneDetailImage(image = images[page])
+                currentViewImageId.value = images[page].imageId
             }
 
             if (images.size > 1) {

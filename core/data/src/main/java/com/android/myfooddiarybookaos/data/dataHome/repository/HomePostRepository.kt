@@ -48,44 +48,18 @@ class HomePostRepository(
                 override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                     if (response.isSuccessful) isSuccess(true)
                     else isSuccess(false)
-                    Log.d("qlfjl32jlwfjwlefjwelfew1",response.toString())
-                    Log.d("qlfjl32jlwfjwlefjwelfew2", response.errorBody()?.string() ?: "")
                 }
 
                 override fun onFailure(call: Call<Unit>, t: Throwable) {
                     isSuccess(false)
-                    Log.d("qlfjl32jlwfjwlefjwelfew3",t.toString())
                 }
 
             })
         } catch (e: Exception) {
             isSuccess(false)
-            Log.d("qlfjl32jlwfjwlefjwelfew3",e.toString())
         }
     }
 
-    fun postDiaryImage(
-        diaryId : Int,
-        fileList : List<MultipartBody.Part>,
-        isSuccess : (Boolean) -> Unit
-    ){
-        try{
-            manager.addDiaryImage(
-                diaryId,
-                fileList.first()
-            ).enqueue(object : Callback<Unit>{
-                override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
-                    if (response.isSuccessful) isSuccess(true)
-                    else isSuccess(false)
-                }
-
-                override fun onFailure(call: Call<Unit>, t: Throwable) {
-                    isSuccess(false)
-                }
-
-            })
-        } catch (e: Exception){ isSuccess(false) }
-    }
 
     fun makePartListFromUri(
         imageUriList : List<Uri>

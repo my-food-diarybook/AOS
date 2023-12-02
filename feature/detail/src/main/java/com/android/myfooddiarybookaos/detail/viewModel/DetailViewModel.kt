@@ -1,6 +1,7 @@
 package com.android.myfooddiarybookaos.detail.viewModel
 
 import android.content.Context
+import android.util.Log
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
@@ -22,13 +23,13 @@ import com.android.myfooddiarybookaos.model.map.MyLocation
 import com.android.myfooddiarybookaos.model.map.Place
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val detailRepository: DetailRepository,
     private val mapSearchRepository: MapSearchRepository,
-    private val imageRepository: ImageRepository // for fix image
 ) : ViewModel() {
 
     private val _appState = MutableLiveData<ApplicationState>()
@@ -53,7 +54,7 @@ class DetailViewModel @Inject constructor(
 
     // 현재 폴더
     private val _currentFolder = mutableStateOf<Pair<String, String?>>("최근사진" to null)
-    val currentFolder : State<Pair<String, String?>> = _currentFolder
+    val currentFolder: State<Pair<String, String?>> = _currentFolder
 
     // 선택 이미지 리스트
     private val _selectedImages = mutableStateListOf<GalleryImage>()
@@ -100,22 +101,30 @@ class DetailViewModel @Inject constructor(
             }
         )
     }
+
     fun requestPermission(
         context: Context,
         launcher: ManagedActivityResultLauncher<Array<String>, Map<String, Boolean>>,
         permissionResult: (Boolean) -> Unit
-    ) = mapSearchRepository.checkAndRequestPermissions(context,launcher, result = {permissionResult(it)})
+    ) = mapSearchRepository.checkAndRequestPermissions(
+        context,
+        launcher,
+        result = { permissionResult(it) })
 
-    fun setFixResult(detailFixState: DetailFixState){
-        diaryState.value?.currentDiaryDetail?.value?.let {diaryId ->
+    fun setFixResult(
+        detailFixState: DetailFixState,
+        initCurrentData: () -> Unit
+    ) {
+        diaryState.value?.currentDiaryDetail?.value?.let { diaryId ->
             detailRepository.fixDetailDiary(
                 diaryId,
                 detailFixState.diaryToFix(),
                 state = { change ->
-                    if (change){
-                        diaryDetail.value?.let{ diaryDetail->
+                    if (change) {
+                        diaryDetail.value?.let { diaryDetail ->
                             _diaryDetail.value = detailFixState.submitResult(diaryDetail)
                         }
+                        initCurrentData()
                     }
                 }
             )
@@ -127,6 +136,33 @@ class DetailViewModel @Inject constructor(
             myLocation.value,
             result = {
                 _currentLocationResult.value = it?.documents
+            }
+        )
+    }
+
+
+    fun addDiaryImages(
+        diaryId: Int,
+        file: List<MultipartBody.Part>,
+        addState: (Boolean) -> Unit
+    ) {
+        detailRepository.addDetailDiaryImages(
+            diaryId, file,
+            isSuccess = { result ->
+                addState(result)
+            }
+        )
+    }
+
+    fun fixDiaryImage(
+        imageId : Int,
+        file : MultipartBody.Part,
+        addState: (Boolean) -> Unit
+    ){
+        detailRepository.fixDetailDiaryImage(
+            imageId, file,
+            state = { result ->
+                addState(result)
             }
         )
     }

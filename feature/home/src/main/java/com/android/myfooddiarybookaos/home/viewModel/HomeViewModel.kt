@@ -83,19 +83,6 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    fun addDiaryImage(
-        diaryId: Int,
-        file: List<MultipartBody.Part>,
-        addState: (Boolean) -> Unit
-    ) {
-        homePostRepository.postDiaryImage(
-            diaryId, file,
-            isSuccess = { result ->
-                addState(result)
-            }
-        )
-    }
-
     fun getMultiPartFromBitmap(
         cameraBitmap: Bitmap
     ): List<MultipartBody.Part> {

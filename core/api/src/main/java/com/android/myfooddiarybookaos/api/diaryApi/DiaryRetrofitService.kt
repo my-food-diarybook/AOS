@@ -4,14 +4,10 @@ import com.android.myfooddiarybookaos.model.detail.DiaryDetail
 import com.android.myfooddiarybookaos.model.detail.FixDiary
 import com.android.myfooddiarybookaos.model.diary.Diary
 import com.android.myfooddiarybookaos.model.home.DiaryHomeDay
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.PUT
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface DiaryRetrofitService {
 
@@ -35,4 +31,5 @@ interface DiaryRetrofitService {
         @Path("diaryId") diaryId: Int,
         @Body body: FixDiary
     ): Call<Unit>
+
 }
