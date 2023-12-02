@@ -1,5 +1,6 @@
 package com.android.myfooddiarybookaos.data.dataDetail
 
+import android.util.Log
 import com.android.myfooddiarybookaos.api.NetworkManager
 import com.android.myfooddiarybookaos.data.state.DetailFixState
 import com.android.myfooddiarybookaos.model.detail.DiaryDetail

@@ -1,5 +1,6 @@
 package com.android.myfooddiarybookaos.detail.mainUi.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -32,17 +33,33 @@ fun MainDetailScreen(
 ) {
     val currentViewImageId = remember { mutableStateOf(-1) }
     val diaryDetail = detailViewModel.diaryDetail.value
-
     // 다이어리 업데이트
     if (diaryState.isSelectedGallery.value) {
         when (diaryState.addScreenState.value) {
-            AddScreenState.FIX_IMAGE_IN_DETAIL -> {
-                if (currentViewImageId.value != -1) {
 
+            AddScreenState.FIX_IMAGE_IN_DETAIL -> {
+                if (diaryState.fixImageId.value != -1) {
+
+                    diaryState.multiPartList.firstOrNull()?.let { firstImage ->
+
+                        detailViewModel.fixDiaryImage(
+                            diaryState.fixImageId.value, firstImage,
+                            addState = {
+//                                if (it) detailViewModel.setDiaryDetail {  }
+                            }
+                        )
+                        diaryState.fixImageId.value = -1
+                    }
                 }
             }
             AddScreenState.ADD_IMAGE_IN_DETAIL -> {
-
+                detailViewModel.addDiaryImages(
+                    diaryState.currentDiaryDetail.value,
+                    diaryState.multiPartList,
+                    addState = {
+//                        if (it) detailViewModel.setDiaryDetail {  }
+                    }
+                )
             }
             else -> {}
         }
@@ -50,7 +67,9 @@ fun MainDetailScreen(
     }
 
     Column {
-        DetailTopLayer(topDate)
+        DetailTopLayer(
+            currentViewImageId.value, topDate
+        )
         ImageSliderScreen(
             diaryDetail?.images,
             currentViewImageId

@@ -95,9 +95,10 @@ class GalleryViewModel @Inject constructor(
         }
     }
 
-    fun getMultiPartFromUri(): List<MultipartBody.Part> {
+    fun getMultiPartFromUri(isOneImage: Boolean): List<MultipartBody.Part> {
         return homePostRepository.makePartListFromUri(
-            selectedImages.map { it.uri }
+            selectedImages.map { it.uri },
+            isOneImage
         )
     }
 

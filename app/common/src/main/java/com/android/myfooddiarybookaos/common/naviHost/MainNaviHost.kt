@@ -88,7 +88,6 @@ fun MainNaviHost(
                     navArgument("multiSelectType") { type = NavType.BoolType }
                 )
             ) { entry ->
-
                 val isMultiSelectView = entry.arguments?.getBoolean("multiSelectType") ?: true
                 GalleryScreen(appState, diaryState, isMultiSelectView)
             }

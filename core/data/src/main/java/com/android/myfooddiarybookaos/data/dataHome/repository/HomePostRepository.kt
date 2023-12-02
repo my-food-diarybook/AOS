@@ -62,15 +62,17 @@ class HomePostRepository(
 
 
     fun makePartListFromUri(
-        imageUriList : List<Uri>
+        imageUriList : List<Uri>,
+        isOneImage: Boolean
     ) : List<MultipartBody.Part> {
         val files = ArrayList<MultipartBody.Part>()
         for (image in imageUriList){
-            getMultipartFromUri(context,image)?.let { files.add(it) }
+            getMultipartFromUri(context,image,isOneImage)?.let { files.add(it) }
         }
         return files
     }
 
+    // 비트맵 형식 변환
     fun makePartListFromBitmap(
         imageBitmap: Bitmap
     ) : List<MultipartBody.Part> {

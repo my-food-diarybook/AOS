@@ -14,6 +14,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.android.myfooddiarybookaos.data.state.AddScreenState
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.detail.galleryUi.component.GalleryItemContent
@@ -30,7 +31,6 @@ fun GalleryScreen(
     viewModel: GalleryViewModel = hiltViewModel()
 ) {
     val pagingItems = viewModel.customGalleryPhotoList.collectAsLazyPagingItems()
-
     LaunchedEffect(viewModel.currentFolder.value){
         viewModel.getGalleryPagingImages()
     }
@@ -56,7 +56,9 @@ fun GalleryScreen(
             nextStage = {
                 // 저장
                 if (pagingItems.itemCount > 0){
-                    diaryState.multiPartList = viewModel.getMultiPartFromUri()
+
+                    diaryState.multiPartList = viewModel
+                        .getMultiPartFromUri(diaryState.addScreenState.value==AddScreenState.FIX_IMAGE_IN_DETAIL)
                     diaryState.isSelectedGallery.value = true
                     appState.navController.popBackStack()
                 }

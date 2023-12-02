@@ -71,7 +71,6 @@ fun SelectAddScreen(
     if (takePicClick) {
         TakePhotoFromCameraLauncher(callback = {
             if (it!=null){
-                Log.d("getUriDate", makeUriDate().toString())
                 diaryState.multiPartList = viewModel.getMultiPartFromBitmap(it)
                 diaryState.isSelectedGallery.value = true
             }

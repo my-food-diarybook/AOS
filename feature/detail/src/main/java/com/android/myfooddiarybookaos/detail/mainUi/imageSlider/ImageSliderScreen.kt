@@ -40,12 +40,11 @@ fun ImageSliderScreen(
     ) {
         images?.let {
             val pagerState = rememberPagerState(pageCount = { images.size })
-
+            currentViewImageId.value = images[pagerState.currentPage].imageId
             HorizontalPager(
                 state = pagerState
             ) { page ->
                 OneDetailImage(image = images[page])
-                currentViewImageId.value = images[page].imageId
             }
 
             if (images.size > 1) {
@@ -54,6 +53,7 @@ fun ImageSliderScreen(
                         .padding(
                             top = 19.dp, end = 15.dp
                         )
+                        .background(Color.Transparent)
                         .align(Alignment.TopEnd)
                 ) {
                     Box(

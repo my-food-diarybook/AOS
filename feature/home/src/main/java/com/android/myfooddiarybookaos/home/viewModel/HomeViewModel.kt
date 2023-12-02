@@ -83,17 +83,18 @@ class HomeViewModel @Inject constructor(
         )
     }
 
+    // 비트맵 -> 멀티파트
     fun getMultiPartFromBitmap(
         cameraBitmap: Bitmap
     ): List<MultipartBody.Part> {
         return homePostRepository.makePartListFromBitmap(cameraBitmap)
     }
 
-    fun getMultiPartFromUri(
-        uriList: List<Uri>
-    ): List<MultipartBody.Part> {
-        return homePostRepository.makePartListFromUri(uriList)
-    }
+//    fun getMultiPartFromUri(
+//        uriList: List<Uri>
+//    ): List<MultipartBody.Part> {
+//        return homePostRepository.makePartListFromUri(uriList)
+//    }
 
     fun getCurrentDiary(
         yearMonth: String?,

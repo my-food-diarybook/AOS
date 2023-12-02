@@ -48,11 +48,16 @@ fun getVideoFilePath(context: Context, contentUri: Uri): String {
 
 // document (문서)에 등록 된 파일을 찾음
 @SuppressLint("Recycle", "Range")
-fun getMultipartFromUri(context: Context, contentUri: Uri): MultipartBody.Part? {
+fun getMultipartFromUri(
+    context: Context,
+    contentUri: Uri,
+    isOneImage: Boolean
+): MultipartBody.Part? {
     return context.contentResolver.query(
         contentUri,
         null, null, null
     )?.use {
+        val name = if(isOneImage) "file" else "files"
         if (it.moveToNext()) {
             val displayName = it.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME));
             val requestBody = object : RequestBody() {
@@ -65,7 +70,7 @@ fun getMultipartFromUri(context: Context, contentUri: Uri): MultipartBody.Part? 
                 }
             }
             it.close()
-            MultipartBody.Part.createFormData("files", displayName, requestBody)
+            MultipartBody.Part.createFormData(name, displayName, requestBody)
         } else {
             it.close()
             null
