@@ -1,19 +1,16 @@
-package com.android.myfooddiarybookaos.Dialog
+package com.android.myfooddiarybookaos.data.component
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.android.myfooddiarybookaos.core.data.R
-import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
+import com.android.myfooddiarybookaos.data.component.SelectCalendarScreen
 
 @Composable
 fun SelectCalendarDialog(
-    todayViewModel : TodayViewModel,
     isTopLayoutClick : (Boolean) -> Unit,
 ){
 
@@ -30,10 +27,7 @@ fun SelectCalendarDialog(
             color = Color.White,
             shape = RoundedCornerShape(8.dp)
         ) {
-            SelectCalendarScreen(
-                todayViewModel,
-                isTopLayoutClick
-            )
+            SelectCalendarScreen(isTopLayoutClick = isTopLayoutClick )
         }
 
     }

@@ -1,12 +1,9 @@
 package com.android.myfooddiarybookaos.home.viewModel
 
 import android.graphics.Bitmap
-import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.android.myfooddiarybookaos.data.dataGallery.domain.ImageRepository
 import com.android.myfooddiarybookaos.data.dataHome.repository.HomePostRepository
 import com.android.myfooddiarybookaos.data.dataHome.repository.HomeRepository
 import com.android.myfooddiarybookaos.data.state.ApplicationState
@@ -46,7 +43,7 @@ class HomeViewModel @Inject constructor(
 
 
 
-    fun getDiaryList(
+    fun setDiaryList(
         yearMonth: String
     ) {
         homeRepository.getCurrentHomeDiary(

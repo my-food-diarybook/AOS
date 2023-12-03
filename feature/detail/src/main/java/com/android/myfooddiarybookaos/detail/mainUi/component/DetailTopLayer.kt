@@ -17,17 +17,12 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.core.data.R
-import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 import com.android.myfooddiarybookaos.data.state.AddScreenState
 import com.android.myfooddiarybookaos.detail.popup.DetailPopupScreen
 import com.android.myfooddiarybookaos.detail.viewModel.DetailViewModel
 import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
-import com.holix.android.bottomsheetdialog.compose.BottomSheetDialog
-import com.holix.android.bottomsheetdialog.compose.BottomSheetDialogProperties
 
 @Composable
 fun DetailTopLayer(

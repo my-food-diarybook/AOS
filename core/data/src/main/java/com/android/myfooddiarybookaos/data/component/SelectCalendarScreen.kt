@@ -1,11 +1,10 @@
-package com.android.myfooddiarybookaos.Dialog
+package com.android.myfooddiarybookaos.data.component
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -22,36 +21,37 @@ import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.TextBox
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 import com.android.myfooddiarybookaos.data.robotoBold
-import com.android.myfooddiarybookaos.data.todayViewModel.FakeTodayViewModel
+import com.android.myfooddiarybookaos.data.utils.HomeUtils
 
-import com.android.myfooddiarybookaos.data.todayViewModel.TodayViewModelInterface
 import com.android.myfooddiarybookaos.model.MonthDate
 
 import java.util.*
 
 
-// SelectCalendar Dialog
-private const val MAX_MONTH = 12
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun SelectCalendarScreen(
-    todayViewModel: TodayViewModel,
+    todayViewModel: TodayViewModel = hiltViewModel(),
     isTopLayoutClick: (Boolean) -> Unit
 ) {
-    val todayRepository = todayViewModel.todayRepository
     // 오늘 데이터
-    val todayYear = todayRepository.todayCalendar.value!!.get(Calendar.YEAR)
-    val todayDate = todayYear*12+ todayRepository.todayCalendar.value!!.get(Calendar.MONTH)+1 //현재 달
+    val todayYear by remember {
+        mutableStateOf(todayViewModel.getTodayCalendar().get(Calendar.YEAR))
+    }
+    val todayDate by remember {
+        mutableStateOf(todayYear*12+todayViewModel.getTodayCalendar().get(Calendar.MONTH)+1)
+    }
     // 현재 선택 데이터
-    val currentDate = todayRepository.currentCalendar.value!!.get(Calendar.YEAR)*12+
-            todayRepository.currentCalendar.value!!.get(Calendar.MONTH)+1 //현재 달
+    val currentDate by remember {
+        mutableStateOf(todayViewModel.getCurrentDate())
+    }
     // 현재 뷰어
     var currentYear by remember { mutableStateOf( //선택 년도
-        todayRepository.currentCalendar.value!!.get(Calendar.YEAR)
+        todayViewModel.getCurrentCalendar().get(Calendar.YEAR)
     ) }
     // month data 갱신
-    val monthList = List(MAX_MONTH) { i ->
+    val monthList = List(HomeUtils.MAX_MONTH) { i ->
         MonthDate(
             i + 1,
             currentYear * 12 + i + 1
@@ -121,7 +121,7 @@ fun SelectCalendarScreen(
             LazyVerticalGrid(
                 columns = GridCells.Fixed(4),
                 content = {
-                    items(MAX_MONTH) { index ->
+                    items(HomeUtils.MAX_MONTH) { index ->
                         ItemMonth(month = monthList[index],todayDate,currentDate,
                             selectMonth = { // month 클릭
                                 // 클릭 시 다이어로그 닫기

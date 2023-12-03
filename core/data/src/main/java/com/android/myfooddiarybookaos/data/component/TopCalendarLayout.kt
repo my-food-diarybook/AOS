@@ -1,4 +1,4 @@
-package com.android.myfooddiarybookaos.Layout
+package com.android.myfooddiarybookaos.data.component
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -6,7 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -15,10 +14,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.android.myfooddiarybookaos.Dialog.SelectCalendarDialog
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.TextBox
-import com.android.myfooddiarybookaos.data.component.coloredInnerShadow
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 import com.android.myfooddiarybookaos.data.robotoBold
 import java.util.*
@@ -28,21 +25,21 @@ import java.util.*
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun TopCalendarLayout(
-    todayViewModel : TodayViewModel
+    todayViewModel : TodayViewModel = hiltViewModel()
 ){
     var isTopLayoutClick  by remember{ // 캘린더 클릭 여부
         mutableStateOf(false)
     }
 
     // currentCalendar observe
-    val topTexting = todayViewModel.todayRepository
-        .currentCalendar.observeAsState().value!!
+    val currentCalendar by remember {
+        mutableStateOf(todayViewModel.getCurrentCalendar())
+    }
 
     if (isTopLayoutClick){ // 캘린더 클릭 동작
-        todayViewModel.todayRepository.currentCalendar.value?.apply {
+        currentCalendar.apply {
             // dialog 생성
             SelectCalendarDialog(
-                todayViewModel,
                 isTopLayoutClick = {// 캘린더 픽 전달 받기
                     isTopLayoutClick = it
                 }
@@ -68,8 +65,8 @@ fun TopCalendarLayout(
             verticalAlignment = Alignment.CenterVertically
         ){
             TextBox(
-                text =   "${topTexting.get(Calendar.YEAR)}" +
-                        ".${topTexting.get(Calendar.MONTH).plus(1)}",
+                text =   "${currentCalendar.get(Calendar.YEAR)}" +
+                        ".${currentCalendar.get(Calendar.MONTH).plus(1)}",
                 fontWeight = 700,
                 fontFamily = robotoBold,
                 fontSize = 34.sp,

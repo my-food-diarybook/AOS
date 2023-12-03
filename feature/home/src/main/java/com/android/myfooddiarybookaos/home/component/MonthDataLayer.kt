@@ -1,7 +1,5 @@
-package com.android.myfooddiarybookaos.Layout
+package com.android.myfooddiarybookaos.home.component
 
-import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.*
@@ -14,56 +12,35 @@ import com.android.myfooddiarybookaos.home.item.ItemDiary
 import com.android.myfooddiarybookaos.home.viewModel.HomeViewModel
 import com.android.myfooddiarybookaos.model.DayDate
 import com.android.myfooddiarybookaos.model.diary.Diary
-import kotlinx.coroutines.delay
-import java.util.*
 
 private const val DAY_OF_WEAK = 7
 
 // 리싸이클러 뷰
-@SuppressLint("MutableCollectionMutableState")
 @Composable
 fun MonthDataView(
-    todayViewModel: TodayViewModel = hiltViewModel()
-) {
-    // 현재 뷰어
-    val viewCalendar: State<Boolean> = todayViewModel
-        .todayRepository.dataChanger.observeAsState(false)
-
-    if (viewCalendar.value) {
-        todayViewModel.todayRepository.currentCalendar.value?.let {
-            ItemScreen(todayViewModel.getCustomCalendar())
-        }
-    }
-
-}
-
-@Composable
-fun ItemScreen(
-    calendarDataList : List<DayDate>,
     todayViewModel: TodayViewModel = hiltViewModel(),
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
-    // 다이어리 변화 관찰
-    homeViewModel.homeDiaryList.observeAsState().value
-
-    val yearMonth = remember { todayViewModel.getCurrentYearMonth() }
-    LaunchedEffect(Unit) {
-        yearMonth?.let {
-            homeViewModel.getDiaryList(it)
-        }
+    val calendarDataList = remember {
+        mutableStateOf(todayViewModel.getCustomCalendar())
     }
+    todayViewModel.getDataChange().observeAsState().value?.let {
+        calendarDataList.value = todayViewModel.getCustomCalendar()
+    }
+    homeViewModel.homeDiaryList.observeAsState().value
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(DAY_OF_WEAK),
         content = {
-            items(calendarDataList.size) { index ->
+            items(calendarDataList.value.size) { index ->
                 val currentDiary = homeViewModel.getCurrentDiary(
-                    yearMonth, calendarDataList[index].day.toString()
+                    todayViewModel.getCurrentYearMonth(),
+                    calendarDataList.value[index].day.toString()
                 )
                 ItemDiary(
-                    dayDate = calendarDataList[index],
+                    dayDate = calendarDataList.value[index],
                     dayClick = {
-                        val dayDate = todayViewModel.getDayDate(calendarDataList[index].day)
+                        val dayDate = todayViewModel.getDayDate(calendarDataList.value[index].day)
                         homeViewModel.diaryState.value?.setHomeDay(dayDate)
                         if (currentDiary != null) {
                             // 해당 날짜로 이동

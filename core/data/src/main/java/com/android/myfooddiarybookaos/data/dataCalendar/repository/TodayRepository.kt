@@ -2,30 +2,28 @@ package com.android.myfooddiarybookaos.data.dataCalendar.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.android.myfooddiarybookaos.data.todayViewModel.TodayViewModelInterface
+import com.android.myfooddiarybookaos.data.todayViewModel.TodayViewInterface
 import java.util.*
 import javax.inject.Inject
 
-class TodayRepository @Inject constructor(
+class TodayRepository @Inject constructor() : TodayViewInterface {
+    override val _observeData = MutableLiveData<Boolean>()
+    override val observeData : LiveData<Boolean> get() = _observeData
+    override val currentCalendar: Calendar = Calendar.getInstance()
 
-) : TodayViewModelInterface {
-    override var _todayCalendar = MutableLiveData<Calendar>() //오늘 데이터
-    override val todayCalendar : LiveData<Calendar> get() = _todayCalendar
-    override var _currentCalendar=  MutableLiveData<Calendar>() //현재 뷰 데이터
-    override val currentCalendar: LiveData<Calendar> get() = _currentCalendar
-    override val dataChanger = MutableLiveData<Boolean>()
-    init {
-        _todayCalendar.value = Calendar.getInstance()
-        _currentCalendar.value = Calendar.getInstance()
-        dataChanger.value= true
+
+    override fun dataChangeOn(){
+        _observeData.value = true
+        _observeData.value = false
     }
-    override fun setCurrentDate(year : Int, month : Int){
-        currentCalendar.value?.apply {
+
+
+    override fun setCurrentDate(
+        year : Int, month : Int,
+    ){
+        currentCalendar.apply {
             this.set(Calendar.YEAR,year)
             this.set(Calendar.MONTH,month)
         }
-        // 뷰 리셋
-        dataChanger.value= false
-        dataChanger.value= true
     }
 }

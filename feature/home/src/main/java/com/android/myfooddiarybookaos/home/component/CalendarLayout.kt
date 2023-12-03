@@ -1,4 +1,4 @@
-package com.android.myfooddiarybookaos.home.calendar
+package com.android.myfooddiarybookaos.home.component
 
 
 import androidx.compose.foundation.layout.*
@@ -12,12 +12,9 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.android.myfooddiarybookaos.Layout.MonthDataView
 
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.robotoRegular
-import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 
 private const val DAY_OF_WEAK = 7
 

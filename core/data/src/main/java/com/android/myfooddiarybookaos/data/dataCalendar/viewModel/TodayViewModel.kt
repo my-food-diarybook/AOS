@@ -16,19 +16,27 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TodayViewModel @Inject constructor(
-    val todayRepository: TodayRepository,
+    private val todayRepository: TodayRepository,
     private val calendarRepository: CustomCalendarRepository
 ) : ViewModel() {
 
     fun setCurrentDate(year: Int, month: Int) {
         todayRepository.setCurrentDate(year, month)
+        todayRepository.dataChangeOn()
     }
 
-    fun getCustomCalendar() : List<DayDate>{
-        return todayRepository.currentCalendar.value?.time.let {
-            if (it==null) listOf()
-            else calendarRepository.getData(it)
-        }
+    fun getDataChange() = todayRepository.observeData
+
+    fun getCurrentDate(): Int {
+        return getCurrentCalendar().get(Calendar.YEAR) * 12 +
+                getCurrentCalendar().get(Calendar.MONTH) + 1
+    }
+
+    fun getTodayCalendar(): Calendar = Calendar.getInstance()
+    fun getCurrentCalendar(): Calendar = todayRepository.currentCalendar
+
+    fun getCustomCalendar(): List<DayDate> {
+        return calendarRepository.getData(todayRepository.currentCalendar.time)
     }
 
     fun getTodayDate(): String {
@@ -39,9 +47,9 @@ class TodayViewModel @Inject constructor(
     @SuppressLint("SimpleDateFormat")
     fun getDayDate(day: Int): String? {
         val dateFormat = "yyyy-MM-dd"
-        val date = todayRepository.currentCalendar.value
-        date?.set(Calendar.DAY_OF_MONTH, day)
-        return date?.time?.let { SimpleDateFormat(dateFormat).format(it) }
+        val date = todayRepository.currentCalendar
+        date.set(Calendar.DAY_OF_MONTH, day)
+        return SimpleDateFormat(dateFormat).format(date.time)
     }
 
     fun getTopDate(date: String?): String {
@@ -53,10 +61,9 @@ class TodayViewModel @Inject constructor(
 
 
     @SuppressLint("SimpleDateFormat")
-    fun getCurrentYearMonth(): String? {
+    fun getCurrentYearMonth(): String {
         val dateFormat = "yyyy-MM"
-        val date = todayRepository.currentCalendar.value?.time
-        return if (date == null) null
-        else SimpleDateFormat(dateFormat).format(date)
+        val date = todayRepository.currentCalendar.time
+        return SimpleDateFormat(dateFormat).format(date)
     }
 }

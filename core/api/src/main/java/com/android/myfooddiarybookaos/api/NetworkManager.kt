@@ -11,6 +11,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.security.SecureRandom
+import java.util.concurrent.TimeUnit
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
@@ -44,6 +45,7 @@ class NetworkManager(
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(unsafeOkHttpClient(header, contentType))
                 .build()
+
         }
 
         // 클라이언트 빌드
@@ -103,11 +105,16 @@ class NetworkManager(
                 //로그 기록 인터셉터 등록
                 val logInterceptor = HttpLoggingInterceptor()
                 logInterceptor.level = HttpLoggingInterceptor.Level.BODY
-                client.addInterceptor(logInterceptor)
+                client
+                    .addInterceptor(logInterceptor)
+                    .connectTimeout(NETWORK_TIME_OUT_SECOND, TimeUnit.SECONDS)
+                    .readTimeout(NETWORK_TIME_OUT_SECOND, TimeUnit.SECONDS)
             }
             return builder.build()
 
         }
+
+        private const val NETWORK_TIME_OUT_SECOND = 10L
     }
 
     fun getLoginApiService(): UserRetrofitService =

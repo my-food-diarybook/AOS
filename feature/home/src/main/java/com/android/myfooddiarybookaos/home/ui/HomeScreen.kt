@@ -3,19 +3,19 @@ package com.android.myfooddiarybookaos.home
 import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.android.myfooddiarybookaos.home.calendar.CalendarLayout
-import com.android.myfooddiarybookaos.Layout.TopCalendarLayout
+import com.android.myfooddiarybookaos.home.component.CalendarLayout
+import com.android.myfooddiarybookaos.data.component.TopCalendarLayout
+import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 
 import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.home.viewModel.HomeViewModel
-import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 import com.android.myfooddiarybookaos.data.state.AddScreenState
 import com.android.myfooddiarybookaos.data.state.ApplicationState
-import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 
 @Composable
 fun HomeScreen(
@@ -27,20 +27,25 @@ fun HomeScreen(
     //set diary State
     LaunchedEffect(Unit) {
         homeViewModel.initState(appState, diaryState)
+        homeViewModel.setDiaryList(todayViewModel.getCurrentYearMonth())
     }
+
+    todayViewModel.getDataChange().observeAsState().value?.let {
+        Log.d("dataChange", todayViewModel.getCurrentYearMonth())
+        homeViewModel.setDiaryList(todayViewModel.getCurrentYearMonth())
+    }
+
 
     // 업로드 시도
     if (diaryState.isSelectedGallery.value) {
-        when (diaryState.addScreenState.value){
+        when (diaryState.addScreenState.value) {
             AddScreenState.ADD_HOME_TODAY -> {
                 homeViewModel.makeNewDiary(
                     todayViewModel.getTodayDate(),
                     diaryState.multiPartList,
                     diaryState = { isUpdate ->
                         if (isUpdate) {
-                            todayViewModel.getCurrentYearMonth()?.let {
-                                homeViewModel.getDiaryList(it)
-                            }
+                            homeViewModel.setDiaryList(todayViewModel.getCurrentYearMonth())
                         }
                     }
                 )
@@ -51,8 +56,8 @@ fun HomeScreen(
                     diaryState.multiPartList,
                     diaryState = { isUpdate ->
                         if (isUpdate) {
-                            todayViewModel.getCurrentYearMonth()?.let {
-                                homeViewModel.getDiaryList(it)
+                            todayViewModel.getCurrentYearMonth().let {
+                                homeViewModel.setDiaryList(todayViewModel.getCurrentYearMonth())
                             }
                         }
                     }
@@ -67,7 +72,7 @@ fun HomeScreen(
     // main view
     Column {
         // top calendar
-        TopCalendarLayout(todayViewModel)
+        TopCalendarLayout()
         // mid calendar
         Box(
             modifier = Modifier.fillMaxSize(),

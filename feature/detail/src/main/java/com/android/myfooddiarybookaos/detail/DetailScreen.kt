@@ -1,16 +1,13 @@
 package com.android.myfooddiarybookaos.detail
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
-import com.android.myfooddiarybookaos.data.state.AddScreenState
 import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.detail.function.DiaryViewState
 import com.android.myfooddiarybookaos.detail.locationUi.ui.DetailLocationScreen
