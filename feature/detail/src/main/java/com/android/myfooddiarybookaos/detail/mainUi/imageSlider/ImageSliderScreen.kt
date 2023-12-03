@@ -6,6 +6,7 @@ import androidx.compose.foundation.gestures.rememberScrollableState
 import androidx.compose.foundation.layout.*
 import com.android.myfooddiarybookaos.core.data.R
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import com.google.accompanist.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,11 +26,12 @@ import com.android.myfooddiarybookaos.data.robotoBold
 import com.android.myfooddiarybookaos.detail.mainUi.item.OneDetailImage
 import com.android.myfooddiarybookaos.model.image.Image
 
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ImageSliderScreen(
     images: List<Image>?,
-    currentViewImageId: MutableState<Int>
+    pagerState: PagerState
 ) {
     val imageHeight = 499.dp * LocalConfiguration.current.screenHeightDp / 800
 
@@ -39,8 +41,6 @@ fun ImageSliderScreen(
             .height(imageHeight)
     ) {
         images?.let {
-            val pagerState = rememberPagerState(pageCount = { images.size })
-            currentViewImageId.value = images[pagerState.currentPage].imageId
             HorizontalPager(
                 state = pagerState
             ) { page ->

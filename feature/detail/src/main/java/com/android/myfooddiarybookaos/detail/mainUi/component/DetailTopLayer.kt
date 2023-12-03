@@ -31,7 +31,6 @@ import com.holix.android.bottomsheetdialog.compose.BottomSheetDialogProperties
 
 @Composable
 fun DetailTopLayer(
-    currentViewImageId: Int,
     topDate: String,
     detailViewModel: DetailViewModel = hiltViewModel()
 ) {
@@ -96,9 +95,6 @@ fun DetailTopLayer(
                     popUpState,
                     fixImage = {
                         popUpState.value = false
-                        detailViewModel.diaryState.value
-                            ?.fixImageId
-                            ?.value = currentViewImageId
                         detailViewModel.diaryState.value
                             ?.addScreenState
                             ?.value = AddScreenState.FIX_IMAGE_IN_DETAIL
