@@ -114,9 +114,7 @@ class DetailViewModel @Inject constructor(
                 detailFixState.diaryToFix(),
                 state = { change ->
                     if (change) {
-                        diaryDetail.value?.let { diaryDetail ->
-                            _diaryDetail.value = detailFixState.submitResult(diaryDetail)
-                        }
+                        _diaryDetail.value = detailFixState.submitResult(diaryDetail.value)
                         initCurrentData()
                     }
                 }

@@ -28,6 +28,7 @@ import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 @Composable
 fun DetailTopLayer(
     topDate: String,
+    memoFixState: () -> Unit,
     detailViewModel: DetailViewModel = hiltViewModel()
 ) {
     val popUpState = remember { mutableStateOf(false) }
@@ -109,6 +110,7 @@ fun DetailTopLayer(
                     },
                     fixMemo = {
                         popUpState.value = false
+                        memoFixState()
                     },
                     deleteDiary = {
                         popUpState.value = false
