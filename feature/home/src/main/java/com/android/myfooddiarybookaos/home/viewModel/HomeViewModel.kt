@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.android.myfooddiarybookaos.data.dataHome.repository.HomePostRepository
 import com.android.myfooddiarybookaos.data.dataHome.repository.HomeRepository
 import com.android.myfooddiarybookaos.data.state.ApplicationState
@@ -12,6 +13,11 @@ import com.android.myfooddiarybookaos.model.diary.Diary
 import com.android.myfooddiarybookaos.model.home.DiaryHomeDay
 import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import javax.inject.Inject
 
@@ -26,11 +32,12 @@ class HomeViewModel @Inject constructor(
     private val _diaryState = MutableLiveData<DiaryState>()
     val diaryState: LiveData<DiaryState> get() = _diaryState
 
-    private val _homeDiaryList = MutableLiveData<List<Diary>>()
-    val homeDiaryList: LiveData<List<Diary>> get() = _homeDiaryList
 
-    private val _homeDayInDiary = MutableLiveData<DiaryHomeDay>()
-    val homeDayInDiary: LiveData<DiaryHomeDay> get() = _homeDayInDiary
+    private val _homeDiaryList = MutableStateFlow<List<Diary>>(emptyList())
+    val homeDiaryList: StateFlow<List<Diary>> = _homeDiaryList.asStateFlow()
+
+    private val _homeDayInDiary = MutableStateFlow<DiaryHomeDay>(DiaryHomeDay())
+    val homeDayInDiary: StateFlow<DiaryHomeDay> = _homeDayInDiary.asStateFlow()
 
 
     fun initState(
@@ -42,27 +49,22 @@ class HomeViewModel @Inject constructor(
     }
 
 
-
     fun setDiaryList(
         yearMonth: String
-    ) {
-        homeRepository.getCurrentHomeDiary(
-            yearMonth,
-            dataState = {
+    ) = viewModelScope.launch {
+        homeRepository.getCurrentHomeDiary(yearMonth)
+            .collectLatest {
                 _homeDiaryList.value = it
             }
-        )
     }
 
     fun getHomeDayInDiary(
         date: String
-    ) {
-        homeRepository.getCurrentHomeDay(
-            date,
-            dataState = {
+    ) = viewModelScope.launch {
+        homeRepository.getCurrentHomeDay(date)
+            .collectLatest {
                 _homeDayInDiary.value = it
             }
-        )
     }
 
     fun makeNewDiary(
@@ -83,9 +85,7 @@ class HomeViewModel @Inject constructor(
     // 비트맵 -> 멀티파트
     fun getMultiPartFromBitmap(
         cameraBitmap: Bitmap
-    ): List<MultipartBody.Part> {
-        return homePostRepository.makePartListFromBitmap(cameraBitmap)
-    }
+    ): List<MultipartBody.Part> = homePostRepository.makePartListFromBitmap(cameraBitmap)
 
 //    fun getMultiPartFromUri(
 //        uriList: List<Uri>
@@ -99,24 +99,22 @@ class HomeViewModel @Inject constructor(
     ): Diary? {
         val currentDay = if (day.length == 1) "0$day" else day
         val timeData = "$yearMonth-$currentDay"
-        return homeDiaryList.value?.find {
-            it.time == timeData
-        }
+        return homeDiaryList.value.find { it.time == timeData }
     }
 
     fun goHomeDayView() {
         appState.value?.navController?.navigate(ScreenRoot.HOME_DAY)
     }
 
-    fun getPrevHomeDay() = homeDayInDiary.value?.beforeDay ?: ""
-    fun getNextHomeDay() = homeDayInDiary.value?.afterday ?: ""
-    fun getHomeDays() = homeDayInDiary.value?.homeDayList
+    fun getPrevHomeDay() = homeDayInDiary.value.beforeDay ?: ""
+    fun getNextHomeDay() = homeDayInDiary.value.afterday ?: ""
+    fun getHomeDays() = homeDayInDiary.value.homeDayList
 
     fun goDetailView(diaryId: Int) {
         diaryState.value?.setDiaryDetail(diaryId)
         appState.value?.navController?.navigate(ScreenRoot.DETAIL_DIARY)
     }
 
-    fun getHomeDaySize(): Int = homeDiaryList.value?.size ?: 0
+    fun getHomeDaySize(): Int = homeDiaryList.value.size
 
 }

@@ -8,6 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,6 +28,7 @@ import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 @Composable
 fun DetailTopLayer(
     topDate: String,
+    memoFixState: () -> Unit,
     detailViewModel: DetailViewModel = hiltViewModel()
 ) {
     val popUpState = remember { mutableStateOf(false) }
@@ -108,9 +110,11 @@ fun DetailTopLayer(
                     },
                     fixMemo = {
                         popUpState.value = false
+                        memoFixState()
                     },
                     deleteDiary = {
                         popUpState.value = false
+                        detailViewModel.deleteDiary()
                     }
                 )
             }

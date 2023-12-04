@@ -1,11 +1,9 @@
 package com.android.myfooddiarybookaos.detail
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import com.android.myfooddiarybookaos.data.state.ApplicationState
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 import com.android.myfooddiarybookaos.data.state.DiaryState
@@ -28,24 +26,29 @@ fun DetailScreen(
         detailViewModel.goBack()
     })
 
-    val diaryDetail = detailViewModel.diaryDetail.value
-    val topDate = todayViewModel.getTopDate(diaryDetail?.date)
+    val diaryDetail = detailViewModel.diaryDetail.collectAsState().value
+    val topDate = todayViewModel.getTopDate(diaryDetail.date)
     // diary state
     val currentViewState = remember { mutableStateOf(DiaryViewState.MAIN) }
+    val viewUpdate = rememberSaveable { mutableStateOf(true) }
 
-    LaunchedEffect(Unit) {
-        detailViewModel.initAppState(appState, diaryState)
-        detailViewModel.setDiaryDetail(
-            initData = {
-                diaryFixState.initMemo(it)
-            }
-        )
+    if(viewUpdate.value){
+        LaunchedEffect(Unit) {
+            detailViewModel.initAppState(appState, diaryState)
+            detailViewModel.setDiaryDetail(
+                initData = {
+                    diaryFixState.initMemo(it)
+                }
+            )
+            viewUpdate.value = false
+        }
     }
 
     // 현재 뷰 상태
     when (currentViewState.value) {
         DiaryViewState.MAIN -> {
             MainDetailScreen(
+                viewUpdate,
                 diaryState,
                 topDate,
                 initMemo = {

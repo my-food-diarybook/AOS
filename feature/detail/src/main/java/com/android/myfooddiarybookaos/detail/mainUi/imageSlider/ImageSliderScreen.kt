@@ -30,7 +30,7 @@ import com.android.myfooddiarybookaos.model.image.Image
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ImageSliderScreen(
-    images: List<Image>?,
+    images: List<Image>,
     pagerState: PagerState
 ) {
     val imageHeight = 499.dp * LocalConfiguration.current.screenHeightDp / 800
@@ -40,40 +40,38 @@ fun ImageSliderScreen(
             .fillMaxWidth()
             .height(imageHeight)
     ) {
-        images?.let {
-            HorizontalPager(
-                state = pagerState
-            ) { page ->
-                OneDetailImage(image = images[page])
-            }
+        HorizontalPager(
+            state = pagerState
+        ) { page ->
+            OneDetailImage(image = images[page])
+        }
 
-            if (images.size > 1) {
+        if (images.size > 1) {
+            Box(
+                modifier = Modifier
+                    .padding(
+                        top = 19.dp, end = 15.dp
+                    )
+                    .background(Color.Transparent)
+                    .align(Alignment.TopEnd),
+            ) {
                 Box(
                     modifier = Modifier
-                        .padding(
-                            top = 19.dp, end = 15.dp
+                        .background(
+                            color = colorResource(id = R.color.main_color_50),
+                            shape = RoundedCornerShape(4.dp)
                         )
-                        .background(Color.Transparent)
-                        .align(Alignment.TopEnd),
+                        .width(60.dp)
+                        .height(30.dp),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .background(
-                                color = colorResource(id = R.color.main_color_50),
-                                shape = RoundedCornerShape(4.dp)
-                            )
-                            .width(60.dp)
-                            .height(30.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "${pagerState.currentPage + 1} / ${images.size}",
-                            fontSize = 18.sp,
-                            fontFamily = robotoBold,
-                            fontWeight = FontWeight.W700,
-                            color = Color.White
-                        )
-                    }
+                    Text(
+                        text = "${pagerState.currentPage + 1} / ${images.size}",
+                        fontSize = 18.sp,
+                        fontFamily = robotoBold,
+                        fontWeight = FontWeight.W700,
+                        color = Color.White
+                    )
                 }
             }
         }

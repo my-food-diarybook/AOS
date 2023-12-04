@@ -21,7 +21,12 @@ import com.android.myfooddiarybookaos.model.detail.DiaryDetail
 import com.android.myfooddiarybookaos.model.image.GalleryImage
 import com.android.myfooddiarybookaos.model.map.MyLocation
 import com.android.myfooddiarybookaos.model.map.Place
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import javax.inject.Inject
@@ -38,27 +43,20 @@ class DetailViewModel @Inject constructor(
     private val _diaryState = MutableLiveData<DiaryState>()
     val diaryState: LiveData<DiaryState> get() = _diaryState
 
-    private val _diaryDetail = MutableLiveData<DiaryDetail>()
-    val diaryDetail: LiveData<DiaryDetail> get() = _diaryDetail
+    private val _diaryDetail = MutableStateFlow<DiaryDetail>(DiaryDetail())
+    val diaryDetail: StateFlow<DiaryDetail> = _diaryDetail.asStateFlow()
 
-    private val _searchResult = MutableLiveData<List<Place>>()
-    val searchResult: LiveData<List<Place>> get() = _searchResult
+    private val _searchResult = MutableStateFlow<List<Place>>(emptyList())
+    val searchResult: StateFlow<List<Place>> = _searchResult.asStateFlow()
 
     // 현재 검색 로케이션
-    private val _currentLocationResult = MutableLiveData<List<Place>>()
-    val currentLocationResult: LiveData<List<Place>> get() = _currentLocationResult
+    private val _currentLocationResult = MutableStateFlow<List<Place>>(emptyList())
+    val currentLocationResult: StateFlow<List<Place>> = _currentLocationResult.asStateFlow()
 
     // 내 위치 정보
     private val _myLocation = MutableLiveData<MyLocation>()
     private val myLocation: LiveData<MyLocation> get() = _myLocation
 
-    // 현재 폴더
-    private val _currentFolder = mutableStateOf<Pair<String, String?>>("최근사진" to null)
-    val currentFolder: State<Pair<String, String?>> = _currentFolder
-
-    // 선택 이미지 리스트
-    private val _selectedImages = mutableStateListOf<GalleryImage>()
-    val selectedImages: SnapshotStateList<GalleryImage> = _selectedImages
 
     fun initAppState(state1: ApplicationState, state2: DiaryState) {
         _appState.value = state1
@@ -67,30 +65,25 @@ class DetailViewModel @Inject constructor(
 
     fun setDiaryDetail(
         initData: (DiaryDetail?) -> Unit
-    ) {
-        diaryState.value?.currentDiaryDetail?.let {
-            if (it.value != -1) {
-                detailRepository.getDetailDiary(
-                    it.value,
-                    isUpdate = { detail ->
-                        _diaryDetail.value = detail
-                        initData(detail)
+    ) = viewModelScope.launch {
+        diaryState.value?.currentDiaryDetail?.let { currentId ->
+            if (currentId.value != -1) {
+                detailRepository.getDetailDiary(currentId.value)
+                    .collect {
+                        _diaryDetail.value = it
+                        initData(it)
                     }
-                )
             }
         }
     }
 
     fun getSearchResult(
-        data: String,
-    ) {
-        mapSearchRepository.getSearchKeyword(
-            data,
-            myLocation.value,
-            result = {
-                _searchResult.value = it?.documents
+        data: String
+    ) = viewModelScope.launch {
+        mapSearchRepository.getSearchKeyword(data, myLocation.value)
+            .collect {
+                _searchResult.value = it
             }
-        )
     }
 
     fun setMyLocation() {
@@ -121,9 +114,7 @@ class DetailViewModel @Inject constructor(
                 detailFixState.diaryToFix(),
                 state = { change ->
                     if (change) {
-                        diaryDetail.value?.let { diaryDetail ->
-                            _diaryDetail.value = detailFixState.submitResult(diaryDetail)
-                        }
+                        _diaryDetail.value = detailFixState.submitResult(diaryDetail.value)
                         initCurrentData()
                     }
                 }
@@ -131,13 +122,11 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    private fun getCurrentLocationData() {
-        mapSearchRepository.getCurrentLocationData(
-            myLocation.value,
-            result = {
-                _currentLocationResult.value = it?.documents
+    private fun getCurrentLocationData() = viewModelScope.launch {
+        mapSearchRepository.getCurrentLocationData(myLocation.value)
+            .collect {
+                _currentLocationResult.value = it
             }
-        )
     }
 
 
@@ -155,16 +144,23 @@ class DetailViewModel @Inject constructor(
     }
 
     fun fixDiaryImage(
-        imageId : Int,
-        file : MultipartBody.Part,
+        imageId: Int,
+        file: MultipartBody.Part,
         addState: (Boolean) -> Unit
-    ){
+    ) {
         detailRepository.fixDetailDiaryImage(
             imageId, file,
             state = { result ->
                 addState(result)
             }
         )
+    }
+
+    fun deleteDiary() = viewModelScope.launch {
+        diaryState.value?.currentDiaryDetail?.let {
+            detailRepository.deleteDiary(it.value)
+            goBack()
+        }
     }
 
 
