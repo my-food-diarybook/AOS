@@ -32,4 +32,9 @@ interface DiaryRetrofitService {
         @Body body: FixDiary
     ): Call<Unit>
 
+
+    @DELETE("diary/{diaryId}")
+    suspend fun deleteDiary(
+        @Path("diaryId") diaryId: Int
+    )
 }

@@ -28,6 +28,7 @@ import com.android.myfooddiarybookaos.model.detail.DiaryDetail
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainDetailScreen(
+    viewUpdate: MutableState<Boolean>,
     diaryState: DiaryState,
     topDate: String,
     initMemo: () -> Unit,
@@ -48,7 +49,7 @@ fun MainDetailScreen(
                         detailViewModel.fixDiaryImage(
                             diaryState.fixImageId.value, firstImage,
                             addState = {
-//                                if (it) detailViewModel.setDiaryDetail {  }
+                                viewUpdate.value = true
                             }
                         )
                         diaryState.fixImageId.value = -1
@@ -60,7 +61,7 @@ fun MainDetailScreen(
                     diaryState.currentDiaryDetail.value,
                     diaryState.multiPartList,
                     addState = {
-//                        if (it) detailViewModel.setDiaryDetail {  }
+                        viewUpdate.value = true
                     }
                 )
             }

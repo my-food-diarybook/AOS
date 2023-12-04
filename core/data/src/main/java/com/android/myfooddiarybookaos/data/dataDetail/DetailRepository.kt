@@ -96,4 +96,9 @@ class DetailRepository @Inject constructor(
         } catch (e: Exception){ isSuccess(false) }
     }
 
+    suspend fun deleteDiary(
+        diaryId: Int,
+    ){
+        manager.deleteDiary(diaryId)
+    }
 }

@@ -31,8 +31,8 @@ fun DetailLocationScreen(
     var currentLoad by remember { mutableStateOf(false) }
     val searchUpdate = remember { derivedStateOf { userInputUpdate(userInput,prevInput) }}
     val submitEnabled = remember { derivedStateOf { userInputValid(userInput) } }
-    val currentLocationResult = detailViewModel.currentLocationResult.observeAsState()
-    val searchResult = detailViewModel.searchResult.observeAsState()
+    val currentLocationResult = detailViewModel.currentLocationResult.collectAsState()
+    val searchResult = detailViewModel.searchResult.collectAsState()
 
     val launcherMultiplePermissions = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()

@@ -15,8 +15,11 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.android.myfooddiarybookaos.api.KakaoApiManager
 import com.android.myfooddiarybookaos.model.map.MyLocation
+import com.android.myfooddiarybookaos.model.map.Place
 import com.android.myfooddiarybookaos.model.map.ResultSearchKeyword
 import com.google.android.gms.location.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,52 +36,33 @@ class MapSearchRepository @Inject constructor(
     )
 
 
-    fun getCurrentLocationData(
-        myLocation: MyLocation?,
-        result: (ResultSearchKeyword?) -> Unit
-    ) {
-
-        manager.getCurrentLocationKeyword(
-            x = myLocation?.x,
-            y = myLocation?.y
-        ).enqueue(object : Callback<ResultSearchKeyword> {
-            override fun onResponse(
-                call: Call<ResultSearchKeyword>,
-                response: Response<ResultSearchKeyword>
-            ) {
-                result(response.body())
-            }
-
-            override fun onFailure(call: Call<ResultSearchKeyword>, t: Throwable) {
-                result(null)
-            }
-
-        })
-
+    suspend fun getCurrentLocationData(
+        myLocation: MyLocation?
+    ): Flow<List<Place>> = flow {
+        try {
+            emit(
+                manager.getCurrentLocationKeyword(
+                    x = myLocation?.x,
+                    y = myLocation?.y
+                ).documents
+            )
+        }catch (_:Exception){ }
     }
 
-    fun getSearchKeyword(
+
+    suspend fun getSearchKeyword(
         keyword: String,
-        myLocation: MyLocation?,
-        result: (ResultSearchKeyword?) -> Unit
-    ) {
-        manager.getSearchKeyword(
-            query = keyword,
-            x = myLocation?.x,
-            y = myLocation?.y
-        ).enqueue(object : Callback<ResultSearchKeyword> {
-            override fun onResponse(
-                call: Call<ResultSearchKeyword>,
-                response: Response<ResultSearchKeyword>
-            ) {
-                result(response.body())
-            }
-
-            override fun onFailure(call: Call<ResultSearchKeyword>, t: Throwable) {
-                result(null)
-            }
-
-        })
+        myLocation: MyLocation?
+    ): Flow<List<Place>> = flow {
+        try {
+            emit(
+                manager.getSearchKeyword(
+                    query = keyword,
+                    x = myLocation?.x,
+                    y = myLocation?.y
+                ).documents
+            )
+        } catch (_:java.lang.Exception){}
     }
 
     fun initLocation(
@@ -91,10 +75,11 @@ class MapSearchRepository @Inject constructor(
         )
 
     }
+
     fun checkAndRequestPermissions(
         context: Context,
         launcher: ManagedActivityResultLauncher<Array<String>, Map<String, Boolean>>,
-        result : (Boolean) -> Unit
+        result: (Boolean) -> Unit
     ) {
         if (permissionsLocation.all {
                 ContextCompat.checkSelfPermission(
@@ -103,8 +88,7 @@ class MapSearchRepository @Inject constructor(
                 ) == PackageManager.PERMISSION_GRANTED
             }) {
             result(true)
-        }
-        else {
+        } else {
             launcher.launch(permissionsLocation)
         }
     }
@@ -137,10 +121,10 @@ class MapSearchRepository @Inject constructor(
                         priority = Priority.PRIORITY_HIGH_ACCURACY
                         maxWaitTime = 100
                     }
-                    val mLocationCallback = object  : LocationCallback(){
+                    val mLocationCallback = object : LocationCallback() {
                         override fun onLocationResult(locationResult: LocationResult) {
                             locationResult ?: return
-                            locationResult.locations.forEach{
+                            locationResult.locations.forEach {
                                 MyLocation(
                                     it.longitude.toString(),
                                     it.latitude.toString()
@@ -149,7 +133,11 @@ class MapSearchRepository @Inject constructor(
                             }
                         }
                     }
-                    fusedLocationProviderClient.requestLocationUpdates(mRequest,mLocationCallback,null)
+                    fusedLocationProviderClient.requestLocationUpdates(
+                        mRequest,
+                        mLocationCallback,
+                        null
+                    )
                 }
             }
             .addOnFailureListener { _ ->
