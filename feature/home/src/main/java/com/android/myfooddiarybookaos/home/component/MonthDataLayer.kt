@@ -27,7 +27,7 @@ fun MonthDataView(
     todayViewModel.getDataChange().observeAsState().value?.let {
         calendarDataList.value = todayViewModel.getCustomCalendar()
     }
-    homeViewModel.homeDiaryList.observeAsState().value
+    homeViewModel.homeDiaryList.collectAsState().value
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(DAY_OF_WEAK),

@@ -26,8 +26,8 @@ fun DetailScreen(
         detailViewModel.goBack()
     })
 
-    val diaryDetail = detailViewModel.diaryDetail.value
-    val topDate = todayViewModel.getTopDate(diaryDetail?.date)
+    val diaryDetail = detailViewModel.diaryDetail.collectAsState().value
+    val topDate = todayViewModel.getTopDate(diaryDetail.date)
     // diary state
     val currentViewState = remember { mutableStateOf(DiaryViewState.MAIN) }
     val viewUpdate = rememberSaveable { mutableStateOf(true) }

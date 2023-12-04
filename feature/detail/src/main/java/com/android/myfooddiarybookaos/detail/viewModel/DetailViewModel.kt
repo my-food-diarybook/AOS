@@ -26,6 +26,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import javax.inject.Inject
@@ -42,11 +43,11 @@ class DetailViewModel @Inject constructor(
     private val _diaryState = MutableLiveData<DiaryState>()
     val diaryState: LiveData<DiaryState> get() = _diaryState
 
-    private val _diaryDetail = MutableLiveData<DiaryDetail>()
-    val diaryDetail: LiveData<DiaryDetail> get() = _diaryDetail
+    private val _diaryDetail = MutableStateFlow<DiaryDetail>(DiaryDetail())
+    val diaryDetail: StateFlow<DiaryDetail> = _diaryDetail.asStateFlow()
 
     private val _searchResult = MutableStateFlow<List<Place>>(emptyList())
-    val searchResult: StateFlow<List<Place>> =  _searchResult.asStateFlow()
+    val searchResult: StateFlow<List<Place>> = _searchResult.asStateFlow()
 
     // 현재 검색 로케이션
     private val _currentLocationResult = MutableStateFlow<List<Place>>(emptyList())
@@ -64,24 +65,22 @@ class DetailViewModel @Inject constructor(
 
     fun setDiaryDetail(
         initData: (DiaryDetail?) -> Unit
-    ) {
-        diaryState.value?.currentDiaryDetail?.let {
-            if (it.value != -1) {
-                detailRepository.getDetailDiary(
-                    it.value,
-                    isUpdate = { detail ->
-                        _diaryDetail.value = detail
-                        initData(detail)
+    ) = viewModelScope.launch {
+        diaryState.value?.currentDiaryDetail?.let { currentId ->
+            if (currentId.value != -1) {
+                detailRepository.getDetailDiary(currentId.value)
+                    .collect {
+                        _diaryDetail.value = it
+                        initData(it)
                     }
-                )
             }
         }
     }
 
     fun getSearchResult(
         data: String
-    )  = viewModelScope.launch {
-        mapSearchRepository.getSearchKeyword(data,myLocation.value)
+    ) = viewModelScope.launch {
+        mapSearchRepository.getSearchKeyword(data, myLocation.value)
             .collect {
                 _searchResult.value = it
             }
@@ -127,7 +126,7 @@ class DetailViewModel @Inject constructor(
 
     private fun getCurrentLocationData() = viewModelScope.launch {
         mapSearchRepository.getCurrentLocationData(myLocation.value)
-            .collect{
+            .collect {
                 _currentLocationResult.value = it
             }
     }
@@ -147,10 +146,10 @@ class DetailViewModel @Inject constructor(
     }
 
     fun fixDiaryImage(
-        imageId : Int,
-        file : MultipartBody.Part,
+        imageId: Int,
+        file: MultipartBody.Part,
         addState: (Boolean) -> Unit
-    ){
+    ) {
         detailRepository.fixDetailDiaryImage(
             imageId, file,
             state = { result ->

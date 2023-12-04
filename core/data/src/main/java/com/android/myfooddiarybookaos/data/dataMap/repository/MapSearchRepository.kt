@@ -100,13 +100,11 @@ class MapSearchRepository @Inject constructor(
     private fun loadLocation(
         locationData: (MyLocation?) -> Unit
     ) {
-        Log.d("checkMyresult", "loadLocation")
         val fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(context)
 
         fusedLocationProviderClient.lastLocation
             .addOnSuccessListener { location: Location? ->
-                Log.d("checkMyresult", "addOnSuccessListener" + location.toString())
                 if (location != null) {
                     locationData(
                         MyLocation(
@@ -141,7 +139,6 @@ class MapSearchRepository @Inject constructor(
                 }
             }
             .addOnFailureListener { _ ->
-                Log.d("checkMyresult", "addOnFailureListener")
                 locationData(null)
             }
     }

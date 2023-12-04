@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -39,7 +40,7 @@ fun HomeDayScreen(
         backStage(diaryState, appState)
     })
 
-    val homeDays = homeViewModel.homeDayInDiary.value?.homeDayList
+    val homeDays = homeViewModel.homeDayInDiary.collectAsState().value.homeDayList
     val currentDate = diaryState.currentHomeDay.value
     LaunchedEffect(Unit) {
         homeViewModel.initState(appState, diaryState)
@@ -124,15 +125,13 @@ fun HomeDayScreen(
             contentPadding = PaddingValues(horizontal = 20.dp),
             state = rememberLazyListState()
         ) {
-            homeDays?.let { homeDays ->
-                items(homeDays.size) { index ->
-                    ItemHomeDay(
-                        homeDay = homeDays[index],
-                        clickDiary = {
-                            homeViewModel.goDetailView(homeDays[index].id)
-                        }
-                    )
-                }
+            items(homeDays.size) { index ->
+                ItemHomeDay(
+                    homeDay = homeDays[index],
+                    clickDiary = {
+                        homeViewModel.goDetailView(homeDays[index].id)
+                    }
+                )
             }
         }
     }

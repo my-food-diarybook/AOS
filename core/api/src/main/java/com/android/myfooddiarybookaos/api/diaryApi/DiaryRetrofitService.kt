@@ -12,19 +12,19 @@ import retrofit2.http.*
 interface DiaryRetrofitService {
 
     @GET("diary/home")
-    fun getHomeDiary(
+    suspend fun getHomeDiary(
         @Query("yearMonth") yearMonth: String
-    ) : Call<List<Diary>>
+    ) : List<Diary>
 
     @GET("diary/home-day")
-    fun getHomeDay(
+    suspend fun getHomeDay(
         @Query("date") date: String
-    ): Call<DiaryHomeDay>
+    ): DiaryHomeDay
 
     @GET("diary/{diaryId}")
-    fun getDiaryDetail(
+    suspend fun getDiaryDetail(
         @Path("diaryId") diaryId : Int,
-    ): Call<DiaryDetail>
+    ): DiaryDetail
 
     @PUT("diary/{diaryId}/memo")
     fun setDiaryMemo(
