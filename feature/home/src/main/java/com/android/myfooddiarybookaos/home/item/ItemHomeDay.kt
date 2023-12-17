@@ -1,5 +1,6 @@
 package com.android.myfooddiarybookaos.home.item
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -8,10 +9,12 @@ import androidx.compose.material.Card
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.Font
@@ -30,7 +33,7 @@ import com.android.myfooddiarybookaos.data.path.byteStringToBitmap
 @Composable
 fun ItemHomeDay(
     homeDay: HomeDay,
-    clickDiary: ()-> Unit
+    clickDiary: () -> Unit
 ) {
 
     // 여기 태그 수정 필요
@@ -38,7 +41,7 @@ fun ItemHomeDay(
         if (homeDay.tags.isNotEmpty()) "#" +
                 homeDay.tags.joinToString(" #")
         else ""
-    val imageBitmap = byteStringToBitmap(homeDay.image.bytes)
+    val imageBitmap = remember { byteStringToBitmap(homeDay.image.bytes) }
 
     Surface(
         modifier = Modifier
@@ -58,6 +61,7 @@ fun ItemHomeDay(
                 }
         ) {
             Column {
+
                 AsyncImage(
                     model = imageBitmap,
                     modifier = Modifier
@@ -68,6 +72,10 @@ fun ItemHomeDay(
                     contentScale = ContentScale.Crop,
                     onSuccess = {}
                 )
+//                Image(
+//                    painter = rememberAsyncImagePainter(imageBitmap ),
+//                    contentDescription = null
+//                )
 
 
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.CenterStart) {
@@ -89,5 +97,6 @@ fun ItemHomeDay(
 
             }
         }
+
     }
 }
