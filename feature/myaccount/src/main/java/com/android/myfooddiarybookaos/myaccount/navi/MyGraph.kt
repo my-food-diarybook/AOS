@@ -19,11 +19,11 @@ fun MyGraph(
     ){
 
         composable(MyScreenRoot.MY){
-            MyMainScreen()
+            MyMainScreen(myNavi)
         }
 
         composable(MyScreenRoot.NOTICE){
-            NoticeScreen()
+            NoticeScreen(myNavi)
         }
     }
 }

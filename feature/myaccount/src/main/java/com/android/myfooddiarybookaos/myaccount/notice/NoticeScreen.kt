@@ -17,6 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.TextBox
@@ -28,11 +29,16 @@ import java.util.*
 
 @Composable
 fun NoticeScreen(
+    myNavi: NavHostController,
     viewModel : MyViewModel = hiltViewModel()
 ) {
 
     val noticePagingItems = viewModel.noticeList.collectAsLazyPagingItems()
     val isBackState = remember { mutableStateOf(false) }
+    if (isBackState.value){
+        myNavi.popBackStack()
+        isBackState.value = false
+    }
     val scrollState = rememberScrollState()
 
     Column(
@@ -49,7 +55,7 @@ fun NoticeScreen(
         ) {
             Box(
                 modifier = Modifier
-                    .wrapContentSize()
+                    .fillMaxWidth()
                     .padding(
                         start = 4.dp
                     )
@@ -57,6 +63,8 @@ fun NoticeScreen(
                 Box(
                     modifier = Modifier
                         .size(44.dp)
+                        .align(Alignment.BottomStart)
+                        .padding(bottom = 2.dp)
                         .clickable(onClick = { isBackState.value = true }),
                     contentAlignment = Alignment.Center,
                 ) {
@@ -66,13 +74,20 @@ fun NoticeScreen(
                     )
                 }
 
-                TextBox(
-                    text = "공지사항",
-                    fontWeight = 500,
-                    fontFamily = robotoBold,
-                    fontSize = 18.sp,
-                    color = colorResource(id = R.color.black)
-                )
+                Box(
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .align(Alignment.BottomCenter)
+                        .padding(14.75.dp)
+                ){
+                    TextBox(
+                        text = "공지사항",
+                        fontWeight = 500,
+                        fontFamily = robotoBold,
+                        fontSize = 18.sp,
+                        color = colorResource(id = R.color.black)
+                    )
+                }
 
             }
 

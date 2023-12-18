@@ -1,6 +1,7 @@
 package com.android.myfooddiarybookaos.myaccount.myMain
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.TextBox
 import com.android.myfooddiarybookaos.data.component.coloredInnerShadow
@@ -21,9 +23,12 @@ import com.android.myfooddiarybookaos.myaccount.component.EmailInfo
 import com.android.myfooddiarybookaos.myaccount.component.OptionBox
 import com.android.myfooddiarybookaos.myaccount.component.Statistics
 import com.android.myfooddiarybookaos.myaccount.component.Subject
+import com.android.myfooddiarybookaos.myaccount.navi.MyScreenRoot
 
 @Composable
-fun MyMainScreen() {
+fun MyMainScreen(
+    myNavi: NavHostController
+) {
 
     val scrollState = rememberScrollState()
 
@@ -85,7 +90,11 @@ fun MyMainScreen() {
             Statistics()
             Subject("일반")
             Spacer(modifier = Modifier.height(7.dp))
-            OptionBox("공지사항", R.drawable.right_side_my, null)
+            Box(
+                modifier = Modifier.clickable { myNavi.navigate(MyScreenRoot.NOTICE) }
+            ) {
+                OptionBox("공지사항", R.drawable.right_side_my, null)
+            }
             OptionBox("앱 버전 정보", null, "1. 1. 1")
             OptionBox("의견보내기", R.drawable.message, null)
             Spacer(modifier = Modifier.height(80.dp))
