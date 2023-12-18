@@ -5,10 +5,9 @@ import retrofit2.http.Query
 
 interface MyRetrofitService {
 
-    @GET("notice/paging")
+    @GET("notice/more")
     suspend fun getPagingNotice(
         @Query("startId") startId: Int,
         @Query("size") size : Int,
-        @Query("title") title: String = "공지"
     ): NoticeData
 }

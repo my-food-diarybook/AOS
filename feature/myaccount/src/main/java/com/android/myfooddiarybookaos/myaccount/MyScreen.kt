@@ -35,7 +35,6 @@ fun MyScreen(
 
     val scrollState = rememberScrollState()
     val noticePagingItems = viewModel.noticeList.collectAsLazyPagingItems()
-    Log.d("wlejflewjlwefjflwe",noticePagingItems.itemSnapshotList.items.toString())
     Column {
         Box(
             modifier = Modifier
