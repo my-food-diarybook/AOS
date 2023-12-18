@@ -31,7 +31,6 @@ fun HomeScreen(
     }
 
     todayViewModel.getDataChange().observeAsState().value?.let {
-        Log.d("dataChange", todayViewModel.getCurrentYearMonth())
         homeViewModel.setDiaryList(todayViewModel.getCurrentYearMonth())
     }
 

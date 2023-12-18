@@ -26,6 +26,7 @@ import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.component.coloredInnerShadow
 import com.android.myfooddiarybookaos.data.robotoBold
 import com.android.myfooddiarybookaos.data.robotoRegular
+import com.android.myfooddiarybookaos.myaccount.notice.NoticeScreen
 import com.android.myfooddiarybookaos.myaccount.viewModel.MyViewModel
 
 @Composable
@@ -34,7 +35,7 @@ fun MyScreen(
 ) {
 
     val scrollState = rememberScrollState()
-    val noticePagingItems = viewModel.noticeList.collectAsLazyPagingItems()
+
     Column {
         Box(
             modifier = Modifier
@@ -97,6 +98,7 @@ fun MyScreen(
             OptionBox("앱 버전 정보", null, "1. 1. 1")
             OptionBox("의견보내기", R.drawable.message, null)
             Spacer(modifier = Modifier.height(80.dp))
+
         }
     }
 }
