@@ -26,12 +26,15 @@ import com.android.myfooddiarybookaos.data.robotoRegular
 
 @Composable
 fun MyScreen() {
+
+    val scrollState = rememberScrollState()
+
     Column {
         Box(
             modifier = Modifier
                 .height(dimensionResource(id = R.dimen.size_90))
                 .fillMaxWidth()
-                .padding(bottom = dimensionResource(id = R.dimen.size_14_75)),
+                .padding(bottom = 14.75.dp),
             contentAlignment = Alignment.BottomCenter
         ) {
             TextBox(
@@ -56,26 +59,26 @@ fun MyScreen() {
         Column(
             modifier = Modifier
                 .padding(
-                    start = dimensionResource(id = R.dimen.size_20),
-                    end = dimensionResource(id = R.dimen.size_20),
-                    top = dimensionResource(id = R.dimen.size_12)
+                    start = 20.dp,
+                    end = 20.dp,
+                    top = 12.dp
                 )
                 .fillMaxSize()
                 // 스크롤 부여
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(scrollState)
         ) {
             Subject("내 정보")
             // 임시 이메일 -> 실제 이메일 전달
             Surface(
                 modifier = Modifier
                     .padding(
-                        top = dimensionResource(id = R.dimen.size_3),
-                        bottom = dimensionResource(id = R.dimen.size_12)
+                        top = 3.dp,
+                        bottom = 12.dp
                     )
                     .border(
-                        width = dimensionResource(id = R.dimen.size_1),
+                        width = 1.dp,
                         color = colorResource(id = R.color.line_color_deep),
-                        shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_4))
+                        shape = RoundedCornerShape(4.dp)
                     )
             ) {
                 EmailInfo("user_email@gmail.com")
@@ -83,10 +86,11 @@ fun MyScreen() {
             Subject("통계")
             Statistics()
             Subject("일반")
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_7)))
+            Spacer(modifier = Modifier.height(7.dp))
             OptionBox("공지사항", R.drawable.right_side_my, null)
             OptionBox("앱 버전 정보", null, "1. 1. 1")
             OptionBox("의견보내기", R.drawable.message, null)
+            Spacer(modifier = Modifier.height(80.dp))
         }
     }
 }
@@ -102,14 +106,14 @@ private fun EmailInfo(email: String) {
     Box(modifier = Modifier
         .fillMaxWidth()
         .padding(
-            start = dimensionResource(id = R.dimen.size_7),
-            end = dimensionResource(id = R.dimen.size_9_17),
-            top = dimensionResource(id = R.dimen.size_17),
-            bottom = dimensionResource(id = R.dimen.size_17)
+            start = 7.dp,
+            end = 9.17.dp,
+            top = 17.dp,
+            bottom = 17.dp
         )
     ) {
         Box(modifier = Modifier
-            .width(dimensionResource(id = R.dimen.size_270))
+            .width(270.dp)
             .align(Alignment.CenterStart)
         ) {
             Text(
@@ -125,7 +129,7 @@ private fun EmailInfo(email: String) {
 
         Box(
             modifier = Modifier
-                .size(dimensionResource(id = R.dimen.size_24))
+                .size(24.dp)
                 .align(Alignment.CenterEnd)
             , contentAlignment = Alignment.Center
         ){
@@ -153,24 +157,24 @@ private fun Statistics() {
     Box(
         modifier = Modifier
             .padding(
-                top = dimensionResource(id = R.dimen.size_3),
-                bottom = dimensionResource(id = R.dimen.size_11)
+                top = 3.dp,
+                bottom = 11.dp
             )
             .border(
-                width = dimensionResource(id = R.dimen.size_1),
+                width = 1.dp,
                 color = colorResource(id = R.color.line_color_deep),
-                shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_4))
+                shape = RoundedCornerShape(4.dp)
             )
     ) {
         Column(
             modifier = Modifier.padding(
-                start = dimensionResource(id = R.dimen.size_9),
-                end = dimensionResource(id = R.dimen.size_11)
+                start = 9.dp,
+                end = 11.dp
             ),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_19)))
+            Spacer(modifier = Modifier.height(19.dp))
             TextBox(
                 text = "모든 식사 일기",
                 fontWeight = 400,
@@ -185,9 +189,9 @@ private fun Statistics() {
                 fontSize = 28.sp,
                 color = colorResource(id = R.color.main_color)
             )
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_12)))
+            Spacer(modifier = Modifier.height(12.dp))
             InDivider()
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_15)))
+            Spacer(modifier = Modifier.height(15.dp))
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
@@ -196,9 +200,9 @@ private fun Statistics() {
                     CategoryMenu(category, 0)
                 }
             }
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_12)))
+            Spacer(modifier = Modifier.height(12.dp))
             InDivider()
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_12)))
+            Spacer(modifier = Modifier.height(12.dp))
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
@@ -207,7 +211,7 @@ private fun Statistics() {
                     CategoryMenu(category, 0)
                 }
             }
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_22)))
+            Spacer(modifier = Modifier.height(22.dp))
         }
     }
 }
@@ -217,7 +221,7 @@ private fun InDivider() {
     Divider(
         Modifier
             .fillMaxWidth()
-            .height(dimensionResource(id = R.dimen.size_1)),
+            .height(1.dp),
         color = colorResource(id = R.color.line_color_deep)
     )
 }
@@ -225,7 +229,7 @@ private fun InDivider() {
 @Composable
 private fun CategoryMenu(text: String, count: Int) {
     Surface(
-        modifier = Modifier.padding(dimensionResource(id = R.dimen.size_12))
+        modifier = Modifier.padding(12.dp)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -255,19 +259,19 @@ private fun OptionBox(text: String, drawable: Int?, version: String?) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                bottom = dimensionResource(id = R.dimen.size_9),
+                bottom = 9.dp,
             )
             .border(
-                width = dimensionResource(id = R.dimen.size_1),
+                width = 1.dp,
                 color = colorResource(id = R.color.black),
-                shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_4))
+                shape = RoundedCornerShape(4.dp)
             ),
     ) {
         Box(
             modifier = Modifier.padding(
-                start = dimensionResource(id = R.dimen.size_9),
-                top = dimensionResource(id = R.dimen.size_17),
-                bottom = dimensionResource(id = R.dimen.size_17)
+                start = 9.dp,
+                top = 17.dp,
+                bottom = 17.dp
             ),
         ) {
             Box(modifier = Modifier.align(Alignment.CenterStart)){
@@ -283,7 +287,7 @@ private fun OptionBox(text: String, drawable: Int?, version: String?) {
             if (drawable != null) {
                 Box(modifier = Modifier
                     .align(Alignment.CenterEnd)
-                    .padding(end = dimensionResource(id = R.dimen.size_12)),
+                    .padding(end = 12.dp),
                     contentAlignment = Alignment.Center
                 ){
                     Image(
@@ -298,7 +302,7 @@ private fun OptionBox(text: String, drawable: Int?, version: String?) {
                 Box(
                     modifier = Modifier
                         .align(Alignment.CenterEnd)
-                        .padding(end = dimensionResource(id = R.dimen.size_12))
+                        .padding(end = 12.dp)
                 ) {
                     TextBox(
                         text = version,
