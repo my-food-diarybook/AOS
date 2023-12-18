@@ -1,5 +1,6 @@
 package com.android.myfooddiarybookaos.TabMyAccount
 
+import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,21 +19,27 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.android.myfooddiarybookaos.data.TextBox
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.component.coloredInnerShadow
 import com.android.myfooddiarybookaos.data.robotoBold
 import com.android.myfooddiarybookaos.data.robotoRegular
+import com.android.myfooddiarybookaos.myaccount.viewModel.MyViewModel
 
 @Composable
-fun MyScreen() {
+fun MyScreen(
+    viewModel : MyViewModel = hiltViewModel()
+) {
 
     val scrollState = rememberScrollState()
-
+    val noticePagingItems = viewModel.noticeList.collectAsLazyPagingItems()
+    Log.d("wlejflewjlwefjflwe",noticePagingItems.itemSnapshotList.items.toString())
     Column {
         Box(
             modifier = Modifier
-                .height(dimensionResource(id = R.dimen.size_90))
+                .height(90.dp)
                 .fillMaxWidth()
                 .padding(bottom = 14.75.dp),
             contentAlignment = Alignment.BottomCenter

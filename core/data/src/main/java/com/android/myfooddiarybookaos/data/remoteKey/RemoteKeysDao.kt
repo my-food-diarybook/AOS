@@ -12,7 +12,7 @@ interface RemoteKeysDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertRemote(list : List<RemoteKeysEntity>)
 
-    @Query("SELECT * FROM remoteKey WHERE repoId = :id")
+    @Query("SELECT * FROM remoteKey WHERE id = :id")
     fun getRemoteKeys(id : Int) : RemoteKeysEntity
 
     @Query("DELETE FROM remoteKey")

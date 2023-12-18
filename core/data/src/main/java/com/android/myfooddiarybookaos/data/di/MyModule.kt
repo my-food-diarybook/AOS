@@ -6,12 +6,13 @@ import com.android.myfooddiarybookaos.data.dataMy.repository.NoticeRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
 
 
 @Module
-@InstallIn(ViewModelScoped::class)
-interface MyModule {
+@InstallIn(ViewModelComponent::class)
+object MyModule {
 
     @ViewModelScoped
     @Provides

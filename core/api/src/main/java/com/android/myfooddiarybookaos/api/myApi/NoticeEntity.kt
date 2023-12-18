@@ -1,10 +1,11 @@
 package com.android.myfooddiarybookaos.api.myApi
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-@Entity(tableName = "mainFeeds")
+@Entity(tableName = "myNotices")
 data class NoticeEntity(
-    val id: Int,
+    @PrimaryKey val id: Int,
     val title: String,
     val content: String,
     val available: Boolean,
