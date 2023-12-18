@@ -4,6 +4,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import androidx.room.withTransaction
 import com.android.myfooddiarybookaos.api.NetworkManager
 import com.android.myfooddiarybookaos.api.myApi.NoticeEntity
 import com.android.myfooddiarybookaos.api.remoteKey.RemoteKeysEntity
@@ -39,6 +40,27 @@ class MyRemoteMediator constructor(
         }
 
         try {
+            val response = manger.getPagingNotice(
+                startId = page,
+                size = state.config.pageSize
+            ).list
+
+            val endOfList = response.isEmpty()
+            db.withTransaction {
+                if (loadType == LoadType.REFRESH){
+                    db.remoteKeyDao().clearAll()
+                    db.getNoticeDao().clearAll()
+                }
+
+                val prevKey = if( page == startingPageIndex ) null else page - 1
+                val nextKey = if ( endOfList ) null else page + 1
+                val keys = response.map{
+                    RemoteKeysEntity(it.id,prevKey,nextKey)
+                }
+                db.remoteKeyDao().insertRemote(keys)
+                db.getNoticeDao().insert(response)
+            }
+            return MediatorResult.Success(endOfPaginationReached = endOfList)
 
         } catch (e: Exception){
             return MediatorResult.Error(e)
