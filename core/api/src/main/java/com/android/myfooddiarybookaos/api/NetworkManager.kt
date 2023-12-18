@@ -4,6 +4,7 @@ import android.content.Context
 import com.android.myfooddiarybookaos.api.diaryApi.DiaryPostRetrofitService
 import com.android.myfooddiarybookaos.api.diaryApi.DiaryRetrofitService
 import com.android.myfooddiarybookaos.api.diaryApi.TimeLineRetrofitService
+import com.android.myfooddiarybookaos.api.myApi.MyRetrofitService
 import com.android.myfooddiarybookaos.api.userApi.UserRetrofitService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -128,4 +129,7 @@ class NetworkManager(
 
     fun getTimeLineApiService():TimeLineRetrofitService =
         getRetrofit(context, CONTENT_APPLICATION).create(TimeLineRetrofitService::class.java)
+
+    fun getMyApiService(): MyRetrofitService =
+        getRetrofit(context,CONTENT_APPLICATION).create(MyRetrofitService::class.java)
 }

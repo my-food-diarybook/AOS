@@ -32,4 +32,6 @@
     <color name="login_weak_color_40">#668B90B9</color>
     <color name="image_select_color">#007AFF</color>
     <color name="color_day_of_weak">#1C1B1F</color>
+    <color name="notice_text_color">#181A1B</color>
+    <color name="notice_date_color">#7F8A94</color>
 </resources>

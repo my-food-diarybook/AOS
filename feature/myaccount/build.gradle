@@ -72,6 +72,12 @@ dependencies {
     implementation("com.google.dagger:hilt-android:$hilt_version")
     kapt("com.google.dagger:hilt-compiler:$hilt_version")
 
+    // paging dependencies 추가
+    implementation("androidx.paging:paging-runtime:$paging_version")
+    // optional - Jetpack Compose integration
+    implementation("androidx.paging:paging-compose:1.0.0-alpha17")
+
     implementation project(":core:data")
     implementation project(":core:model")
+    implementation project(":core:api")
 }
