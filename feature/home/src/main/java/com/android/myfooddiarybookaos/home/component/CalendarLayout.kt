@@ -15,13 +15,17 @@ import androidx.compose.ui.unit.sp
 
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.robotoRegular
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 private const val DAY_OF_WEAK = 7
 
 @Composable
 fun CalendarLayout(){
     Column(
-        modifier = Modifier.padding(horizontal = 12.dp)
+        modifier = Modifier.padding(
+            horizontal = 12.dp,
+            vertical = 91.dp
+        )
     ) {
         // 요일 뷰
         val dayList = listOf("S", "M", "T", "W", "T", "F", "S")
@@ -52,7 +56,7 @@ private fun DayLayer(text: String){
     ) {
         Text(
             text = text,
-            fontSize = 12.sp,
+            fontSize = 12.scaledSp(),
             fontFamily = robotoRegular,
             fontWeight = FontWeight(400),
             color = colorResource(id = R.color.color_day_of_weak),

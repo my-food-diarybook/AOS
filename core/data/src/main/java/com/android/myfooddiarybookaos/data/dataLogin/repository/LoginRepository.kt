@@ -75,7 +75,6 @@ class LoginRepository @Inject constructor(
                     }
                 })
         } catch (e: Exception){
-            Log.d("e",e.toString())
             result("네트워크 에러",null)
         }
     }

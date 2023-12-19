@@ -12,6 +12,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.core.data.R
+import com.android.myfooddiarybookaos.data.robotoBold
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 @Composable
 fun HomeDayTopLayer(
@@ -24,26 +26,26 @@ fun HomeDayTopLayer(
     ){
         Text(
             text = prevDate,
-            fontFamily = robotoRegular,
+            fontFamily = robotoBold,
             fontWeight = FontWeight.W500,
-            fontSize = 18.sp,
+            fontSize = 18.scaledSp(),
             color = colorResource(id = R.color.calender_next_color),
             modifier = Modifier.align(Alignment.Center)
         )
 
         Text(
             text = currentDate,
-            fontFamily = robotoRegular,
+            fontFamily = robotoBold,
             fontWeight = FontWeight.W500,
-            fontSize = 18.sp,
+            fontSize = 18.scaledSp(),
             color = Color.Black,
             modifier = Modifier.align(Alignment.Center)
         )
         Text(
             text = nextDate,
-            fontFamily = robotoRegular,
+            fontFamily = robotoBold,
             fontWeight = FontWeight.W500,
-            fontSize = 18.sp,
+            fontSize = 18.scaledSp(),
             color = colorResource(id = R.color.calender_next_color),
             modifier = Modifier.align(Alignment.Center)
         )
