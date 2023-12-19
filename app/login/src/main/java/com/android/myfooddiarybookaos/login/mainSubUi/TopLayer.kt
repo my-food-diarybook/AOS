@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.ui.theme.TextBox
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 @Composable
 fun TopLayout(){
@@ -35,14 +36,14 @@ fun TopLayout(){
             "식사일기",
             700,
             Font(R.font.roboto_bold),
-            22.sp,
+            22.scaledSp(),
             colorResource(id = R.color.main_color)
         )
         TextBox(
             "오늘 먹은 음식을 사진으로 기록하세요!",
             400,
             Font(R.font.roboto_serif_regular),
-            16.sp,
+            16.scaledSp(),
             colorResource(id = R.color.line_color_deep)
         )
         Spacer(modifier = Modifier.height(55.dp))

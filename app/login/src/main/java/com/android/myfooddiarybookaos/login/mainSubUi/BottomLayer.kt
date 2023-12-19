@@ -4,17 +4,24 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
+import com.android.myfooddiarybookaos.data.robotoLight
 import com.android.myfooddiarybookaos.data.ui.theme.TextBox
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 
 @Composable
@@ -33,8 +40,8 @@ fun BottomLayout(
                 text = "비밀번호 찾기",
                 fontWeight = 500,
                 fontFamily = Font(R.font.roboto_light),
-                14.sp,
-                colorResource(id = R.color.login_weak_color)
+                14.scaledSp(),
+                colorResource(id = R.color.login_weak_color),
             )
         }
         // 중앙 선 표현
@@ -53,7 +60,7 @@ fun BottomLayout(
                 text = "회원가입",
                 fontWeight = 500,
                 fontFamily = Font(R.font.roboto_light),
-                14.sp,
+                14.scaledSp(),
                 colorResource(id = R.color.login_weak_color)
             )
         }
@@ -79,7 +86,7 @@ fun BottomLayout(
             text ="또는" ,
             fontWeight =500 ,
             fontFamily = Font(R.font.roboto_light),
-            fontSize = 14.sp,
+            fontSize = 14.scaledSp(),
             color = colorResource(id = R.color.login_weak_color),
         )
         Spacer(modifier = Modifier.width(4.dp))
