@@ -27,6 +27,7 @@ import com.android.myfooddiarybookaos.data.TextBox
 import com.android.myfooddiarybookaos.data.robotoLight
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 import com.android.myfooddiarybookaos.home.viewModel.HomeViewModel
 import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 
@@ -103,39 +104,33 @@ fun SelectAddScreen(
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .background(
-                    colorResource(id = R.color.light_back_color),
+                    colorResource(id = R.color.back_color),
                     RoundedCornerShape(13.dp)
                 )
-                .padding()
-
         ) {
 
-            Spacer(
-                modifier = Modifier
-                    .height(12.dp)
-                    .background(colorResource(id = R.color.light_line_color))
-            )
+            Spacer(modifier = Modifier.height(12.dp))
 
-            TextBox(
+            Text(
                 text = "사진 추가",
-                fontWeight = 400,
+                fontWeight = FontWeight.W400,
                 fontFamily = robotoLight,
-                fontSize = 13.sp,
-                color = colorResource(id = R.color.light_text_color)
+                fontSize = 13.scaledSp(),
+                color = colorResource(id = R.color.light_text_color_60),
+                lineHeight = 18.scaledSp(),
+                letterSpacing = (-0.08).sp
             )
-            TextBox(
+            Text(
                 text = "사진 촬영 또는 사진 선택을 클릭해주세요.",
-                fontWeight = 400,
+                fontWeight = FontWeight.W400,
                 fontFamily = robotoLight,
-                fontSize = 13.sp,
-                color = colorResource(id = R.color.light_text_color)
+                fontSize = 13.scaledSp(),
+                color = colorResource(id = R.color.light_text_color_60),
+                lineHeight = 18.scaledSp(),
+                letterSpacing = (-0.08).sp
             )
 
-            Spacer(
-                modifier = Modifier
-                    .height(12.dp)
-                    .background(colorResource(id = R.color.light_line_color))
-            )
+            Spacer(modifier = Modifier.height(12.dp))
 
             Divider(
                 modifier = Modifier.height(1.dp),
@@ -146,6 +141,7 @@ fun SelectAddScreen(
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
+                    .fillMaxWidth()
                     .clickable {
                         permissionCameraLauncher.launch(
                             Manifest.permission.CAMERA
@@ -156,7 +152,7 @@ fun SelectAddScreen(
                     text = "사진 촬영",
                     fontWeight = FontWeight(400),
                     fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                    fontSize = 20.sp,
+                    fontSize = 20.scaledSp(),
                     color = colorResource(id = R.color.blue_text_color),
                     modifier = Modifier.padding(
                         top = 18.dp,
@@ -172,6 +168,7 @@ fun SelectAddScreen(
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
+                    .fillMaxWidth()
                     .clickable {
                         perMissionAlbumLauncher.launch(
                             Manifest.permission.READ_EXTERNAL_STORAGE
@@ -182,7 +179,7 @@ fun SelectAddScreen(
                     text = "사진 선택",
                     fontWeight = FontWeight(400),
                     fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                    fontSize = 20.sp,
+                    fontSize = 20.scaledSp(),
                     color = colorResource(id = R.color.blue_text_color),
                     modifier = Modifier.padding(
                         top = 18.dp,
@@ -212,7 +209,7 @@ fun SelectAddScreen(
                 text = "취소",
                 fontWeight = FontWeight(400),
                 fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                fontSize = 20.sp,
+                fontSize = 20.scaledSp(),
                 color = colorResource(id = R.color.blue_text_color),
                 modifier = Modifier
                     .padding(
