@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.data.TextBox
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.robotoRegular
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 @Composable
 fun NotDataView(){
@@ -26,16 +27,18 @@ fun NotDataView(){
             text = "등록한 식사일기가 없습니다.",
             fontWeight = 300,
             fontFamily = robotoRegular,
-            20.sp ,
-            color = colorResource(id = R.color.black)
+            20.scaledSp() ,
+            color = colorResource(id = R.color.black),
+            lineHeight = 20.scaledSp()
         )
         Spacer(modifier = Modifier.height(24.dp))
         TextBox(
             text = "오늘 먹은 식사를 사진으로 기록하세요.",
             fontWeight = 300,
             fontFamily = robotoRegular,
-            fontSize = 14.sp ,
-            color = colorResource(id = R.color.black)
+            fontSize = 14.scaledSp() ,
+            color = colorResource(id = R.color.black),
+            lineHeight = 20.scaledSp()
         )
         Spacer(modifier = Modifier.height(41.dp))
     }

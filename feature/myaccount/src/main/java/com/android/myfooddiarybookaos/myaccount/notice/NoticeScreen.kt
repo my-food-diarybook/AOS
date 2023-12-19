@@ -23,6 +23,7 @@ import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.TextBox
 import com.android.myfooddiarybookaos.data.component.coloredInnerShadow
 import com.android.myfooddiarybookaos.data.robotoBold
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 import com.android.myfooddiarybookaos.myaccount.notice.item.NoticeItem
 import com.android.myfooddiarybookaos.myaccount.viewModel.MyViewModel
 import java.util.*
@@ -84,7 +85,7 @@ fun NoticeScreen(
                         text = "공지사항",
                         fontWeight = 500,
                         fontFamily = robotoBold,
-                        fontSize = 18.sp,
+                        fontSize = 18.scaledSp(),
                         color = colorResource(id = R.color.black)
                     )
                 }

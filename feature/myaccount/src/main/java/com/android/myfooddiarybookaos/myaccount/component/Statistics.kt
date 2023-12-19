@@ -14,6 +14,7 @@ import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.TextBox
 import com.android.myfooddiarybookaos.data.robotoBold
 import com.android.myfooddiarybookaos.data.robotoRegular
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 @Composable
 fun Statistics() {
@@ -42,15 +43,17 @@ fun Statistics() {
                 text = "모든 식사 일기",
                 fontWeight = 400,
                 fontFamily = robotoRegular,
-                fontSize = 16.sp,
-                color = colorResource(id = R.color.black)
+                fontSize = 16.scaledSp(),
+                color = colorResource(id = R.color.black),
+                lineHeight = 16.scaledSp(),
             )
             TextBox(
                 text = "10",
                 fontWeight = 700,
                 fontFamily = robotoBold,
-                fontSize = 28.sp,
-                color = colorResource(id = R.color.main_color)
+                fontSize = 28.scaledSp(),
+                color = colorResource(id = R.color.main_color),
+                lineHeight = 28.scaledSp(),
             )
             Spacer(modifier = Modifier.height(12.dp))
             InDivider()

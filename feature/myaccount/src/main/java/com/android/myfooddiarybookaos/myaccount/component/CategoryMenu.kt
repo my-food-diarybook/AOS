@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.TextBox
 import com.android.myfooddiarybookaos.data.robotoRegular
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 @Composable
 fun CategoryMenu(text: String, count: Int) {
@@ -26,15 +27,17 @@ fun CategoryMenu(text: String, count: Int) {
                 text = text,
                 fontWeight = 500,
                 fontFamily = robotoRegular,
-                fontSize = 16.sp,
-                color = colorResource(id = R.color.black)
+                fontSize = 16.scaledSp(),
+                color = colorResource(id = R.color.black),
+                lineHeight = 24.scaledSp()
             )
             TextBox(
                 text = count.toString(),
                 fontWeight = 500,
                 fontFamily = robotoRegular,
-                fontSize = 28.sp,
-                color = colorResource(id = R.color.line_color_deep)
+                fontSize = 28.scaledSp(),
+                color = colorResource(id = R.color.line_color_deep),
+                lineHeight = 28.scaledSp()
             )
         }
     }
