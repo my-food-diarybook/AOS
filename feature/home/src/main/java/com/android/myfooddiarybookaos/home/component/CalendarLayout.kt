@@ -37,6 +37,7 @@ fun CalendarLayout(){
                 }
             }
         )
+        Spacer(modifier = Modifier.height(21.85.dp))
         // 캘린더
         MonthDataView()
     }
