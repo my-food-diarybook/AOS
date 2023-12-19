@@ -29,6 +29,7 @@ import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.robotoBold
 import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.data.ui.theme.EditTextBox
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 @Composable
 fun SetNewPassword(
@@ -65,7 +66,7 @@ fun SetNewPassword(
             Text(
                 "비밀번호 설정",
                 fontFamily = FontFamily(Font(R.font.roboto_bold, FontWeight.W700)),
-                fontSize = 18.sp,
+                fontSize = 18.scaledSp(),
                 color = colorResource(id = R.color._1A1D1D)
             )
         }
@@ -76,7 +77,7 @@ fun SetNewPassword(
                     "비밀번호를 변경하세요.",
             fontWeight = FontWeight.W700,
             fontFamily = robotoBold,
-            fontSize = 20.sp,
+            fontSize = 20.scaledSp(),
             color = colorResource(id = R.color._1A1D1D)
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -89,7 +90,7 @@ fun SetNewPassword(
         Text(
             text = if(isEqualCurrentPass.value || currentPass.value.text.isEmpty()) "" else "*비밀번호를 다시 확인해주세요.",
             fontWeight = FontWeight.W500,
-            fontSize = 12.sp,
+            fontSize = 12.scaledSp(),
             fontFamily = robotoRegular,
             color = colorResource(id = R.color.not_valid_text_color)
         )
@@ -115,10 +116,13 @@ fun SetNewPassword(
         // 변경 완료
         Surface( // 배경
             modifier = Modifier
-                .alpha(checkEnter),
+                .alpha(checkEnter)
+                .clickable {
+                           // new pass !
+                },
             shape = RoundedCornerShape(4.dp),
             border = BorderStroke(
-                dimensionResource(id = R.dimen.size_1),
+                1.dp,
                 colorResource(id = R.color.weak_color)
             ),
             color = colorResource(id = R.color.main_color)
@@ -127,7 +131,7 @@ fun SetNewPassword(
                 text = "변경 설정 완료",
                 fontFamily = FontFamily(Font(R.font.roboto_bold)),
                 fontWeight = FontWeight(700),
-                fontSize = 16.sp ,
+                fontSize = 16.scaledSp() ,
                 color = colorResource(id = R.color.white),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -157,7 +161,7 @@ fun Subject(text : String){
         text = text,
         fontWeight = FontWeight.W700,
         fontFamily = robotoBold,
-        fontSize = 14.sp,
+        fontSize = 14.scaledSp(),
         color = colorResource(id = R.color._1A1D1D)
     )
 }

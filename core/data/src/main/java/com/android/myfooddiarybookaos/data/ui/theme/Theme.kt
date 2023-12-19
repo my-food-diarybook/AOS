@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 private val DarkColorPalette = darkColors(
     primary = Purple200,
@@ -139,7 +140,7 @@ fun EditTextBox(
                         Text(
                             text = hintText,
                             color = colorResource(id = R.color.weak_color),
-                            fontSize = 14.sp,
+                            fontSize = 14.scaledSp(),
                         )
                     },
                     enabled = true,
