@@ -65,7 +65,7 @@ fun DetailTopLayer(
                 .padding(bottom = 14.75.dp),
             text = topDate,
             color = Color.Black,
-            fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W500)),
+            fontFamily = FontFamily(Font(R.font.roboto_bold, FontWeight.W500)),
             fontSize = 18.scaledSp(),
             lineHeight = 18.scaledSp(),
         )

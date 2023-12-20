@@ -24,6 +24,7 @@ import com.android.myfooddiarybookaos.model.image.GalleryImage
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.robotoBold
 import com.android.myfooddiarybookaos.data.robotoRegular
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 @Composable
 fun GalleryItemContent(
@@ -73,7 +74,7 @@ fun GalleryItemContent(
                 modifier = Modifier
                     .padding(top = 8.dp, end = 10.dp)
                     .size(24.dp)
-                    .border(color = multiColor, width = 1.dp,shape = CircleShape)
+                    .border(color = multiColor, width = 1.dp, shape = CircleShape)
                     .background(color = colorResource(id = R.color.main_color), shape = CircleShape)
                     .align(Alignment.TopEnd),
                 contentAlignment = Alignment.Center
@@ -83,8 +84,9 @@ fun GalleryItemContent(
                         text = selectIndex.toString(),
                         color = multiColor,
                         fontWeight = FontWeight.W500,
-                        fontSize = 18.sp,
-                        fontFamily = robotoRegular
+                        fontSize = 18.scaledSp(),
+                        fontFamily = robotoRegular,
+                        lineHeight = 18.scaledSp()
 
                     )
                 }

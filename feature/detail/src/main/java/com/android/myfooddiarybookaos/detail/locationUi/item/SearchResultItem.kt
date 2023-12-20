@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.core.data.R
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 @Composable
 fun SearchResultItem(
@@ -58,9 +59,10 @@ fun SearchResultItem(
                 }
             },
             fontFamily = robotoRegular,
-            fontSize = 18.sp,
+            fontSize =  18.scaledSp(),
             fontWeight = FontWeight.W500,
-            color = Color.Black
+            color = Color.Black,
+            lineHeight = 18.scaledSp()
         )
 
         Row(
@@ -70,9 +72,10 @@ fun SearchResultItem(
             Text(
                 text = place.address_name,
                 fontWeight = FontWeight.W500,
-                fontSize = 12.sp,
+                fontSize = 12.scaledSp(),
                 fontFamily = robotoRegular,
-                color = colorResource(id = R.color.line_color_deep)
+                color = colorResource(id = R.color.line_color_deep),
+                lineHeight = 12.scaledSp(),
             )
             Spacer(modifier = Modifier.width(5.dp))
             Divider(
@@ -85,9 +88,10 @@ fun SearchResultItem(
             Text(
                 text = placeDistance,
                 fontWeight = FontWeight.W500,
-                fontSize = 12.sp,
+                fontSize = 12.scaledSp(),
                 fontFamily = robotoRegular,
-                color = colorResource(id = R.color.line_color_deep)
+                color = colorResource(id = R.color.line_color_deep),
+                lineHeight = 12.scaledSp(),
             )
         }
     }

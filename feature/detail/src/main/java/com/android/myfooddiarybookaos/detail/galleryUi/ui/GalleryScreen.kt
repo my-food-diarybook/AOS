@@ -17,6 +17,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.android.myfooddiarybookaos.data.state.AddScreenState
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 import com.android.myfooddiarybookaos.detail.galleryUi.component.GalleryItemContent
 import com.android.myfooddiarybookaos.detail.galleryUi.component.GalleryTopBar
 import com.android.myfooddiarybookaos.detail.viewModel.DetailViewModel
@@ -69,7 +70,7 @@ fun GalleryScreen(
             Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.Center) {
                 Text(
                     text = "이미지가 존재하지 않습니다.",
-                    fontSize = 19.sp,
+                    fontSize = 19.scaledSp(),
                     color = Color.White,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()

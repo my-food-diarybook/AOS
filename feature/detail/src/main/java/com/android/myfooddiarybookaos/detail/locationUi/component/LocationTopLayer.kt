@@ -15,10 +15,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
+import com.android.myfooddiarybookaos.data.robotoRegular
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -103,6 +107,13 @@ fun LocationTopLayer(
                 .wrapContentHeight(),
             interactionSource = interactionSource,
             cursorBrush = SolidColor(Color.Black),
+            textStyle = TextStyle(
+                color = Color.Black,
+                fontSize = 16.scaledSp(),
+                lineHeight = 16.scaledSp(),
+                fontWeight = FontWeight.W300,
+                fontFamily = robotoRegular
+            )
         ) {
             TextFieldDefaults.TextFieldDecorationBox(
                 value = userInput,
@@ -113,7 +124,10 @@ fun LocationTopLayer(
                     Text(
                         text = "위치 검색",
                         color = colorResource(id = R.color.weak_color),
-                        fontSize = 14.sp,
+                        fontSize = 16.scaledSp(),
+                        lineHeight = 16.scaledSp(),
+                        fontWeight = FontWeight.W300,
+                        fontFamily = robotoRegular
                     )
                 },
                 enabled = true,
