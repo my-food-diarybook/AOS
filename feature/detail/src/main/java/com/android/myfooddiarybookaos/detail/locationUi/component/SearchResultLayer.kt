@@ -25,7 +25,7 @@ fun SearchResultLayer(
         modifier = Modifier.padding(
             start = 53.dp, end = 19.dp, top = 20.dp
         ),
-        verticalArrangement = Arrangement.spacedBy(4.dp),
+        verticalArrangement = Arrangement.spacedBy(11.dp),
     ) {
         searchResult.value?.let { results ->
             items(results) { place ->

@@ -8,6 +8,9 @@ import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import com.android.myfooddiarybookaos.model.map.Place
 import androidx.compose.material.Text
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,11 +32,21 @@ fun SearchResultItem(
     place: Place,
     onSelected: () -> Unit
 ) {
-    val placeDistance =
-        if (place.distance == null) ""
-        else (place.distance!!.toDouble() / 1000).toInt().toString() + "km"
-    val indexList = query.indexOfAll(place.place_name)
-    val currentTextSize = place.place_name.length
+    val placeDistance by remember {
+        mutableStateOf(
+            getDistance(place.distance)
+        )
+    }
+    val indexList by remember {
+        mutableStateOf(
+            query.indexOfAll(place.place_name)
+        )
+    }
+    val currentTextSize by remember {
+        mutableStateOf(
+            place.place_name.length
+        )
+    }
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -41,25 +54,36 @@ fun SearchResultItem(
             .clickable { onSelected() }
     ) {
         Text(
-            text = buildAnnotatedString { 
-                if (indexList.isEmpty()) { append(place.place_name) }
-                else {
-                    indexList.forEach{ idx ->
+            text = buildAnnotatedString {
+                if (indexList.isEmpty()) {
+                    append(place.place_name)
+                } else {
+                    indexList.forEach { idx ->
                         withStyle(
                             SpanStyle(color = colorResource(id = R.color.main_color))
-                        ){
-                            append(place.place_name.substring(indexList[idx],indexList[idx]+currentTextSize))
+                        ) {
+                            append(
+                                place.place_name.substring(
+                                    indexList[idx],
+                                    indexList[idx] + currentTextSize
+                                )
+                            )
                         }
-                        if (idx == indexList.size -1 ){
-                            append(place.place_name.substring(indexList[idx]+currentTextSize))
+                        if (idx == indexList.size - 1) {
+                            append(place.place_name.substring(indexList[idx] + currentTextSize))
                         } else {
-                            append(place.place_name.substring(indexList[idx]+currentTextSize,indexList[idx+1]))
+                            append(
+                                place.place_name.substring(
+                                    indexList[idx] + currentTextSize,
+                                    indexList[idx + 1]
+                                )
+                            )
                         }
                     }
                 }
             },
             fontFamily = robotoRegular,
-            fontSize =  18.scaledSp(),
+            fontSize = 18.scaledSp(),
             fontWeight = FontWeight.W500,
             color = Color.Black,
             lineHeight = 18.scaledSp()
@@ -97,13 +121,21 @@ fun SearchResultItem(
     }
 }
 
-fun String.indexOfAll(str: String): MutableList<Int>{
+fun String.indexOfAll(str: String): MutableList<Int> {
     var index = this.indexOf(str)
     val returnIndex = mutableListOf<Int>()
 
-    while (index != -1){
+    while (index != -1) {
         returnIndex.add(index)
-        index = this.indexOf(str,index+1)
+        index = this.indexOf(str, index + 1)
     }
     return returnIndex
+}
+
+fun getDistance(input: String? ): String {
+    return try {
+        (input!!.toDouble() / 1000).toInt().toString() + "km"
+    } catch (e: java.lang.Exception){
+      ""
+    }
 }

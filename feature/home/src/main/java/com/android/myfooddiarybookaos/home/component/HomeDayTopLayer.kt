@@ -35,7 +35,7 @@ fun HomeDayTopLayer(
 
         Text(
             text = currentDate,
-            fontFamily = robotoBold,
+            fontFamily = robotoRegular,
             fontWeight = FontWeight.W500,
             fontSize = 18.scaledSp(),
             color = Color.Black,
