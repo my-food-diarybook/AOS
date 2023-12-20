@@ -1,31 +1,42 @@
 package com.android.myfooddiarybookaos.TabSearch
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.Layout.NotDataView
 import com.android.myfooddiarybookaos.core.data.R
+import com.android.myfooddiarybookaos.data.robotoRegular
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 @Composable
 fun SearchScreen() {
     Column {
         Box(
             modifier = Modifier.padding(
-                bottom = dimensionResource(id = R.dimen.size_13),
+                bottom = 13.dp,
             ),
             contentAlignment = Alignment.BottomCenter
         ) {
@@ -47,72 +58,134 @@ fun SearchScreen() {
 
 // 검색 기록 뷰
 @Composable
-private fun SearchData(){
+private fun SearchData() {
 
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun SearchBox() {
-    var text by remember {
-        mutableStateOf(TextFieldValue(""))
-    }
+    val searchQuery = remember { mutableStateOf(TextFieldValue("")) }
     // 검색 아이콘
+    val leadingIconView = @Composable {
+        IconButton(
+            onClick = {}
+        ) {
+            if (searchQuery.value.text.isEmpty()) {
+                Box(
+                    modifier = Modifier
+                        .size(40.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.search_icon),
+                        contentDescription = "",
+                        tint = Color.Black
+                    )
+                }
+            } else {
+                Box(
+                    modifier = Modifier
+                        .size(40.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.main_left),
+                        contentDescription = "",
+                        tint = Color.Black
+                    )
+                }
+            }
+        }
+    }
+
     val trailingIconView = @Composable {
         IconButton(
             onClick = {}
         ) {
-            Box(modifier = Modifier
-                .size(dimensionResource(id = R.dimen.size_40)),
-                contentAlignment = Alignment.Center
-            ){
-                Icon(
-                    painter = painterResource(id = R.drawable.search_icon),
-                    contentDescription = "",
-                    tint = Color.Black
-                )
+            if (searchQuery.value.text.isEmpty()) {
+                Box(modifier = Modifier.size(30.dp))
+            } else {
+                Box(
+                    modifier = Modifier
+                        .size(30.dp)
+                        .clickable {
+                            searchQuery.value = TextFieldValue("")
+                        },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.close_24px_copy),
+                        contentDescription = "",
+                        tint = Color.Black
+                    )
+                }
             }
         }
     }
 
     Surface( // 배경
-        shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_4)),
+        shape = RoundedCornerShape(4.dp),
         border = BorderStroke(
-            dimensionResource(id = R.dimen.size_1),
+            1.dp,
             colorResource(id = R.color.black)
         ),
         color = colorResource(id = R.color.white),
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                start = dimensionResource(id = R.dimen.size_20),
-                end = dimensionResource(id = R.dimen.size_20),
-                top = dimensionResource(id = R.dimen.size_33),
-                bottom = dimensionResource(id = R.dimen.size_13)
+                start = 20.dp,
+                end = 20.dp,
+                top = 33.dp,
+                bottom = 13.dp
             )
     ) {
-        TextField(
-            value = text,
-            onValueChange = { newText -> text = newText }, //값 변경 시 동작
-            colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = colorResource(id = R.color.white),
-                textColor = colorResource(id = R.color.black)
-            ),
-            placeholder = {
-                Text(
-                    text = "식사일기 검색",
-                    color = colorResource(id = R.color.calender_next_color),
-                    fontSize = 16.sp,
-                )
+
+        val interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
+        BasicTextField(
+            value = searchQuery.value,
+            onValueChange = {
+                searchQuery.value = it
             },
-            // 맨 앞 아이콘
-            leadingIcon = trailingIconView
-        )
+            textStyle = TextStyle(
+                fontWeight = FontWeight.W300,
+                fontSize = 16.scaledSp(),
+                fontFamily = robotoRegular,
+                color = Color.Black,
+                lineHeight = 16.scaledSp(),
+
+                ),
+            modifier = Modifier.fillMaxWidth().wrapContentHeight(),
+            cursorBrush = SolidColor(Color.Black),
+            interactionSource = interactionSource,
+        ) {
+            TextFieldDefaults.TextFieldDecorationBox(
+                value = searchQuery.value.text,
+                innerTextField = it,
+                enabled = true,
+                singleLine = true,
+                visualTransformation = VisualTransformation.None,
+                interactionSource = interactionSource,
+                placeholder = {
+                    Text(
+                        text = "식사일기 검색",
+                        fontWeight = FontWeight.W300,
+                        fontFamily = robotoRegular,
+                        color = colorResource(id = R.color.calender_next_color),
+                        fontSize = 16.scaledSp(),
+                        lineHeight = 16.scaledSp(),
+                    )
+                },
+                trailingIcon =  trailingIconView,
+                leadingIcon =  leadingIconView
+            )
+        }
     }
 }
 
 
 @Preview
 @Composable
-fun SearchScreenPreview(){
+fun SearchScreenPreview() {
     SearchScreen()
 }
