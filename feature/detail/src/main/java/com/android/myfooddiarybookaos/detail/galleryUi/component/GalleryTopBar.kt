@@ -81,7 +81,7 @@ fun GalleryTopBar(
         DropdownMenu(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.DarkGray)
+                .background(Color.White)
                 .border(
                     BorderStroke(1.dp, Color.White.copy(alpha = 0.8f))
                 ),
