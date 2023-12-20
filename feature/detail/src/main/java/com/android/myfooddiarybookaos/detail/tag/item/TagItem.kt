@@ -12,6 +12,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 @Composable
 fun TagItem(
@@ -26,8 +27,9 @@ fun TagItem(
         Text(
             text = "#$text",
             fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W500)),
-            fontSize = 18.sp,
+            fontSize = 18.scaledSp(),
             color = Color.Black,
+            lineHeight = 18.scaledSp()
         )
     }
 }

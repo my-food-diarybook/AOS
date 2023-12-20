@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.function.DiaryTime
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 import com.android.myfooddiarybookaos.model.detail.DiaryDetail
 
 @Composable
@@ -39,8 +40,9 @@ fun DetailMenuTime(
             Text(
                 color = colorResource(id = R.color.main_color),
                 text = DiaryTime.getDiaryTimeData(timeData),
-                fontSize = 20.sp,
-                fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W100))
+                fontSize = 20.scaledSp(),
+                fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W100)),
+                lineHeight = 18.scaledSp()
             )
         }
     }

@@ -9,6 +9,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 import com.android.myfooddiarybookaos.model.detail.DiaryDetail
 
 @Composable
@@ -20,15 +21,17 @@ fun DetailMemo(
         Text(
             text = "메모 남기기",
             fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W500)),
-            fontSize = 18.sp,
-            color = colorResource(id = R.color.calender_next_color)
+            fontSize = 18.scaledSp(),
+            color = colorResource(id = R.color.calender_next_color),
+            lineHeight = 18.scaledSp()
         )
     } else {
         Text(
             text = memo,
             fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W500)),
-            fontSize = 18.sp,
+            fontSize = 18.scaledSp(),
             color = Color.Black,
+            lineHeight = 18.scaledSp()
         )
     }
 }

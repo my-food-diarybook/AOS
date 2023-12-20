@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.state.AddScreenState
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 import com.android.myfooddiarybookaos.detail.popup.DetailPopupScreen
 import com.android.myfooddiarybookaos.detail.viewModel.DetailViewModel
 import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
@@ -65,12 +66,13 @@ fun DetailTopLayer(
             text = topDate,
             color = Color.Black,
             fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W500)),
-            fontSize = 18.sp
+            fontSize = 18.scaledSp(),
+            lineHeight = 18.scaledSp(),
         )
 
         Surface(
             modifier = Modifier
-                .padding(end = 5.dp, bottom = 2.dp)
+                .padding( bottom = 2.dp)
                 .align(Alignment.BottomEnd)
         ) {
             Box(

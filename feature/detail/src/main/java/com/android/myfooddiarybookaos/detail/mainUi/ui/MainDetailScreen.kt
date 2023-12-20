@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -32,6 +34,7 @@ fun MainDetailScreen(
     currentViewState: MutableState<DiaryViewState>,
     detailViewModel: DetailViewModel = hiltViewModel()
 ) {
+    val scrollState = rememberScrollState()
     val diaryDetail = detailViewModel.diaryDetail.collectAsState().value
     val pagerState = rememberPagerState(pageCount = { diaryDetail.images.size })
     // 다이어리 업데이트
@@ -73,19 +76,23 @@ fun MainDetailScreen(
                 currentViewState.value = DiaryViewState.MEMO
             }
         )
-        ImageSliderScreen(diaryDetail.images, pagerState)
-        Surface(
-            modifier = Modifier.padding(start = 21.dp, top = 25.dp)
+        Column(
+            modifier = Modifier.verticalScroll(scrollState)
         ) {
-            DetailMenuTime(diaryDetail = diaryDetail)
-        }
-        Spacer(modifier = Modifier.height(10.dp))
-        DetailData(
-            diaryDetail,
-            fixMemo = {
-                initMemo()
-                currentViewState.value = DiaryViewState.MEMO
+            ImageSliderScreen(diaryDetail.images, pagerState)
+            Surface(
+                modifier = Modifier.padding(start = 21.dp, top = 25.dp)
+            ) {
+                DetailMenuTime(diaryDetail = diaryDetail)
             }
-        )
+            Spacer(modifier = Modifier.height(10.dp))
+            DetailData(
+                diaryDetail,
+                fixMemo = {
+                    initMemo()
+                    currentViewState.value = DiaryViewState.MEMO
+                }
+            )
+        }
     }
 }
