@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.data.robotoBold
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 import com.android.myfooddiarybookaos.detail.mainUi.item.OneDetailImage
 import com.android.myfooddiarybookaos.model.image.Image
 
@@ -67,10 +68,11 @@ fun ImageSliderScreen(
                 ) {
                     Text(
                         text = "${pagerState.currentPage + 1} / ${images.size}",
-                        fontSize = 18.sp,
+                        fontSize = 18.scaledSp(),
                         fontFamily = robotoBold,
                         fontWeight = FontWeight.W700,
-                        color = Color.White
+                        color = Color.White,
+                        lineHeight = 18.scaledSp(),
                     )
                 }
             }

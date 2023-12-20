@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.state.AddScreenState
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 import com.android.myfooddiarybookaos.detail.popup.DetailPopupScreen
 import com.android.myfooddiarybookaos.detail.viewModel.DetailViewModel
 import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
@@ -36,90 +37,95 @@ fun DetailTopLayer(
     Box(
         Modifier
             .height(90.dp)
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        contentAlignment = Alignment.BottomCenter
     ) {
-        Surface(
-            modifier = Modifier
-                .padding(start = 5.dp, bottom = 2.dp)
-                .align(Alignment.BottomStart)
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
         ) {
-            Box(
+            Surface(
                 modifier = Modifier
-                    .size(44.dp)
-                    .clickable {
-                        detailViewModel.goBack()
-                    },
-                contentAlignment = Alignment.Center
+                    .padding(start = 5.dp)
+                    .align(Alignment.CenterStart)
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.main_left),
-                    contentDescription = null
-                )
+                Box(
+                    modifier = Modifier
+                        .size(44.dp)
+                        .clickable {
+                            detailViewModel.goBack()
+                        },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.main_left),
+                        contentDescription = null
+                    )
+                }
+            }
+
+            Text(
+                modifier = Modifier
+                    .align(Alignment.Center),
+                text = topDate,
+                color = Color.Black,
+                fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W500)),
+                fontSize = 18.scaledSp(),
+                lineHeight = 18.scaledSp(),
+            )
+
+            Surface(
+                modifier = Modifier
+                    .padding(bottom = 2.dp)
+                    .align(Alignment.CenterEnd)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(44.dp)
+                        .clickable {
+                            popUpState.value = true
+                        },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.more_vert_24px),
+                        contentDescription = null
+                    )
+                }
+
+                if (popUpState.value) {
+                    DetailPopupScreen(
+                        popUpState,
+                        fixImage = {
+                            popUpState.value = false
+                            detailViewModel.diaryState.value
+                                ?.addScreenState
+                                ?.value = AddScreenState.FIX_IMAGE_IN_DETAIL
+                            detailViewModel.appState.value
+                                ?.navController
+                                ?.navigate("${ScreenRoot.GALLERY}/false")
+                        },
+                        addImage = {
+                            popUpState.value = false
+                            detailViewModel.diaryState.value
+                                ?.addScreenState
+                                ?.value = AddScreenState.ADD_IMAGE_IN_DETAIL
+                            detailViewModel.appState.value
+                                ?.navController
+                                ?.navigate("${ScreenRoot.GALLERY}/true")
+                        },
+                        fixMemo = {
+                            popUpState.value = false
+                            memoFixState()
+                        },
+                        deleteDiary = {
+                            popUpState.value = false
+                            detailViewModel.deleteDiary()
+                        }
+                    )
+                }
             }
         }
-
-        Text(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 14.75.dp),
-            text = topDate,
-            color = Color.Black,
-            fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W500)),
-            fontSize = 18.sp
-        )
-
-        Surface(
-            modifier = Modifier
-                .padding(end = 5.dp, bottom = 2.dp)
-                .align(Alignment.BottomEnd)
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(44.dp)
-                    .clickable {
-                        popUpState.value = true
-                    },
-                contentAlignment = Alignment.Center
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.more_vert_24px),
-                    contentDescription = null
-                )
-            }
-
-            if (popUpState.value){
-                DetailPopupScreen(
-                    popUpState,
-                    fixImage = {
-                        popUpState.value = false
-                        detailViewModel.diaryState.value
-                            ?.addScreenState
-                            ?.value = AddScreenState.FIX_IMAGE_IN_DETAIL
-                        detailViewModel.appState.value
-                            ?.navController
-                            ?.navigate("${ScreenRoot.GALLERY}/false")
-                    },
-                    addImage = {
-                        popUpState.value = false
-                        detailViewModel.diaryState.value
-                            ?.addScreenState
-                            ?.value = AddScreenState.ADD_IMAGE_IN_DETAIL
-                        detailViewModel.appState.value
-                            ?.navController
-                            ?.navigate("${ScreenRoot.GALLERY}/true")
-                    },
-                    fixMemo = {
-                        popUpState.value = false
-                        memoFixState()
-                    },
-                    deleteDiary = {
-                        popUpState.value = false
-                        detailViewModel.deleteDiary()
-                    }
-                )
-            }
-        }
-
 
     }
 }

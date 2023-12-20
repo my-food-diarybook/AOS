@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.data.ui.theme.EditTextBox
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 @Composable
 fun PasswordPolicyLayer(
@@ -54,7 +55,7 @@ fun PasswordPolicyLayer(
                 fontWeight = FontWeight.W500,
                 fontFamily = robotoRegular,
                 color = passLenColorState,
-                fontSize=12.sp
+                fontSize=12.scaledSp()
             )
             Spacer(modifier = Modifier.width(12.dp))
 
@@ -70,7 +71,7 @@ fun PasswordPolicyLayer(
                 fontWeight = FontWeight.W500,
                 fontFamily = robotoRegular,
                 color = passAccurateState,
-                fontSize=12.sp
+                fontSize=12.scaledSp()
             )
         }
 
@@ -85,7 +86,7 @@ fun PasswordPolicyLayer(
         Text(
             text = if(isSamePass.value)"" else "*비밀번호가 일치하지 않습니다.",
             fontWeight = FontWeight.W500,
-            fontSize = 12.sp,
+            fontSize = 12.scaledSp(),
             fontFamily = robotoRegular,
             color = colorResource(id = R.color.not_valid_text_color)
         )

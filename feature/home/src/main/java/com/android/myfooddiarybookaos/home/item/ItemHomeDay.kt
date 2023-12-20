@@ -29,6 +29,7 @@ import com.android.myfooddiarybookaos.data.component.customOuterShadow
 import com.android.myfooddiarybookaos.data.function.DiaryTime
 import com.android.myfooddiarybookaos.model.home.HomeDay
 import com.android.myfooddiarybookaos.data.path.byteStringToBitmap
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 @Composable
 fun ItemHomeDay(
@@ -36,7 +37,6 @@ fun ItemHomeDay(
     clickDiary: () -> Unit
 ) {
 
-    // 여기 태그 수정 필요
     val homeDayTags =
         if (homeDay.tags.isNotEmpty()) "#" +
                 homeDay.tags.joinToString(" #")
@@ -72,25 +72,22 @@ fun ItemHomeDay(
                     contentScale = ContentScale.Crop,
                     onSuccess = {}
                 )
-//                Image(
-//                    painter = rememberAsyncImagePainter(imageBitmap ),
-//                    contentDescription = null
-//                )
-
 
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.CenterStart) {
                     Column(modifier = Modifier.padding(start = 8.dp)) {
                         Text(
                             text = DiaryTime.getDiaryTimeData(homeDay.diaryTime),
                             fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W500)),
-                            fontSize = 16.sp,
+                            fontSize = 16.scaledSp(),
                             color = Color.Black,
+                            lineHeight = 16.scaledSp()
                         )
                         Text(
                             text = homeDayTags,
                             fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W500)),
-                            fontSize = 12.sp,
+                            fontSize = 12.scaledSp(),
                             color = colorResource(id = R.color.main_color),
+                            lineHeight = 12.scaledSp()
                         )
                     }
                 }

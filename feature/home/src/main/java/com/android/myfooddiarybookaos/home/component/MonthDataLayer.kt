@@ -1,10 +1,13 @@
 package com.android.myfooddiarybookaos.home.component
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 import com.android.myfooddiarybookaos.data.state.AddScreenState
@@ -31,6 +34,8 @@ fun MonthDataView(
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(DAY_OF_WEAK),
+        verticalArrangement = Arrangement.spacedBy(20.dp),
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
         content = {
             items(calendarDataList.value.size) { index ->
                 val currentDiary = homeViewModel.getCurrentDiary(
@@ -56,7 +61,7 @@ fun MonthDataView(
                     imageByte = currentDiary?.bytes
                 )
             }
-        }
+        },
     )
 }
 

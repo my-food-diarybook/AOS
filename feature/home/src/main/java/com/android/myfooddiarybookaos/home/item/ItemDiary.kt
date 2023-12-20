@@ -26,6 +26,8 @@ import androidx.compose.ui.layout.ContentScale
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.android.myfooddiarybookaos.data.path.byteStringToBitmap
+import com.android.myfooddiarybookaos.data.robotoRegular
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 @Composable
 fun ItemDiary(
@@ -67,8 +69,8 @@ fun ItemDiary(
             Text(
                 text = dayDate.day.toString(),
                 fontWeight = FontWeight(400),
-                fontFamily = robotoBold,
-                fontSize = 12.sp,
+                fontFamily = robotoRegular,
+                fontSize = 12.scaledSp(),
                 color = textView,
             )
         }
@@ -78,6 +80,7 @@ fun ItemDiary(
                 model = imageState,
                 contentDescription = null,
                 modifier = Modifier
+                    .fillMaxSize()
                     .clip(RoundedCornerShape(4.dp)),
                 contentScale = ContentScale.Crop,
                 onSuccess = {}

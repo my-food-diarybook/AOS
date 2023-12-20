@@ -30,6 +30,7 @@ import androidx.navigation.compose.rememberNavController
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.data.ui.theme.EditTextBox
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 import com.android.myfooddiarybookaos.login.passUi.PasswordPolicyLayer
 import com.android.myfooddiarybookaos.login.passUi.Subject
 import com.android.myfooddiarybookaos.login.viewModel.LoginViewModel
@@ -52,7 +53,10 @@ fun InsertScreen(
     var goMainResult by remember {
         mutableStateOf(false)
     }
-    if (goMainResult) viewModel.goMain(LocalContext.current.applicationContext)
+    if (goMainResult) {
+        viewModel.goMain(LocalContext.current.applicationContext)
+        goMainResult = false
+    }
 
     Column(
         modifier = Modifier
@@ -64,18 +68,23 @@ fun InsertScreen(
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.pass_left_side),
-                contentDescription = null,
-                modifier = Modifier.clickable {
-                    navController.popBackStack()
-                }
-            )
+            Box(modifier = Modifier.size(24.dp)){
+                Image(
+                    painter = painterResource(id = R.drawable.pass_left_side),
+                    contentDescription = null,
+                    modifier = Modifier.clickable {
+                        navController.popBackStack()
+                    }
+                )
+            }
+
             Spacer(modifier = Modifier.width(4.dp))
             Text(
                 "회원가입",
                 fontFamily = FontFamily(Font(R.font.roboto_bold, FontWeight.W700)),
-                fontSize = 18.sp,
+                fontWeight = FontWeight.W700,
+                lineHeight = 21.scaledSp(),
+                fontSize = 18.scaledSp(),
                 color = colorResource(id = R.color._1A1D1D)
             )
         }
@@ -98,7 +107,7 @@ fun InsertScreen(
             subjectName = "비밀번호"
         )
         
-        Spacer(modifier = Modifier.height(30.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         CheckBox(allCheckBox,"전체 약관동의",FontWeight.W700)
         serviceCheckBox.value = allCheckBox.value
         userInfoCheckBox.value = allCheckBox.value
@@ -134,7 +143,7 @@ fun InsertScreen(
 
             shape = RoundedCornerShape(4.dp),
             border = BorderStroke(
-                dimensionResource(id = R.dimen.size_1),
+                1.dp,
                 colorResource(id = R.color.weak_color)
             ),
             color = colorResource(id = R.color.main_color)
@@ -143,7 +152,7 @@ fun InsertScreen(
                 text = "가입하기",
                 fontFamily = FontFamily(Font(R.font.roboto_bold)),
                 fontWeight = FontWeight(700),
-                fontSize = 16.sp ,
+                fontSize = 16.scaledSp() ,
                 color = colorResource(id = R.color.white),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -153,6 +162,7 @@ fun InsertScreen(
                         bottom = 10.5.dp
                     ),
                 textAlign = TextAlign.Center, // 중앙
+                lineHeight = 23.scaledSp()
             )
         }
     }
@@ -192,7 +202,7 @@ fun CheckBox(
         Text(
             text = text,
             fontFamily = robotoRegular,
-            fontSize = 14.sp,
+            fontSize = 14.scaledSp(),
             color = colorResource(id = R.color._1A1D1D),
             fontWeight = fontWeight
         )

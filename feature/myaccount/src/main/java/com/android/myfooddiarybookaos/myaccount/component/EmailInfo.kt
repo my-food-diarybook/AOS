@@ -13,6 +13,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 @Composable
 fun EmailInfo(email: String) {
@@ -32,11 +33,12 @@ fun EmailInfo(email: String) {
             Text(
                 text = email,
                 fontWeight = FontWeight(500),
-                fontSize = 20.sp,
+                fontSize = 20.scaledSp(),
                 color = colorResource(id = R.color.black),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                lineHeight = 24.scaledSp()
             )
         }
 

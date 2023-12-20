@@ -74,8 +74,7 @@ fun HomeScreen(
         TopCalendarLayout()
         // mid calendar
         Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
+            modifier = Modifier.fillMaxSize()
         ) {
             CalendarLayout()
         }

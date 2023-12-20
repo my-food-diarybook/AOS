@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.robotoRegular
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 @Composable
 fun CurrentLocationItem(
@@ -22,16 +23,18 @@ fun CurrentLocationItem(
 ) {
     Box(
         modifier = Modifier
-            .fillMaxWidth().wrapContentHeight()
+            .fillMaxWidth()
+            .wrapContentHeight()
             .clickable { onSelected() },
         contentAlignment = Alignment.CenterStart
     ) {
         Text(
             text = place.place_name,
             fontWeight = FontWeight.W500,
-            fontSize = 18.sp,
+            fontSize = 18.scaledSp(),
             color = colorResource(id = R.color.calender_next_color),
-            fontFamily = robotoRegular
+            fontFamily = robotoRegular,
+            lineHeight =  18.scaledSp()
         )
     }
 }

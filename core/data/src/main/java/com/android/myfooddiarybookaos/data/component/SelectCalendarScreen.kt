@@ -22,6 +22,7 @@ import com.android.myfooddiarybookaos.data.TextBox
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 import com.android.myfooddiarybookaos.data.robotoBold
 import com.android.myfooddiarybookaos.data.utils.HomeUtils
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 import com.android.myfooddiarybookaos.model.MonthDate
 
@@ -85,8 +86,9 @@ fun SelectCalendarScreen(
             TextBox(
                 text = "$currentYear",600,
                 robotoBold,
-                36.sp,
-                colorResource(id = R.color.black)
+                36.scaledSp(),
+                colorResource(id = R.color.black),
+                lineHeight = 18.scaledSp()
             )
             Spacer(modifier = Modifier.width(41.dp))
             Box(
@@ -166,8 +168,9 @@ private fun ItemMonth(
             text = month.month.toString() + "월",
             700,
             robotoBold,
-            20.sp,
-            color = textViewColor
+            20.scaledSp(),
+            color = textViewColor,
+            lineHeight = 18.scaledSp()
         )
     }
 }

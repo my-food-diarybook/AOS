@@ -24,6 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.data.ui.theme.EditTextBox
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 import com.android.myfooddiarybookaos.login.viewModel.LoginViewModel
 
 @Composable
@@ -58,7 +59,7 @@ fun MidLayout(
             color = colorResource(id = R.color.not_valid_text_color),
             fontFamily = robotoRegular,
             fontWeight = FontWeight(500),
-            fontSize = 12.sp
+            fontSize = 12.scaledSp()
         )
         Spacer(modifier = Modifier.height(7.dp))
 
@@ -100,7 +101,7 @@ fun MidLayout(
                 text = "로그인",
                 fontFamily = FontFamily(Font(R.font.roboto_bold)),
                 fontWeight = FontWeight(700),
-                fontSize = 16.sp ,
+                fontSize = 16.scaledSp() ,
                 color = colorResource(id = R.color.white),
                 modifier = Modifier
                     .fillMaxWidth()

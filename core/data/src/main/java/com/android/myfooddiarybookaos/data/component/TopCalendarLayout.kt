@@ -18,6 +18,7 @@ import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.TextBox
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 import com.android.myfooddiarybookaos.data.robotoBold
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 import java.util.*
 
 
@@ -69,8 +70,9 @@ fun TopCalendarLayout(
                         ".${currentCalendar.get(Calendar.MONTH).plus(1)}",
                 fontWeight = 700,
                 fontFamily = robotoBold,
-                fontSize = 34.sp,
-                color = colorResource(id = R.color.black)
+                fontSize = 34.scaledSp(),
+                color = colorResource(id = R.color.black),
+                lineHeight = 34.scaledSp()
             )
             Spacer(modifier = Modifier.width(1.59.dp))
             Box(

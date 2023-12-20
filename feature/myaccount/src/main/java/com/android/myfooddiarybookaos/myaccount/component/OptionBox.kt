@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.TextBox
 import com.android.myfooddiarybookaos.data.robotoRegular
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 @Composable
 fun OptionBox(text: String, drawable: Int?, version: String?) {
@@ -45,8 +46,9 @@ fun OptionBox(text: String, drawable: Int?, version: String?) {
                     text = text,
                     fontWeight = 500,
                     fontFamily = robotoRegular,
-                    fontSize = 20.sp,
-                    color = colorResource(id = R.color.black)
+                    fontSize = 20.scaledSp(),
+                    color = colorResource(id = R.color.black),
+                    lineHeight = 24.scaledSp()
                 )
             }
 
@@ -76,8 +78,9 @@ fun OptionBox(text: String, drawable: Int?, version: String?) {
                         text = version,
                         fontWeight = 500,
                         fontFamily = robotoRegular,
-                        fontSize = 20.sp,
-                        color = colorResource(id = R.color.black)
+                        fontSize = 20.scaledSp(),
+                        color = colorResource(id = R.color.black),
+                        lineHeight = 24.scaledSp()
                     )
                 }
             }

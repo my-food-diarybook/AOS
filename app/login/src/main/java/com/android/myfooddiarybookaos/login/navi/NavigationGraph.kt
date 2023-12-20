@@ -14,13 +14,13 @@ import com.android.myfooddiarybookaos.login.passUi.SetNewPassword
 fun NavigationGraph(navController : NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = "splashScreen"
+        startDestination = LoginScreenRoot.SPLASH
     ){
-        composable("splashScreen"){ SplashScreen(navController)}
-        composable("loginScreen"){ LoginScreen(navController) }
-        composable("findPassScreen"){ FindPassScreen(navController) }
-        composable("newPassScreen"){ SetNewPassword(navController = navController, realPass = "sample")}
-        composable("insertUserScreen"){ InsertScreen(navController = navController)}
+        composable(LoginScreenRoot.SPLASH){ SplashScreen(navController)}
+        composable(LoginScreenRoot.LOGIN_MAIN){ LoginScreen(navController) }
+        composable(LoginScreenRoot.FIND_PASSWORD){ FindPassScreen(navController) }
+        composable(LoginScreenRoot.NEW_PASSWORD){ SetNewPassword(navController = navController, realPass = "sample")}
+        composable(LoginScreenRoot.INSERT){ InsertScreen(navController = navController)}
     }
 
 }

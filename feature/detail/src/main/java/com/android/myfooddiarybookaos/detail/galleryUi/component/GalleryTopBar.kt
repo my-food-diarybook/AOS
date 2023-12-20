@@ -20,6 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 @Composable
 fun GalleryTopBar(
@@ -65,9 +66,9 @@ fun GalleryTopBar(
             Text(
                 text = currentDirectory.first,
                 color = Color.Black,
-                fontSize = 18.sp,
+                fontSize = 18.scaledSp(),
                 fontWeight = FontWeight.SemiBold,
-                lineHeight = 18.sp
+                lineHeight = 18.scaledSp()
             )
             Icon(
                 painterResource(id = R.drawable.bottom_arrow),
@@ -81,7 +82,7 @@ fun GalleryTopBar(
         DropdownMenu(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.DarkGray)
+                .background(Color.White)
                 .border(
                     BorderStroke(1.dp, Color.White.copy(alpha = 0.8f))
                 ),
@@ -107,9 +108,9 @@ fun GalleryTopBar(
             text = "완료",
             color = if (nothingSelected) Color.Gray.copy(alpha = 0.7f)
             else colorResource(id = R.color.main_color),
-            fontSize = 18.sp,
+            fontSize = 18.scaledSp(),
             fontWeight = FontWeight.SemiBold,
-            lineHeight = 18.sp,
+            lineHeight = 18.scaledSp(),
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(

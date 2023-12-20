@@ -23,6 +23,7 @@ import com.android.myfooddiarybookaos.data.TextBox
 import com.android.myfooddiarybookaos.data.component.coloredInnerShadow
 import com.android.myfooddiarybookaos.data.robotoBold
 import com.android.myfooddiarybookaos.data.robotoRegular
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 
 @Composable
@@ -55,17 +56,17 @@ fun NoticeItem(
                     fontFamily = robotoBold,
                     fontWeight = 500,
                     text = notice.title,
-                    fontSize = 16.sp,
+                    fontSize = 16.scaledSp(),
                     color = colorResource(id = R.color.notice_text_color),
-                    lineHeight = 24.sp
+                    lineHeight = 24.scaledSp()
                 )
                 TextBox(
                     fontFamily = robotoRegular,
                     fontWeight = 500,
                     text = notice.noticeAt,
-                    fontSize = 12.sp,
+                    fontSize = 12.scaledSp(),
                     color = colorResource(id = R.color.notice_date_color),
-                    lineHeight = 18.sp
+                    lineHeight = 18.scaledSp()
                 )
             }
             Spacer(modifier = Modifier.width(12.dp))

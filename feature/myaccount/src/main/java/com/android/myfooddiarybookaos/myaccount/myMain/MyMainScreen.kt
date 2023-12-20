@@ -19,6 +19,7 @@ import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.TextBox
 import com.android.myfooddiarybookaos.data.component.coloredInnerShadow
 import com.android.myfooddiarybookaos.data.robotoRegular
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 import com.android.myfooddiarybookaos.myaccount.component.EmailInfo
 import com.android.myfooddiarybookaos.myaccount.component.OptionBox
 import com.android.myfooddiarybookaos.myaccount.component.Statistics
@@ -44,8 +45,9 @@ fun MyMainScreen(
                 text = "마이",
                 fontWeight = 500,
                 fontFamily = robotoRegular,
-                fontSize = 18.sp,
+                fontSize = 18.scaledSp(),
                 color = colorResource(id = R.color.black),
+                lineHeight = 18.scaledSp(),
             )
         }
         Divider(modifier = Modifier

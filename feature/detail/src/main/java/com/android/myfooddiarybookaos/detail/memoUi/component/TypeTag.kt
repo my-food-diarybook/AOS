@@ -26,6 +26,7 @@ import com.android.myfooddiarybookaos.detail.tag.TagLayer
 import com.android.myfooddiarybookaos.model.detail.Tag
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.Dp
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -41,21 +42,26 @@ fun TypeTag(
         else Color.Black
     )
     Row(
-        modifier = Modifier.fillMaxWidth().wrapContentHeight()
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
     ) {
         Text(
             text = "#",
             fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W500)),
-            fontSize = 18.sp,
+            fontSize = 18.scaledSp(),
             color = tagColor.value,
+            lineHeight = 18.scaledSp(),
         )
+
         BasicTextField(
             value = newTagText.value,
             onValueChange = { newTagText.value = it },
             textStyle = TextStyle(
                 fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W500)),
-                fontSize = 18.sp,
+                fontSize = 18.scaledSp(),
                 color = Color.Black,
+                lineHeight = 18.scaledSp(),
             ),
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(onDone = {
@@ -71,9 +77,10 @@ fun TypeTag(
                     Text(
                         text = "태그",
                         fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W500)),
-                        fontSize = 18.sp,
+                        fontSize = 18.scaledSp(),
                         color = colorResource(id = R.color.calender_next_color),
                         maxLines = 1,
+                        lineHeight = 18.scaledSp(),
                     )
                 }
                 innerTextField()

@@ -2,6 +2,7 @@ package com.android.myfooddiarybookaos.login.passUi
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.robotoBold
 import com.android.myfooddiarybookaos.data.robotoRegular
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 @Composable
 fun SuccessFindEmailScreen(
@@ -44,12 +46,13 @@ fun SuccessFindEmailScreen(
         ) {
             Text(
                 "임시 비밀번호 발급 완료",
-                fontSize = 16.sp,
+                fontSize = 16.scaledSp(),
                 fontFamily = robotoBold,
                 fontWeight = FontWeight.W700,
                 color = colorResource(id = R.color.text_dark),
                 modifier = Modifier.width(276.dp),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                lineHeight = 27.scaledSp()
             )
 
             Spacer(modifier = Modifier.height(28.dp))
@@ -71,7 +74,7 @@ fun SuccessFindEmailScreen(
                                 "비밀번호를 변경해 주세요."
                     )
                 },
-                fontSize = 18.sp,
+                fontSize = 18.scaledSp(),
                 textAlign = TextAlign.Center,
                 fontFamily = robotoRegular,
                 fontWeight = FontWeight.W500,
@@ -88,14 +91,17 @@ fun SuccessFindEmailScreen(
                     .background(
                         color = colorResource(id = R.color.main_color),
                         shape = RoundedCornerShape(4.dp)
-                    ),
+                    )
+                    .clickable {
+                               // login !
+                    },
                 contentAlignment = Alignment.Center
             ) {
                 Text(
                     "로그인 하기",
                     fontWeight = FontWeight.W700,
                     fontFamily = robotoBold,
-                    fontSize = 17.sp,
+                    fontSize = 17.scaledSp(),
                     color = Color.White,
                     textAlign = TextAlign.Center,
                     modifier = Modifier

@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.data.function.DiaryTime
 import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.core.data.R
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 @Composable
 fun DiaryTimeData(
@@ -48,10 +49,11 @@ fun DiaryTimeData(
         ) {
             Text(
                 text = diaryTime.getNameCode(),
-                fontSize = 20.sp,
+                fontSize = 20.scaledSp(),
                 fontFamily = robotoRegular,
                 fontWeight = FontWeight.W100,
-                color = colorResource(id = R.color.main_color)
+                color = colorResource(id = R.color.main_color),
+                lineHeight = 18.scaledSp(),
             )
         }
     } else {
@@ -70,10 +72,11 @@ fun DiaryTimeData(
         ) {
             Text(
                 text = diaryTime.getNameCode(),
-                fontSize = 20.sp,
+                fontSize = 20.scaledSp(),
                 fontFamily = robotoRegular,
                 fontWeight = FontWeight.W100,
-                color = colorResource(id = R.color.line_color_deep)
+                color = colorResource(id = R.color.line_color_deep),
+                lineHeight = 18.scaledSp(),
             )
         }
     }
