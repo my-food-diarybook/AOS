@@ -8,6 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.clickable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.detail.function.DiaryViewState
 import com.android.myfooddiarybookaos.detail.mainUi.component.DetailLocation
@@ -24,6 +26,8 @@ fun DetailMemoScreen(
     currentViewState: MutableState<DiaryViewState>,
     detailViewModel: DetailViewModel = hiltViewModel()
 ) {
+
+
     // 뒤로가기 제어
     BackHandler(enabled = true, onBack = {
         currentViewState.value = DiaryViewState.MAIN

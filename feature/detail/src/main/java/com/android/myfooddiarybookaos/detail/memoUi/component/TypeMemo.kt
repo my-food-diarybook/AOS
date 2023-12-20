@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 @Composable
 fun TypeMemo(
@@ -31,8 +32,9 @@ fun TypeMemo(
         },
         textStyle = TextStyle(
             fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W500)),
-            fontSize = 18.sp,
+            fontSize = 18.scaledSp(),
             color = Color.Black,
+            lineHeight = 18.scaledSp(),
         ),
         modifier = Modifier
             .wrapContentHeight()
@@ -43,8 +45,9 @@ fun TypeMemo(
                 Text(
                     text = "메모 남기기",
                     fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W500)),
-                    fontSize = 18.sp,
+                    fontSize = 18.scaledSp(),
                     color = colorResource(id = R.color.calender_next_color),
+                    lineHeight = 18.scaledSp(),
                 )
             }
             innerTextField()

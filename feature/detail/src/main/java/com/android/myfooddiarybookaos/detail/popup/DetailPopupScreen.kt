@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.component.customOuterShadow
 import com.android.myfooddiarybookaos.data.robotoRegular
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 import com.android.myfooddiarybookaos.model.detail.DiaryDetail
 
 @Composable
@@ -60,10 +61,12 @@ fun DetailPopupScreen(
                     ) {
                         Text(
                             text = "사진 수정",
-                            fontSize = 14.sp,
+                            fontSize = 14.scaledSp(),
                             color = colorResource(id = R.color.text_dark),
                             fontFamily = robotoRegular,
-                            fontWeight = FontWeight.W500
+                            fontWeight = FontWeight.W500,
+                            lineHeight = 16.scaledSp()
+
                         )
                     }
                     Box(
@@ -76,10 +79,11 @@ fun DetailPopupScreen(
                     ) {
                         Text(
                             text = "사진 추가",
-                            fontSize = 14.sp,
+                            fontSize = 14.scaledSp(),
                             color = colorResource(id = R.color.text_dark),
                             fontFamily = robotoRegular,
-                            fontWeight = FontWeight.W500
+                            fontWeight = FontWeight.W500,
+                            lineHeight = 16.scaledSp()
                         )
                     }
                     Box(
@@ -92,10 +96,11 @@ fun DetailPopupScreen(
                     ) {
                         Text(
                             text = "메모 수정",
-                            fontSize = 14.sp,
+                            fontSize = 14.scaledSp(),
                             color = colorResource(id = R.color.text_dark),
                             fontFamily = robotoRegular,
-                            fontWeight = FontWeight.W500
+                            fontWeight = FontWeight.W500,
+                            lineHeight = 16.scaledSp()
                         )
                     }
                     Box(
@@ -108,10 +113,11 @@ fun DetailPopupScreen(
                     ) {
                         Text(
                             text = "일기 삭제",
-                            fontSize = 14.sp,
+                            fontSize = 14.scaledSp(),
                             color = colorResource(id = R.color.not_valid_text_color),
                             fontFamily = robotoRegular,
-                            fontWeight = FontWeight.W500
+                            fontWeight = FontWeight.W500,
+                            lineHeight = 16.scaledSp()
                         )
                     }
                 }

@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.component.coloredInnerShadow
 import com.android.myfooddiarybookaos.data.robotoRegular
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 @Composable
 fun MemoTopLayer(
@@ -55,10 +56,11 @@ fun MemoTopLayer(
         ) {
             Text(
                 text = "완료",
-                fontSize = 18.sp,
+                fontSize = 18.scaledSp(),
                 color = colorResource(id = R.color.line_color_deep),
                 fontWeight = FontWeight.W500,
-                fontFamily = robotoRegular
+                fontFamily = robotoRegular,
+                lineHeight = 18.scaledSp()
             )
         }
     }
