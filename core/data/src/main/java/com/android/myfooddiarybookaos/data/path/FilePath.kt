@@ -5,9 +5,11 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.util.Base64
+import androidx.annotation.RequiresApi
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -47,6 +49,7 @@ fun getVideoFilePath(context: Context, contentUri: Uri): String {
 }
 
 // document (문서)에 등록 된 파일을 찾음
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("Recycle", "Range")
 fun getMultipartFromUri(
     context: Context,

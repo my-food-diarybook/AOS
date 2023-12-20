@@ -1,6 +1,8 @@
 package com.android.myfooddiarybookaos.data.dataCalendar.viewModel
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import com.android.myfooddiarybookaos.data.dataCalendar.repository.CustomCalendarRepository
 import com.android.myfooddiarybookaos.data.dataCalendar.repository.TodayRepository
@@ -39,6 +41,7 @@ class TodayViewModel @Inject constructor(
         return calendarRepository.getData(todayRepository.currentCalendar.time)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun getTodayDate(): String {
         val now: LocalDateTime = LocalDateTime.now()
         return now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
@@ -52,6 +55,7 @@ class TodayViewModel @Inject constructor(
         return SimpleDateFormat(dateFormat).format(date.time)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun getTopDate(date: String?): String {
         if (date == null || date == "") return ""
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")

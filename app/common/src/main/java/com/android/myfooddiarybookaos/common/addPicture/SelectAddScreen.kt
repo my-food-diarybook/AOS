@@ -178,7 +178,7 @@ fun SelectAddScreen(
                             )
                         } else{
                             perMissionAlbumLauncher.launch(
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                                Manifest.permission.READ_EXTERNAL_STORAGE
                             )
                         }
                     }
