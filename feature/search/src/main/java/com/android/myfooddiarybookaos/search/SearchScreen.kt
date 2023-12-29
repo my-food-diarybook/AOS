@@ -30,7 +30,10 @@ import com.android.myfooddiarybookaos.Layout.NotDataView
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.data.utils.scaledSp
+import com.android.myfooddiarybookaos.search.component.PagingCategoryComponent
+import com.android.myfooddiarybookaos.search.component.PagingDiaryComponent
 import com.android.myfooddiarybookaos.search.component.SearchBox
+import com.android.myfooddiarybookaos.search.component.SearchCategoryComponent
 import com.android.myfooddiarybookaos.search.state.SearchState
 
 @Composable
@@ -39,7 +42,16 @@ fun SearchScreen() {
     val searchQuery = remember { mutableStateOf(TextFieldValue("")) }
     val categoryName = remember { mutableStateOf("") }
     val categoryType = remember { mutableStateOf("") }
-    val searchState = remember { SearchState.MAIN_SEARCH }
+    val searchState = remember {
+        if (searchQuery.value.text.isEmpty()) SearchState.MAIN_SEARCH
+        else {
+            if (categoryName.value.isEmpty()) {
+                SearchState.QUERY_SEARCH
+            } else {
+                SearchState.DIARY_SEARCH
+            }
+        }
+    }
     Column {
         Box(
             modifier = Modifier
@@ -61,9 +73,19 @@ fun SearchScreen() {
                 .verticalScroll(rememberScrollState())
 
         ) {
-            // 데이터 없음 표시
-            NotDataView()
-//            SearchData()
+
+            when (searchState) {
+                SearchState.MAIN_SEARCH -> {
+                    NotDataView()
+                    PagingCategoryComponent()
+                }
+                SearchState.QUERY_SEARCH -> {
+                    SearchCategoryComponent()
+                }
+                SearchState.DIARY_SEARCH -> {
+                    PagingDiaryComponent()
+                }
+            }
         }
     }
 }
@@ -73,7 +95,6 @@ fun SearchScreen() {
 private fun SearchData() {
 
 }
-
 
 
 @Preview

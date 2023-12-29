@@ -1,4 +1,7 @@
 package com.android.myfooddiarybookaos.search.component
 
-class PagingDiaryComponent {
+import androidx.compose.runtime.Composable
+
+@Composable
+fun PagingDiaryComponent() {
 }
