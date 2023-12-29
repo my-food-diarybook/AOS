@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -27,8 +28,9 @@ import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun SearchBox() {
-    val searchQuery = remember { mutableStateOf(TextFieldValue("")) }
+fun SearchBox(
+    searchQuery : MutableState<TextFieldValue>
+) {
     // 검색 아이콘
     val leadingIconView = @Composable {
         IconButton(

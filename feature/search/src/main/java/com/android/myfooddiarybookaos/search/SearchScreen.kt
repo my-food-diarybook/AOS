@@ -31,9 +31,15 @@ import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.data.utils.scaledSp
 import com.android.myfooddiarybookaos.search.component.SearchBox
+import com.android.myfooddiarybookaos.search.state.SearchState
 
 @Composable
 fun SearchScreen() {
+
+    val searchQuery = remember { mutableStateOf(TextFieldValue("")) }
+    val categoryName = remember { mutableStateOf("") }
+    val categoryType = remember { mutableStateOf("") }
+    val searchState = remember { SearchState.MAIN_SEARCH }
     Column {
         Box(
             modifier = Modifier
@@ -46,7 +52,7 @@ fun SearchScreen() {
                 ),
             contentAlignment = Alignment.BottomCenter
         ) {
-            SearchBox()
+            SearchBox(searchQuery)
         }
 
         Surface(
