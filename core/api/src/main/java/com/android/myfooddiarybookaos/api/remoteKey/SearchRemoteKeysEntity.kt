@@ -3,8 +3,8 @@ package com.android.myfooddiarybookaos.api.remoteKey
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "remoteKey")
-data class RemoteKeysEntity(
+@Entity(tableName = "search_remoteKey")
+data class SearchRemoteKeysEntity(
     @PrimaryKey
     val id : Int,
     val prevKey : Int?,
