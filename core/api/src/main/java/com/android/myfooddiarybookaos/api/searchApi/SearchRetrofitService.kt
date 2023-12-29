@@ -11,18 +11,18 @@ interface SearchRetrofitService {
     @GET("search/condition")
     suspend fun searchCondition(
         @Query("searchCond") searchCond: String
-    ): Response<List<SearchCategory>>
+    ): List<SearchCategory>
 
     @GET("search")
     suspend fun searchShow(
         @Query("offset") offset: Int
-    ): Response<List<SearchCategory>>
+    ): List<SearchCategory>
 
     @GET("search/more-diary")
     suspend fun searchMoreDiary(
         @Query("categoryName") categoryName: String,
         @Query("categoryType") categoryType: String,
         @Query("offset") offset: Int
-    ): Response<List<SearchDiary>>
+    ): List<SearchDiary>
 
 }

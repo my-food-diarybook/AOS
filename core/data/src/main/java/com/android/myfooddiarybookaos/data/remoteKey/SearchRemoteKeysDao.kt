@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.android.myfooddiarybookaos.api.remoteKey.MyRemoteKeysEntity
-import com.android.myfooddiarybookaos.api.remoteKey.SearchRemoteKeysEntity
 
 
 @Dao
