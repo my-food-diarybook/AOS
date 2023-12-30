@@ -66,6 +66,8 @@ fun SearchScreen() {
         ) {
             SearchBox(searchQuery)
         }
+        
+        Spacer(modifier = Modifier.height(26.dp))
 
         Surface(
             modifier = Modifier
@@ -89,13 +91,6 @@ fun SearchScreen() {
         }
     }
 }
-
-// 검색 기록 뷰
-@Composable
-private fun SearchData() {
-
-}
-
 
 @Preview
 @Composable
