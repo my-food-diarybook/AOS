@@ -4,5 +4,5 @@ import java.io.Serializable
 
 data class Statistics(
    val diaryTime: String,
-   val count: String
+   val count: Int
 ): Serializable
