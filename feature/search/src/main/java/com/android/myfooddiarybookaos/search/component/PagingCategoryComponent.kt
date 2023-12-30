@@ -1,11 +1,12 @@
 package com.android.myfooddiarybookaos.search.component
 
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -20,10 +21,6 @@ fun PagingCategoryComponent(
     viewModel: SearchViewModel = hiltViewModel()
 ) {
 
-    LaunchedEffect(Unit){
-        viewModel.getPagingCategories()
-    }
-
     val pagingItems = viewModel.pagingCategoryList.collectAsLazyPagingItems()
 
 
@@ -31,7 +28,11 @@ fun PagingCategoryComponent(
         NotDataView()
     }else {
         LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(28.dp)
+            verticalArrangement = Arrangement.spacedBy(28.dp),
+            modifier = Modifier
+                .wrapContentHeight()
+                .fillMaxWidth()
+                .padding(bottom = 100.dp, top = 26.dp)
         ){
             items(pagingItems.itemSnapshotList){
                 it?.let {

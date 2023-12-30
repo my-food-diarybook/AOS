@@ -25,18 +25,21 @@ import androidx.compose.ui.unit.dp
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.data.utils.scaledSp
+import com.android.myfooddiarybookaos.search.state.SearchState
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SearchBox(
-    searchQuery : MutableState<TextFieldValue>
+    searchQuery: MutableState<TextFieldValue>,
+    searchState: MutableState<SearchState>,
+    onQueryChange: () -> Unit
 ) {
     // 검색 아이콘
     val leadingIconView = @Composable {
         IconButton(
             onClick = {}
         ) {
-            if (searchQuery.value.text.isEmpty()) {
+            if (searchState.value == SearchState.MAIN_SEARCH) {
                 Box(
                     modifier = Modifier
                         .size(40.dp),
@@ -51,7 +54,15 @@ fun SearchBox(
             } else {
                 Box(
                     modifier = Modifier
-                        .size(40.dp),
+                        .size(40.dp)
+                        .clickable {
+                            if (searchState.value == SearchState.DIARY_SEARCH){
+                                searchState.value = SearchState.QUERY_SEARCH
+                            } else if (searchState.value == SearchState.QUERY_SEARCH){
+                                searchQuery.value =  TextFieldValue("")
+                                searchState.value = SearchState.MAIN_SEARCH
+                            }
+                        },
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
@@ -106,6 +117,7 @@ fun SearchBox(
             value = searchQuery.value,
             onValueChange = {
                 searchQuery.value = it
+                onQueryChange()
             },
             textStyle = TextStyle(
                 fontWeight = FontWeight.W300,

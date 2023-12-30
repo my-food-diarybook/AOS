@@ -1,60 +1,40 @@
 package com.android.myfooddiarybookaos.TabSearch
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.android.myfooddiarybookaos.Layout.NotDataView
-import com.android.myfooddiarybookaos.core.data.R
-import com.android.myfooddiarybookaos.data.robotoRegular
-import com.android.myfooddiarybookaos.data.utils.scaledSp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.android.myfooddiarybookaos.data.state.ApplicationState
+import com.android.myfooddiarybookaos.data.state.DiaryState
+import com.android.myfooddiarybookaos.search.SearchViewModel
 import com.android.myfooddiarybookaos.search.component.PagingCategoryComponent
 import com.android.myfooddiarybookaos.search.component.PagingDiaryComponent
 import com.android.myfooddiarybookaos.search.component.SearchBox
 import com.android.myfooddiarybookaos.search.component.SearchCategoryComponent
 import com.android.myfooddiarybookaos.search.state.SearchState
+import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 
 @Composable
-fun SearchScreen() {
+fun SearchScreen(
+    appState: ApplicationState,
+    diaryState: DiaryState,
+    viewModel: SearchViewModel = hiltViewModel()
+) {
 
     val searchQuery = remember { mutableStateOf(TextFieldValue("")) }
     val categoryName = remember { mutableStateOf("") }
     val categoryType = remember { mutableStateOf("") }
-    val searchState = remember {
-        if (searchQuery.value.text.isEmpty()) SearchState.MAIN_SEARCH
-        else {
-            if (categoryName.value.isEmpty()) {
-                SearchState.QUERY_SEARCH
-            } else {
-                SearchState.DIARY_SEARCH
-            }
-        }
+    val searchState = remember { mutableStateOf(SearchState.MAIN_SEARCH) }
+
+    if (searchQuery.value.text.isNotEmpty() && searchState.value != SearchState.DIARY_SEARCH) {
+        searchState.value = SearchState.QUERY_SEARCH
     }
-    if (searchQuery.value.text.isEmpty()){
-        categoryName.value = ""
-        categoryType.value = ""
+    if (searchQuery.value.text.isEmpty()) {
+        searchState.value = SearchState.MAIN_SEARCH
     }
 
     Column {
@@ -69,49 +49,53 @@ fun SearchScreen() {
                 ),
             contentAlignment = Alignment.BottomCenter
         ) {
-            SearchBox(searchQuery)
+            SearchBox(
+                searchQuery,
+                searchState,
+                onQueryChange = {
+                    viewModel.getSearchData(searchQuery.value.text)
+                }
+            )
         }
-        
-        Spacer(modifier = Modifier.height(26.dp))
-
-        Surface(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-
-        ) {
-
-            when (searchState) {
-                SearchState.MAIN_SEARCH -> {
-                    PagingCategoryComponent(
-                        searchSelect = {
-
-                        }
-                    )
+        when (searchState.value) {
+            SearchState.MAIN_SEARCH -> {
+                LaunchedEffect(Unit) {
+                    viewModel.getPagingCategories()
                 }
-                SearchState.QUERY_SEARCH -> {
-                    SearchCategoryComponent(
-                        searchSelect = {
-
-                        }
-                    )
-                }
-                SearchState.DIARY_SEARCH -> {
-                    PagingDiaryComponent(
-                        categoryName = categoryName,
-                        categoryType = categoryType,
-                        selectDiary = {
-
-                        }
-                    )
-                }
+                PagingCategoryComponent(
+                    searchSelect = {
+                        categoryName.value = it.categoryName
+                        categoryType.value = it.categoryType
+                        searchState.value = SearchState.DIARY_SEARCH
+                        searchQuery.value = TextFieldValue(it.categoryName)
+                    }
+                )
+            }
+            SearchState.QUERY_SEARCH -> {
+                SearchCategoryComponent(
+                    searchSelect = {
+                        categoryName.value = it.categoryName
+                        categoryType.value = it.categoryType
+                        searchState.value = SearchState.DIARY_SEARCH
+                        searchQuery.value = TextFieldValue(it.categoryName)
+                    }
+                )
+            }
+            SearchState.DIARY_SEARCH -> {
+                searchQuery.value = TextFieldValue(categoryName.value)
+                viewModel.getPagingDiaries(
+                    categoryName.value,
+                    categoryType.value
+                )
+                PagingDiaryComponent(
+                    categoryName = categoryName,
+                    selectDiary = {
+                        diaryState.setDiaryDetail(it.diaryId)
+                        appState.navController.navigate(ScreenRoot.DETAIL_DIARY)
+                    }
+                )
             }
         }
-    }
-}
 
-@Preview
-@Composable
-fun SearchScreenPreview() {
-    SearchScreen()
+    }
 }

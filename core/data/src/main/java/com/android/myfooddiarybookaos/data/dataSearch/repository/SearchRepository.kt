@@ -29,7 +29,7 @@ class SearchRepository @Inject constructor(
         }
     }
 
-    suspend fun getMoreSearchData(
+    fun getMoreSearchData(
 
     ): Flow<PagingData<SearchCategory>> {
         return Pager(
@@ -39,7 +39,7 @@ class SearchRepository @Inject constructor(
         }.flow
     }
 
-    suspend fun getSearchDiary(
+    fun getSearchDiary(
         categoryName: String,
         categoryType: String,
     ): Flow<PagingData<SearchDiary>> {

@@ -59,7 +59,7 @@ fun ItemSearchCategory(
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             items(searchCategory.diaryList) { item ->
-                ItemSearchDiary(searchDiary = item, select = {})
+                ItemSearchDiary(searchDiary = item, select = { select() })
             }
         }
     }

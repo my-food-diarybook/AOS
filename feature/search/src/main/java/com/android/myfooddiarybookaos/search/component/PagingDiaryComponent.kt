@@ -1,5 +1,6 @@
 package com.android.myfooddiarybookaos.search.component
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -24,22 +25,23 @@ import com.android.myfooddiarybookaos.search.item.ItemSearchDiary
 @Composable
 fun PagingDiaryComponent(
     categoryName: MutableState<String>,
-    categoryType: MutableState<String>,
     selectDiary: (SearchDiary) -> Unit,
     viewModel: SearchViewModel = hiltViewModel()
 ) {
 
-    LaunchedEffect(Unit){
-        viewModel.getPagingDiaries(
-            categoryName.value,
-            categoryType.value
-        )
-    }
 
     val pagingItems = viewModel.pagingDiaryList.collectAsLazyPagingItems()
 
     Column(
-        modifier = Modifier.padding(horizontal = 6.dp)
+        modifier = Modifier
+            .padding(
+                top = 26.dp,
+                start = 6.dp,
+                end = 6.dp,
+                bottom = 100.dp
+            )
+            .wrapContentHeight()
+            .fillMaxWidth()
     ) {
 
         Row(
@@ -84,5 +86,6 @@ fun PagingDiaryComponent(
                 }
             }
         )
+
     }
 }
