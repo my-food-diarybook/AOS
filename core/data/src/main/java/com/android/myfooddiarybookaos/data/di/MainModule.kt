@@ -78,9 +78,9 @@ object MainModule {
         @ApplicationContext context: Context
     ) = SearchRepository(networkManager,context)
 
-    @ViewModelScoped
     @Provides
-    fun provideNoticeRepository(
+    @ViewModelScoped
+    fun bindNoticeRepository(
         myDatabase: MyDatabase,
         networkManager: NetworkManager
     ) = NoticeRepository(myDatabase,networkManager)

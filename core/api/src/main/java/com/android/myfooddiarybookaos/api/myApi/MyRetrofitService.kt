@@ -1,5 +1,6 @@
 package com.android.myfooddiarybookaos.api.myApi
 
+import com.android.myfooddiarybookaos.model.statistics.StatisticsList
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -10,4 +11,9 @@ interface MyRetrofitService {
         @Query("startId") startId: Int,
         @Query("size") size : Int,
     ): NoticeData
+
+    @GET("user/statistics")
+    suspend fun getUserStatistics(): StatisticsList
+
+
 }
