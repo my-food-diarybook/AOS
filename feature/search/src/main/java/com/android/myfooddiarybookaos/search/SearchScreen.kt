@@ -52,6 +52,11 @@ fun SearchScreen() {
             }
         }
     }
+    if (searchQuery.value.text.isEmpty()){
+        categoryName.value = ""
+        categoryType.value = ""
+    }
+
     Column {
         Box(
             modifier = Modifier
@@ -78,14 +83,27 @@ fun SearchScreen() {
 
             when (searchState) {
                 SearchState.MAIN_SEARCH -> {
-                    NotDataView()
-                    PagingCategoryComponent()
+                    PagingCategoryComponent(
+                        searchSelect = {
+
+                        }
+                    )
                 }
                 SearchState.QUERY_SEARCH -> {
-                    SearchCategoryComponent()
+                    SearchCategoryComponent(
+                        searchSelect = {
+
+                        }
+                    )
                 }
                 SearchState.DIARY_SEARCH -> {
-                    PagingDiaryComponent()
+                    PagingDiaryComponent(
+                        categoryName = categoryName,
+                        categoryType = categoryType,
+                        selectDiary = {
+
+                        }
+                    )
                 }
             }
         }
