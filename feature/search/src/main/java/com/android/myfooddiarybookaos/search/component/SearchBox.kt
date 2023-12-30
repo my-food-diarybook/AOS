@@ -56,12 +56,7 @@ fun SearchBox(
                     modifier = Modifier
                         .size(40.dp)
                         .clickable {
-                            if (searchState.value == SearchState.DIARY_SEARCH){
-                                searchState.value = SearchState.QUERY_SEARCH
-                            } else if (searchState.value == SearchState.QUERY_SEARCH){
-                                searchQuery.value =  TextFieldValue("")
                                 searchState.value = SearchState.MAIN_SEARCH
-                            }
                         },
                     contentAlignment = Alignment.Center
                 ) {

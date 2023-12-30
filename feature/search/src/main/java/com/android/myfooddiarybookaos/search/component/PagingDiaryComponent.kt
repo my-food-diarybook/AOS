@@ -29,7 +29,6 @@ fun PagingDiaryComponent(
     viewModel: SearchViewModel = hiltViewModel()
 ) {
 
-
     val pagingItems = viewModel.pagingDiaryList.collectAsLazyPagingItems()
 
     Column(
@@ -72,7 +71,9 @@ fun PagingDiaryComponent(
 
         LazyVerticalGrid(
             columns =  GridCells.Fixed(3),
-            contentPadding = PaddingValues(5.dp),
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(5.dp),
+            horizontalArrangement = Arrangement.spacedBy(5.dp),
             content = {
                 items(pagingItems.itemSnapshotList){
                     it?.let{

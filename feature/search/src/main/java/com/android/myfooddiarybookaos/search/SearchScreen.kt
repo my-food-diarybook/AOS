@@ -82,11 +82,13 @@ fun SearchScreen(
                 )
             }
             SearchState.DIARY_SEARCH -> {
-                searchQuery.value = TextFieldValue(categoryName.value)
-                viewModel.getPagingDiaries(
-                    categoryName.value,
-                    categoryType.value
-                )
+                LaunchedEffect(Unit) {
+                    searchQuery.value = TextFieldValue(categoryName.value)
+                    viewModel.getPagingDiaries(
+                        categoryName.value,
+                        categoryType.value
+                    )
+                }
                 PagingDiaryComponent(
                     categoryName = categoryName,
                     selectDiary = {

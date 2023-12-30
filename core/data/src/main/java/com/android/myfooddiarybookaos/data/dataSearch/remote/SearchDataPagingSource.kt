@@ -23,7 +23,7 @@ class SearchDataPagingSource(
             val response = manager.searchMoreDiary(
                 categoryName = categoryName,
                 categoryType = categoryType,
-                offset = 3
+                offset = next
             )
 
             LoadResult.Page(
