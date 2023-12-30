@@ -11,7 +11,7 @@ import com.android.myfooddiarybookaos.timeline.TimeLineScreen
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
 
-import com.android.myfooddiarybookaos.home.HomeScreen
+import com.android.myfooddiarybookaos.home.ui.HomeScreen
 import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 
 // NavController : 대상을 이동 시키는 요소 

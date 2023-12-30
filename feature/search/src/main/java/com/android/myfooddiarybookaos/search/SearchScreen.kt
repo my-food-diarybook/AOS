@@ -1,5 +1,6 @@
 package com.android.myfooddiarybookaos.TabSearch
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*

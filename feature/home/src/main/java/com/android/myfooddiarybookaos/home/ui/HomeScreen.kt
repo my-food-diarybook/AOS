@@ -1,6 +1,5 @@
-package com.android.myfooddiarybookaos.home
+package com.android.myfooddiarybookaos.home.ui
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -33,7 +32,6 @@ fun HomeScreen(
     todayViewModel.getDataChange().observeAsState().value?.let {
         homeViewModel.setDiaryList(todayViewModel.getCurrentYearMonth())
     }
-
 
     // 업로드 시도
     if (diaryState.isSelectedGallery.value) {

@@ -25,6 +25,7 @@ class SearchDataPagingSource(
                 categoryType = categoryType,
                 offset = next
             )
+            if (response.isEmpty()) throw Exception()
 
             LoadResult.Page(
                 data = response,

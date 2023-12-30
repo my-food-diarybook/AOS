@@ -22,9 +22,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.data.utils.scaledSp
+import com.android.myfooddiarybookaos.search.SearchViewModel
 import com.android.myfooddiarybookaos.search.state.SearchState
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -56,7 +58,7 @@ fun SearchBox(
                     modifier = Modifier
                         .size(40.dp)
                         .clickable {
-                                searchState.value = SearchState.MAIN_SEARCH
+                            searchState.value = SearchState.MAIN_SEARCH
                         },
                     contentAlignment = Alignment.Center
                 ) {
