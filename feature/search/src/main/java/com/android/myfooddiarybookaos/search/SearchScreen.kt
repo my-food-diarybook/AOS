@@ -1,191 +1,103 @@
 package com.android.myfooddiarybookaos.TabSearch
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.android.myfooddiarybookaos.Layout.NotDataView
-import com.android.myfooddiarybookaos.core.data.R
-import com.android.myfooddiarybookaos.data.robotoRegular
-import com.android.myfooddiarybookaos.data.utils.scaledSp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.android.myfooddiarybookaos.data.state.ApplicationState
+import com.android.myfooddiarybookaos.data.state.DiaryState
+import com.android.myfooddiarybookaos.search.SearchViewModel
+import com.android.myfooddiarybookaos.search.component.PagingCategoryComponent
+import com.android.myfooddiarybookaos.search.component.PagingDiaryComponent
+import com.android.myfooddiarybookaos.search.component.SearchBox
+import com.android.myfooddiarybookaos.search.component.SearchCategoryComponent
+import com.android.myfooddiarybookaos.search.state.SearchState
+import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 
 @Composable
-fun SearchScreen() {
+fun SearchScreen(
+    appState: ApplicationState,
+    diaryState: DiaryState,
+    viewModel: SearchViewModel = hiltViewModel()
+) {
+
+    val searchQuery = remember { mutableStateOf(TextFieldValue("")) }
+    val categoryName = remember { mutableStateOf("") }
+    val categoryType = remember { mutableStateOf("") }
+    val searchState = remember { mutableStateOf(SearchState.MAIN_SEARCH) }
+
+    if (searchQuery.value.text.isNotEmpty() && searchState.value != SearchState.DIARY_SEARCH) {
+        searchState.value = SearchState.QUERY_SEARCH
+    }
+    if (searchQuery.value.text.isEmpty()) {
+        searchState.value = SearchState.MAIN_SEARCH
+    }
+
     Column {
         Box(
-            modifier = Modifier.padding(
-                bottom = 13.dp,
-            ),
+            modifier = Modifier
+                .wrapContentHeight()
+                .padding(
+                    start = 20.dp,
+                    end = 20.dp,
+                    top = 33.dp,
+                    bottom = 13.dp
+                ),
             contentAlignment = Alignment.BottomCenter
         ) {
-            SearchBox()
-        }
-
-        Surface(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-
-        ) {
-            // 데이터 없음 표시
-            NotDataView()
-//            SearchData()
-        }
-    }
-}
-
-// 검색 기록 뷰
-@Composable
-private fun SearchData() {
-
-}
-
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-private fun SearchBox() {
-    val searchQuery = remember { mutableStateOf(TextFieldValue("")) }
-    // 검색 아이콘
-    val leadingIconView = @Composable {
-        IconButton(
-            onClick = {}
-        ) {
-            if (searchQuery.value.text.isEmpty()) {
-                Box(
-                    modifier = Modifier
-                        .size(40.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.search_icon),
-                        contentDescription = "",
-                        tint = Color.Black
-                    )
+            SearchBox(
+                searchQuery,
+                searchState,
+                onQueryChange = {
+                    viewModel.getSearchData(searchQuery.value.text)
                 }
-            } else {
-                Box(
-                    modifier = Modifier
-                        .size(40.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.main_left),
-                        contentDescription = "",
-                        tint = Color.Black
-                    )
-                }
-            }
-        }
-    }
-
-    val trailingIconView = @Composable {
-        IconButton(
-            onClick = {}
-        ) {
-            if (searchQuery.value.text.isEmpty()) {
-                Box(modifier = Modifier.size(30.dp))
-            } else {
-                Box(
-                    modifier = Modifier
-                        .size(30.dp)
-                        .clickable {
-                            searchQuery.value = TextFieldValue("")
-                        },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.close_24px_copy),
-                        contentDescription = "",
-                        tint = Color.Black
-                    )
-                }
-            }
-        }
-    }
-
-    Surface( // 배경
-        shape = RoundedCornerShape(4.dp),
-        border = BorderStroke(
-            1.dp,
-            colorResource(id = R.color.black)
-        ),
-        color = colorResource(id = R.color.white),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                start = 20.dp,
-                end = 20.dp,
-                top = 33.dp,
-                bottom = 13.dp
-            )
-    ) {
-
-        val interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
-        BasicTextField(
-            value = searchQuery.value,
-            onValueChange = {
-                searchQuery.value = it
-            },
-            textStyle = TextStyle(
-                fontWeight = FontWeight.W300,
-                fontSize = 16.scaledSp(),
-                fontFamily = robotoRegular,
-                color = Color.Black,
-                lineHeight = 16.scaledSp(),
-
-                ),
-            modifier = Modifier.fillMaxWidth().wrapContentHeight(),
-            cursorBrush = SolidColor(Color.Black),
-            interactionSource = interactionSource,
-        ) {
-            TextFieldDefaults.TextFieldDecorationBox(
-                value = searchQuery.value.text,
-                innerTextField = it,
-                enabled = true,
-                singleLine = true,
-                visualTransformation = VisualTransformation.None,
-                interactionSource = interactionSource,
-                placeholder = {
-                    Text(
-                        text = "식사일기 검색",
-                        fontWeight = FontWeight.W300,
-                        fontFamily = robotoRegular,
-                        color = colorResource(id = R.color.calender_next_color),
-                        fontSize = 16.scaledSp(),
-                        lineHeight = 16.scaledSp(),
-                    )
-                },
-                trailingIcon =  trailingIconView,
-                leadingIcon =  leadingIconView
             )
         }
+        when (searchState.value) {
+            SearchState.MAIN_SEARCH -> {
+                LaunchedEffect(Unit) {
+                    viewModel.getPagingCategories()
+                }
+                PagingCategoryComponent(
+                    searchSelect = {
+                        categoryName.value = it.categoryName
+                        categoryType.value = it.categoryType
+                        searchState.value = SearchState.DIARY_SEARCH
+                        searchQuery.value = TextFieldValue(it.categoryName)
+                    }
+                )
+            }
+            SearchState.QUERY_SEARCH -> {
+                SearchCategoryComponent(
+                    searchSelect = {
+                        categoryName.value = it.categoryName
+                        categoryType.value = it.categoryType
+                        searchState.value = SearchState.DIARY_SEARCH
+                        searchQuery.value = TextFieldValue(it.categoryName)
+                    }
+                )
+            }
+            SearchState.DIARY_SEARCH -> {
+                LaunchedEffect(Unit) {
+                    searchQuery.value = TextFieldValue(categoryName.value)
+                    viewModel.getPagingDiaries(
+                        categoryName.value,
+                        categoryType.value
+                    )
+                }
+                PagingDiaryComponent(
+                    categoryName = categoryName,
+                    selectDiary = {
+                        diaryState.setDiaryDetail(it.diaryId)
+                        appState.navController.navigate(ScreenRoot.DETAIL_DIARY)
+                    }
+                )
+            }
+        }
+
     }
-}
-
-
-@Preview
-@Composable
-fun SearchScreenPreview() {
-    SearchScreen()
 }

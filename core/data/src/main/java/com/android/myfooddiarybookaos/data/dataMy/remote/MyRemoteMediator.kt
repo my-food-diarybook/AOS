@@ -7,7 +7,7 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.android.myfooddiarybookaos.api.NetworkManager
 import com.android.myfooddiarybookaos.api.myApi.NoticeEntity
-import com.android.myfooddiarybookaos.api.remoteKey.RemoteKeysEntity
+import com.android.myfooddiarybookaos.api.remoteKey.MyRemoteKeysEntity
 import com.android.myfooddiarybookaos.data.dataMy.local.MyDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -55,7 +55,7 @@ class MyRemoteMediator constructor(
                 val prevKey = if( page == startingPageIndex ) null else page - 1
                 val nextKey = if ( endOfList ) null else page + 1
                 val keys = response.map{
-                    RemoteKeysEntity(it.id,prevKey,nextKey)
+                    MyRemoteKeysEntity(it.id,prevKey,nextKey)
                 }
                 db.remoteKeyDao().insertRemote(keys)
                 db.getNoticeDao().insert(response)
@@ -96,7 +96,7 @@ class MyRemoteMediator constructor(
         }
     }
 
-    private suspend fun getFirstRemoteKey(state : PagingState<Int, NoticeEntity>) : RemoteKeysEntity?{
+    private suspend fun getFirstRemoteKey(state : PagingState<Int, NoticeEntity>) : MyRemoteKeysEntity?{
         return withContext(Dispatchers.IO){
             state.pages
                 .firstOrNull { it.data.isNotEmpty()}
@@ -105,7 +105,7 @@ class MyRemoteMediator constructor(
         }
     }
 
-    private suspend fun getLastRemoteKey(state : PagingState<Int, NoticeEntity>) : RemoteKeysEntity?{
+    private suspend fun getLastRemoteKey(state : PagingState<Int, NoticeEntity>) : MyRemoteKeysEntity?{
         return withContext(Dispatchers.IO){
             state.pages
                 .firstOrNull() { it.data.isNotEmpty()}
@@ -114,7 +114,7 @@ class MyRemoteMediator constructor(
         }
     }
 
-    private suspend fun getRefreshRemoteKey(state : PagingState<Int, NoticeEntity>) : RemoteKeysEntity?{
+    private suspend fun getRefreshRemoteKey(state : PagingState<Int, NoticeEntity>) : MyRemoteKeysEntity?{
         return withContext(Dispatchers.IO){
             state.anchorPosition?.let { index ->
                 state.closestItemToPosition(index)?.id?.let{ id ->

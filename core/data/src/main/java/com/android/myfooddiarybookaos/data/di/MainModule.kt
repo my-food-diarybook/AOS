@@ -9,6 +9,7 @@ import com.android.myfooddiarybookaos.data.dataHome.repository.HomePostRepositor
 import com.android.myfooddiarybookaos.data.dataHome.repository.HomeRepository
 import com.android.myfooddiarybookaos.data.dataLogin.repository.LoginRepository
 import com.android.myfooddiarybookaos.data.dataMap.repository.MapSearchRepository
+import com.android.myfooddiarybookaos.data.dataSearch.repository.SearchRepository
 import com.android.myfooddiarybookaos.data.dataTimeLine.TimeLineRepository
 import dagger.Module
 import dagger.Provides
@@ -67,4 +68,11 @@ object MainModule {
         kakaoApiManager: KakaoApiManager,
         @ApplicationContext context: Context
     ) = MapSearchRepository(kakaoApiManager,context)
+
+    @Provides
+    @ViewModelScoped
+    fun bindSearchRepository(
+        networkManager: NetworkManager,
+        @ApplicationContext context: Context
+    ) = SearchRepository(networkManager,context)
 }

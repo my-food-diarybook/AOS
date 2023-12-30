@@ -31,7 +31,7 @@ fun NavGraphBuilder.bottomGraph(
             TimeLineScreen()
         }
         composable(BottomNavItem.Search.screenRoute){
-            SearchScreen()
+            SearchScreen(appState,diaryState)
         }
         composable(BottomNavItem.MyAccount.screenRoute){
             MyScreen()
