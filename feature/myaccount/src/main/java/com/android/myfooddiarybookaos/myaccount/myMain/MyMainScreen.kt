@@ -39,7 +39,12 @@ fun MyMainScreen(
 
     val scrollState = rememberScrollState()
     val context = LocalContext.current
-    val email = remember { mutableStateOf(UserInfoSharedPreferences(context).userEmail?: "")  }
+    val email = remember { mutableStateOf(UserInfoSharedPreferences(context).userEmail ?: "") }
+    val infoClickState = remember { mutableStateOf(false) }
+    if (infoClickState.value) {
+        myNavi.navigate(MyScreenRoot.INFO)
+        infoClickState.value = false
+    }
     Column {
         Box(
             modifier = Modifier
@@ -57,13 +62,14 @@ fun MyMainScreen(
                 lineHeight = 18.scaledSp(),
             )
         }
-        Divider(modifier = Modifier
-            .height(2.dp)
-            .coloredInnerShadow(
-                color = colorResource(id = R.color.black_10),
-                offsetY = 1.dp,
-                blurRadius = 4.dp
-            )
+        Divider(
+            modifier = Modifier
+                .height(2.dp)
+                .coloredInnerShadow(
+                    color = colorResource(id = R.color.black_10),
+                    offsetY = 1.dp,
+                    blurRadius = 4.dp
+                )
         )
 
 
@@ -92,6 +98,9 @@ fun MyMainScreen(
                         color = colorResource(id = R.color.line_color_deep),
                         shape = RoundedCornerShape(4.dp)
                     )
+                    .clickable {
+                        infoClickState.value = true
+                    }
             ) {
                 EmailInfo(email.value)
             }
