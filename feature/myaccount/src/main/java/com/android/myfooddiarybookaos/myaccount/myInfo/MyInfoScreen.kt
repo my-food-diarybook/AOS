@@ -49,7 +49,7 @@ fun MyInfoScreen(
             if (it){
                 val intent = Intent(
                     context,
-                    Class.forName("com.android.myfooddiarybookaos.MainActivity")
+                    Class.forName("com.android.myfooddiarybookaos.LoginActivity")
                 )
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 UserInfoSharedPreferences(context).resetUserInfo()
@@ -120,136 +120,162 @@ fun MyInfoScreen(
 
 
         }
+        
+        Spacer(modifier = Modifier.height(29.dp))
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
+        Box(
             modifier = Modifier
+                .padding(start = 22.dp,end = 18.dp)
                 .fillMaxWidth()
                 .clickable {
                     passwordChangeState.value = true
                 }
-                .padding(10.dp)
-        ) {
-            Box(
-                modifier = Modifier.size(24.dp),
-                contentAlignment = Alignment.Center
+        ){
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.create_24px),
-                    contentDescription = null
+                Box(
+                    modifier = Modifier.size(24.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.create_24px),
+                        contentDescription = null
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(10.dp))
+
+                Text(
+                    text = "비밀번호 변경",
+                    fontFamily = robotoRegular,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.W400,
+                    lineHeight = 24.sp,
+                    color = Color.Black
                 )
             }
-
-            Spacer(modifier = Modifier.width(10.dp))
-
-            Text(
-                text = "비밀번호 변경",
-                fontFamily = robotoRegular,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.W400,
-                lineHeight = 24.sp,
-                color = Color.Black
-            )
         }
 
         Spacer(modifier = Modifier.height(34.dp))
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
+        Box(
             modifier = Modifier
+                .padding(start = 22.dp,end = 18.dp)
                 .fillMaxWidth()
                 .clickable {
                     allDiaryDeleteState.value = true
                 }
-                .padding(10.dp)
         ) {
-            Box(
-                modifier = Modifier.size(24.dp),
-                contentAlignment = Alignment.Center
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.component_1),
-                    contentDescription = null
+                Box(
+                    modifier = Modifier.size(24.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.component_1),
+                        contentDescription = null
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(10.dp))
+
+                Text(
+                    text = "모든 식사일기 삭제",
+                    fontFamily = robotoRegular,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.W400,
+                    lineHeight = 24.sp,
+                    color = Color.Black
                 )
             }
-
-            Spacer(modifier = Modifier.width(10.dp))
-
-            Text(
-                text = "모든 식사일기 삭제",
-                fontFamily = robotoRegular,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.W400,
-                lineHeight = 24.sp,
-                color = Color.Black
-            )
         }
-
         Spacer(modifier = Modifier.height(34.dp))
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
+        Box(
             modifier = Modifier
+                .padding(start = 22.dp,end = 18.dp)
                 .fillMaxWidth()
                 .clickable {
                     deleteUserState.value = true
                 }
-                .padding(10.dp)
         ) {
-            Box(
-                modifier = Modifier.size(24.dp),
-                contentAlignment = Alignment.Center
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.close_24px),
-                    contentDescription = null
+                Box(
+                    modifier = Modifier.size(24.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.close_24px),
+                        contentDescription = null
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(10.dp))
+
+                Text(
+                    text = "회원탈퇴",
+                    fontFamily = robotoRegular,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.W400,
+                    lineHeight = 24.sp,
+                    color = Color.Black
                 )
             }
-
-            Spacer(modifier = Modifier.width(10.dp))
-
-            Text(
-                text = "회원탈퇴",
-                fontFamily = robotoRegular,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.W400,
-                lineHeight = 24.sp,
-                color = Color.Black
-            )
         }
 
         Spacer(modifier = Modifier.height(34.dp))
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
+        Box(
             modifier = Modifier
+                .padding(start = 22.dp,end = 18.dp)
                 .fillMaxWidth()
                 .clickable {
                     logoutState.value = true
                 }
-                .padding(10.dp)
-        ) {
-            Box(
-                modifier = Modifier.size(24.dp),
-                contentAlignment = Alignment.Center
+        ){
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.component_2),
-                    contentDescription = null
+                Box(
+                    modifier = Modifier.size(24.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.component_2),
+                        contentDescription = null
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(10.dp))
+
+                Text(
+                    text = "로그아웃",
+                    fontFamily = robotoRegular,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.W400,
+                    lineHeight = 24.sp,
+                    color = Color.Black
                 )
             }
-
-            Spacer(modifier = Modifier.width(10.dp))
-
-            Text(
-                text = "로그아웃",
-                fontFamily = robotoRegular,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.W400,
-                lineHeight = 24.sp,
-                color = Color.Black
-            )
         }
+
 
     }
 
