@@ -86,7 +86,7 @@ fun CheckUserPasswordLayer(
                     modifier = Modifier.weight(1f)
                 ) {
                     Text(
-                        text = "아니오",
+                        text = "취소",
                         fontFamily = robotoRegular,
                         fontWeight = FontWeight.W700,
                         fontSize = 16.sp,
@@ -107,7 +107,7 @@ fun CheckUserPasswordLayer(
                     modifier = Modifier.weight(1f)
                 ) {
                     Text(
-                        text = "네",
+                        text = "확인",
                         fontFamily = robotoRegular,
                         fontWeight = FontWeight.W700,
                         fontSize = 16.sp,
