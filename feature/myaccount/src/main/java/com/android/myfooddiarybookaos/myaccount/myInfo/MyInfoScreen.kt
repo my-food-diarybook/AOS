@@ -1,5 +1,6 @@
 package com.android.myfooddiarybookaos.myaccount.myInfo
 
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -11,23 +12,31 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.android.myfooddiarybookaos.api.UserInfoSharedPreferences
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.TextBox
 import com.android.myfooddiarybookaos.data.component.coloredInnerShadow
 import com.android.myfooddiarybookaos.data.robotoBold
 import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.data.utils.scaledSp
+import com.android.myfooddiarybookaos.myaccount.viewModel.MyViewModel
+import kotlin.math.log
 
 @Composable
 fun MyInfoScreen(
     myNavi: NavHostController,
+    viewModel: MyViewModel = hiltViewModel()
 ) {
+
+    val context = LocalContext.current
 
     val isBackState = remember { mutableStateOf(false) }
     val passwordChangeState = remember { mutableStateOf(false) }
@@ -35,6 +44,20 @@ fun MyInfoScreen(
     val logoutState = remember { mutableStateOf(false) }
     val deleteUserState = remember { mutableStateOf(false) }
 
+    if (logoutState.value){
+        viewModel.userLogout {
+            if (it){
+                val intent = Intent(
+                    context,
+                    Class.forName("com.android.myfooddiarybookaos.MainActivity")
+                )
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                UserInfoSharedPreferences(context).resetUserInfo()
+                context.startActivity(intent)
+            }
+        }
+        logoutState.value = false
+    }
     if (isBackState.value) {
         myNavi.popBackStack()
         isBackState.value = false

@@ -17,4 +17,12 @@ class MyRepository @Inject constructor(
         } catch (_: Exception){ }
     }
 
+    suspend fun userLogout(): Boolean{
+        return try {
+            val response = manager.logoutUser()
+            true
+        } catch (_: Exception){
+            false
+        }
+    }
 }

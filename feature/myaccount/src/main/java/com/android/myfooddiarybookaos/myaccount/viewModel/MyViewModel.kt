@@ -51,4 +51,10 @@ class MyViewModel @Inject constructor(
         }?.count ?: 0
     }
 
+    fun userLogout(state: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            state(myRepository.userLogout())
+        }
+    }
+
 }
