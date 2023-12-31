@@ -1,5 +1,6 @@
 package com.android.myfooddiarybookaos.myaccount.popUp
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
@@ -19,7 +20,8 @@ import com.android.myfooddiarybookaos.data.robotoRegular
 
 @Composable
 fun DeleteUserLayer(
-
+    onPassword: () -> Unit,
+    onClose: () -> Unit
 ) {
 
 
@@ -54,7 +56,11 @@ fun DeleteUserLayer(
                 Surface(
                     color = colorResource(id = R.color.popup_button_white),
                     shape = RoundedCornerShape(4.dp),
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickable {
+                            onClose()
+                        }
                 ) {
                     Text(
                         text = "아니오",
@@ -75,7 +81,12 @@ fun DeleteUserLayer(
                 Surface(
                     color = colorResource(id = R.color.main_color),
                     shape = RoundedCornerShape(4.dp),
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickable {
+                            onClose()
+                            onPassword()
+                        }
                 ) {
                     Text(
                         text = "네",
@@ -99,5 +110,8 @@ fun DeleteUserLayer(
 @Preview
 @Composable
 fun PreviewDeleteUser(){
-    DeleteUserLayer()
+    DeleteUserLayer(
+        onClose = {},
+        onPassword = {}
+    )
 }

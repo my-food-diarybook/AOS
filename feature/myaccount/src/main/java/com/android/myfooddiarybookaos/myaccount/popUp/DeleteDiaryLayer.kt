@@ -1,7 +1,6 @@
 package com.android.myfooddiarybookaos.myaccount.popUp
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
@@ -20,7 +19,10 @@ import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.core.data.R
 
 @Composable
-fun DeleteDiaryLayer() {
+fun DeleteDiaryLayer(
+    onPassword: () -> Unit,
+    onClose: () -> Unit
+) {
 
     Surface(
         color = Color.White,
@@ -50,7 +52,11 @@ fun DeleteDiaryLayer() {
                 Surface(
                     color = colorResource(id = R.color.popup_button_white),
                     shape = RoundedCornerShape(4.dp),
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickable {
+                            onClose()
+                        }
                 ) {
                     Text(
                         text = "아니오",
@@ -71,7 +77,12 @@ fun DeleteDiaryLayer() {
                 Surface(
                     color = colorResource(id = R.color.main_color),
                     shape = RoundedCornerShape(4.dp),
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickable {
+                            onClose()
+                            onPassword()
+                        }
                 ) {
                     Text(
                         text = "네",
@@ -95,5 +106,5 @@ fun DeleteDiaryLayer() {
 @Preview
 @Composable
 fun PreviewDeleteDiary(){
-    DeleteDiaryLayer()
+    DeleteDiaryLayer(onPassword = {}, onClose = {})
 }

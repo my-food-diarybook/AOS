@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.android.myfooddiarybookaos.api.UserInfoSharedPreferences
@@ -27,6 +28,9 @@ import com.android.myfooddiarybookaos.data.component.coloredInnerShadow
 import com.android.myfooddiarybookaos.data.robotoBold
 import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.data.utils.scaledSp
+import com.android.myfooddiarybookaos.myaccount.popUp.CheckUserPasswordLayer
+import com.android.myfooddiarybookaos.myaccount.popUp.DeleteDiaryLayer
+import com.android.myfooddiarybookaos.myaccount.popUp.DeleteUserLayer
 import com.android.myfooddiarybookaos.myaccount.viewModel.MyViewModel
 import kotlin.math.log
 
@@ -43,10 +47,12 @@ fun MyInfoScreen(
     val allDiaryDeleteState = remember { mutableStateOf(false) }
     val logoutState = remember { mutableStateOf(false) }
     val deleteUserState = remember { mutableStateOf(false) }
+    val diaryDeletePasswordState = remember { mutableStateOf(false) }
+    val userDeletePasswordState = remember { mutableStateOf(false) }
 
-    if (logoutState.value){
+    if (logoutState.value) {
         viewModel.userLogout {
-            if (it){
+            if (it) {
                 val intent = Intent(
                     context,
                     Class.forName("com.android.myfooddiarybookaos.LoginActivity")
@@ -61,6 +67,67 @@ fun MyInfoScreen(
     if (isBackState.value) {
         myNavi.popBackStack()
         isBackState.value = false
+    }
+
+    if (allDiaryDeleteState.value) {
+        Dialog(onDismissRequest = {
+            allDiaryDeleteState.value = false
+        }) {
+            DeleteDiaryLayer(
+                onClose = {
+                    allDiaryDeleteState.value = false
+                },
+                onPassword = {
+                    diaryDeletePasswordState.value = true
+                }
+            )
+        }
+    }
+
+    if (deleteUserState.value) {
+        Dialog(onDismissRequest = {
+            deleteUserState.value = false
+        }) {
+            DeleteUserLayer(
+                onClose = {
+                    deleteUserState.value = false
+                },
+                onPassword = {
+                    userDeletePasswordState.value = true
+                }
+
+            )
+        }
+    }
+
+    if (diaryDeletePasswordState.value) {
+        Dialog(onDismissRequest = {
+            diaryDeletePasswordState.value = false
+        }) {
+            CheckUserPasswordLayer(
+                onClose = {
+                    diaryDeletePasswordState.value = false
+                },
+                onState = {
+                    // delete all diary
+                }
+            )
+        }
+    }
+
+    if (userDeletePasswordState.value) {
+        Dialog(onDismissRequest = {
+            userDeletePasswordState.value = false
+        }) {
+            CheckUserPasswordLayer(
+                onClose = {
+                    userDeletePasswordState.value = false
+                },
+                onState = {
+                    // delete user
+                }
+            )
+        }
     }
 
     Column {
@@ -120,17 +187,17 @@ fun MyInfoScreen(
 
 
         }
-        
+
         Spacer(modifier = Modifier.height(29.dp))
 
         Box(
             modifier = Modifier
-                .padding(start = 22.dp,end = 18.dp)
+                .padding(start = 22.dp, end = 18.dp)
                 .fillMaxWidth()
                 .clickable {
                     passwordChangeState.value = true
                 }
-        ){
+        ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
@@ -164,7 +231,7 @@ fun MyInfoScreen(
 
         Box(
             modifier = Modifier
-                .padding(start = 22.dp,end = 18.dp)
+                .padding(start = 22.dp, end = 18.dp)
                 .fillMaxWidth()
                 .clickable {
                     allDiaryDeleteState.value = true
@@ -202,7 +269,7 @@ fun MyInfoScreen(
 
         Box(
             modifier = Modifier
-                .padding(start = 22.dp,end = 18.dp)
+                .padding(start = 22.dp, end = 18.dp)
                 .fillMaxWidth()
                 .clickable {
                     deleteUserState.value = true
@@ -241,12 +308,12 @@ fun MyInfoScreen(
 
         Box(
             modifier = Modifier
-                .padding(start = 22.dp,end = 18.dp)
+                .padding(start = 22.dp, end = 18.dp)
                 .fillMaxWidth()
                 .clickable {
                     logoutState.value = true
                 }
-        ){
+        ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier

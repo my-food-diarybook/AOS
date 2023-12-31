@@ -1,6 +1,7 @@
 package com.android.myfooddiarybookaos.myaccount.popUp
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
@@ -24,11 +25,12 @@ import com.android.myfooddiarybookaos.data.ui.theme.EditTextBox
 
 @Composable
 fun CheckUserPasswordLayer(
-
+    onClose: () -> Unit,
+    onState: () -> Unit
 ) {
-
     val pwText = remember { mutableStateOf(TextFieldValue("")) }
     val isValid = remember { mutableStateOf(true) }
+
     val bottomNextColor = animateColorAsState(
         targetValue = if (isValid.value){
             colorResource(id = R.color.main_color)
@@ -36,6 +38,7 @@ fun CheckUserPasswordLayer(
             colorResource(id = R.color.main_color_30)
         }
     )
+
     Surface(
         color = Color.White,
         shape = RoundedCornerShape(8.dp),
@@ -83,7 +86,11 @@ fun CheckUserPasswordLayer(
                 Surface(
                     color = colorResource(id = R.color.popup_button_white),
                     shape = RoundedCornerShape(4.dp),
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickable {
+                            onClose()
+                        }
                 ) {
                     Text(
                         text = "취소",
@@ -104,7 +111,12 @@ fun CheckUserPasswordLayer(
                 Surface(
                     color = bottomNextColor.value,
                     shape = RoundedCornerShape(4.dp),
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickable {
+                            onClose()
+                            onState()
+                        }
                 ) {
                     Text(
                         text = "확인",
@@ -128,5 +140,7 @@ fun CheckUserPasswordLayer(
 @Preview
 @Composable
 fun PreviewCheckUserPasswordLayer(){
-    CheckUserPasswordLayer()
+    CheckUserPasswordLayer(
+        onClose = {}, onState = {}
+    )
 }
