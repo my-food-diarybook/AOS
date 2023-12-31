@@ -9,13 +9,17 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.android.myfooddiarybookaos.api.UserInfoSharedPreferences
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.TextBox
 import com.android.myfooddiarybookaos.data.component.coloredInnerShadow
@@ -34,7 +38,8 @@ fun MyMainScreen(
 ) {
 
     val scrollState = rememberScrollState()
-
+    val context = LocalContext.current
+    val email = remember { mutableStateOf(UserInfoSharedPreferences(context).userEmail?: "")  }
     Column {
         Box(
             modifier = Modifier
@@ -88,7 +93,7 @@ fun MyMainScreen(
                         shape = RoundedCornerShape(4.dp)
                     )
             ) {
-                EmailInfo("user_email@gmail.com")
+                EmailInfo(email.value)
             }
             Subject("통계")
             Statistics()

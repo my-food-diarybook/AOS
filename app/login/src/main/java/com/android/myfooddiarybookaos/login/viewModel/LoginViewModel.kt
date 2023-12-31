@@ -5,6 +5,7 @@ import android.content.Intent
 import android.util.Log
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
+import com.android.myfooddiarybookaos.api.UserInfoSharedPreferences
 import com.android.myfooddiarybookaos.data.dataLogin.repository.LoginRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -52,12 +53,16 @@ class LoginViewModel @Inject constructor(
         else false
     }
 
-    fun goMain(context: Context){
+    fun goMain(
+        context: Context,
+        userEmail: String
+    ){
         val intent = Intent(
             context,
             Class.forName("com.android.myfooddiarybookaos.MainActivity")
         )
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        UserInfoSharedPreferences(context).userEmail = userEmail
         context.startActivity(intent)
     }
 }

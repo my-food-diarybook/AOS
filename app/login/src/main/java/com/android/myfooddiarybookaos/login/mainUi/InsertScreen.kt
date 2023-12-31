@@ -54,7 +54,7 @@ fun InsertScreen(
         mutableStateOf(false)
     }
     if (goMainResult) {
-        viewModel.goMain(LocalContext.current.applicationContext)
+        viewModel.goMain(LocalContext.current.applicationContext,emailText.value.text)
         goMainResult = false
     }
 

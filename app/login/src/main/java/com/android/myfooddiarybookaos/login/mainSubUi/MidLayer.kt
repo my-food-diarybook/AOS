@@ -30,32 +30,45 @@ import com.android.myfooddiarybookaos.login.viewModel.LoginViewModel
 @Composable
 fun MidLayout(
     viewModel: LoginViewModel = hiltViewModel()
-){
+) {
+
+    val emailText = remember { mutableStateOf(TextFieldValue("test_user@naver.com")) }
+    val pwText = remember { mutableStateOf(TextFieldValue("qwer1234@@")) }
+
     var goMainResult by remember {
         mutableStateOf(false)
     }
-    if (goMainResult) viewModel.goMain(LocalContext.current.applicationContext)
+
+    if (goMainResult) viewModel.goMain(
+        LocalContext.current.applicationContext,
+        emailText.value.text
+    )
 
     var checkEnter by remember {
         mutableStateOf(0.3f)
     }
 
-    val isValid = remember{
+    val isValid = remember {
         mutableStateOf(true)
     }
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         // EditText - email
-        val emailText = remember { mutableStateOf(TextFieldValue("test_user@naver.com")) }
-        Box(Modifier.padding(horizontal = 16.dp)){EditTextBox("이메일",emailText,isValid)}
+
+        Box(Modifier.padding(horizontal = 16.dp)) { EditTextBox("이메일", emailText, isValid) }
         Spacer(modifier = Modifier.height(8.dp))
         // EditText - pw
-        val pwText = remember { mutableStateOf(TextFieldValue("qwer1234@@")) }
-        Box(Modifier.padding(horizontal = 16.dp)){EditTextBox(hintText = "비밀번호",pwText,isValid)}
+        Box(Modifier.padding(horizontal = 16.dp)) {
+            EditTextBox(
+                hintText = "비밀번호",
+                pwText,
+                isValid
+            )
+        }
 
         Spacer(modifier = Modifier.height(4.dp))
         Text(
-            text =  if (!isValid.value) "*아이디 또는 비밀번호를 잘못 입력했습니다. (n/5)"
-                    else "",
+            text = if (!isValid.value) "*아이디 또는 비밀번호를 잘못 입력했습니다. (n/5)"
+            else "",
             color = colorResource(id = R.color.not_valid_text_color),
             fontFamily = robotoRegular,
             fontWeight = FontWeight(500),
@@ -69,7 +82,7 @@ fun MidLayout(
         // LoginButton
         Surface( // 배경 , 1.0f -> 클릭 가능
             modifier =
-            if (checkEnter==1.0f) Modifier
+            if (checkEnter == 1.0f) Modifier
                 .clickable {
                     viewModel.loginUser(
                         emailText.value.text,
@@ -101,7 +114,7 @@ fun MidLayout(
                 text = "로그인",
                 fontFamily = FontFamily(Font(R.font.roboto_bold)),
                 fontWeight = FontWeight(700),
-                fontSize = 16.scaledSp() ,
+                fontSize = 16.scaledSp(),
                 color = colorResource(id = R.color.white),
                 modifier = Modifier
                     .fillMaxWidth()

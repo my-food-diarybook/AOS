@@ -9,6 +9,7 @@ class UserInfoSharedPreferences(context : Context) {
     private val accessTokenTimeDateKey = "accessTokenTimeDate"
     private val refreshTokenKey = "refreshToken"
     private val userOauthKey = "userOauth"
+    private val userEmailKey = "userEmail"
     private val prefs : SharedPreferences = context.getSharedPreferences(prefsFilename,0)
 
     var accessToken : String?
@@ -26,4 +27,8 @@ class UserInfoSharedPreferences(context : Context) {
     var userOauth : String?
         get() = prefs.getString(userOauthKey,"")
         set(value) = prefs.edit().putString(userOauthKey,value).apply()
+
+    var userEmail : String?
+        get() = prefs.getString(userEmailKey, "")
+        set(value) = prefs.edit().putString(userEmailKey,value).apply()
 }
