@@ -19,5 +19,8 @@ interface UserRetrofitService {
         @Body userRequest: UserRequest
     ): Call<CreateUserResponse>
 
-
+    @GET("oauth/google")
+    suspend fun loginGoogle(
+        @Query("idToken") idToken: String
+    )
 }

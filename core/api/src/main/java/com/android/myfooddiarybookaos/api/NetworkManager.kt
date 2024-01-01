@@ -25,16 +25,21 @@ class NetworkManager(
         private val instance: Retrofit? = null
         private const val CONTENT_APPLICATION = "application/json"
         private const val CONTENT_MULTI_PART = "multipart/form-data"
+        const val LOGIN_NONE ="none"
+        const val LOGIN_KAKAO = "kakao"
+        const val LOGIN_GOOGLE = "google"
+
         private fun getRetrofit(
             context: Context,
-            contentType: String
+            contentType: String,
         ): Retrofit {
-            val tokenData = UserInfoSharedPreferences(context)
+            val userData = UserInfoSharedPreferences(context)
+            val loginForm = userData.loginForm ?: LOGIN_NONE
             val header = Interceptor {
                 val original = it.request()
-                if (tokenData.accessToken != null && tokenData.accessToken != "") {
+                if (userData.accessToken != null && userData.accessToken != "") {
                     val request = original.newBuilder()
-                        .header("token", "${tokenData.accessToken}")
+                        .header("token", "${userData.accessToken}")
                         .build()
                     it.proceed(request)
                 } else {
@@ -45,7 +50,7 @@ class NetworkManager(
             return instance ?: Retrofit.Builder()
                 .baseUrl("$BASE_URL/")
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(unsafeOkHttpClient(header, contentType))
+                .client(unsafeOkHttpClient(header, contentType, loginForm))
                 .build()
 
         }
@@ -68,7 +73,8 @@ class NetworkManager(
         // SSL 인증서 체크 + 클라이언트
         private fun unsafeOkHttpClient(
             header: Interceptor,
-            contentType: String
+            contentType: String,
+            loginForm: String,
         ): OkHttpClient {
             val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
                 override fun checkClientTrusted(
@@ -99,7 +105,7 @@ class NetworkManager(
 
             builder.addInterceptor { chain ->
                 chain.proceed(chain.request().newBuilder().also {
-                    it.addHeader("login-from", "none")
+                    it.addHeader("login-from", loginForm)
                     it.addHeader("Content-Type", contentType)
                 }.build())
             }.also { client ->

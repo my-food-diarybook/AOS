@@ -81,5 +81,6 @@ class LoginRepository @Inject constructor(
 
     fun saveUserToken(newToken : String?){
         UserInfoSharedPreferences(context).accessToken = newToken
+        UserInfoSharedPreferences(context).loginForm = NetworkManager.LOGIN_NONE
     }
 }

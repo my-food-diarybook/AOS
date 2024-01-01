@@ -10,6 +10,7 @@ class UserInfoSharedPreferences(context: Context) {
     private val refreshTokenKey = "refreshToken"
     private val userOauthKey = "userOauth"
     private val userEmailKey = "userEmail"
+    private val loginFormKey = "loginForm"
     private val prefs: SharedPreferences = context.getSharedPreferences(prefsFilename, 0)
 
     var accessToken: String?
@@ -31,6 +32,10 @@ class UserInfoSharedPreferences(context: Context) {
     var userEmail: String?
         get() = prefs.getString(userEmailKey, "")
         set(value) = prefs.edit().putString(userEmailKey, value).apply()
+
+    var loginForm: String?
+        get() = prefs.getString(loginFormKey,"")
+        set(value) = prefs.edit().putString(loginFormKey,value).apply()
 
     fun resetUserInfo() {
         userEmail = ""
