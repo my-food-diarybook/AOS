@@ -74,24 +74,26 @@ class GoogleLoginRepository @Inject constructor(
     fun login(
         clientId: String,
         launcher: ActivityResultLauncher<Intent>
-    ){
+    ) {
         CoroutineScope(Dispatchers.IO).launch {
             val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(clientId)
                 .requestEmail()
                 .build()
-            val googleSignInClient = GoogleSignIn.getClient(context,gso)
+            val googleSignInClient = GoogleSignIn.getClient(context, gso)
             val signInIntent: Intent = googleSignInClient.signInIntent
             launcher.launch(signInIntent)
         }
     }
 
-    suspend fun loginRequest(idToken: String, result : (SsoToken?)->Unit): Flow<SsoToken> = flow{
+    suspend fun loginRequest(idToken: String, result: (Boolean) -> Unit) {
         val userData = UserInfoSharedPreferences(context)
         userData.loginForm = NetworkManager.LOGIN_GOOGLE
-        try {
-            emit(networkManager.getLoginApiService()
-                .loginGoogle(idToken))
-        } catch (_:Exception){}
+        val response =networkManager.getLoginApiService().loginGoogle(idToken)
+        if (response.isSuccessful){
+            result(true)
+        } else {
+            result(false)
+        }
     }
 }

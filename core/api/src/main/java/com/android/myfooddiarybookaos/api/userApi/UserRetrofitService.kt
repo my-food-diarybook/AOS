@@ -5,6 +5,7 @@ import com.android.myfooddiarybookaos.model.login.UserRequest
 import com.android.myfooddiarybookaos.model.login.LoginResponse
 import com.android.myfooddiarybookaos.model.login.SsoToken
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
 
 interface UserRetrofitService {
@@ -20,8 +21,8 @@ interface UserRetrofitService {
         @Body userRequest: UserRequest
     ): Call<CreateUserResponse>
 
-    @GET("oauth/google")
+    @GET("user/google-login-callback")
     suspend fun loginGoogle(
-        @Query("idToken") idToken: String
-    ): SsoToken
+        @Query("code") code: String
+    ): Response<Unit>
 }

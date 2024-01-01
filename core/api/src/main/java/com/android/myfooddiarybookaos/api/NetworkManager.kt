@@ -25,6 +25,7 @@ class NetworkManager(
         private val instance: Retrofit? = null
         private const val CONTENT_APPLICATION = "application/json"
         private const val CONTENT_MULTI_PART = "multipart/form-data"
+        const val GOOGLE_ID = "859792891234-lk9uds6oc7jes1k9nl7cldh6nk7oee9c.apps.googleusercontent.com"
         const val LOGIN_NONE ="none"
         const val LOGIN_KAKAO = "kakao"
         const val LOGIN_GOOGLE = "google"
