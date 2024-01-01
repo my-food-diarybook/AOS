@@ -3,6 +3,7 @@ package com.android.myfooddiarybookaos.api.userApi
 import com.android.myfooddiarybookaos.model.login.CreateUserResponse
 import com.android.myfooddiarybookaos.model.login.UserRequest
 import com.android.myfooddiarybookaos.model.login.LoginResponse
+import com.android.myfooddiarybookaos.model.login.SsoToken
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -22,5 +23,5 @@ interface UserRetrofitService {
     @GET("oauth/google")
     suspend fun loginGoogle(
         @Query("idToken") idToken: String
-    )
+    ): SsoToken
 }
