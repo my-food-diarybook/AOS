@@ -27,7 +27,7 @@ plugins {
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/'}
     }
 }

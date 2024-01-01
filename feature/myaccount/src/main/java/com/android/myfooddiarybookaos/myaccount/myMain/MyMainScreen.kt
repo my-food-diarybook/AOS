@@ -16,8 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.android.myfooddiarybookaos.api.UserInfoSharedPreferences
 import com.android.myfooddiarybookaos.core.data.R
@@ -30,7 +28,6 @@ import com.android.myfooddiarybookaos.myaccount.component.OptionBox
 import com.android.myfooddiarybookaos.myaccount.component.Statistics
 import com.android.myfooddiarybookaos.myaccount.component.Subject
 import com.android.myfooddiarybookaos.myaccount.navi.MyScreenRoot
-import com.android.myfooddiarybookaos.myaccount.viewModel.MyViewModel
 
 @Composable
 fun MyMainScreen(
