@@ -1,11 +1,15 @@
 package com.android.myfooddiarybookaos.login.mainSubUi
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
@@ -18,17 +22,38 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.robotoLight
 import com.android.myfooddiarybookaos.data.ui.theme.TextBox
 import com.android.myfooddiarybookaos.data.utils.scaledSp
+import com.android.myfooddiarybookaos.login.viewModel.LoginViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 
 @Composable
 fun BottomLayout(
     findPassword : () -> Unit,
-    insertUser : () -> Unit
+    insertUser : () -> Unit,
+    viewModel : LoginViewModel = hiltViewModel()
 ){
+    val loginUserState = remember { mutableStateOf(false) }
+    val isGoogleLogin = remember { mutableStateOf(false) }
+    val firebaseAuth = FirebaseAuth.getInstance()
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult(),
+        onResult = { result ->
+            viewModel.setLauncher(result,firebaseAuth, loginState = {state ->
+                if (!state) isGoogleLogin.value = false
+                loginUserState.value = state
+            })
+        }
+    )
+
+    if (isGoogleLogin.value){
+        viewModel.goggleLogin(launcher)
+    }
+
     Spacer(modifier = Modifier.height(17.dp))
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -104,7 +129,11 @@ fun BottomLayout(
         Image(
             painter = painterResource(id = R.drawable.icon_google),
             contentDescription = "",
-            modifier = Modifier.size(40.dp)
+            modifier = Modifier
+                .size(40.dp)
+                .clickable {
+                    isGoogleLogin.value = true
+                }
         )
         Spacer(modifier = Modifier.width(21.dp))
         Image(

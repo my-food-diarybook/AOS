@@ -78,7 +78,6 @@ class LoginViewModel @Inject constructor(
     fun setLauncher(
         result: ActivityResult,
         firebaseAuth: FirebaseAuth,
-        context: Context,
         loginState: (Boolean) -> Unit
     ) {
         googleLoginRepository.setLauncher(result, firebaseAuth, loginCallback = {

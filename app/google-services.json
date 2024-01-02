@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:859792891234:android:41eee866ec60c7d4d2203b",
         "android_client_info": {
-          "package_name": "com.android.myfooddiarybookaos.login"
+          "package_name": "com.android.myfooddiarybookaos"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "859792891234-lk9uds6oc7jes1k9nl7cldh6nk7oee9c.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.android.myfooddiarybookaos.login",
+            "package_name": "com.android.myfooddiarybookaos",
             "certificate_hash": "6c2cb00088ef7772d72f90925a813001ff022adc"
           }
         },
