@@ -5,6 +5,8 @@ import com.android.myfooddiarybookaos.api.diaryApi.DiaryPostRetrofitService
 import com.android.myfooddiarybookaos.api.diaryApi.DiaryRetrofitService
 import com.android.myfooddiarybookaos.api.diaryApi.TimeLineRetrofitService
 import com.android.myfooddiarybookaos.api.myApi.MyRetrofitService
+import com.android.myfooddiarybookaos.api.refresh.AuthInterceptor
+import com.android.myfooddiarybookaos.api.refresh.TokenRetrofitService
 import com.android.myfooddiarybookaos.api.searchApi.SearchRetrofitService
 import com.android.myfooddiarybookaos.api.userApi.UserRetrofitService
 import okhttp3.Interceptor
@@ -25,16 +27,22 @@ class NetworkManager(
         private val instance: Retrofit? = null
         private const val CONTENT_APPLICATION = "application/json"
         private const val CONTENT_MULTI_PART = "multipart/form-data"
+        const val GOOGLE_ID = "859792891234-paskj6t339bdd09gu1juaigf4f7jqhn4.apps.googleusercontent.com"
+        const val LOGIN_NONE ="none"
+        const val LOGIN_KAKAO = "kakao"
+        const val LOGIN_GOOGLE = "google"
+
         private fun getRetrofit(
             context: Context,
-            contentType: String
+            contentType: String,
         ): Retrofit {
-            val tokenData = UserInfoSharedPreferences(context)
+            val userData = UserInfoSharedPreferences(context)
+            val loginForm = userData.loginForm ?: LOGIN_NONE
             val header = Interceptor {
                 val original = it.request()
-                if (tokenData.accessToken != null && tokenData.accessToken != "") {
+                if (userData.accessToken != null && userData.accessToken != "") {
                     val request = original.newBuilder()
-                        .header("token", "${tokenData.accessToken}")
+                        .header("token", "${userData.accessToken}")
                         .build()
                     it.proceed(request)
                 } else {
@@ -45,8 +53,21 @@ class NetworkManager(
             return instance ?: Retrofit.Builder()
                 .baseUrl("$BASE_URL/")
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(unsafeOkHttpClient(header, contentType))
+                .client(unsafeOkHttpClient(header, contentType, loginForm,context))
                 .build()
+
+        }
+
+        private fun getTokenRetrofit(): TokenRetrofitService{
+
+            val client = OkHttpClient.Builder().build()
+
+            return Retrofit.Builder()
+                .baseUrl("$BASE_URL/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build()
+                .create(TokenRetrofitService::class.java)
 
         }
 
@@ -68,7 +89,9 @@ class NetworkManager(
         // SSL 인증서 체크 + 클라이언트
         private fun unsafeOkHttpClient(
             header: Interceptor,
-            contentType: String
+            contentType: String,
+            loginForm: String,
+            context: Context,
         ): OkHttpClient {
             val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
                 override fun checkClientTrusted(
@@ -99,11 +122,13 @@ class NetworkManager(
 
             builder.addInterceptor { chain ->
                 chain.proceed(chain.request().newBuilder().also {
-                    it.addHeader("login-from", "none")
+                    it.addHeader("login-from", loginForm)
                     it.addHeader("Content-Type", contentType)
+                    it.addHeader("request-agent","android")
                 }.build())
             }.also { client ->
                 client.addInterceptor(header)
+                client.addInterceptor(AuthInterceptor(context,getTokenRetrofit()))
                 //로그 기록 인터셉터 등록
                 val logInterceptor = HttpLoggingInterceptor()
                 logInterceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -136,4 +161,5 @@ class NetworkManager(
 
     fun getSearchApiService(): SearchRetrofitService =
         getRetrofit(context, CONTENT_APPLICATION).create(SearchRetrofitService::class.java)
+
 }

@@ -1,4 +1,4 @@
-package com.android.myfooddiarybookaos.myaccount.notice.item
+package com.android.myfooddiarybookaos.myaccount.myNotice.item
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*

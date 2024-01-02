@@ -9,12 +9,15 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.android.myfooddiarybookaos.api.UserInfoSharedPreferences
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.TextBox
 import com.android.myfooddiarybookaos.data.component.coloredInnerShadow
@@ -28,11 +31,17 @@ import com.android.myfooddiarybookaos.myaccount.navi.MyScreenRoot
 
 @Composable
 fun MyMainScreen(
-    myNavi: NavHostController
+    myNavi: NavHostController,
 ) {
 
     val scrollState = rememberScrollState()
-
+    val context = LocalContext.current
+    val email = remember { mutableStateOf(UserInfoSharedPreferences(context).userEmail ?: "") }
+    val infoClickState = remember { mutableStateOf(false) }
+    if (infoClickState.value) {
+        myNavi.navigate(MyScreenRoot.INFO)
+        infoClickState.value = false
+    }
     Column {
         Box(
             modifier = Modifier
@@ -50,13 +59,14 @@ fun MyMainScreen(
                 lineHeight = 18.scaledSp(),
             )
         }
-        Divider(modifier = Modifier
-            .height(2.dp)
-            .coloredInnerShadow(
-                color = colorResource(id = R.color.black_10),
-                offsetY = 1.dp,
-                blurRadius = 4.dp
-            )
+        Divider(
+            modifier = Modifier
+                .height(2.dp)
+                .coloredInnerShadow(
+                    color = colorResource(id = R.color.black_10),
+                    offsetY = 1.dp,
+                    blurRadius = 4.dp
+                )
         )
 
 
@@ -85,8 +95,11 @@ fun MyMainScreen(
                         color = colorResource(id = R.color.line_color_deep),
                         shape = RoundedCornerShape(4.dp)
                     )
+                    .clickable {
+                        infoClickState.value = true
+                    }
             ) {
-                EmailInfo("user_email@gmail.com")
+                EmailInfo(email.value)
             }
             Subject("통계")
             Statistics()

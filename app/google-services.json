@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "859792891234",
+    "project_id": "my-foodiary",
+    "storage_bucket": "my-foodiary.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:859792891234:android:ca03d851bef4343ed2203b",
+        "android_client_info": {
+          "package_name": "com.android.myfooddiarybookaos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "859792891234-kt0alkfn2dleedmq7m5qr6cvbkndc61e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.android.myfooddiarybookaos",
+            "certificate_hash": "6c2cb00088ef7772d72f90925a813001ff022adc"
+          }
+        },
+        {
+          "client_id": "859792891234-paskj6t339bdd09gu1juaigf4f7jqhn4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkJJ7-vLDpw9k7L9Eb4UqBabAkgdsGlUI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "859792891234-paskj6t339bdd09gu1juaigf4f7jqhn4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

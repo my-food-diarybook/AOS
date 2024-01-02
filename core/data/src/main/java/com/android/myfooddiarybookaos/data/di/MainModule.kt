@@ -9,6 +9,8 @@ import com.android.myfooddiarybookaos.data.dataHome.repository.HomePostRepositor
 import com.android.myfooddiarybookaos.data.dataHome.repository.HomeRepository
 import com.android.myfooddiarybookaos.data.dataLogin.repository.LoginRepository
 import com.android.myfooddiarybookaos.data.dataMap.repository.MapSearchRepository
+import com.android.myfooddiarybookaos.data.dataMy.local.MyDatabase
+import com.android.myfooddiarybookaos.data.dataMy.repository.NoticeRepository
 import com.android.myfooddiarybookaos.data.dataSearch.repository.SearchRepository
 import com.android.myfooddiarybookaos.data.dataTimeLine.TimeLineRepository
 import dagger.Module
@@ -75,4 +77,12 @@ object MainModule {
         networkManager: NetworkManager,
         @ApplicationContext context: Context
     ) = SearchRepository(networkManager,context)
+
+    @Provides
+    @ViewModelScoped
+    fun bindNoticeRepository(
+        myDatabase: MyDatabase,
+        networkManager: NetworkManager
+    ) = NoticeRepository(myDatabase,networkManager)
+
 }

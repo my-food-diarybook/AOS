@@ -5,7 +5,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.kapt'
     id("com.google.dagger.hilt.android")
-
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -109,6 +109,11 @@ dependencies {
     implementation "androidx.compose.runtime:runtime-livedata:$compose_ui_version"
     // hilt
     implementation("com.google.dagger:hilt-android:$hilt_version")
+
+    // Google Play services
+    implementation ("com.google.firebase:firebase-auth-ktx")
+
+
     kapt("com.google.dagger:hilt-compiler:$hilt_version")
 
     // bottom sheet
@@ -166,8 +171,8 @@ dependencies {
     implementation "androidx.room:room-runtime:2.3.0"
     annotationProcessor "androidx.room:room-compiler:2.3.0"
 
-    implementation project(":feature:home")
 
+    implementation project(":feature:home")
     implementation project(":core:data")
     implementation project(":app:common")
     implementation project(":app:login")

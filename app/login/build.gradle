@@ -3,7 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.kapt'
     id("com.google.dagger.hilt.android")
-
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -80,6 +80,13 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
     implementation("com.squareup.okhttp3:okhttp-urlconnection:4.9.1")
     implementation("com.google.code.gson:gson:2.9.0")
+
+    // Google Play services
+    implementation(platform("com.google.firebase:firebase-bom:32.1.0"))
+    implementation ("com.google.firebase:firebase-analytics-ktx")
+    implementation ("com.google.firebase:firebase-auth-ktx")
+    // 구글 로그인
+    implementation("com.google.android.gms:play-services-auth:20.6.0")
 
     implementation project(":core:data")
     implementation project(":core:api")
