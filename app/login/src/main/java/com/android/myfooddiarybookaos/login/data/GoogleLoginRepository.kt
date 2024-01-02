@@ -1,8 +1,10 @@
 package com.android.myfooddiarybookaos.login.data
 
+import android.content.ContentValues
 import androidx.activity.result.ActivityResult
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import com.android.myfooddiarybookaos.api.NetworkManager
@@ -35,33 +37,34 @@ class GoogleLoginRepository @Inject constructor(
     ) {
         var tokenId: String?
         var email: String
-
         if (result.resultCode == AppCompatActivity.RESULT_OK) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+            Log.d("task",task.toString())
             try {
                 task.getResult(ApiException::class.java)?.let { account ->
                     tokenId = account.idToken
+                    Log.d("tokenId",tokenId.toString())
                     if (tokenId != null && tokenId != "") {
                         val credential: AuthCredential =
                             GoogleAuthProvider.getCredential(account.idToken, null)
 
                         firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
                             if (firebaseAuth.currentUser != null) {
-                                firebaseAuth.currentUser?.let { user ->
-                                    email = user.email.toString()
-                                    val googleSignInToken = account.idToken ?: ""
-                                    if (googleSignInToken != "") {
-                                        loginCallback(googleSignInToken)
-                                    } else {
-                                        loginCallback(null)
-                                    }
+                                val user: FirebaseUser = firebaseAuth.currentUser!!
+                                email = user.email.toString()
+                                Log.e(ContentValues.TAG, "email : $email")
+                                val googleSignInToken = account.idToken ?: ""
+                                if (googleSignInToken != "") {
+                                    loginCallback(googleSignInToken)
+                                } else {
+                                    loginCallback(null)
                                 }
                             } else {
                                 loginCallback(null)
                             }
                         }
                     }
-                }
+                } ?: throw  Exception()
             } catch (e: Exception) {
                 e.printStackTrace()
                 loginCallback(null)
@@ -89,8 +92,8 @@ class GoogleLoginRepository @Inject constructor(
     suspend fun loginRequest(idToken: String, result: (Boolean) -> Unit) {
         val userData = UserInfoSharedPreferences(context)
         userData.loginForm = NetworkManager.LOGIN_GOOGLE
-        val response =networkManager.getLoginApiService().loginGoogle(idToken)
-        if (response.isSuccessful){
+        val response = networkManager.getLoginApiService().loginGoogle(idToken)
+        if (response.isSuccessful) {
             result(true)
         } else {
             result(false)

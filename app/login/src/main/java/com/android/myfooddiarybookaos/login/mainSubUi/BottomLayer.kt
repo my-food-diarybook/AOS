@@ -1,5 +1,6 @@
 package com.android.myfooddiarybookaos.login.mainSubUi
 
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image

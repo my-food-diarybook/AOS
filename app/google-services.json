@@ -7,14 +7,14 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:859792891234:android:41eee866ec60c7d4d2203b",
+        "mobilesdk_app_id": "1:859792891234:android:ca03d851bef4343ed2203b",
         "android_client_info": {
           "package_name": "com.android.myfooddiarybookaos"
         }
       },
       "oauth_client": [
         {
-          "client_id": "859792891234-lk9uds6oc7jes1k9nl7cldh6nk7oee9c.apps.googleusercontent.com",
+          "client_id": "859792891234-kt0alkfn2dleedmq7m5qr6cvbkndc61e.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.android.myfooddiarybookaos",
@@ -22,20 +22,20 @@
           }
         },
         {
-          "client_id": "859792891234-hm6ltge1k7joe4d8ggic39khim8ivgcg.apps.googleusercontent.com",
+          "client_id": "859792891234-paskj6t339bdd09gu1juaigf4f7jqhn4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDE--majbk0Xk9HdOoyOvFVW7ZrFV_9lps"
+          "current_key": "AIzaSyDkJJ7-vLDpw9k7L9Eb4UqBabAkgdsGlUI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "859792891234-hm6ltge1k7joe4d8ggic39khim8ivgcg.apps.googleusercontent.com",
+              "client_id": "859792891234-paskj6t339bdd09gu1juaigf4f7jqhn4.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
