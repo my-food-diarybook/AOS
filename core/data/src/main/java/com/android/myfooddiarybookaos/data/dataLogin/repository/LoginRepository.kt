@@ -52,7 +52,7 @@ class LoginRepository @Inject constructor(
 
     fun loginUserRequest(
         email: String, pw : String,
-        result : (status : String,token : String?)->Unit
+        result : (status : String,response: LoginResponse?)->Unit
     )  {
         try{
             manager.userLogin(UserRequest( email,pw))
@@ -63,7 +63,7 @@ class LoginRepository @Inject constructor(
                     ) {
                         if (response.isSuccessful){
                             when(response.body()!!.status){
-                                "SUCCESS" -> result("성공",response.body()?.token)
+                                "SUCCESS" -> result("성공",response.body())
                                 else -> result("실패",null)
                             }
                         }else{
@@ -79,8 +79,9 @@ class LoginRepository @Inject constructor(
         }
     }
 
-    fun saveUserToken(newToken : String?){
-        UserInfoSharedPreferences(context).accessToken = newToken
+    fun saveUserToken(response : LoginResponse?){
+        UserInfoSharedPreferences(context).accessToken = response?.token
+        UserInfoSharedPreferences(context).refreshToken = response?.refreshToken
         UserInfoSharedPreferences(context).loginForm = NetworkManager.LOGIN_NONE
     }
 }

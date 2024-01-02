@@ -5,6 +5,7 @@ import com.android.myfooddiarybookaos.api.diaryApi.DiaryPostRetrofitService
 import com.android.myfooddiarybookaos.api.diaryApi.DiaryRetrofitService
 import com.android.myfooddiarybookaos.api.diaryApi.TimeLineRetrofitService
 import com.android.myfooddiarybookaos.api.myApi.MyRetrofitService
+import com.android.myfooddiarybookaos.api.refresh.TokenRetrofitService
 import com.android.myfooddiarybookaos.api.searchApi.SearchRetrofitService
 import com.android.myfooddiarybookaos.api.userApi.UserRetrofitService
 import okhttp3.Interceptor
@@ -41,6 +42,32 @@ class NetworkManager(
                 if (userData.accessToken != null && userData.accessToken != "") {
                     val request = original.newBuilder()
                         .header("token", "${userData.accessToken}")
+                        .build()
+                    it.proceed(request)
+                } else {
+                    it.proceed(original)
+                }
+            }
+
+            return instance ?: Retrofit.Builder()
+                .baseUrl("$BASE_URL/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(unsafeOkHttpClient(header, contentType, loginForm))
+                .build()
+
+        }
+
+        private fun getTokenRetrofit(
+            context: Context,
+            contentType: String,
+        ): Retrofit{
+            val userData = UserInfoSharedPreferences(context)
+            val loginForm = userData.loginForm ?: LOGIN_NONE
+            val header = Interceptor {
+                val original = it.request()
+                if (userData.refreshToken != null && userData.refreshToken != "") {
+                    val request = original.newBuilder()
+                        .header("refresh-token", "${userData.refreshToken}")
                         .build()
                     it.proceed(request)
                 } else {
@@ -108,6 +135,7 @@ class NetworkManager(
                 chain.proceed(chain.request().newBuilder().also {
                     it.addHeader("login-from", loginForm)
                     it.addHeader("Content-Type", contentType)
+                    it.addHeader("request-agent","android")
                 }.build())
             }.also { client ->
                 client.addInterceptor(header)
@@ -143,4 +171,7 @@ class NetworkManager(
 
     fun getSearchApiService(): SearchRetrofitService =
         getRetrofit(context, CONTENT_APPLICATION).create(SearchRetrofitService::class.java)
+
+    fun getTokenApiService(): TokenRetrofitService =
+        getTokenRetrofit(context,CONTENT_APPLICATION).create(TokenRetrofitService::class.java)
 }

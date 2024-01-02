@@ -39,11 +39,9 @@ class GoogleLoginRepository @Inject constructor(
         var email: String
         if (result.resultCode == AppCompatActivity.RESULT_OK) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-            Log.d("task",task.toString())
             try {
                 task.getResult(ApiException::class.java)?.let { account ->
                     tokenId = account.idToken
-                    Log.d("tokenId",tokenId.toString())
                     if (tokenId != null && tokenId != "") {
                         val credential: AuthCredential =
                             GoogleAuthProvider.getCredential(account.idToken, null)

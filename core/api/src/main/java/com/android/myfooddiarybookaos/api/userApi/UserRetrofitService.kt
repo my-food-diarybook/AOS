@@ -4,6 +4,7 @@ import com.android.myfooddiarybookaos.model.login.CreateUserResponse
 import com.android.myfooddiarybookaos.model.login.UserRequest
 import com.android.myfooddiarybookaos.model.login.LoginResponse
 import com.android.myfooddiarybookaos.model.login.SsoToken
+import com.android.myfooddiarybookaos.model.token.UserToken
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
@@ -25,4 +26,5 @@ interface UserRetrofitService {
     suspend fun loginGoogle(
         @Query("code") code: String
     ): Response<Unit>
+
 }

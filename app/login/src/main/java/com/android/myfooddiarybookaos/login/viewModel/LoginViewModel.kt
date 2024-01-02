@@ -11,6 +11,7 @@ import com.android.myfooddiarybookaos.api.NetworkManager
 import com.android.myfooddiarybookaos.api.UserInfoSharedPreferences
 import com.android.myfooddiarybookaos.data.dataLogin.repository.LoginRepository
 import com.android.myfooddiarybookaos.login.data.GoogleLoginRepository
+import com.android.myfooddiarybookaos.model.login.LoginResponse
 import com.android.myfooddiarybookaos.model.login.SsoToken
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,8 +33,8 @@ class LoginViewModel @Inject constructor(
     ) {
         repository.loginUserRequest(
             email, pw,
-            result = { status, token ->
-                userState(saveUserState(status, token))
+            result = { status, response ->
+                userState(saveUserState(status, response))
             }
         )
 
@@ -45,19 +46,19 @@ class LoginViewModel @Inject constructor(
     ) {
         repository.createUserRequest(
             email, pw,
-            result = { status, token ->
-                userState(saveUserState(status, token))
+            result = { _, _ ->
+                loginUser(email, pw, userState = { userState(it) })
             }
         )
     }
 
     private fun saveUserState(
         status: String,
-        token: String?
+        response: LoginResponse?
     ): Boolean {
         return if (status == "성공") {
             // 토큰 저장 !
-            repository.saveUserToken(token)
+            repository.saveUserToken(response)
             true
         } else false
     }
@@ -85,10 +86,9 @@ class LoginViewModel @Inject constructor(
                 it.let { token ->
                     CoroutineScope(Dispatchers.IO).launch {
                         googleLoginRepository.loginRequest(token, result = { resultState ->
-                            if (resultState){
+                            if (resultState) {
                                 loginState(true)
-                            }
-                            else loginState(false)
+                            } else loginState(false)
                         })
                     }
                 }
@@ -98,8 +98,8 @@ class LoginViewModel @Inject constructor(
         })
     }
 
-    fun goggleLogin(launcher: ActivityResultLauncher<Intent>){
-        googleLoginRepository.login(NetworkManager.GOOGLE_ID,launcher)
+    fun goggleLogin(launcher: ActivityResultLauncher<Intent>) {
+        googleLoginRepository.login(NetworkManager.GOOGLE_ID, launcher)
     }
 
 
