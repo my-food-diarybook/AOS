@@ -5,6 +5,7 @@ import com.android.myfooddiarybookaos.api.diaryApi.DiaryPostRetrofitService
 import com.android.myfooddiarybookaos.api.diaryApi.DiaryRetrofitService
 import com.android.myfooddiarybookaos.api.diaryApi.TimeLineRetrofitService
 import com.android.myfooddiarybookaos.api.myApi.MyRetrofitService
+import com.android.myfooddiarybookaos.api.refresh.AuthInterceptor
 import com.android.myfooddiarybookaos.api.refresh.TokenRetrofitService
 import com.android.myfooddiarybookaos.api.searchApi.SearchRetrofitService
 import com.android.myfooddiarybookaos.api.userApi.UserRetrofitService
@@ -52,34 +53,21 @@ class NetworkManager(
             return instance ?: Retrofit.Builder()
                 .baseUrl("$BASE_URL/")
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(unsafeOkHttpClient(header, contentType, loginForm))
+                .client(unsafeOkHttpClient(header, contentType, loginForm,context))
                 .build()
 
         }
 
-        private fun getTokenRetrofit(
-            context: Context,
-            contentType: String,
-        ): Retrofit{
-            val userData = UserInfoSharedPreferences(context)
-            val loginForm = userData.loginForm ?: LOGIN_NONE
-            val header = Interceptor {
-                val original = it.request()
-                if (userData.refreshToken != null && userData.refreshToken != "") {
-                    val request = original.newBuilder()
-                        .header("refresh-token", "${userData.refreshToken}")
-                        .build()
-                    it.proceed(request)
-                } else {
-                    it.proceed(original)
-                }
-            }
+        private fun getTokenRetrofit(): TokenRetrofitService{
 
-            return instance ?: Retrofit.Builder()
+            val client = OkHttpClient.Builder().build()
+
+            return Retrofit.Builder()
                 .baseUrl("$BASE_URL/")
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(unsafeOkHttpClient(header, contentType, loginForm))
+                .client(client)
                 .build()
+                .create(TokenRetrofitService::class.java)
 
         }
 
@@ -103,6 +91,7 @@ class NetworkManager(
             header: Interceptor,
             contentType: String,
             loginForm: String,
+            context: Context,
         ): OkHttpClient {
             val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
                 override fun checkClientTrusted(
@@ -139,6 +128,7 @@ class NetworkManager(
                 }.build())
             }.also { client ->
                 client.addInterceptor(header)
+                client.addInterceptor(AuthInterceptor(context,getTokenRetrofit()))
                 //로그 기록 인터셉터 등록
                 val logInterceptor = HttpLoggingInterceptor()
                 logInterceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -172,6 +162,4 @@ class NetworkManager(
     fun getSearchApiService(): SearchRetrofitService =
         getRetrofit(context, CONTENT_APPLICATION).create(SearchRetrofitService::class.java)
 
-    fun getTokenApiService(): TokenRetrofitService =
-        getTokenRetrofit(context,CONTENT_APPLICATION).create(TokenRetrofitService::class.java)
 }
