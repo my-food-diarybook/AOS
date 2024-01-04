@@ -58,19 +58,6 @@ class NetworkManager(
 
         }
 
-        private fun getTokenRetrofit(): TokenRetrofitService{
-
-            val client = OkHttpClient.Builder().build()
-
-            return Retrofit.Builder()
-                .baseUrl("$BASE_URL/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
-                .build()
-                .create(TokenRetrofitService::class.java)
-
-        }
-
         // 클라이언트 빌드
 //        private fun buildOkHttpClient(header: Interceptor) : OkHttpClient {
 //            return OkHttpClient.Builder()
@@ -128,7 +115,7 @@ class NetworkManager(
                 }.build())
             }.also { client ->
                 client.addInterceptor(header)
-                client.addInterceptor(AuthInterceptor(context,getTokenRetrofit()))
+                client.addInterceptor(AuthInterceptor(context,loginForm))
                 //로그 기록 인터셉터 등록
                 val logInterceptor = HttpLoggingInterceptor()
                 logInterceptor.level = HttpLoggingInterceptor.Level.BODY
