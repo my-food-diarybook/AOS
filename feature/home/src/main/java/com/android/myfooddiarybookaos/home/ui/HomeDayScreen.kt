@@ -43,14 +43,12 @@ fun HomeDayScreen(
         backStage(diaryState, appState)
     })
 
-    val homeDays = homeViewModel.homeDayInDiary.collectAsState().value.homeDayList
+    val homeDays = homeViewModel.homeDayInDiary.collectAsState()
     val viewUpdate = rememberSaveable { mutableStateOf(true) }
     val currentDate = diaryState.currentHomeDay.value
-    if(viewUpdate.value) {
-        LaunchedEffect(Unit) {
-            homeViewModel.getHomeDayInDiary(currentDate)
-            viewUpdate.value = false
-        }
+    if (viewUpdate.value) {
+        homeViewModel.getHomeDayInDiary(currentDate)
+        viewUpdate.value = false
     }
 
     // 업로드 시도
@@ -116,11 +114,19 @@ fun HomeDayScreen(
             todayViewModel.apply {
                 HomeDayTopLayer(
                     currentDate = getTopDate(currentDate),
-                    prevDate = getTopDate(homeViewModel.getPrevHomeDay()),
-                    nextDate = getTopDate(homeViewModel.getNextHomeDay()),
-                    onChange = {
-                        diaryState.currentHomeDay.value  = it
-                        viewUpdate.value = true
+                    prevDate = getTopDate(homeDays.value.beforeDay),
+                    nextDate = getTopDate(homeDays.value.afterDay),
+                    onPrev = {
+                        homeDays.value.beforeDay?.let{
+                            diaryState.currentHomeDay.value = it
+                            viewUpdate.value = true
+                        }
+                    },
+                    onNext = {
+                        homeDays.value.afterDay?.let {
+                            diaryState.currentHomeDay.value = it
+                            viewUpdate.value = true
+                        }
                     },
                 )
             }
@@ -135,11 +141,11 @@ fun HomeDayScreen(
             contentPadding = PaddingValues(horizontal = 20.dp),
             state = rememberLazyListState()
         ) {
-            items(homeDays.size) { index ->
+            items(homeDays.value.homeDayList.size) { index ->
                 ItemHomeDay(
-                    homeDay = homeDays[index],
+                    homeDay = homeDays.value.homeDayList[index],
                     clickDiary = {
-                        homeViewModel.goDetailView(homeDays[index].id)
+                        homeViewModel.goDetailView(homeDays.value.homeDayList[index].id)
                     }
                 )
             }

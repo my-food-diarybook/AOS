@@ -107,8 +107,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun getPrevHomeDay() = homeDayInDiary.value.beforeDay ?: ""
-    fun getNextHomeDay() = homeDayInDiary.value.afterday ?: ""
-    fun getHomeDays() = homeDayInDiary.value.homeDayList
+    fun getNextHomeDay() = homeDayInDiary.value.afterDay ?: ""
 
     fun goDetailView(diaryId: Int) {
         diaryState.value?.setDiaryDetail(diaryId)
