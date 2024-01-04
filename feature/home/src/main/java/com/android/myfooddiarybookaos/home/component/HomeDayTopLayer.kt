@@ -1,5 +1,6 @@
 package com.android.myfooddiarybookaos.home.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Text
@@ -19,7 +20,8 @@ import com.android.myfooddiarybookaos.data.utils.scaledSp
 fun HomeDayTopLayer(
     currentDate: String,
     prevDate: String,
-    nextDate: String
+    nextDate: String,
+    onChange: (String) -> Unit,
 ) {
     Box(
         modifier = Modifier.fillMaxSize()
@@ -30,7 +32,11 @@ fun HomeDayTopLayer(
             fontWeight = FontWeight.W500,
             fontSize = 18.scaledSp(),
             color = colorResource(id = R.color.calender_next_color),
-            modifier = Modifier.align(Alignment.Center)
+            modifier = Modifier
+                .align(Alignment.CenterStart)
+                .clickable {
+                    onChange(prevDate)
+                }
         )
 
         Text(
@@ -47,7 +53,11 @@ fun HomeDayTopLayer(
             fontWeight = FontWeight.W500,
             fontSize = 18.scaledSp(),
             color = colorResource(id = R.color.calender_next_color),
-            modifier = Modifier.align(Alignment.Center)
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .clickable {
+                    onChange(nextDate)
+                }
         )
     }
 }

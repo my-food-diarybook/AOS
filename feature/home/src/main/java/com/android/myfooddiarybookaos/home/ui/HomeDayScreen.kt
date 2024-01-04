@@ -7,9 +7,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Divider
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -35,16 +34,23 @@ fun HomeDayScreen(
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
 
+    LaunchedEffect(Unit) {
+        homeViewModel.initState(appState, diaryState)
+    }
+
     // 뒤로가기 제어
     BackHandler(enabled = true, onBack = {
         backStage(diaryState, appState)
     })
 
     val homeDays = homeViewModel.homeDayInDiary.collectAsState().value.homeDayList
+    val viewUpdate = rememberSaveable { mutableStateOf(true) }
     val currentDate = diaryState.currentHomeDay.value
-    LaunchedEffect(Unit) {
-        homeViewModel.initState(appState, diaryState)
-        homeViewModel.getHomeDayInDiary(currentDate)
+    if(viewUpdate.value) {
+        LaunchedEffect(Unit) {
+            homeViewModel.getHomeDayInDiary(currentDate)
+            viewUpdate.value = false
+        }
     }
 
     // 업로드 시도
@@ -111,7 +117,11 @@ fun HomeDayScreen(
                 HomeDayTopLayer(
                     currentDate = getTopDate(currentDate),
                     prevDate = getTopDate(homeViewModel.getPrevHomeDay()),
-                    nextDate = getTopDate(homeViewModel.getNextHomeDay())
+                    nextDate = getTopDate(homeViewModel.getNextHomeDay()),
+                    onChange = {
+                        diaryState.currentHomeDay.value  = it
+                        viewUpdate.value = true
+                    },
                 )
             }
         }
