@@ -2,14 +2,14 @@ package com.android.myfooddiarybookaos.detail.mainUi.ui
 
 import android.util.Log
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.clickable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.ui.res.colorResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.detail.function.DiaryViewState
 import com.android.myfooddiarybookaos.detail.mainUi.component.DetailLocation
@@ -19,6 +19,7 @@ import com.android.myfooddiarybookaos.detail.memoUi.component.TypeMemo
 import com.android.myfooddiarybookaos.detail.memoUi.component.TypeTag
 import com.android.myfooddiarybookaos.data.state.DetailFixState
 import com.android.myfooddiarybookaos.detail.viewModel.DetailViewModel
+import com.android.myfooddiarybookaos.core.data.R
 
 @Composable
 fun DetailMemoScreen(
@@ -26,7 +27,15 @@ fun DetailMemoScreen(
     currentViewState: MutableState<DiaryViewState>,
     detailViewModel: DetailViewModel = hiltViewModel()
 ) {
-
+    val memoTopColorState = animateColorAsState(
+        targetValue = if (
+            diaryFixState.checkChangeData(detailViewModel.diaryDetail.value)
+        ) {
+            colorResource(id = R.color.main_color)
+        } else {
+            colorResource(id = R.color.line_color_deep)
+        }
+    )
 
     // 뒤로가기 제어
     BackHandler(enabled = true, onBack = {
@@ -39,13 +48,16 @@ fun DetailMemoScreen(
             },
             nextStage = {
                 //  상태 저장
-                detailViewModel.setFixResult(
-                    diaryFixState,
-                    initCurrentData = {
-                        currentViewState.value = DiaryViewState.MAIN
-                    }
-                )
-            }
+                if (diaryFixState.checkChangeData(detailViewModel.diaryDetail.value)) {
+                    detailViewModel.setFixResult(
+                        diaryFixState,
+                        initCurrentData = {
+                            currentViewState.value = DiaryViewState.MAIN
+                        }
+                    )
+                }
+            },
+            memoTopColorState = memoTopColorState
         )
         Spacer(modifier = Modifier.height(22.dp))
         SelectTimeLayer(diaryFixState.diaryTimeData)
