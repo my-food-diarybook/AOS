@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Divider
 import androidx.compose.runtime.*
@@ -18,12 +19,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.component.coloredInnerShadow
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
+import com.android.myfooddiarybookaos.data.path.byteStringToBitmap
 import com.android.myfooddiarybookaos.data.state.AddScreenState
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.home.component.HomeDayTopLayer
 import com.android.myfooddiarybookaos.home.item.ItemHomeDay
 import com.android.myfooddiarybookaos.home.viewModel.HomeViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -44,11 +48,16 @@ fun HomeDayScreen(
     })
 
     val homeDays = homeViewModel.homeDayInDiary.collectAsState()
+    val prevDay = homeViewModel.homeDayPrev.collectAsState()
+    val nextDay = homeViewModel.homeDayNext.collectAsState()
     val viewUpdate = rememberSaveable { mutableStateOf(true) }
     val currentDate = diaryState.currentHomeDay.value
     if (viewUpdate.value) {
         homeViewModel.getHomeDayInDiary(currentDate)
-        viewUpdate.value = false
+        rememberCoroutineScope().launch {
+            delay(500)
+            viewUpdate.value = false
+        }
     }
 
     // 업로드 시도
@@ -114,17 +123,17 @@ fun HomeDayScreen(
             todayViewModel.apply {
                 HomeDayTopLayer(
                     currentDate = getTopDate(currentDate),
-                    prevDate = getTopDate(homeDays.value.beforeDay),
-                    nextDate = getTopDate(homeDays.value.afterDay),
+                    prevDate = getTopDate(prevDay.value),
+                    nextDate = getTopDate(nextDay.value),
                     onPrev = {
-                        homeDays.value.beforeDay?.let{
-                            diaryState.currentHomeDay.value = it
+                        if (prevDay.value.isNotEmpty()) {
+                            diaryState.currentHomeDay.value = prevDay.value
                             viewUpdate.value = true
                         }
                     },
                     onNext = {
-                        homeDays.value.afterDay?.let {
-                            diaryState.currentHomeDay.value = it
+                        if (nextDay.value.isNotEmpty()) {
+                            diaryState.currentHomeDay.value = nextDay.value
                             viewUpdate.value = true
                         }
                     },
@@ -136,20 +145,23 @@ fun HomeDayScreen(
         Spacer(modifier = Modifier.height(9.dp))
 
         //여기 아이템 리스트 추가
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(horizontal = 20.dp),
-            state = rememberLazyListState()
-        ) {
-            items(homeDays.value.homeDayList.size) { index ->
-                ItemHomeDay(
-                    homeDay = homeDays.value.homeDayList[index],
-                    clickDiary = {
-                        homeViewModel.goDetailView(homeDays.value.homeDayList[index].id)
-                    }
-                )
+        if (!viewUpdate.value) {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(horizontal = 20.dp),
+                state = rememberLazyListState()
+            ) {
+                items(homeDays.value) {
+                    ItemHomeDay(
+                        homeDay = it,
+                        clickDiary = {
+                            homeViewModel.goDetailView(it.id)
+                        },
+                    )
+                }
             }
         }
+
     }
 
 }
