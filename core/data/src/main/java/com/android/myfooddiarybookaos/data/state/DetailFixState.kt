@@ -27,6 +27,15 @@ class DetailFixState(
         latitude = mutableStateOf(diaryDetail?.latitude)
     }
 
+    fun checkChangeData(
+        diaryDetail: DiaryDetail
+    ): Boolean{
+        return tags.joinToString { "," } != diaryDetail.tags.joinToString { "," } ||
+                memo.value != diaryDetail.memo ||
+                    diaryTimeData.value != diaryDetail.diaryTime ||
+                        place.value != diaryDetail.place
+    }
+
     fun setMemo(
         memoFlow: String
     ) {

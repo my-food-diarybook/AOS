@@ -1,5 +1,6 @@
 package com.android.myfooddiarybookaos.myaccount.myMain
 
+import android.content.pm.PackageManager
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -18,6 +19,8 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.android.myfooddiarybookaos.api.UserInfoSharedPreferences
+import com.android.myfooddiarybookaos.api.appVersion
+import com.android.myfooddiarybookaos.core.data.BuildConfig
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.TextBox
 import com.android.myfooddiarybookaos.data.component.coloredInnerShadow
@@ -110,7 +113,8 @@ fun MyMainScreen(
             ) {
                 OptionBox("공지사항", R.drawable.right_side_my, null)
             }
-            OptionBox("앱 버전 정보", null, "1. 1. 1")
+
+            OptionBox("앱 버전 정보", null, appVersion)
             OptionBox("의견보내기", R.drawable.message, null)
             Spacer(modifier = Modifier.height(80.dp))
 

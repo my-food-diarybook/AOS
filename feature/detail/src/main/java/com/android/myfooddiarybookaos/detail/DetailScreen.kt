@@ -58,7 +58,10 @@ fun DetailScreen(
             )
         }
         DiaryViewState.MEMO -> {
-            DetailMemoScreen(diaryFixState, currentViewState)
+            DetailMemoScreen(
+                diaryFixState,
+                currentViewState
+            )
         }
         DiaryViewState.LOCATION -> {
             DetailLocationScreen(diaryFixState, currentViewState)

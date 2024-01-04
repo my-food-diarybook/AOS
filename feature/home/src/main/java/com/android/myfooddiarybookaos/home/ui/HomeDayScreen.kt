@@ -5,11 +5,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Divider
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -19,12 +19,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.component.coloredInnerShadow
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
+import com.android.myfooddiarybookaos.data.path.byteStringToBitmap
 import com.android.myfooddiarybookaos.data.state.AddScreenState
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.home.component.HomeDayTopLayer
 import com.android.myfooddiarybookaos.home.item.ItemHomeDay
 import com.android.myfooddiarybookaos.home.viewModel.HomeViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -35,16 +38,26 @@ fun HomeDayScreen(
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
 
+    LaunchedEffect(Unit) {
+        homeViewModel.initState(appState, diaryState)
+    }
+
     // 뒤로가기 제어
     BackHandler(enabled = true, onBack = {
         backStage(diaryState, appState)
     })
 
-    val homeDays = homeViewModel.homeDayInDiary.collectAsState().value.homeDayList
+    val homeDays = homeViewModel.homeDayInDiary.collectAsState()
+    val prevDay = homeViewModel.homeDayPrev.collectAsState()
+    val nextDay = homeViewModel.homeDayNext.collectAsState()
+    val viewUpdate = rememberSaveable { mutableStateOf(true) }
     val currentDate = diaryState.currentHomeDay.value
-    LaunchedEffect(Unit) {
-        homeViewModel.initState(appState, diaryState)
+    if (viewUpdate.value) {
         homeViewModel.getHomeDayInDiary(currentDate)
+        rememberCoroutineScope().launch {
+            delay(500)
+            viewUpdate.value = false
+        }
     }
 
     // 업로드 시도
@@ -110,8 +123,20 @@ fun HomeDayScreen(
             todayViewModel.apply {
                 HomeDayTopLayer(
                     currentDate = getTopDate(currentDate),
-                    prevDate = getTopDate(homeViewModel.getPrevHomeDay()),
-                    nextDate = getTopDate(homeViewModel.getNextHomeDay())
+                    prevDate = getTopDate(prevDay.value),
+                    nextDate = getTopDate(nextDay.value),
+                    onPrev = {
+                        if (prevDay.value.isNotEmpty()) {
+                            diaryState.currentHomeDay.value = prevDay.value
+                            viewUpdate.value = true
+                        }
+                    },
+                    onNext = {
+                        if (nextDay.value.isNotEmpty()) {
+                            diaryState.currentHomeDay.value = nextDay.value
+                            viewUpdate.value = true
+                        }
+                    },
                 )
             }
         }
@@ -120,20 +145,23 @@ fun HomeDayScreen(
         Spacer(modifier = Modifier.height(9.dp))
 
         //여기 아이템 리스트 추가
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(horizontal = 20.dp),
-            state = rememberLazyListState()
-        ) {
-            items(homeDays.size) { index ->
-                ItemHomeDay(
-                    homeDay = homeDays[index],
-                    clickDiary = {
-                        homeViewModel.goDetailView(homeDays[index].id)
-                    }
-                )
+        if (!viewUpdate.value) {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(horizontal = 20.dp),
+                state = rememberLazyListState()
+            ) {
+                items(homeDays.value) {
+                    ItemHomeDay(
+                        homeDay = it,
+                        clickDiary = {
+                            homeViewModel.goDetailView(it.id)
+                        },
+                    )
+                }
             }
         }
+
     }
 
 }

@@ -1,6 +1,7 @@
 package com.android.myfooddiarybookaos.home.item
 
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -9,6 +10,8 @@ import androidx.compose.material.Card
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,15 +37,19 @@ import com.android.myfooddiarybookaos.data.utils.scaledSp
 @Composable
 fun ItemHomeDay(
     homeDay: HomeDay,
-    clickDiary: () -> Unit
+    clickDiary: () -> Unit,
 ) {
+    val homeDayTags = remember {
+        mutableStateOf(
+            if (homeDay.tags.isNotEmpty()) "#" +
+                    homeDay.tags.joinToString(" #")
+            else ""
+        )
+    }
 
-    val homeDayTags =
-        if (homeDay.tags.isNotEmpty()) "#" +
-                homeDay.tags.joinToString(" #")
-        else ""
-    val imageBitmap = remember { byteStringToBitmap(homeDay.image.bytes) }
-
+    val imageBitmap = remember {
+        mutableStateOf(byteStringToBitmap(homeDay.image.bytes))
+    }
     Surface(
         modifier = Modifier
             .padding(vertical = 8.dp)
@@ -63,7 +70,7 @@ fun ItemHomeDay(
             Column {
 
                 AsyncImage(
-                    model = imageBitmap,
+                    model = imageBitmap.value,
                     modifier = Modifier
                         .clip(RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp))
                         .fillMaxWidth()
@@ -73,18 +80,31 @@ fun ItemHomeDay(
                     onSuccess = {}
                 )
 
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.CenterStart) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.CenterStart
+                ) {
                     Column(modifier = Modifier.padding(start = 8.dp)) {
                         Text(
                             text = DiaryTime.getDiaryTimeData(homeDay.diaryTime),
-                            fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W500)),
+                            fontFamily = FontFamily(
+                                Font(
+                                    R.font.roboto_regular,
+                                    FontWeight.W500
+                                )
+                            ),
                             fontSize = 16.scaledSp(),
                             color = Color.Black,
                             lineHeight = 16.scaledSp()
                         )
                         Text(
-                            text = homeDayTags,
-                            fontFamily = FontFamily(Font(R.font.roboto_regular, FontWeight.W500)),
+                            text = homeDayTags.value,
+                            fontFamily = FontFamily(
+                                Font(
+                                    R.font.roboto_regular,
+                                    FontWeight.W500
+                                )
+                            ),
                             fontSize = 12.scaledSp(),
                             color = colorResource(id = R.color.main_color),
                             lineHeight = 12.scaledSp()

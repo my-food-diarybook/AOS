@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -21,7 +23,8 @@ import com.android.myfooddiarybookaos.data.utils.scaledSp
 @Composable
 fun MemoTopLayer(
     backStage: ()-> Unit,
-    nextStage: ()-> Unit
+    nextStage: ()-> Unit,
+    memoTopColorState: State<Color>
 ) {
     Spacer(modifier = Modifier.height(43.dp))
     Box(
@@ -57,7 +60,7 @@ fun MemoTopLayer(
             Text(
                 text = "완료",
                 fontSize = 18.scaledSp(),
-                color = colorResource(id = R.color.line_color_deep),
+                color = memoTopColorState.value,
                 fontWeight = FontWeight.W500,
                 fontFamily = robotoRegular,
                 lineHeight = 18.scaledSp()

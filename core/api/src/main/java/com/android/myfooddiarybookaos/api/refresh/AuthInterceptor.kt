@@ -17,7 +17,7 @@ class AuthInterceptor(
         val response = chain.proceed(request)
 
         when (response.code){
-            401 -> {
+            500 -> {
                 return runBlocking {
                     val userData =  UserInfoSharedPreferences(context)
                     when(val token = getUpdateToken() ){

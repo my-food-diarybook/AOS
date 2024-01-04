@@ -11,6 +11,7 @@ import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.model.diary.Diary
 import com.android.myfooddiarybookaos.model.home.DiaryHomeDay
+import com.android.myfooddiarybookaos.model.home.HomeDay
 import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,9 +37,14 @@ class HomeViewModel @Inject constructor(
     private val _homeDiaryList = MutableStateFlow<List<Diary>>(emptyList())
     val homeDiaryList: StateFlow<List<Diary>> = _homeDiaryList.asStateFlow()
 
-    private val _homeDayInDiary = MutableStateFlow<DiaryHomeDay>(DiaryHomeDay())
-    val homeDayInDiary: StateFlow<DiaryHomeDay> = _homeDayInDiary.asStateFlow()
+    private val _homeDayInDiary = MutableStateFlow<List<HomeDay>>(emptyList())
+    val homeDayInDiary: StateFlow<List<HomeDay>> = _homeDayInDiary.asStateFlow()
 
+    private val _homeDayPrev = MutableStateFlow("")
+    val homeDayPrev: StateFlow<String> = _homeDayPrev.asStateFlow()
+
+    private val _homeDayNext = MutableStateFlow("")
+    val homeDayNext: StateFlow<String> = _homeDayNext.asStateFlow()
 
     fun initState(
         state1: ApplicationState,
@@ -55,6 +61,7 @@ class HomeViewModel @Inject constructor(
         homeRepository.getCurrentHomeDiary(yearMonth)
             .collectLatest {
                 _homeDiaryList.value = it
+
             }
     }
 
@@ -63,7 +70,9 @@ class HomeViewModel @Inject constructor(
     ) = viewModelScope.launch {
         homeRepository.getCurrentHomeDay(date)
             .collectLatest {
-                _homeDayInDiary.value = it
+                _homeDayInDiary.value = it.homeDayList
+                _homeDayPrev.value = it.beforeDay ?: ""
+                _homeDayNext.value = it.afterDay ?: ""
             }
     }
 
@@ -106,15 +115,9 @@ class HomeViewModel @Inject constructor(
         appState.value?.navController?.navigate(ScreenRoot.HOME_DAY)
     }
 
-    fun getPrevHomeDay() = homeDayInDiary.value.beforeDay ?: ""
-    fun getNextHomeDay() = homeDayInDiary.value.afterday ?: ""
-    fun getHomeDays() = homeDayInDiary.value.homeDayList
-
     fun goDetailView(diaryId: Int) {
         diaryState.value?.setDiaryDetail(diaryId)
         appState.value?.navController?.navigate(ScreenRoot.DETAIL_DIARY)
     }
-
-    fun getHomeDaySize(): Int = homeDiaryList.value.size
 
 }

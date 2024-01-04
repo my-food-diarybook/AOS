@@ -124,7 +124,7 @@ class NetworkManager(
                 chain.proceed(chain.request().newBuilder().also {
                     it.addHeader("login-from", loginForm)
                     it.addHeader("Content-Type", contentType)
-                    it.addHeader("request-agent","android")
+                    it.addHeader("request-agent","android; app-version $appVersion")
                 }.build())
             }.also { client ->
                 client.addInterceptor(header)
