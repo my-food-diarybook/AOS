@@ -4,11 +4,13 @@ import android.content.Context
 import com.android.myfooddiarybookaos.api.diaryApi.DiaryPostRetrofitService
 import com.android.myfooddiarybookaos.api.diaryApi.DiaryRetrofitService
 import com.android.myfooddiarybookaos.api.diaryApi.TimeLineRetrofitService
+import com.android.myfooddiarybookaos.api.googleLogin.GoogleLoginService
 import com.android.myfooddiarybookaos.api.myApi.MyRetrofitService
 import com.android.myfooddiarybookaos.api.refresh.AuthInterceptor
 import com.android.myfooddiarybookaos.api.refresh.TokenRetrofitService
 import com.android.myfooddiarybookaos.api.searchApi.SearchRetrofitService
 import com.android.myfooddiarybookaos.api.userApi.UserRetrofitService
+import com.android.myfooddiarybookaos.model.login.LoginGoogleRequest
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -27,7 +29,10 @@ class NetworkManager(
         private val instance: Retrofit? = null
         private const val CONTENT_APPLICATION = "application/json"
         private const val CONTENT_MULTI_PART = "multipart/form-data"
+        const val GRANT_TYPE = "authorization_code"
         const val GOOGLE_ID = "859792891234-paskj6t339bdd09gu1juaigf4f7jqhn4.apps.googleusercontent.com"
+        const val GOOGLE_SECRET_ID = "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"
+        const val GOOGLE_REDIRECT_URI = "https://my-foodiary.firebaseapp.com/__/auth/handler"
         const val LOGIN_NONE ="none"
         const val LOGIN_KAKAO = "kakao"
         const val LOGIN_GOOGLE = "google"
@@ -58,20 +63,17 @@ class NetworkManager(
 
         }
 
-        // 클라이언트 빌드
-//        private fun buildOkHttpClient(header: Interceptor) : OkHttpClient {
-//            return OkHttpClient.Builder()
-//                .addInterceptor { chain ->
-//                    chain.proceed(chain.request().newBuilder().also {
-//                        it.addHeader("Accept", "application/json")
-//                    }.build())
-//                }.also { client ->
-//                    client.addInterceptor(header)
-//                    //로그 기록 인터셉터 등록
-//                    val logInterceptor = HttpLoggingInterceptor()
-//                    logInterceptor.level = HttpLoggingInterceptor.Level.BODY
-//                    client.addInterceptor(logInterceptor)
-//                }.경
+        fun googleTokenRequest(
+            authCode: String
+        ): LoginGoogleRequest {
+            return LoginGoogleRequest(
+                grant_type = GRANT_TYPE,
+                client_id = GOOGLE_ID,
+                client_secret = GOOGLE_SECRET_ID,
+                redirect_uri = GOOGLE_REDIRECT_URI,
+                code = authCode
+            )
+        }
 
         // SSL 인증서 체크 + 클라이언트
         private fun unsafeOkHttpClient(
@@ -149,4 +151,6 @@ class NetworkManager(
     fun getSearchApiService(): SearchRetrofitService =
         getRetrofit(context, CONTENT_APPLICATION).create(SearchRetrofitService::class.java)
 
+    fun getGoogleLoginApiService(): GoogleLoginService =
+        getRetrofit(context, CONTENT_APPLICATION).create(GoogleLoginService::class.java)
 }
