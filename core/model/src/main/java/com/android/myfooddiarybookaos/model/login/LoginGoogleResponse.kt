@@ -5,5 +5,5 @@ data class LoginGoogleResponse(
     var expires_in: Int = 0,
     var scope: String = "",
     var token_type: String = "",
-    var id_token: String = "",
+    var refresh_token: String = "",
 )

@@ -2,9 +2,11 @@ package com.android.myfooddiarybookaos.login.viewModel
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
+import androidx.annotation.RequiresApi
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import com.android.myfooddiarybookaos.api.NetworkManager
@@ -20,6 +22,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.net.URLDecoder
+import java.nio.charset.StandardCharsets
 import javax.inject.Inject
 
 @HiltViewModel
@@ -78,6 +82,7 @@ class LoginViewModel @Inject constructor(
         context.startActivity(intent)
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     fun setLauncher(
         result: ActivityResult,
         firebaseAuth: FirebaseAuth,
@@ -86,13 +91,16 @@ class LoginViewModel @Inject constructor(
         googleLoginRepository.setLauncher(result, firebaseAuth, loginCallback = {
             if (it != null) {
                 it.let { token ->
+                    // token decode
                     CoroutineScope(Dispatchers.IO).launch {
-                        googleLoginRepository.loginRequest(token).let {result ->
+                        googleLoginRepository.loginRequest(token).let { result ->
+                            Log.d("result",result.toString())
                             when(result){
                                 is LoginResult.Success<LoginGoogleResponse> -> {
+                                    Log.d("result",result.data.access_token.toString())
                                     repository.saveUserToken(
                                         LoginResponse(
-                                            refreshToken ="",
+                                            refreshToken = result.data.refresh_token,
                                             status = "성공",
                                             token = result.data.access_token
                                         )

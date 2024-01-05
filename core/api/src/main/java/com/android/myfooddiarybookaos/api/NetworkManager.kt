@@ -63,6 +63,16 @@ class NetworkManager(
 
         }
 
+        private fun getGoogleRetrofit(): Retrofit{
+            val logInterceptor = HttpLoggingInterceptor()
+            logInterceptor.level = HttpLoggingInterceptor.Level.BODY
+            return Retrofit.Builder()
+                .baseUrl("$GOOGLE_BASE_URL/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(OkHttpClient.Builder().addInterceptor(logInterceptor).build())
+                .build()
+        }
+
         // SSL 인증서 체크 + 클라이언트
         private fun unsafeOkHttpClient(
             header: Interceptor,
@@ -140,7 +150,7 @@ class NetworkManager(
         getRetrofit(context, CONTENT_APPLICATION).create(SearchRetrofitService::class.java)
 
     fun getGoogleLoginApiService(): GoogleLoginService =
-        getRetrofit(context, CONTENT_APPLICATION).create(GoogleLoginService::class.java)
+        getGoogleRetrofit().create(GoogleLoginService::class.java)
 
     fun googleTokenRequest(
         authCode: String
