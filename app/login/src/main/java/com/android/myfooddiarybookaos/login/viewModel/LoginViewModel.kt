@@ -9,8 +9,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import com.android.myfooddiarybookaos.api.NetworkManager
 import com.android.myfooddiarybookaos.api.UserInfoSharedPreferences
+import com.android.myfooddiarybookaos.api.googleLogin.LoginResult
 import com.android.myfooddiarybookaos.data.dataLogin.repository.LoginRepository
 import com.android.myfooddiarybookaos.login.data.GoogleLoginRepository
+import com.android.myfooddiarybookaos.model.login.LoginGoogleResponse
 import com.android.myfooddiarybookaos.model.login.LoginResponse
 import com.android.myfooddiarybookaos.model.login.SsoToken
 import com.google.firebase.auth.FirebaseAuth
@@ -85,11 +87,23 @@ class LoginViewModel @Inject constructor(
             if (it != null) {
                 it.let { token ->
                     CoroutineScope(Dispatchers.IO).launch {
-                        googleLoginRepository.loginRequest(token, result = { resultState ->
-                            if (resultState) {
-                                loginState(true)
-                            } else loginState(false)
-                        })
+                        googleLoginRepository.loginRequest(token).let {result ->
+                            when(result){
+                                is LoginResult.Success<LoginGoogleResponse> -> {
+                                    repository.saveUserToken(
+                                        LoginResponse(
+                                            refreshToken ="",
+                                            status = "성공",
+                                            token = result.data.access_token
+                                        )
+                                    )
+                                    loginState(true)
+                                }
+                                else -> {
+                                    loginState(false)
+                                }
+                            }
+                        }
                     }
                 }
             } else {

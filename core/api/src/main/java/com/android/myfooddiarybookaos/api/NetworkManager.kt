@@ -63,18 +63,6 @@ class NetworkManager(
 
         }
 
-        fun googleTokenRequest(
-            authCode: String
-        ): LoginGoogleRequest {
-            return LoginGoogleRequest(
-                grant_type = GRANT_TYPE,
-                client_id = GOOGLE_ID,
-                client_secret = GOOGLE_SECRET_ID,
-                redirect_uri = GOOGLE_REDIRECT_URI,
-                code = authCode
-            )
-        }
-
         // SSL 인증서 체크 + 클라이언트
         private fun unsafeOkHttpClient(
             header: Interceptor,
@@ -153,4 +141,16 @@ class NetworkManager(
 
     fun getGoogleLoginApiService(): GoogleLoginService =
         getRetrofit(context, CONTENT_APPLICATION).create(GoogleLoginService::class.java)
+
+    fun googleTokenRequest(
+        authCode: String
+    ): LoginGoogleRequest {
+        return LoginGoogleRequest(
+            grant_type = GRANT_TYPE,
+            client_id = GOOGLE_ID,
+            client_secret = GOOGLE_SECRET_ID,
+            redirect_uri = GOOGLE_REDIRECT_URI,
+            code = authCode
+        )
+    }
 }
