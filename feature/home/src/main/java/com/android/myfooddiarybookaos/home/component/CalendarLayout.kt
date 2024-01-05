@@ -20,7 +20,9 @@ import com.android.myfooddiarybookaos.data.utils.scaledSp
 private const val DAY_OF_WEAK = 7
 
 @Composable
-fun CalendarLayout(){
+fun CalendarLayout(
+    viewUpdate: MutableState<Boolean>
+){
     Column(
         modifier = Modifier.padding(
             horizontal = 12.dp,
@@ -39,7 +41,7 @@ fun CalendarLayout(){
         )
         Spacer(modifier = Modifier.height(21.85.dp))
         // 캘린더
-        MonthDataView()
+        MonthDataView(viewUpdate)
     }
 }
 

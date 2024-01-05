@@ -12,6 +12,7 @@ import com.android.myfooddiarybookaos.data.component.SelectCalendarScreen
 @Composable
 fun SelectCalendarDialog(
     isTopLayoutClick : (Boolean) -> Unit,
+    changeAllData:() -> Unit
 ){
 
     Dialog(
@@ -27,7 +28,12 @@ fun SelectCalendarDialog(
             color = Color.White,
             shape = RoundedCornerShape(8.dp)
         ) {
-            SelectCalendarScreen(isTopLayoutClick = isTopLayoutClick )
+            SelectCalendarScreen(
+                isTopLayoutClick = isTopLayoutClick,
+                dataChange = {
+                    changeAllData()
+                }
+            )
         }
 
     }

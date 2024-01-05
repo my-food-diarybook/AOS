@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
+import com.android.myfooddiarybookaos.data.path.byteStringToBitmap
 import com.android.myfooddiarybookaos.model.timeLine.TimeLine
 
 @Composable
@@ -28,8 +29,11 @@ fun TimeLineItem(
     screenWidth: Dp
 ) {
 
-    val dataSize = timeLine.diaryList.size
-    val imageSize = remember { mutableStateOf(getImageDp(dataSize, screenWidth)) }
+    val imageSize = remember {
+        mutableStateOf(
+            getImageDp(timeLine.diaryList.size, screenWidth)
+        )
+    }
 
     val currentFont =
         if (todayViewModel.getTodayDate() == timeLine.date)
@@ -53,8 +57,9 @@ fun TimeLineItem(
             state = rememberLazyListState()
         ) {
             items(timeLine.diaryList) { diary ->
+                val imageBitmap = remember { mutableStateOf(byteStringToBitmap(diary.bytes)) }
                 ImageItem(
-                    bytes = diary.bytes,
+                    imageBitmap = imageBitmap,
                     imageSize = imageSize.value,
                     onClick = {
                         // go data

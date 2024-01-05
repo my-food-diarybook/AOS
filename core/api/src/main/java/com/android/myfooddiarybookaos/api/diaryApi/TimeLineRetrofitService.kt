@@ -9,9 +9,9 @@ import retrofit2.http.Query
 interface TimeLineRetrofitService {
 
     @GET("timeline/show")
-    fun getTimeLineShow(
+    suspend fun getTimeLineShow(
         @Query("date") date: String
-    ): Call<List<TimeLine>>
+    ): List<TimeLine>
 
     @GET("timeline/show/more-diary")
     fun getTimeLineFlicking(

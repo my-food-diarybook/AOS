@@ -7,16 +7,7 @@ import java.util.*
 import javax.inject.Inject
 
 class TodayRepository @Inject constructor() : TodayViewInterface {
-    override val _observeData = MutableLiveData<Boolean>()
-    override val observeData : LiveData<Boolean> get() = _observeData
     override val currentCalendar: Calendar = Calendar.getInstance()
-
-
-    override fun dataChangeOn(){
-        _observeData.value = true
-        _observeData.value = false
-    }
-
 
     override fun setCurrentDate(
         year : Int, month : Int,

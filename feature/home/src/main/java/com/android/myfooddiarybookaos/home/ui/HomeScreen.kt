@@ -3,6 +3,7 @@ package com.android.myfooddiarybookaos.home.ui
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -15,6 +16,8 @@ import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.home.viewModel.HomeViewModel
 import com.android.myfooddiarybookaos.data.state.AddScreenState
 import com.android.myfooddiarybookaos.data.state.ApplicationState
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(
@@ -28,9 +31,14 @@ fun HomeScreen(
         homeViewModel.initState(appState, diaryState)
         homeViewModel.setDiaryList(todayViewModel.getCurrentYearMonth())
     }
+    val viewUpdate = rememberSaveable { mutableStateOf(true ) }
 
-    todayViewModel.getDataChange().observeAsState().value?.let {
+    if (viewUpdate.value){
         homeViewModel.setDiaryList(todayViewModel.getCurrentYearMonth())
+        rememberCoroutineScope().launch{
+            delay(500)
+            viewUpdate.value = false
+        }
     }
 
     // 업로드 시도
@@ -69,12 +77,16 @@ fun HomeScreen(
     // main view
     Column {
         // top calendar
-        TopCalendarLayout()
+        TopCalendarLayout(
+            resetData = {
+                viewUpdate.value = true
+            }
+        )
         // mid calendar
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
-            CalendarLayout()
+            CalendarLayout(viewUpdate)
         }
     }
 }

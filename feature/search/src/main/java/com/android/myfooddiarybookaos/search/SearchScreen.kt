@@ -1,8 +1,6 @@
-package com.android.myfooddiarybookaos.TabSearch
+package com.android.myfooddiarybookaos.search
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -11,7 +9,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
-import com.android.myfooddiarybookaos.search.SearchViewModel
 import com.android.myfooddiarybookaos.search.component.PagingCategoryComponent
 import com.android.myfooddiarybookaos.search.component.PagingDiaryComponent
 import com.android.myfooddiarybookaos.search.component.SearchBox

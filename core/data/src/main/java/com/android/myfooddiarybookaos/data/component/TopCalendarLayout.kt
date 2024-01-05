@@ -26,7 +26,8 @@ import java.util.*
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun TopCalendarLayout(
-    todayViewModel : TodayViewModel = hiltViewModel()
+    todayViewModel : TodayViewModel = hiltViewModel(),
+    resetData: () -> Unit
 ){
     var isTopLayoutClick  by remember{ // 캘린더 클릭 여부
         mutableStateOf(false)
@@ -43,6 +44,9 @@ fun TopCalendarLayout(
             SelectCalendarDialog(
                 isTopLayoutClick = {// 캘린더 픽 전달 받기
                     isTopLayoutClick = it
+                },
+                changeAllData = {
+                    resetData()
                 }
             )
         }

@@ -2,15 +2,17 @@ package com.android.myfooddiarybookaos.timeline
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.Layout.NotDataView
 import com.android.myfooddiarybookaos.data.component.TopCalendarLayout
 import com.android.myfooddiarybookaos.timeline.ui.LoadTimeLineScreen
 import com.android.myfooddiarybookaos.timeline.viewModel.TimeLineViewModel
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun TimeLineScreen(
@@ -18,25 +20,31 @@ fun TimeLineScreen(
     timeLineViewModel: TimeLineViewModel = hiltViewModel()
 ) {
 
-    val timeLineData = timeLineViewModel.timeLine.value
+    val viewUpdate = rememberSaveable{ mutableStateOf(true) }
+    val timeLineData = timeLineViewModel.timeLine.collectAsState()
 
-    LaunchedEffect(Unit){
-        timeLineViewModel.setTimeLineData(todayViewModel.getTodayDate())
-    }
-
-    // 여기 수정 필요 -> 현재 데이터로 로드
-    todayViewModel.getDataChange().observeAsState().value?.let {
-        timeLineViewModel.setTimeLineData(todayViewModel.getTodayDate())
+    if (viewUpdate.value){
+        timeLineViewModel.setTimeLineData(todayViewModel.getCurrentTimeLineKey())
+        rememberCoroutineScope().launch {
+            delay(500)
+            viewUpdate.value = false
+        }
     }
 
     Column {
         // 캘린더 초기화
-        TopCalendarLayout(todayViewModel)
+        TopCalendarLayout(
+            resetData = {
+                viewUpdate.value = true
+            }
+        )
 
-        if (timeLineData == null || timeLineData.isEmpty()) {
-            NotDataView()
-        } else {
-            LoadTimeLineScreen(timeLineData)
+        if (!viewUpdate.value) {
+            if (timeLineData.value.isEmpty()) {
+                NotDataView()
+            } else {
+                LoadTimeLineScreen(timeLineData)
+            }
         }
     }
 }

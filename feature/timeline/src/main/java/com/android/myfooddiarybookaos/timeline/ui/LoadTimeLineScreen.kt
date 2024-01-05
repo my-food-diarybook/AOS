@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -16,7 +17,7 @@ import com.android.myfooddiarybookaos.timeline.viewModel.TimeLineViewModel
 
 @Composable
 fun LoadTimeLineScreen(
-    timeLinData: List<TimeLine>
+    timeLinData: State<List<TimeLine>>
 ) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
 
@@ -24,7 +25,7 @@ fun LoadTimeLineScreen(
         state = rememberLazyListState(),
         modifier = Modifier.fillMaxSize()
     ) {
-        items(timeLinData) { timeLine ->
+        items(timeLinData.value) { timeLine ->
             TimeLineItem(timeLine = timeLine, screenWidth = screenWidth )
         }
     }

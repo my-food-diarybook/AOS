@@ -3,6 +3,8 @@ package com.android.myfooddiarybookaos.data.dataTimeLine
 import com.android.myfooddiarybookaos.api.NetworkManager
 import com.android.myfooddiarybookaos.model.timeLine.TimeLine
 import com.android.myfooddiarybookaos.model.timeLine.TimeLineDiary
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -13,21 +15,12 @@ class TimeLineRepository @Inject constructor(
 ) {
     private val manager = networkManager.getTimeLineApiService()
 
-    fun getTimeLineData(
-        date: String,
-        isUpdate: (List<TimeLine>?) -> Unit
-    ) {
-        manager.getTimeLineShow(date)
-            .enqueue(object : Callback<List<TimeLine>> {
-                override fun onResponse(call: Call<List<TimeLine>>, response: Response<List<TimeLine>>) {
-                    isUpdate(response.body())
-                }
-
-                override fun onFailure(call: Call<List<TimeLine>>, t: Throwable) {
-                    isUpdate(null)
-                }
-
-            })
+    suspend fun getTimeLineData(date: String): Flow<List<TimeLine>>  = flow {
+        try{
+            emit(manager.getTimeLineShow(date))
+        } catch (_:Exception){
+            emit(emptyList())
+        }
     }
 
     fun getTimeLineMoreData(

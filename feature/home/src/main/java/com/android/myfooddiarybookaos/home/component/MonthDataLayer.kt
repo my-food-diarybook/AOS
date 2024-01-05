@@ -21,13 +21,14 @@ private const val DAY_OF_WEAK = 7
 // 리싸이클러 뷰
 @Composable
 fun MonthDataView(
+    viewUpdate: MutableState<Boolean>,
     todayViewModel: TodayViewModel = hiltViewModel(),
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val calendarDataList = remember {
         mutableStateOf(todayViewModel.getCustomCalendar())
     }
-    todayViewModel.getDataChange().observeAsState().value?.let {
+    if (viewUpdate.value){
         calendarDataList.value = todayViewModel.getCustomCalendar()
     }
     homeViewModel.homeDiaryList.collectAsState().value
@@ -69,5 +70,5 @@ fun MonthDataView(
 @Preview(showBackground = true)
 @Composable
 fun MonthDataPreview() {
-    MonthDataView()
+    MonthDataView(mutableStateOf(true))
 }

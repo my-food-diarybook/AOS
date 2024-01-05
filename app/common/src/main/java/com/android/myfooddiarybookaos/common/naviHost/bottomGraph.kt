@@ -6,7 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 
 import com.android.myfooddiarybookaos.TabMyAccount.MyScreen
-import com.android.myfooddiarybookaos.TabSearch.SearchScreen
+import com.android.myfooddiarybookaos.search.SearchScreen
 import com.android.myfooddiarybookaos.timeline.TimeLineScreen
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState

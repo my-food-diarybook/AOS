@@ -34,7 +34,8 @@ import java.util.*
 @Composable
 fun SelectCalendarScreen(
     todayViewModel: TodayViewModel = hiltViewModel(),
-    isTopLayoutClick: (Boolean) -> Unit
+    isTopLayoutClick: (Boolean) -> Unit,
+    dataChange: () -> Unit
 ) {
     // 오늘 데이터
     val todayYear by remember {
@@ -130,6 +131,7 @@ fun SelectCalendarScreen(
                                 isTopLayoutClick(false)
                                 // 뷰 모델 수정
                                 todayViewModel.setCurrentDate(currentYear,it-1)
+                                dataChange()
                             }
                         )
                     }
@@ -181,6 +183,7 @@ private fun ItemMonth(
 fun PreviewSelectCalendar(){
     SelectCalendarScreen(
         hiltViewModel(),
-        isTopLayoutClick = { }
+        isTopLayoutClick = { },
+        dataChange = {}
     )
 }
