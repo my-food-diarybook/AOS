@@ -17,6 +17,6 @@ interface TimeLineRetrofitService {
     fun getTimeLineFlicking(
         @Query("date") date: String,
         @Query("offset") offset: Int
-    ): Call<List<TimeLineDiary>>
+    ): List<TimeLineDiary>
 
 }
