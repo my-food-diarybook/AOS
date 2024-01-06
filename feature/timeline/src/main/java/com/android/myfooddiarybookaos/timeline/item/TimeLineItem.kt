@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -17,16 +18,19 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 import com.android.myfooddiarybookaos.data.path.byteStringToBitmap
 import com.android.myfooddiarybookaos.model.timeLine.TimeLine
+import com.android.myfooddiarybookaos.timeline.viewModel.ItemViewModel
 import com.android.myfooddiarybookaos.timeline.viewModel.TimeLineViewModel
 
 @Composable
 fun TimeLineItem(
     todayViewModel: TodayViewModel = hiltViewModel(),
     timeLineViewModel: TimeLineViewModel = hiltViewModel(),
+    viewModel : ItemViewModel = hiltViewModel(),
     timeLine: TimeLine,
     screenWidth: Dp
 ) {
@@ -36,6 +40,12 @@ fun TimeLineItem(
             getImageDp(timeLine.diaryList.size, screenWidth)
         )
     }
+
+    LaunchedEffect(Unit){
+        viewModel.setTimeLineData(timeLine.date,timeLine.diaryList.size)
+    }
+
+    val pagingItems = viewModel.timeLineDiary.collectAsLazyPagingItems()
 
     val currentFont =
         if (todayViewModel.getTodayDate() == timeLine.date)
@@ -57,16 +67,28 @@ fun TimeLineItem(
                 .height(134.dp),
             state = rememberLazyListState()
         ) {
-            items(timeLine.diaryList) { diary ->
+            items(timeLine.diaryList){ diary ->
                 val imageBitmap = remember { mutableStateOf(byteStringToBitmap(diary.bytes)) }
                 ImageItem(
                     imageBitmap = imageBitmap,
                     imageSize = imageSize.value,
                     onClick = {
-                        // go data
                         timeLineViewModel.goDetailView(diary.diaryId)
                     }
                 )
+            }
+            items(pagingItems.itemCount) { idx ->
+                pagingItems[idx]?.let{ timeLineDiary ->
+                    val imageBitmap = remember { mutableStateOf(byteStringToBitmap(timeLineDiary.bytes)) }
+                    ImageItem(
+                        imageBitmap = imageBitmap,
+                        imageSize = imageSize.value,
+                        onClick = {
+                            // go data
+                            timeLineViewModel.goDetailView(timeLineDiary.diaryId)
+                        }
+                    )
+                }
             }
         }
     }

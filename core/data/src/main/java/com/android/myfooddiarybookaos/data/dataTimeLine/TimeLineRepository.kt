@@ -28,7 +28,7 @@ class TimeLineRepository @Inject constructor(
             ),
             pagingSourceFactory = {
                 TimeLinePagingSource(
-                    date =date ,
+                    date = date,
                     manager = manager
                 )
             }
@@ -36,14 +36,16 @@ class TimeLineRepository @Inject constructor(
     }
 
     fun getTimeLineMoreData(
-        date: String
-    ) : Flow<PagingData<TimeLineDiary>>{
+        date: String,
+        diarySize: Int
+    ): Flow<PagingData<TimeLineDiary>> {
         return Pager(
             config = PagingConfig(pageSize = 5)
-        ){
+        ) {
             TimeLineDiaryPagingSource(
-              date = date,
-              manager = manager
+                date = date,
+                manager = manager,
+                diarySize = diarySize
             )
         }.flow
     }

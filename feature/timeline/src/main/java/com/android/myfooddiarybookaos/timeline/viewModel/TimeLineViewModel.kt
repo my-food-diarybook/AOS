@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.map
 import com.android.myfooddiarybookaos.data.dataTimeLine.TimeLineRepository
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
@@ -15,6 +16,7 @@ import com.android.myfooddiarybookaos.model.timeLine.TimeLine
 import com.android.myfooddiarybookaos.model.timeLine.TimeLineDiary
 import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -44,10 +46,12 @@ class TimeLineViewModel @Inject constructor(
         _diaryState.value = mainDiaryState
     }
 
+
     fun setTimeLineData(
         date: String
     ) = viewModelScope.launch {
         _timeLine.value = PagingData.empty()
+        delay(100)
         timeLineRepository.getTimeLineData(date = date)
             .cachedIn(viewModelScope)
             .collectLatest {

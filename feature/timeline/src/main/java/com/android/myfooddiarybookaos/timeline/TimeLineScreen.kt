@@ -40,7 +40,7 @@ fun TimeLineScreen(
     if (viewUpdate.value){
         rememberCoroutineScope().launch {
             timeLineViewModel.setTimeLineData(todayViewModel.getCurrentTimeLineKey())
-            delay(500)
+            delay(100)
             viewUpdate.value = false
         }
     }
@@ -69,7 +69,6 @@ fun TimeLineScreen(
                         timeLineData[index]?.let { timeLine ->
                             TimeLineItem(timeLine = timeLine, screenWidth = screenWidth )
                         }
-
                     }
                     item(1){
                         Box(Modifier.height(100.dp))
