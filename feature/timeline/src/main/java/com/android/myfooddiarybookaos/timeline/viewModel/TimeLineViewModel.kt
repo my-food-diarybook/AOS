@@ -1,9 +1,13 @@
 package com.android.myfooddiarybookaos.timeline.viewModel
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.android.myfooddiarybookaos.data.dataTimeLine.TimeLineRepository
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.model.timeLine.TimeLine
@@ -24,13 +28,15 @@ class TimeLineViewModel @Inject constructor(
     private val _appState = MutableLiveData<ApplicationState>()
     private val appState: LiveData<ApplicationState> get() = _appState
 
-    private val _timeLine = MutableStateFlow<List<TimeLine>>(emptyList())
-    val timeLine: StateFlow<List<TimeLine>> get() = _timeLine.asStateFlow()
+    private val _timeLine = MutableStateFlow<PagingData<TimeLine>>(PagingData.empty())
+    val timeLine: StateFlow<PagingData<TimeLine>> = _timeLine.asStateFlow()
 
     fun setTimeLineData(
         date: String
     ) = viewModelScope.launch {
+        _timeLine.value = PagingData.empty()
         timeLineRepository.getTimeLineData(date = date)
+            .cachedIn(viewModelScope)
             .collectLatest {
                 _timeLine.value = it
             }

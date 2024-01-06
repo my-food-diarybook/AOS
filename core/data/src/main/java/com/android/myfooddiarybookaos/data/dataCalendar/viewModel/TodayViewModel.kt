@@ -69,7 +69,7 @@ class TodayViewModel @Inject constructor(
 
     @SuppressLint("SimpleDateFormat")
     fun getCurrentTimeLineKey(): String {
-        val dateFormat = "yyyy-MM-dd"
+        val dateFormat = "yyyy-MM-01"
         val date = todayRepository.currentCalendar.time
         return SimpleDateFormat(dateFormat).format(date)
     }
