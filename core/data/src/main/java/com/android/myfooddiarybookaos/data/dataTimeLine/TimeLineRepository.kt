@@ -9,10 +9,6 @@ import com.android.myfooddiarybookaos.data.dataTimeLine.remote.TimeLinePagingSou
 import com.android.myfooddiarybookaos.model.timeLine.TimeLine
 import com.android.myfooddiarybookaos.model.timeLine.TimeLineDiary
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
 
 class TimeLineRepository @Inject constructor(
@@ -40,7 +36,7 @@ class TimeLineRepository @Inject constructor(
         diarySize: Int
     ): Flow<PagingData<TimeLineDiary>> {
         return Pager(
-            config = PagingConfig(pageSize = 5)
+            config = PagingConfig(pageSize = 5, enablePlaceholders = false),
         ) {
             TimeLineDiaryPagingSource(
                 date = date,

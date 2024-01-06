@@ -21,9 +21,11 @@ class AuthInterceptor(
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
         val response = chain.proceed(request)
+
         when (response.code) {
             500 -> {
                 return runBlocking {
+
                     val userData = UserInfoSharedPreferences(context)
                     val tokenApi = getTokenRetrofit(userData.refreshToken,loginFom)
                     when (val token = getUpdateToken(tokenApi)) {

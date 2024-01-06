@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
@@ -30,33 +31,41 @@ import com.android.myfooddiarybookaos.timeline.viewModel.TimeLineViewModel
 fun TimeLineItem(
     todayViewModel: TodayViewModel = hiltViewModel(),
     timeLineViewModel: TimeLineViewModel = hiltViewModel(),
-    viewModel : ItemViewModel = hiltViewModel(),
     timeLine: TimeLine,
     screenWidth: Dp
 ) {
-
+    val viewModel: ItemViewModel = hiltViewModel()
     val imageSize = remember {
         mutableStateOf(
             getImageDp(timeLine.diaryList.size, screenWidth)
         )
     }
 
-    LaunchedEffect(Unit){
-        viewModel.setTimeLineData(timeLine.date,timeLine.diaryList.size)
+    LaunchedEffect(Unit) {
+        viewModel.setTimeLineData(timeLine.date, timeLine.diaryList.size)
     }
 
     val pagingItems = viewModel.timeLineDiary.collectAsLazyPagingItems()
 
-    val currentFont =
-        if (todayViewModel.getTodayDate() == timeLine.date)
-            FontFamily(Font(R.font.roboto_regular, FontWeight.W700))
-        else FontFamily(Font(R.font.roboto_regular, FontWeight.W400))
+    val currentFont = remember {
+        mutableStateOf(
+            if (todayViewModel.getTodayDate() == timeLine.date)
+                FontFamily(Font(R.font.roboto_regular, FontWeight.W700))
+            else FontFamily(Font(R.font.roboto_regular, FontWeight.W400))
+        )
+    }
+    val todayDate = remember {
+        mutableStateOf(
+            if (timeLine.date == todayViewModel.getTodayDate()) todayViewModel.getTopDate(timeLine.date)+" 오늘"
+            else todayViewModel.getTopDate(timeLine.date)
+        )
+    }
 
     Column {
         Text(
             modifier = Modifier.padding(start = 20.dp, bottom = 2.dp, top = 12.dp),
-            text = todayViewModel.getTopDate(timeLine.date),
-            fontFamily = currentFont,
+            text = todayDate.value,
+            fontFamily = currentFont.value,
             color = Color.Black,
             fontSize = 14.sp
         )
@@ -67,7 +76,7 @@ fun TimeLineItem(
                 .height(134.dp),
             state = rememberLazyListState()
         ) {
-            items(timeLine.diaryList){ diary ->
+            items(timeLine.diaryList) { diary ->
                 val imageBitmap = remember { mutableStateOf(byteStringToBitmap(diary.bytes)) }
                 ImageItem(
                     imageBitmap = imageBitmap,
@@ -78,8 +87,9 @@ fun TimeLineItem(
                 )
             }
             items(pagingItems.itemCount) { idx ->
-                pagingItems[idx]?.let{ timeLineDiary ->
-                    val imageBitmap = remember { mutableStateOf(byteStringToBitmap(timeLineDiary.bytes)) }
+                pagingItems[idx]?.let { timeLineDiary ->
+                    val imageBitmap =
+                        remember { mutableStateOf(byteStringToBitmap(timeLineDiary.bytes)) }
                     ImageItem(
                         imageBitmap = imageBitmap,
                         imageSize = imageSize.value,

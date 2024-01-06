@@ -19,12 +19,12 @@ class TimeLineDiaryPagingSource(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, TimeLineDiary> {
         return try {
-            val next = params.key ?: diarySize
+            val next = params.key ?: 0
             val response = manager.getTimeLineFlicking(
                 date = date,
                 offset = next
             )
-            if (response.isEmpty()) throw Exception()
+//            if (response.isEmpty()) throw Exception()
 
             LoadResult.Page(
                 data = response,
