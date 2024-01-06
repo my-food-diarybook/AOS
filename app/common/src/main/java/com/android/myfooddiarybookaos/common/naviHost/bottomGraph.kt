@@ -28,7 +28,7 @@ fun NavGraphBuilder.bottomGraph(
             HomeScreen(diaryState,appState)
         }
         composable(BottomNavItem.TimeLine.screenRoute){
-            TimeLineScreen()
+            TimeLineScreen(appState,diaryState)
         }
         composable(BottomNavItem.Search.screenRoute){
             SearchScreen(appState,diaryState)

@@ -10,8 +10,10 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.android.myfooddiarybookaos.data.dataTimeLine.TimeLineRepository
 import com.android.myfooddiarybookaos.data.state.ApplicationState
+import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.model.timeLine.TimeLine
 import com.android.myfooddiarybookaos.model.timeLine.TimeLineDiary
+import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -28,8 +30,19 @@ class TimeLineViewModel @Inject constructor(
     private val _appState = MutableLiveData<ApplicationState>()
     private val appState: LiveData<ApplicationState> get() = _appState
 
+    private val _diaryState = MutableLiveData<DiaryState>()
+    private val diaryState: LiveData<DiaryState> get() = _diaryState
+
     private val _timeLine = MutableStateFlow<PagingData<TimeLine>>(PagingData.empty())
     val timeLine: StateFlow<PagingData<TimeLine>> = _timeLine.asStateFlow()
+
+    fun initState(
+        mainAppState: ApplicationState,
+        mainDiaryState : DiaryState,
+    ){
+        _appState.value = mainAppState
+        _diaryState.value = mainDiaryState
+    }
 
     fun setTimeLineData(
         date: String
@@ -42,6 +55,9 @@ class TimeLineViewModel @Inject constructor(
             }
     }
 
-
+    fun goDetailView(diaryId: Int) {
+        diaryState.value?.setDiaryDetail(diaryId)
+        appState.value?.navController?.navigate(ScreenRoot.DETAIL_DIARY)
+    }
 
 }

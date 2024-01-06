@@ -21,10 +21,12 @@ import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 import com.android.myfooddiarybookaos.data.path.byteStringToBitmap
 import com.android.myfooddiarybookaos.model.timeLine.TimeLine
+import com.android.myfooddiarybookaos.timeline.viewModel.TimeLineViewModel
 
 @Composable
 fun TimeLineItem(
     todayViewModel: TodayViewModel = hiltViewModel(),
+    timeLineViewModel: TimeLineViewModel = hiltViewModel(),
     timeLine: TimeLine,
     screenWidth: Dp
 ) {
@@ -37,8 +39,7 @@ fun TimeLineItem(
 
     val currentFont =
         if (todayViewModel.getTodayDate() == timeLine.date)
-            FontFamily(Font(R.font.roboto_regular, FontWeight.W700)
-        )
+            FontFamily(Font(R.font.roboto_regular, FontWeight.W700))
         else FontFamily(Font(R.font.roboto_regular, FontWeight.W400))
 
     Column {
@@ -63,6 +64,7 @@ fun TimeLineItem(
                     imageSize = imageSize.value,
                     onClick = {
                         // go data
+                        timeLineViewModel.goDetailView(diary.diaryId)
                     }
                 )
             }
