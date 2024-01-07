@@ -31,10 +31,7 @@ fun SearchCategoryComponent(
             modifier = Modifier
                 .wrapContentHeight()
                 .fillMaxWidth()
-                .padding(
-                    top = 26.dp,
-                    bottom = 100.dp
-                )
+                .padding(top = 26.dp)
         ){
             items(searchItems.value){
                 ItemSearchCategory(
@@ -43,6 +40,10 @@ fun SearchCategoryComponent(
                         searchSelect(it)
                     }
                 )
+            }
+
+            item(1){
+                Box(Modifier.height(100.dp))
             }
         }
 

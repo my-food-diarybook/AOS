@@ -32,7 +32,7 @@ fun PagingCategoryComponent(
             modifier = Modifier
                 .wrapContentHeight()
                 .fillMaxWidth()
-                .padding(bottom = 100.dp, top = 26.dp)
+                .padding(top = 26.dp)
         ){
             items(pagingItems.itemSnapshotList){
                 it?.let {
@@ -43,6 +43,9 @@ fun PagingCategoryComponent(
                         }
                     )
                 }
+            }
+            item(1){
+                Box(Modifier.height(100.dp))
             }
         }
     }

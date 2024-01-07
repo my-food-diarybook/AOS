@@ -1,5 +1,6 @@
 package com.android.myfooddiarybookaos.timeline.item
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -42,6 +43,7 @@ fun TimeLineItem(
     }
 
     LaunchedEffect(Unit) {
+        Log.d("timeLine.datetimeLine.date",timeLine.date)
         viewModel.setTimeLineData(timeLine.date, timeLine.diaryList.size)
     }
 
@@ -76,16 +78,16 @@ fun TimeLineItem(
                 .height(134.dp),
             state = rememberLazyListState()
         ) {
-            items(timeLine.diaryList) { diary ->
-                val imageBitmap = remember { mutableStateOf(byteStringToBitmap(diary.bytes)) }
-                ImageItem(
-                    imageBitmap = imageBitmap,
-                    imageSize = imageSize.value,
-                    onClick = {
-                        timeLineViewModel.goDetailView(diary.diaryId)
-                    }
-                )
-            }
+//            items(timeLine.diaryList) { diary ->
+//                val imageBitmap = remember { mutableStateOf(byteStringToBitmap(diary.bytes)) }
+//                ImageItem(
+//                    imageBitmap = imageBitmap,
+//                    imageSize = imageSize.value,
+//                    onClick = {
+//                        timeLineViewModel.goDetailView(diary.diaryId)
+//                    }
+//                )
+//            }
             items(pagingItems.itemCount) { idx ->
                 pagingItems[idx]?.let { timeLineDiary ->
                     val imageBitmap =
