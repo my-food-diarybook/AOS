@@ -78,16 +78,16 @@ fun TimeLineItem(
                 .height(134.dp),
             state = rememberLazyListState()
         ) {
-//            items(timeLine.diaryList) { diary ->
-//                val imageBitmap = remember { mutableStateOf(byteStringToBitmap(diary.bytes)) }
-//                ImageItem(
-//                    imageBitmap = imageBitmap,
-//                    imageSize = imageSize.value,
-//                    onClick = {
-//                        timeLineViewModel.goDetailView(diary.diaryId)
-//                    }
-//                )
-//            }
+            items(timeLine.diaryList) { diary ->
+                val imageBitmap = remember { mutableStateOf(byteStringToBitmap(diary.bytes)) }
+                ImageItem(
+                    imageBitmap = imageBitmap,
+                    imageSize = imageSize.value,
+                    onClick = {
+                        timeLineViewModel.goDetailView(diary.diaryId)
+                    }
+                )
+            }
             items(pagingItems.itemCount) { idx ->
                 pagingItems[idx]?.let { timeLineDiary ->
                     val imageBitmap =
