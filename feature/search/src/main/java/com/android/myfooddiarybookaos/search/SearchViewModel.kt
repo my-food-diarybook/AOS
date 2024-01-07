@@ -3,6 +3,7 @@ package com.android.myfooddiarybookaos.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.android.myfooddiarybookaos.data.dataSearch.repository.SearchRepository
 import com.android.myfooddiarybookaos.model.search.SearchCategory
 import com.android.myfooddiarybookaos.model.search.SearchDiary
@@ -43,7 +44,9 @@ class SearchViewModel @Inject constructor(
     ) = viewModelScope.launch {
         searchRepository.getSearchDiary(
             categoryName, categoryType
-        ).collectLatest {
+        )
+            .cachedIn(viewModelScope)
+            .collectLatest {
             _pagingDiaryList.value = it
         }
     }

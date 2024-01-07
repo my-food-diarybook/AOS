@@ -18,11 +18,14 @@ fun CategoryScreen(
     selectDiary: (diaryId:Int) -> Unit,
     viewModel : SearchViewModel = hiltViewModel()
 ) {
-    LaunchedEffect(Unit) {
-        viewModel.getPagingDiaries(
-            categoryName.value,
-            categoryType.value
-        )
+
+    if (categoryType.value.isNotEmpty()) {
+        LaunchedEffect(Unit) {
+            viewModel.getPagingDiaries(
+                categoryName.value,
+                categoryType.value
+            )
+        }
     }
 
     PagingDiaryComponent(

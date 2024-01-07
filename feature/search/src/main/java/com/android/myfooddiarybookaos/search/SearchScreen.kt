@@ -22,11 +22,12 @@ import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 fun SearchScreen(
     appState: ApplicationState,
     diaryState: DiaryState,
-    viewModel: SearchViewModel = hiltViewModel()
 ) {
 
     val searchQuery = remember { mutableStateOf(TextFieldValue("")) }
     val searchState = remember { mutableStateOf(SearchState.MAIN_SEARCH) }
+    val queryChangeState = remember { mutableStateOf(false) }
+    val navController = rememberNavController()
 
     Column {
         Box(
@@ -44,18 +45,25 @@ fun SearchScreen(
                 searchQuery,
                 searchState,
                 onQueryChange = {
-                    viewModel.getSearchData(searchQuery.value.text)
+                    queryChangeState.value = true
+                },
+                onBackStage = {
+                    if (navController.currentDestination?.route == "categoryScreen") {
+                        navController.popBackStack()
+                    }else{
+                        searchQuery.value = TextFieldValue("")
+                    }
                 }
             )
         }
 
-        val navController = rememberNavController()
         NavigationGraph(
             appState = appState,
             diaryState = diaryState,
             searchQuery = searchQuery,
             searchState = searchState,
-            navController = navController
+            navController = navController,
+            queryChangeState = queryChangeState
         )
 
     }
