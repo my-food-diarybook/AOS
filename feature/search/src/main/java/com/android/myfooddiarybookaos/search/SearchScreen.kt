@@ -1,5 +1,6 @@
 package com.android.myfooddiarybookaos.search
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -7,27 +8,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.compose.rememberNavController
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
-import com.android.myfooddiarybookaos.search.component.PagingCategoryComponent
-import com.android.myfooddiarybookaos.search.component.PagingDiaryComponent
 import com.android.myfooddiarybookaos.search.component.SearchBox
-import com.android.myfooddiarybookaos.search.component.SearchCategoryComponent
 import com.android.myfooddiarybookaos.search.navi.NavigationGraph
+import com.android.myfooddiarybookaos.search.state.SearchDataState
 import com.android.myfooddiarybookaos.search.state.SearchState
-import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 
 @Composable
 fun SearchScreen(
     appState: ApplicationState,
     diaryState: DiaryState,
+    searchDataState: SearchDataState,
 ) {
 
-    val searchQuery = remember { mutableStateOf(TextFieldValue("")) }
-    val searchState = remember { mutableStateOf(SearchState.MAIN_SEARCH) }
-    val queryChangeState = remember { mutableStateOf(false) }
-    val navController = rememberNavController()
+
+    if (searchDataState.searchQuery.value.text.isNotEmpty()) {
+        searchDataState.searchState.value = SearchState.QUERY_SEARCH
+    } else {
+        searchDataState.searchState.value = SearchState.MAIN_SEARCH
+    }
+
+
 
     Column {
         Box(
@@ -42,17 +44,16 @@ fun SearchScreen(
             contentAlignment = Alignment.BottomCenter
         ) {
             SearchBox(
-                searchQuery,
-                searchState,
+                searchDataState.searchQuery,
+                searchDataState.searchState,
                 onQueryChange = {
-                    queryChangeState.value = true
+                    searchDataState.queryChangeState.value = true
                 },
                 onBackStage = {
-                    if (navController.currentDestination?.route == "categoryScreen") {
-                        navController.popBackStack()
-                    }else{
-                        searchQuery.value = TextFieldValue("")
+                    if (searchDataState.navController.currentDestination?.route == "categoryScreen") {
+                        searchDataState.navController.popBackStack()
                     }
+                    searchDataState.searchQuery.value = TextFieldValue("")
                 }
             )
         }
@@ -60,10 +61,7 @@ fun SearchScreen(
         NavigationGraph(
             appState = appState,
             diaryState = diaryState,
-            searchQuery = searchQuery,
-            searchState = searchState,
-            navController = navController,
-            queryChangeState = queryChangeState
+            searchDataState = searchDataState,
         )
 
     }

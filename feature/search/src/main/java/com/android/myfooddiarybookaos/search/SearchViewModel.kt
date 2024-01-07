@@ -1,12 +1,17 @@
 package com.android.myfooddiarybookaos.search
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.android.myfooddiarybookaos.data.dataSearch.repository.SearchRepository
+import com.android.myfooddiarybookaos.data.state.ApplicationState
+import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.model.search.SearchCategory
 import com.android.myfooddiarybookaos.model.search.SearchDiary
+import com.android.myfooddiarybookaos.search.state.SearchDataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

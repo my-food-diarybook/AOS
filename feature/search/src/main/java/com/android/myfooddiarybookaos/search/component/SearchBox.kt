@@ -84,8 +84,6 @@ fun SearchBox(
                     modifier = Modifier
                         .size(30.dp)
                         .clickable {
-                            searchQuery.value = TextFieldValue("")
-                            searchState.value = SearchState.MAIN_SEARCH
                             onBackStage()
                         },
                     contentAlignment = Alignment.Center

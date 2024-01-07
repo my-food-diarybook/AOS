@@ -12,6 +12,7 @@ import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.model.search.SearchCategory
 import com.android.myfooddiarybookaos.search.SearchViewModel
+import com.android.myfooddiarybookaos.search.state.SearchDataState
 import com.android.myfooddiarybookaos.search.state.SearchState
 import com.android.myfooddiarybookaos.search.ui.CategoryScreen
 import com.android.myfooddiarybookaos.search.ui.MainSearchScreen
@@ -21,42 +22,34 @@ import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 fun NavigationGraph(
     appState: ApplicationState,
     diaryState: DiaryState,
-    searchQuery: MutableState<TextFieldValue>,
-    searchState: MutableState<SearchState>,
-    queryChangeState: MutableState<Boolean>,
-    navController: NavHostController,
+    searchDataState: SearchDataState
 ) {
-    val categoryName = remember { mutableStateOf("") }
-    val categoryType = remember { mutableStateOf("") }
-
-    if (searchQuery.value.text.isNotEmpty()) {
-        searchState.value = SearchState.QUERY_SEARCH
-    } else {
-        searchState.value = SearchState.MAIN_SEARCH
-    }
 
     NavHost(
-        navController = navController,
+        navController = searchDataState.navController,
         startDestination = "mainSearchScreen"
     ) {
 
         composable("mainSearchScreen") {
             MainSearchScreen(
-                searchState = searchState,
-                queryChangeState = queryChangeState,
-                searchQuery = searchQuery,
+                searchState = searchDataState.searchState,
+                queryChangeState = searchDataState.queryChangeState,
+                searchQuery = searchDataState.searchQuery,
                 select = { SearchCategory ->
-                    categoryName.value = SearchCategory.categoryName
-                    categoryType.value = SearchCategory.categoryType
-                    searchQuery.value = TextFieldValue(SearchCategory.categoryName)
-                    navController.navigate("categoryScreen")
+                    searchDataState.categoryName.value = SearchCategory.categoryName
+                    searchDataState.categoryType.value = SearchCategory.categoryType
+                    searchDataState.searchQuery.value =
+                        if (SearchCategory.categoryName == "") TextFieldValue(" ")
+                        else TextFieldValue(SearchCategory.categoryName)
+                    searchDataState.navController.navigate("categoryScreen")
                 }
             )
         }
+
         composable("categoryScreen") {
             CategoryScreen(
-                categoryName,
-                categoryType,
+                categoryName = searchDataState.categoryName,
+                categoryType = searchDataState.categoryType,
                 selectDiary = {
                     diaryState.setDiaryDetail(it)
                     appState.navController.navigate(ScreenRoot.DETAIL_DIARY)
