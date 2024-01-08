@@ -93,7 +93,7 @@ fun GalleryTopBar(
             expanded = isDropDownMenuExpanded,
             onDismissRequest = { isDropDownMenuExpanded = false}
         ) {
-            directories.map{
+                directories.map{
                 DropdownMenuItem(onClick = {
                     isDropDownMenuExpanded =false
                     setCurrentDirectory(it)

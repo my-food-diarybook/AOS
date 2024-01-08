@@ -1,6 +1,5 @@
 package com.android.myfooddiarybookaos.detail.mainUi.ui
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.*
@@ -29,11 +28,11 @@ fun DetailMemoScreen(
 ) {
     val memoTopColorState = animateColorAsState(
         targetValue = if (
-            diaryFixState.checkChangeData(detailViewModel.diaryDetail.value)
+            diaryFixState.checkPrevData(detailViewModel.diaryDetail.value)
         ) {
-            colorResource(id = R.color.main_color)
-        } else {
             colorResource(id = R.color.line_color_deep)
+        } else {
+            colorResource(id = R.color.main_color)
         }
     )
 
@@ -48,7 +47,7 @@ fun DetailMemoScreen(
             },
             nextStage = {
                 //  상태 저장
-                if (diaryFixState.checkChangeData(detailViewModel.diaryDetail.value)) {
+                if (!diaryFixState.checkPrevData(detailViewModel.diaryDetail.value)) {
                     detailViewModel.setFixResult(
                         diaryFixState,
                         initCurrentData = {
