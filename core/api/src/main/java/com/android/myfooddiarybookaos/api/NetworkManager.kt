@@ -32,7 +32,7 @@ class NetworkManager(
         const val GRANT_TYPE = "authorization_code"
         const val GOOGLE_ID = "859792891234-paskj6t339bdd09gu1juaigf4f7jqhn4.apps.googleusercontent.com"
         const val GOOGLE_SECRET_ID = "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"
-        const val GOOGLE_REDIRECT_URI = "https://my-foodiary.firebaseapp.com/__/auth/handler"
+        const val GOOGLE_REDIRECT_URI = ""
         const val LOGIN_NONE ="none"
         const val LOGIN_KAKAO = "kakao"
         const val LOGIN_GOOGLE = "google"

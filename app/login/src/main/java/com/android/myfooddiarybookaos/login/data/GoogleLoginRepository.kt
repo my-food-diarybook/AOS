@@ -16,8 +16,10 @@ import com.android.myfooddiarybookaos.api.googleLogin.LoginResult
 import com.android.myfooddiarybookaos.model.login.LoginGoogleResponse
 import com.android.myfooddiarybookaos.model.login.SsoToken
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -38,7 +40,8 @@ class GoogleLoginRepository @Inject constructor(
     fun setLauncher(
         result: ActivityResult,
         firebaseAuth: FirebaseAuth,
-        loginCallback: (String?) -> Unit
+        loginCallback: (String?) -> Unit,
+        saveEmail: (String) -> Unit
     ) {
         var tokenId: String?
         var email: String
@@ -46,19 +49,20 @@ class GoogleLoginRepository @Inject constructor(
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             try {
                 task.getResult(ApiException::class.java)?.let { account ->
-                    tokenId = account.idToken
+                    tokenId = account.serverAuthCode
                     if (tokenId != null && tokenId != "") {
                         val credential: AuthCredential =
-                            GoogleAuthProvider.getCredential(account.idToken, null)
+                            GoogleAuthProvider.getCredential(account.serverAuthCode, null)
 
                         firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
                             if (firebaseAuth.currentUser != null) {
                                 val user: FirebaseUser = firebaseAuth.currentUser!!
                                 email = user.email.toString()
                                 Log.e(ContentValues.TAG, "email : $email")
-                                val googleSignInToken = account.idToken ?: ""
+                                val googleSignInToken = account.serverAuthCode ?: ""
                                 if (googleSignInToken != "") {
                                     loginCallback(googleSignInToken)
+                                    saveEmail(email)
                                 } else {
                                     loginCallback(null)
                                 }
@@ -67,7 +71,7 @@ class GoogleLoginRepository @Inject constructor(
                             }
                         }
                     }
-                } ?: throw  Exception()
+                } ?: throw Exception()
             } catch (e: Exception) {
                 e.printStackTrace()
                 loginCallback(null)
@@ -78,12 +82,12 @@ class GoogleLoginRepository @Inject constructor(
     }
 
     fun login(
-        clientId: String,
         launcher: ActivityResultLauncher<Intent>
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(clientId)
+                .requestIdToken(NetworkManager.GOOGLE_ID)
+                .requestServerAuthCode(NetworkManager.GOOGLE_ID)
                 .requestEmail()
                 .build()
             val googleSignInClient = GoogleSignIn.getClient(context, gso)
@@ -95,7 +99,9 @@ class GoogleLoginRepository @Inject constructor(
     suspend fun loginRequest(idToken: String): LoginResult<LoginGoogleResponse> {
         networkManager
             .getGoogleLoginApiService()
-            .fetchGoogleAuthInfo(networkManager.googleTokenRequest(idToken))
+            .fetchGoogleAuthInfo(
+                networkManager.googleTokenRequest(idToken)
+            )
             ?.run {
                 return LoginResult.Success(this.body() ?: LoginGoogleResponse())
             } ?: return LoginResult.Error(Exception("Exception"))
