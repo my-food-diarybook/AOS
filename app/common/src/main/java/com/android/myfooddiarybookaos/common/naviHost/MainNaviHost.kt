@@ -29,6 +29,7 @@ import com.android.myfooddiarybookaos.detail.DetailScreen
 import com.android.myfooddiarybookaos.detail.galleryUi.ui.GalleryScreen
 import com.android.myfooddiarybookaos.detail.state.rememberDiaryFixState
 import com.android.myfooddiarybookaos.home.ui.HomeDayScreen
+import com.android.myfooddiarybookaos.search.state.rememberSearchDataState
 import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 
 @Composable
@@ -36,6 +37,8 @@ fun MainNaviHost(
     appState: ApplicationState,
     diaryState: DiaryState,
 ) {
+    val searchState = rememberSearchDataState()
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         scaffoldState = appState.scaffoldState,
@@ -71,7 +74,7 @@ fun MainNaviHost(
             startDestination = ScreenRoot.MAIN_GRAPH
         ) {
             // main View
-            bottomGraph(appState, diaryState)
+            bottomGraph(appState, diaryState,searchState)
 
             composable(ScreenRoot.HOME_DAY) {
                 HomeDayScreen(diaryState, appState)

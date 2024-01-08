@@ -34,7 +34,8 @@ import com.android.myfooddiarybookaos.search.state.SearchState
 fun SearchBox(
     searchQuery: MutableState<TextFieldValue>,
     searchState: MutableState<SearchState>,
-    onQueryChange: () -> Unit
+    onQueryChange: () -> Unit,
+    onBackStage: () -> Unit
 ) {
     // 검색 아이콘
     val leadingIconView = @Composable {
@@ -58,7 +59,7 @@ fun SearchBox(
                     modifier = Modifier
                         .size(40.dp)
                         .clickable {
-                            searchState.value = SearchState.MAIN_SEARCH
+                            onBackStage()
                         },
                     contentAlignment = Alignment.Center
                 ) {
@@ -83,7 +84,7 @@ fun SearchBox(
                     modifier = Modifier
                         .size(30.dp)
                         .clickable {
-                            searchQuery.value = TextFieldValue("")
+                            onBackStage()
                         },
                     contentAlignment = Alignment.Center
                 ) {

@@ -3,6 +3,7 @@ package com.android.myfooddiarybookaos.myaccount.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.android.myfooddiarybookaos.api.myApi.NoticeEntity
 import com.android.myfooddiarybookaos.data.dataMy.repository.MyRepository
 import com.android.myfooddiarybookaos.data.dataMy.repository.NoticeRepository
@@ -34,7 +35,9 @@ class MyViewModel @Inject constructor(
     }
 
     private fun getNotice() = viewModelScope.launch {
-        noticeRepository.getNoticePager().collectLatest {
+        noticeRepository.getNoticePager()
+            .cachedIn(viewModelScope)
+            .collectLatest {
             _noticeList.value = it
         }
     }

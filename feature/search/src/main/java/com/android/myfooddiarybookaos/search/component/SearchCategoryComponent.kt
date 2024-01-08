@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -18,10 +19,9 @@ import com.android.myfooddiarybookaos.search.item.ItemSearchCategory
 @Composable
 fun SearchCategoryComponent(
     searchSelect: (SearchCategory) -> Unit,
-    viewModel: SearchViewModel = hiltViewModel()
+    searchItems : State<List<SearchCategory>>,
 ) {
 
-    val searchItems = viewModel.searchCategoryList.collectAsState()
 
     if (searchItems.value.isEmpty()){
         NoSearchDataComponent()
@@ -31,10 +31,7 @@ fun SearchCategoryComponent(
             modifier = Modifier
                 .wrapContentHeight()
                 .fillMaxWidth()
-                .padding(
-                    top = 26.dp,
-                    bottom = 100.dp
-                )
+                .padding(top = 26.dp)
         ){
             items(searchItems.value){
                 ItemSearchCategory(
@@ -43,6 +40,10 @@ fun SearchCategoryComponent(
                         searchSelect(it)
                     }
                 )
+            }
+
+            item(1){
+                Box(Modifier.height(100.dp))
             }
         }
 

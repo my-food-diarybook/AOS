@@ -18,7 +18,7 @@ class MyRemoteMediator constructor(
     private val networkManager: NetworkManager
 ): RemoteMediator<Int,NoticeEntity>() {
 
-    private val startingPageIndex = 1
+    private val startingPageIndex = 0
     private val manger = networkManager.getMyApiService()
 
     override suspend fun initialize(): InitializeAction {

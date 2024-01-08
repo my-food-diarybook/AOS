@@ -5,11 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import java.util.*
 
 interface TodayViewInterface {
-    val _observeData: MutableLiveData<Boolean>
-    val observeData: LiveData<Boolean>
     val currentCalendar: Calendar
     fun setCurrentDate(year: Int, month: Int)
-    fun dataChangeOn()
 }
 
 //for preview

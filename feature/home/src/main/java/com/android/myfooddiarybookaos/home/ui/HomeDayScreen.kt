@@ -68,7 +68,7 @@ fun HomeDayScreen(
                 diaryState.multiPartList,
                 diaryState = { isUpdate ->
                     if (isUpdate) {
-                        homeViewModel.getHomeDayInDiary(currentDate)
+                        viewUpdate.value = true
                     }
                 }
             )

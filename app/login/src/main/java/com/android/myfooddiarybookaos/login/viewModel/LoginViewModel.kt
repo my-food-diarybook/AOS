@@ -2,15 +2,19 @@ package com.android.myfooddiarybookaos.login.viewModel
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
+import androidx.annotation.RequiresApi
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import com.android.myfooddiarybookaos.api.NetworkManager
 import com.android.myfooddiarybookaos.api.UserInfoSharedPreferences
+import com.android.myfooddiarybookaos.api.googleLogin.LoginResult
 import com.android.myfooddiarybookaos.data.dataLogin.repository.LoginRepository
 import com.android.myfooddiarybookaos.login.data.GoogleLoginRepository
+import com.android.myfooddiarybookaos.model.login.LoginGoogleResponse
 import com.android.myfooddiarybookaos.model.login.LoginResponse
 import com.android.myfooddiarybookaos.model.login.SsoToken
 import com.google.firebase.auth.FirebaseAuth
@@ -18,6 +22,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.net.URLDecoder
+import java.nio.charset.StandardCharsets
 import javax.inject.Inject
 
 @HiltViewModel
@@ -76,6 +82,7 @@ class LoginViewModel @Inject constructor(
         context.startActivity(intent)
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     fun setLauncher(
         result: ActivityResult,
         firebaseAuth: FirebaseAuth,
@@ -84,12 +91,27 @@ class LoginViewModel @Inject constructor(
         googleLoginRepository.setLauncher(result, firebaseAuth, loginCallback = {
             if (it != null) {
                 it.let { token ->
+                    // token decode
                     CoroutineScope(Dispatchers.IO).launch {
-                        googleLoginRepository.loginRequest(token, result = { resultState ->
-                            if (resultState) {
-                                loginState(true)
-                            } else loginState(false)
-                        })
+                        googleLoginRepository.loginRequest(token).let { result ->
+                            Log.d("result",result.toString())
+                            when(result){
+                                is LoginResult.Success<LoginGoogleResponse> -> {
+                                    Log.d("result",result.data.access_token.toString())
+                                    repository.saveUserToken(
+                                        LoginResponse(
+                                            refreshToken = result.data.refresh_token,
+                                            status = "성공",
+                                            token = result.data.access_token
+                                        )
+                                    )
+                                    loginState(true)
+                                }
+                                else -> {
+                                    loginState(false)
+                                }
+                            }
+                        }
                     }
                 }
             } else {

@@ -1,11 +1,14 @@
 package com.android.myfooddiarybookaos.data.dataTimeLine
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.android.myfooddiarybookaos.api.NetworkManager
+import com.android.myfooddiarybookaos.data.dataTimeLine.remote.TimeLineDiaryPagingSource
+import com.android.myfooddiarybookaos.data.dataTimeLine.remote.TimeLinePagingSource
 import com.android.myfooddiarybookaos.model.timeLine.TimeLine
 import com.android.myfooddiarybookaos.model.timeLine.TimeLineDiary
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class TimeLineRepository @Inject constructor(
@@ -13,41 +16,33 @@ class TimeLineRepository @Inject constructor(
 ) {
     private val manager = networkManager.getTimeLineApiService()
 
-    fun getTimeLineData(
-        date: String,
-        isUpdate: (List<TimeLine>?) -> Unit
-    ) {
-        manager.getTimeLineShow(date)
-            .enqueue(object : Callback<List<TimeLine>> {
-                override fun onResponse(call: Call<List<TimeLine>>, response: Response<List<TimeLine>>) {
-                    isUpdate(response.body())
-                }
-
-                override fun onFailure(call: Call<List<TimeLine>>, t: Throwable) {
-                    isUpdate(null)
-                }
-
-            })
+    fun getTimeLineData(date: String): Flow<PagingData<TimeLine>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 4,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = {
+                TimeLinePagingSource(
+                    date = date,
+                    manager = manager
+                )
+            }
+        ).flow
     }
 
     fun getTimeLineMoreData(
         date: String,
-        offset: Int,
-        isUpdate: (List<TimeLineDiary>?) -> Unit
-    ) {
-        manager.getTimeLineFlicking(date, offset)
-            .enqueue(object : Callback<List<TimeLineDiary>> {
-                override fun onResponse(
-                    call: Call<List<TimeLineDiary>>,
-                    response: Response<List<TimeLineDiary>>
-                ) {
-                    isUpdate(response.body())
-                }
-
-                override fun onFailure(call: Call<List<TimeLineDiary>>, t: Throwable) {
-                    isUpdate(null)
-                }
-
-            })
+        diarySize: Int
+    ): Flow<PagingData<TimeLineDiary>> {
+        return Pager(
+            config = PagingConfig(pageSize = 5, enablePlaceholders = false),
+        ) {
+            TimeLineDiaryPagingSource(
+                date = date,
+                manager = manager,
+                diarySize = diarySize
+            )
+        }.flow
     }
 }

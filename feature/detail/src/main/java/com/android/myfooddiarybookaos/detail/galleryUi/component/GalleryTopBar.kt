@@ -20,6 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
+import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 @Composable
@@ -83,23 +84,34 @@ fun GalleryTopBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.White)
+                .padding(
+                    horizontal = 20.dp
+                )
                 .border(
                     BorderStroke(1.dp, Color.White.copy(alpha = 0.8f))
                 ),
             expanded = isDropDownMenuExpanded,
             onDismissRequest = { isDropDownMenuExpanded = false}
         ) {
-            directories.map{
+                directories.map{
                 DropdownMenuItem(onClick = {
                     isDropDownMenuExpanded =false
                     setCurrentDirectory(it)
                 }) {
-                    Text(
-                        text = it.first,
-                        color = Color.White,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = it.first,
+                            color = Color.Black,
+                            textAlign = TextAlign.Center,
+                            fontSize = 16.sp,
+                            fontFamily = robotoRegular,
+                            fontWeight = FontWeight.W500
+                        )
+                    }
                 }
             }
         }

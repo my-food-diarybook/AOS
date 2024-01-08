@@ -37,7 +37,7 @@ import java.security.AccessController.checkPermission
 // 사진 촬영, 사진 선택
 @Composable
 fun SelectAddScreen(
-    diaryState : DiaryState,
+    diaryState: DiaryState,
     appState: ApplicationState,
     closeLog: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
@@ -73,7 +73,7 @@ fun SelectAddScreen(
     // 촬영 동작
     if (takePicClick) {
         TakePhotoFromCameraLauncher(callback = {
-            if (it!=null){
+            if (it != null) {
                 diaryState.multiPartList = viewModel.getMultiPartFromBitmap(it)
                 diaryState.isSelectedGallery.value = true
             }
@@ -98,7 +98,14 @@ fun SelectAddScreen(
 //        })
     }
 
-    Column {
+    Column(
+        Modifier
+            .padding(
+                start = 8.dp,
+                end = 8.dp
+            )
+            .background(Color.Transparent)
+    ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Bottom,
@@ -172,11 +179,11 @@ fun SelectAddScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-                        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.TIRAMISU) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                             perMissionAlbumLauncher.launch(
                                 Manifest.permission.READ_MEDIA_IMAGES
                             )
-                        } else{
+                        } else {
                             perMissionAlbumLauncher.launch(
                                 Manifest.permission.READ_EXTERNAL_STORAGE
                             )
@@ -208,10 +215,11 @@ fun SelectAddScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .background(Color.White, RoundedCornerShape(8.dp))
+                .background(Color.White, RoundedCornerShape(13.dp))
                 .clickable {
                     closeLog()
                 }
+
         ) {
             Text(
                 text = "취소",

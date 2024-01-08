@@ -24,10 +24,8 @@ class TodayViewModel @Inject constructor(
 
     fun setCurrentDate(year: Int, month: Int) {
         todayRepository.setCurrentDate(year, month)
-        todayRepository.dataChangeOn()
     }
 
-    fun getDataChange() = todayRepository.observeData
 
     fun getCurrentDate(): Int {
         return getCurrentCalendar().get(Calendar.YEAR) * 12 +
@@ -41,7 +39,6 @@ class TodayViewModel @Inject constructor(
         return calendarRepository.getData(todayRepository.currentCalendar.time)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun getTodayDate(): String {
         val now: LocalDateTime = LocalDateTime.now()
         return now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
@@ -55,7 +52,6 @@ class TodayViewModel @Inject constructor(
         return SimpleDateFormat(dateFormat).format(date.time)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun getTopDate(date: String?): String {
         if (date == null || date == "") return ""
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -67,6 +63,13 @@ class TodayViewModel @Inject constructor(
     @SuppressLint("SimpleDateFormat")
     fun getCurrentYearMonth(): String {
         val dateFormat = "yyyy-MM"
+        val date = todayRepository.currentCalendar.time
+        return SimpleDateFormat(dateFormat).format(date)
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    fun getCurrentTimeLineKey(): String {
+        val dateFormat = "yyyy-MM-01"
         val date = todayRepository.currentCalendar.time
         return SimpleDateFormat(dateFormat).format(date)
     }

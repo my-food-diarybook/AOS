@@ -4,11 +4,16 @@ import android.content.ContentValues
 import androidx.activity.result.ActivityResult
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.test.isDialog
 import com.android.myfooddiarybookaos.api.NetworkManager
 import com.android.myfooddiarybookaos.api.UserInfoSharedPreferences
+import com.android.myfooddiarybookaos.api.googleLogin.LoginResult
+import com.android.myfooddiarybookaos.model.login.LoginGoogleResponse
 import com.android.myfooddiarybookaos.model.login.SsoToken
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -20,9 +25,9 @@ import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import java.net.URLDecoder
+import java.nio.charset.StandardCharsets
 import javax.inject.Inject
 
 class GoogleLoginRepository @Inject constructor(
@@ -87,14 +92,12 @@ class GoogleLoginRepository @Inject constructor(
         }
     }
 
-    suspend fun loginRequest(idToken: String, result: (Boolean) -> Unit) {
-        val userData = UserInfoSharedPreferences(context)
-        userData.loginForm = NetworkManager.LOGIN_GOOGLE
-        val response = networkManager.getLoginApiService().loginGoogle(idToken)
-        if (response.isSuccessful) {
-            result(true)
-        } else {
-            result(false)
-        }
+    suspend fun loginRequest(idToken: String): LoginResult<LoginGoogleResponse> {
+        networkManager
+            .getGoogleLoginApiService()
+            .fetchGoogleAuthInfo(networkManager.googleTokenRequest(idToken))
+            ?.run {
+                return LoginResult.Success(this.body() ?: LoginGoogleResponse())
+            } ?: return LoginResult.Error(Exception("Exception"))
     }
 }

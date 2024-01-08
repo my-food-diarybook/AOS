@@ -9,6 +9,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.android.myfooddiarybookaos.Layout.NotDataView
 import com.android.myfooddiarybookaos.model.search.SearchCategory
@@ -18,11 +19,8 @@ import com.android.myfooddiarybookaos.search.item.ItemSearchCategory
 @Composable
 fun PagingCategoryComponent(
     searchSelect: (SearchCategory) -> Unit,
-    viewModel: SearchViewModel = hiltViewModel()
+    pagingItems : LazyPagingItems<SearchCategory>
 ) {
-
-    val pagingItems = viewModel.pagingCategoryList.collectAsLazyPagingItems()
-
 
     if (pagingItems.itemCount == 0){
         NotDataView()
@@ -32,7 +30,7 @@ fun PagingCategoryComponent(
             modifier = Modifier
                 .wrapContentHeight()
                 .fillMaxWidth()
-                .padding(bottom = 100.dp, top = 26.dp)
+                .padding(top = 26.dp)
         ){
             items(pagingItems.itemSnapshotList){
                 it?.let {
@@ -43,6 +41,9 @@ fun PagingCategoryComponent(
                         }
                     )
                 }
+            }
+            item(1){
+                Box(Modifier.height(100.dp))
             }
         }
     }
