@@ -64,7 +64,7 @@ class LoginViewModel @Inject constructor(
     ): Boolean {
         return if (status == "성공") {
             // 토큰 저장 !
-            repository.saveUserToken(response)
+            repository.saveUserToken(response,NetworkManager.LOGIN_NONE)
             true
         } else false
     }
@@ -103,7 +103,8 @@ class LoginViewModel @Inject constructor(
                                                 refreshToken = result.data.refresh_token,
                                                 status = "성공",
                                                 token = result.data.access_token
-                                            )
+                                            ),
+                                            NetworkManager.LOGIN_GOOGLE
                                         )
                                         loginState(true)
                                     }

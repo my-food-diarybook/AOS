@@ -22,7 +22,7 @@ class SearchCategoryPagingSource(
         return try {
             val next = params.key ?: 0
             val response = manager.searchShow(next)
-
+            if (response.isEmpty()) throw Exception()
             LoadResult.Page(
                 data = response,
                 prevKey = if (next == 0) null else next - 1,
