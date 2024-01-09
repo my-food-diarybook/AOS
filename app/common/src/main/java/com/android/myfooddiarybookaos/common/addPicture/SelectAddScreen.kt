@@ -85,7 +85,7 @@ fun SelectAddScreen(
     // 앨범 선택 동작
     if (takeAlbum) {
         closeLog()
-        appState.navController.navigate("${ScreenRoot.GALLERY}/true")
+        appState.navController.navigate("${ScreenRoot.GALLERY}/true/0")
         takeAlbum = false
 //        SelectPhotoFromAlbumLauncher(callback = {
 //            if (it!=null) {

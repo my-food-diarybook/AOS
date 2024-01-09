@@ -1,5 +1,6 @@
 package com.android.myfooddiarybookaos.common.naviHost
 
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -86,13 +87,15 @@ fun MainNaviHost(
 
             // 인자 전달
             composable(
-                route = "${ScreenRoot.GALLERY}/{multiSelectType}",
+                route = "${ScreenRoot.GALLERY}/{multiSelectType}/{prevImageCount}",
                 arguments = listOf(
-                    navArgument("multiSelectType") { type = NavType.BoolType }
+                    navArgument("multiSelectType") { type = NavType.BoolType },
+                    navArgument("prevImageCount") { type = NavType.IntType }
                 )
             ) { entry ->
                 val isMultiSelectView = entry.arguments?.getBoolean("multiSelectType") ?: true
-                GalleryScreen(appState, diaryState, isMultiSelectView)
+                val prevSelectCount = entry.arguments?.getInt("prevImageCount") ?: 0
+                GalleryScreen(appState, diaryState, isMultiSelectView,prevSelectCount)
             }
         }
     }

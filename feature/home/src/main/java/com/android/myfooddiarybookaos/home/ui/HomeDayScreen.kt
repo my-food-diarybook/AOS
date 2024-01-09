@@ -41,10 +41,11 @@ fun HomeDayScreen(
     LaunchedEffect(Unit) {
         homeViewModel.initState(appState, diaryState)
     }
+    val scope = rememberCoroutineScope()
 
     // 뒤로가기 제어
     BackHandler(enabled = true, onBack = {
-        backStage(diaryState, appState)
+        backStage(diaryState,appState)
     })
 
     val homeDays = homeViewModel.homeDayInDiary.collectAsState()
@@ -90,7 +91,7 @@ fun HomeDayScreen(
                 modifier = Modifier
                     .size(34.dp)
                     .clickable {
-                        backStage(diaryState, appState)
+                        backStage(diaryState,appState)
                     }
                     .align(Alignment.BottomStart),
                 contentAlignment = Alignment.Center

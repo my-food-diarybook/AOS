@@ -28,6 +28,7 @@ import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 
 @Composable
 fun DetailTopLayer(
+    imageSize : Int,
     topDate: String,
     memoFixState: () -> Unit,
     detailViewModel: DetailViewModel = hiltViewModel()
@@ -103,7 +104,7 @@ fun DetailTopLayer(
                                 ?.value = AddScreenState.FIX_IMAGE_IN_DETAIL
                             detailViewModel.appState.value
                                 ?.navController
-                                ?.navigate("${ScreenRoot.GALLERY}/false")
+                                ?.navigate("${ScreenRoot.GALLERY}/false/0")
                         },
                         addImage = {
                             popUpState.value = false
@@ -112,7 +113,7 @@ fun DetailTopLayer(
                                 ?.value = AddScreenState.ADD_IMAGE_IN_DETAIL
                             detailViewModel.appState.value
                                 ?.navController
-                                ?.navigate("${ScreenRoot.GALLERY}/true")
+                                ?.navigate("${ScreenRoot.GALLERY}/true/${imageSize}")
                         },
                         fixMemo = {
                             popUpState.value = false

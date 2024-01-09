@@ -70,6 +70,7 @@ fun MainDetailScreen(
 
     Column {
         DetailTopLayer(
+            diaryDetail.images.size,
             topDate,
             memoFixState = {
                 initMemo()

@@ -35,4 +35,5 @@
     <color name="color_day_of_weak">#1C1B1F</color>
     <color name="notice_text_color">#181A1B</color>
     <color name="notice_date_color">#7F8A94</color>
+    <color name="toast_back">#B3252525</color>
 </resources>
