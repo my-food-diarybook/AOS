@@ -27,19 +27,21 @@ import java.util.*
 @Composable
 fun TopCalendarLayout(
     todayViewModel : TodayViewModel = hiltViewModel(),
-    resetData: () -> Unit
+    resetData: () -> Unit,
+    isMainView: Boolean
 ){
     var isTopLayoutClick  by remember{ // 캘린더 클릭 여부
         mutableStateOf(false)
     }
 
-    // currentCalendar observe
-    val currentCalendar by remember {
-        mutableStateOf(todayViewModel.getCurrentCalendar())
+    val textState = remember {
+        mutableStateOf(
+            todayViewModel.getCurrentCalendarInfo()
+        )
     }
 
     if (isTopLayoutClick){ // 캘린더 클릭 동작
-        currentCalendar.apply {
+        todayViewModel.getCurrentCalendar().apply {
             // dialog 생성
             SelectCalendarDialog(
                 isTopLayoutClick = {// 캘린더 픽 전달 받기
@@ -60,33 +62,78 @@ fun TopCalendarLayout(
             .fillMaxWidth(),
         verticalArrangement = Arrangement.Bottom
     ){
-        Row(
+        Box(
             modifier = Modifier
-                .wrapContentSize()
+                .fillMaxWidth()
                 .padding(
-                    start = 20.dp
+                    start = 20.dp,
+                    end = 24.dp
                 )
-                .clickable(onClick = { isTopLayoutClick = true }),
-            verticalAlignment = Alignment.CenterVertically
         ){
-            TextBox(
-                text =   "${currentCalendar.get(Calendar.YEAR)}" +
-                        ".${currentCalendar.get(Calendar.MONTH).plus(1)}",
-                fontWeight = 700,
-                fontFamily = robotoBold,
-                fontSize = 34.scaledSp(),
-                color = colorResource(id = R.color.black),
-                lineHeight = 34.scaledSp()
-            )
-            Spacer(modifier = Modifier.width(1.59.dp))
-            Box(
-                modifier = Modifier.size(40.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.downarrow),
-                    contentDescription = "",
+            Row(
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .clickable(onClick = { isTopLayoutClick = true }),
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                TextBox(
+                    text =   textState.value,
+                    fontWeight = 700,
+                    fontFamily = robotoBold,
+                    fontSize = 34.scaledSp(),
+                    color = colorResource(id = R.color.black),
+                    lineHeight = 34.scaledSp()
                 )
+                Spacer(modifier = Modifier.width(1.59.dp))
+                Box(
+                    modifier = Modifier.size(40.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.keyboard_arrow_down),
+                        contentDescription = "",
+                    )
+                }
+            }
+
+            if (isMainView) {
+                Row(
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(bottom = 3.dp)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .clickable {
+                                todayViewModel.setPrevDate()
+                                textState.value = todayViewModel.getCurrentCalendarInfo()
+                                resetData()
+                            }
+                            .size(34.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.chevron_left_24px),
+                            contentDescription = null
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(5.dp))
+                    Box(
+                        modifier = Modifier
+                            .clickable {
+                                todayViewModel.setNextDate()
+                                textState.value = todayViewModel.getCurrentCalendarInfo()
+                                resetData()
+                            }
+                            .size(34.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.chevron_right_24px),
+                            contentDescription = null
+                        )
+                    }
+                }
             }
         }
 
@@ -102,4 +149,3 @@ fun TopCalendarLayout(
         )
     }
 }
-

@@ -50,7 +50,8 @@ fun TimeLineScreen(
         TopCalendarLayout(
             resetData = {
                 viewUpdate.value = true
-            }
+            },
+            isMainView = false
         )
 
         if (!viewUpdate.value) {

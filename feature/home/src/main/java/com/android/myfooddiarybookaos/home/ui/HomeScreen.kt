@@ -80,7 +80,8 @@ fun HomeScreen(
         TopCalendarLayout(
             resetData = {
                 viewUpdate.value = true
-            }
+            },
+            isMainView = true
         )
         // mid calendar
         Box(
