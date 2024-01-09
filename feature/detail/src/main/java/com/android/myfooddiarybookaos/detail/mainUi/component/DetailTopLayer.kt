@@ -18,10 +18,12 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.state.AddScreenState
 import com.android.myfooddiarybookaos.data.utils.scaledSp
+import com.android.myfooddiarybookaos.detail.mainUi.popUp.DeleteDiaryPopUp
 import com.android.myfooddiarybookaos.detail.popup.DetailPopupScreen
 import com.android.myfooddiarybookaos.detail.viewModel.DetailViewModel
 import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
@@ -34,6 +36,7 @@ fun DetailTopLayer(
     detailViewModel: DetailViewModel = hiltViewModel()
 ) {
     val popUpState = remember { mutableStateOf(false) }
+    val deletePopupState = remember { mutableStateOf(false) }
 
     Box(
         Modifier
@@ -121,9 +124,24 @@ fun DetailTopLayer(
                         },
                         deleteDiary = {
                             popUpState.value = false
-                            detailViewModel.deleteDiary()
+                            deletePopupState.value = true
                         }
                     )
+                }
+
+                if (deletePopupState.value){
+                    Dialog(onDismissRequest = {
+                        deletePopupState.value = false
+                    }) {
+                        DeleteDiaryPopUp(
+                            close = {
+                                deletePopupState.value = false
+                            },
+                            onDelete = {
+                                detailViewModel.deleteDiary()
+                            }
+                        )
+                    }
                 }
             }
         }
