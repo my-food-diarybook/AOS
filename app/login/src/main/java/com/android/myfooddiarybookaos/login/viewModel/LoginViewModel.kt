@@ -14,10 +14,12 @@ import com.android.myfooddiarybookaos.api.UserInfoSharedPreferences
 import com.android.myfooddiarybookaos.api.googleLogin.LoginResult
 import com.android.myfooddiarybookaos.data.dataLogin.repository.LoginRepository
 import com.android.myfooddiarybookaos.login.data.GoogleLoginRepository
+import com.android.myfooddiarybookaos.login.data.KaKaoLoginRepository
 import com.android.myfooddiarybookaos.model.login.LoginGoogleResponse
 import com.android.myfooddiarybookaos.model.login.LoginResponse
 import com.android.myfooddiarybookaos.model.login.SsoToken
 import com.google.firebase.auth.FirebaseAuth
+import com.kakao.sdk.auth.model.OAuthToken
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -25,11 +27,13 @@ import kotlinx.coroutines.launch
 import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 import javax.inject.Inject
+import kotlin.math.log
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val repository: LoginRepository,
-    private val googleLoginRepository: GoogleLoginRepository
+    private val googleLoginRepository: GoogleLoginRepository,
+    private val kaKaoLoginRepository: KaKaoLoginRepository
 ) : ViewModel() {
 
     fun loginUser(
@@ -129,5 +133,40 @@ class LoginViewModel @Inject constructor(
         googleLoginRepository.login(launcher)
     }
 
+
+    fun kaKaoLogin(
+        callback : (OAuthToken?, Throwable?) -> Unit,
+        loginState: (String?) -> Unit
+    ){
+        kaKaoLoginRepository.kaKaoLogin(
+            callback,
+            loginCallback = {
+                loginState(it)
+            })
+    }
+
+    fun checkKaKaoLogin(): Boolean{
+        return kaKaoLoginRepository.checkLogin()
+    }
+
+    fun setCallback(
+        error:Throwable?,
+        token: OAuthToken?,
+        loginState: (Boolean) -> Unit
+    ){
+        if (token==null || error !=null){
+            loginState(false)
+        } else {
+
+            repository.saveUserToken(
+                response = LoginResponse(
+                    token = token.accessToken,
+                    status = "성공",
+                    refreshToken = token.refreshToken
+                ),
+                currentForm = NetworkManager.LOGIN_KAKAO
+            )
+        }
+    }
 
 }

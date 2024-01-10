@@ -33,6 +33,7 @@ import com.android.myfooddiarybookaos.data.ui.theme.TextBox
 import com.android.myfooddiarybookaos.data.utils.scaledSp
 import com.android.myfooddiarybookaos.login.viewModel.LoginViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.kakao.sdk.auth.model.OAuthToken
 
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -44,6 +45,7 @@ fun BottomLayout(
 ) {
     val loginUserState = remember { mutableStateOf(false) }
     val isGoogleLogin = remember { mutableStateOf(false) }
+    val isKaKaoLogin = remember { mutableStateOf(false) }
     val userEmail = remember { mutableStateOf("") }
     val firebaseAuth = FirebaseAuth.getInstance()
     val launcher = rememberLauncherForActivityResult(
@@ -60,9 +62,20 @@ fun BottomLayout(
             )
         }
     )
+    val kaKaoCallback : (OAuthToken?,Throwable?) -> Unit = { token, error->
+        if (token==null) isKaKaoLogin.value = false
+        viewModel.setCallback(error,token, loginState = {
+            loginUserState.value = true
+        })
+    }
 
     if (isGoogleLogin.value) {
         viewModel.goggleLogin(launcher)
+    }
+    if (isKaKaoLogin.value){
+        if (!viewModel.checkKaKaoLogin()){
+            viewModel.kaKaoLogin(kaKaoCallback, loginState = {if (it==null) isKaKaoLogin.value = false})
+        }
     }
     if (loginUserState.value) {
         viewModel.goMain(LocalContext.current,userEmail.value)
@@ -153,7 +166,11 @@ fun BottomLayout(
         Image(
             painter = painterResource(id = R.drawable.icon_kakao),
             contentDescription = "",
-            modifier = Modifier.size(40.dp)
+            modifier = Modifier
+                .size(40.dp)
+                .clickable {
+                    isKaKaoLogin.value = true
+                }
         )
     }
 

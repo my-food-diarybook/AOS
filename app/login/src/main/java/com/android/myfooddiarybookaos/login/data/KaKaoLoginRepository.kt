@@ -18,6 +18,7 @@ class KaKaoLoginRepository @Inject constructor(
     networkManager: NetworkManager
 ) {
 
+
     fun kaKaoLogin(callback : (OAuthToken?, Throwable?)  -> Unit,loginCallback: (String?) -> Unit) {
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)){ //앱 설치 상태
             UserApiClient.instance.loginWithKakaoTalk(context){ _, error ->
