@@ -37,6 +37,7 @@ class DetailViewModel @Inject constructor(
     private val mapSearchRepository: MapSearchRepository,
 ) : ViewModel() {
 
+
     private val _appState = MutableLiveData<ApplicationState>()
     val appState: LiveData<ApplicationState> get() = _appState
 
