@@ -3,6 +3,7 @@ package com.android.myfooddiarybookaos.login.data
 import android.content.Context
 import android.util.Log
 import com.android.myfooddiarybookaos.api.NetworkManager
+import com.android.myfooddiarybookaos.api.kakao.KakaoRetrofitService
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
@@ -15,9 +16,8 @@ import javax.inject.Inject
 
 class KaKaoLoginRepository @Inject constructor(
     @ApplicationContext private val context: Context,
-    networkManager: NetworkManager
+    private val kakaoService : KakaoRetrofitService
 ) {
-
 
     fun kaKaoLogin(callback : (OAuthToken?, Throwable?)  -> Unit,loginCallback: (String?) -> Unit) {
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)){ //앱 설치 상태
@@ -33,6 +33,7 @@ class KaKaoLoginRepository @Inject constructor(
 
                     // 앱설치 -> 접근 오류 -> 카카오 계정으로 로그인 시도
                     UserApiClient.instance.loginWithKakaoAccount(context, callback =  callback)
+
                 }
             }
         } else { //앱 비설치 상태 -> 카카오 계정으로 로그인 시도
@@ -64,17 +65,21 @@ class KaKaoLoginRepository @Inject constructor(
         return check
     }
 
-    fun getUserInfo(loginCallback: (AccessTokenInfo?) -> Unit) {
-        UserApiClient.instance.accessTokenInfo{ tokenInfo, error ->
-            if (error != null){
-                loginCallback(null)
-            }
-            else if (tokenInfo != null){
-                loginCallback(tokenInfo) // 로그인 정보와 만료 기간 전송
-            }
-            else {
-                loginCallback(null)
-            }
-        }
+    fun getUserInfo(token : String?, loginCallback: (String?) -> Unit) {
+        val email = kakaoService.getUserInfo(token).kakao_account.email
+        loginCallback(email)
+//        UserApiClient.instance.me { user, error ->
+//            Log.d("user",user?.kakaoAccount?.email.toString())
+//            Log.d("user",error.toString())
+//            if (error != null){
+//                loginCallback(null)
+//            }
+//            else if (user != null){
+//                loginCallback(user.kakaoAccount?.email) // 로그인 정보와 만료 기간 전송
+//            }
+//            else {
+//                loginCallback(null)
+//            }
+//        }
     }
 }

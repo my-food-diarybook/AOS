@@ -3,11 +3,9 @@ package com.android.myfooddiarybookaos.login.viewModel
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import com.android.myfooddiarybookaos.api.NetworkManager
 import com.android.myfooddiarybookaos.api.UserInfoSharedPreferences
@@ -17,17 +15,13 @@ import com.android.myfooddiarybookaos.login.data.GoogleLoginRepository
 import com.android.myfooddiarybookaos.login.data.KaKaoLoginRepository
 import com.android.myfooddiarybookaos.model.login.LoginGoogleResponse
 import com.android.myfooddiarybookaos.model.login.LoginResponse
-import com.android.myfooddiarybookaos.model.login.SsoToken
 import com.google.firebase.auth.FirebaseAuth
 import com.kakao.sdk.auth.model.OAuthToken
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.net.URLDecoder
-import java.nio.charset.StandardCharsets
 import javax.inject.Inject
-import kotlin.math.log
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
@@ -68,22 +62,24 @@ class LoginViewModel @Inject constructor(
     ): Boolean {
         return if (status == "성공") {
             // 토큰 저장 !
-            repository.saveUserToken(response,NetworkManager.LOGIN_NONE)
+            repository.saveUserToken(response, NetworkManager.LOGIN_NONE)
             true
         } else false
     }
 
     fun goMain(
         context: Context,
-        userEmail: String
     ) {
         val intent = Intent(
             context,
             Class.forName("com.android.myfooddiarybookaos.MainActivity")
         )
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        UserInfoSharedPreferences(context).userEmail = userEmail
         context.startActivity(intent)
+    }
+
+    fun saveEmailState(context: Context, userEmail: String) {
+        UserInfoSharedPreferences(context).userEmail = userEmail
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -135,9 +131,9 @@ class LoginViewModel @Inject constructor(
 
 
     fun kaKaoLogin(
-        callback : (OAuthToken?, Throwable?) -> Unit,
+        callback: (OAuthToken?, Throwable?) -> Unit,
         loginState: (String?) -> Unit
-    ){
+    ) {
         kaKaoLoginRepository.kaKaoLogin(
             callback,
             loginCallback = {
@@ -145,19 +141,18 @@ class LoginViewModel @Inject constructor(
             })
     }
 
-    fun checkKaKaoLogin(): Boolean{
+    fun checkKaKaoLogin(): Boolean {
         return kaKaoLoginRepository.checkLogin()
     }
 
     fun setCallback(
-        error:Throwable?,
+        error: Throwable?,
         token: OAuthToken?,
         loginState: (Boolean) -> Unit
-    ){
-        if (token==null || error !=null){
+    ) {
+        if (token == null || error != null) {
             loginState(false)
         } else {
-
             repository.saveUserToken(
                 response = LoginResponse(
                     token = token.accessToken,
@@ -166,7 +161,20 @@ class LoginViewModel @Inject constructor(
                 ),
                 currentForm = NetworkManager.LOGIN_KAKAO
             )
+            loginState(true)
         }
+    }
+
+    fun getUserEmail(
+        token: String?,
+        userEmail: (String?) -> Unit
+    ) {
+        kaKaoLoginRepository.getUserInfo(
+            token =  token,
+            loginCallback = {
+                userEmail(it)
+            }
+        )
     }
 
 }

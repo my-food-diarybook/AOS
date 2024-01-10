@@ -1,7 +1,6 @@
 package com.android.myfooddiarybookaos.login.mainSubUi
 
 import android.os.Build
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -9,26 +8,19 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.android.myfooddiarybookaos.api.UserInfoSharedPreferences
 import com.android.myfooddiarybookaos.core.data.R
-import com.android.myfooddiarybookaos.data.robotoLight
 import com.android.myfooddiarybookaos.data.ui.theme.TextBox
 import com.android.myfooddiarybookaos.data.utils.scaledSp
 import com.android.myfooddiarybookaos.login.viewModel.LoginViewModel
@@ -43,6 +35,7 @@ fun BottomLayout(
     insertUser: () -> Unit,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
+    val context =  LocalContext.current
     val loginUserState = remember { mutableStateOf(false) }
     val isGoogleLogin = remember { mutableStateOf(false) }
     val isKaKaoLogin = remember { mutableStateOf(false) }
@@ -65,7 +58,7 @@ fun BottomLayout(
     val kaKaoCallback : (OAuthToken?,Throwable?) -> Unit = { token, error->
         if (token==null) isKaKaoLogin.value = false
         viewModel.setCallback(error,token, loginState = {
-            loginUserState.value = true
+            loginUserState.value = it
         })
     }
 
@@ -74,11 +67,26 @@ fun BottomLayout(
     }
     if (isKaKaoLogin.value){
         if (!viewModel.checkKaKaoLogin()){
-            viewModel.kaKaoLogin(kaKaoCallback, loginState = {if (it==null) isKaKaoLogin.value = false})
+            viewModel.kaKaoLogin(
+                kaKaoCallback,
+                loginState = {
+                    if (it==null) isKaKaoLogin.value = false
+                }
+            )
         }
     }
     if (loginUserState.value) {
-        viewModel.goMain(LocalContext.current,userEmail.value)
+        if (isKaKaoLogin.value){
+            viewModel.saveEmailState(context,userEmail.value)
+        }else {
+            viewModel.getUserEmail(
+             token = UserInfoSharedPreferences(context).accessToken,
+             userEmail = {
+                 viewModel.saveEmailState(context,it ?: "")
+             }
+            )
+        }
+        viewModel.goMain(context)
     }
 
     Spacer(modifier = Modifier.height(17.dp))

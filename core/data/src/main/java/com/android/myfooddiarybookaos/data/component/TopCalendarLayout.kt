@@ -49,6 +49,7 @@ fun TopCalendarLayout(
                 },
                 changeAllData = {
                     resetData()
+                    textState.value = todayViewModel.getCurrentCalendarInfo()
                 }
             )
         }

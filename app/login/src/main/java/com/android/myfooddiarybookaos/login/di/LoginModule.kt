@@ -1,6 +1,7 @@
 package com.android.myfooddiarybookaos.login.di
 
 import android.content.Context
+import com.android.myfooddiarybookaos.api.KakaoApiManager
 import com.android.myfooddiarybookaos.api.NetworkManager
 import com.android.myfooddiarybookaos.login.data.GoogleLoginRepository
 import com.android.myfooddiarybookaos.login.data.KaKaoLoginRepository
@@ -27,6 +28,6 @@ object LoginModule {
     @ViewModelScoped
     fun bindKaKao(
         @ApplicationContext context: Context,
-        networkManager: NetworkManager
-    ) = KaKaoLoginRepository(context,networkManager)
+        kakaoApiManager: KakaoApiManager
+    ) = KaKaoLoginRepository(context,kakaoApiManager.getKakaoLoginService())
 }
