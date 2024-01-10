@@ -26,6 +26,15 @@ class TodayViewModel @Inject constructor(
         todayRepository.setCurrentDate(year, month)
     }
 
+    fun setPrevDate() {
+        val nextDate = getCurrentDate() - 1
+        setCurrentDate(nextDate / 12, nextDate % 12 - 1)
+    }
+
+    fun setNextDate() {
+        val nextDate = getCurrentDate() + 1
+        setCurrentDate(nextDate / 12, nextDate % 12 - 1)
+    }
 
     fun getCurrentDate(): Int {
         return getCurrentCalendar().get(Calendar.YEAR) * 12 +
@@ -37,6 +46,12 @@ class TodayViewModel @Inject constructor(
 
     fun getCustomCalendar(): List<DayDate> {
         return calendarRepository.getData(todayRepository.currentCalendar.time)
+    }
+
+    fun getCurrentCalendarInfo(): String {
+        val currentCalendar = getCurrentCalendar()
+        return "${currentCalendar.get(Calendar.YEAR)}" +
+                ".${currentCalendar.get(Calendar.MONTH).plus(1)}"
     }
 
     fun getTodayDate(): String {

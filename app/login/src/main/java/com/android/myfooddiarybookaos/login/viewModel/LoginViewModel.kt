@@ -64,7 +64,7 @@ class LoginViewModel @Inject constructor(
     ): Boolean {
         return if (status == "성공") {
             // 토큰 저장 !
-            repository.saveUserToken(response)
+            repository.saveUserToken(response,NetworkManager.LOGIN_NONE)
             true
         } else false
     }
@@ -86,42 +86,47 @@ class LoginViewModel @Inject constructor(
     fun setLauncher(
         result: ActivityResult,
         firebaseAuth: FirebaseAuth,
-        loginState: (Boolean) -> Unit
+        loginState: (Boolean) -> Unit,
+        saveEmailState: (String) -> Unit
     ) {
-        googleLoginRepository.setLauncher(result, firebaseAuth, loginCallback = {
-            if (it != null) {
-                it.let { token ->
-                    // token decode
-                    CoroutineScope(Dispatchers.IO).launch {
-                        googleLoginRepository.loginRequest(token).let { result ->
-                            Log.d("result",result.toString())
-                            when(result){
-                                is LoginResult.Success<LoginGoogleResponse> -> {
-                                    Log.d("result",result.data.access_token.toString())
-                                    repository.saveUserToken(
-                                        LoginResponse(
-                                            refreshToken = result.data.refresh_token,
-                                            status = "성공",
-                                            token = result.data.access_token
+        googleLoginRepository.setLauncher(result, firebaseAuth,
+            loginCallback = {
+                if (it != null) {
+                    it.let { token ->
+                        // token decode
+                        CoroutineScope(Dispatchers.IO).launch {
+                            googleLoginRepository.loginRequest(token).let { result ->
+                                when (result) {
+                                    is LoginResult.Success<LoginGoogleResponse> -> {
+                                        repository.saveUserToken(
+                                            LoginResponse(
+                                                refreshToken = result.data.refresh_token,
+                                                status = "성공",
+                                                token = result.data.access_token
+                                            ),
+                                            NetworkManager.LOGIN_GOOGLE
                                         )
-                                    )
-                                    loginState(true)
-                                }
-                                else -> {
-                                    loginState(false)
+                                        loginState(true)
+                                    }
+                                    else -> {
+                                        loginState(false)
+                                    }
                                 }
                             }
                         }
                     }
+                } else {
+                    loginState(false)
                 }
-            } else {
-                loginState(false)
+            },
+            saveEmail = {
+                saveEmailState(it)
             }
-        })
+        )
     }
 
     fun goggleLogin(launcher: ActivityResultLauncher<Intent>) {
-        googleLoginRepository.login(NetworkManager.GOOGLE_ID, launcher)
+        googleLoginRepository.login(launcher)
     }
 
 

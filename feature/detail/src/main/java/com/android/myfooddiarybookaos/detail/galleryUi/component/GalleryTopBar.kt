@@ -19,18 +19,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.data.utils.scaledSp
+import com.android.myfooddiarybookaos.detail.viewModel.GalleryViewModel
 
 @Composable
 fun GalleryTopBar(
+    isMultiSelectView: Boolean,
+    prevCount: Int,
     selectedImages: List<GalleryImage>,
     currentDirectory: Pair<String, String?>,
     directories: List<Pair<String, String?>>,
     setCurrentDirectory: (Pair<String, String?>) -> Unit,
     backStage: () -> Unit,
-    nextStage: () -> Unit
+    nextStage: () -> Unit,
+    viewModel: GalleryViewModel = hiltViewModel()
 ) {
     var isDropDownMenuExpanded by remember { mutableStateOf(false) }
     val nothingSelected = selectedImages.isEmpty()
@@ -91,11 +96,11 @@ fun GalleryTopBar(
                     BorderStroke(1.dp, Color.White.copy(alpha = 0.8f))
                 ),
             expanded = isDropDownMenuExpanded,
-            onDismissRequest = { isDropDownMenuExpanded = false}
+            onDismissRequest = { isDropDownMenuExpanded = false }
         ) {
-                directories.map{
+            directories.map {
                 DropdownMenuItem(onClick = {
-                    isDropDownMenuExpanded =false
+                    isDropDownMenuExpanded = false
                     setCurrentDirectory(it)
                 }) {
                     Box(
@@ -117,7 +122,7 @@ fun GalleryTopBar(
         }
 
         Text(
-            text = "완료",
+            text = if (isMultiSelectView) "${prevCount + viewModel.selectedImages.size} 등록" else "완료",
             color = if (nothingSelected) Color.Gray.copy(alpha = 0.7f)
             else colorResource(id = R.color.main_color),
             fontSize = 18.scaledSp(),
@@ -143,6 +148,8 @@ fun GalleryTopBar(
 @Composable
 fun GalleryTopBarPreview() {
     GalleryTopBar(
+        false,
+        prevCount = 0,
         listOf(),
         Pair("최근항목", null),
         listOf(),

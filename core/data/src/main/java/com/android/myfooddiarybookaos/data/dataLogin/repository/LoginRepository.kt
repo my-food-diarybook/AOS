@@ -79,9 +79,10 @@ class LoginRepository @Inject constructor(
         }
     }
 
-    fun saveUserToken(response : LoginResponse?){
+    fun saveUserToken(response : LoginResponse?,currentForm : String){
         UserInfoSharedPreferences(context).accessToken = response?.token
         UserInfoSharedPreferences(context).refreshToken = response?.refreshToken
-        UserInfoSharedPreferences(context).loginForm = NetworkManager.LOGIN_NONE
+        UserInfoSharedPreferences(context).loginForm = currentForm
     }
+
 }

@@ -1,8 +1,10 @@
 package com.android.myfooddiarybookaos.login.mainSubUi
 
+import android.os.Build
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -13,6 +15,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
@@ -32,27 +35,37 @@ import com.android.myfooddiarybookaos.login.viewModel.LoginViewModel
 import com.google.firebase.auth.FirebaseAuth
 
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun BottomLayout(
-    findPassword : () -> Unit,
-    insertUser : () -> Unit,
-    viewModel : LoginViewModel = hiltViewModel()
-){
+    findPassword: () -> Unit,
+    insertUser: () -> Unit,
+    viewModel: LoginViewModel = hiltViewModel()
+) {
     val loginUserState = remember { mutableStateOf(false) }
     val isGoogleLogin = remember { mutableStateOf(false) }
+    val userEmail = remember { mutableStateOf("") }
     val firebaseAuth = FirebaseAuth.getInstance()
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult(),
         onResult = { result ->
-            viewModel.setLauncher(result,firebaseAuth, loginState = {state ->
-                if (!state) isGoogleLogin.value = false
-                loginUserState.value = state
-            })
+            viewModel.setLauncher(result, firebaseAuth,
+                loginState = { state ->
+                    if (!state) isGoogleLogin.value = false
+                    loginUserState.value = state
+                },
+                saveEmailState = {
+                    userEmail.value = it
+                }
+            )
         }
     )
 
-    if (isGoogleLogin.value){
+    if (isGoogleLogin.value) {
         viewModel.goggleLogin(launcher)
+    }
+    if (loginUserState.value) {
+        viewModel.goMain(LocalContext.current,userEmail.value)
     }
 
     Spacer(modifier = Modifier.height(17.dp))
@@ -81,7 +94,7 @@ fun BottomLayout(
         Spacer(modifier = Modifier.width(12.dp))
         Box(
             Modifier.clickable { insertUser() }
-        ){
+        ) {
             TextBox(
                 text = "회원가입",
                 fontWeight = 500,
@@ -97,7 +110,7 @@ fun BottomLayout(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(
             start = 13.dp,
-            end =  16.dp
+            end = 16.dp
         )
     ) {
         Divider(
@@ -109,8 +122,8 @@ fun BottomLayout(
         )
         Spacer(modifier = Modifier.width(7.dp))
         TextBox(
-            text ="또는" ,
-            fontWeight =500 ,
+            text = "또는",
+            fontWeight = 500,
             fontFamily = Font(R.font.roboto_light),
             fontSize = 14.scaledSp(),
             color = colorResource(id = R.color.login_weak_color),
@@ -126,7 +139,7 @@ fun BottomLayout(
     }
     Spacer(modifier = Modifier.height(19.dp))
 
-    Row(verticalAlignment = Alignment.CenterVertically){
+    Row(verticalAlignment = Alignment.CenterVertically) {
         Image(
             painter = painterResource(id = R.drawable.icon_google),
             contentDescription = "",
