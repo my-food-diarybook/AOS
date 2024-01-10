@@ -3,6 +3,7 @@ package com.android.myfooddiarybookaos.login.di
 import android.content.Context
 import com.android.myfooddiarybookaos.api.NetworkManager
 import com.android.myfooddiarybookaos.login.data.GoogleLoginRepository
+import com.android.myfooddiarybookaos.login.data.KaKaoLoginRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -21,4 +22,11 @@ object LoginModule {
         @ApplicationContext context: Context,
         networkManager: NetworkManager
     ) = GoogleLoginRepository(context,networkManager)
+
+    @Provides
+    @ViewModelScoped
+    fun bindKaKao(
+        @ApplicationContext context: Context,
+        networkManager: NetworkManager
+    ) = KaKaoLoginRepository(context,networkManager)
 }

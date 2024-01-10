@@ -63,7 +63,7 @@ fun NoticeScreen(
                     contentAlignment = Alignment.Center,
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.chevron_left_24px),
+                        painter = painterResource(id = R.drawable.chevron_left_24px_no_box),
                         contentDescription = "",
                     )
                 }
