@@ -39,10 +39,10 @@ fun MidLayout(
         mutableStateOf(false)
     }
 
-    if (goMainResult) viewModel.goMain(
-        LocalContext.current.applicationContext,
-        emailText.value.text
-    )
+    if (goMainResult){
+        viewModel.goMain(LocalContext.current)
+        viewModel.saveEmailState(LocalContext.current,emailText.value.text)
+    }
 
     var checkEnter by remember {
         mutableStateOf(0.3f)

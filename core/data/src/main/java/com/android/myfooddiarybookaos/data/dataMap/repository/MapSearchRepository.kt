@@ -2,34 +2,24 @@ package com.android.myfooddiarybookaos.data.dataMap.repository
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
-import android.util.Log
 import androidx.activity.compose.ManagedActivityResultLauncher
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.ActivityResultRegistryOwner
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.android.myfooddiarybookaos.api.KakaoApiManager
 import com.android.myfooddiarybookaos.model.map.MyLocation
 import com.android.myfooddiarybookaos.model.map.Place
-import com.android.myfooddiarybookaos.model.map.ResultSearchKeyword
 import com.google.android.gms.location.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
 
 class MapSearchRepository @Inject constructor(
     kakaoApiManager: KakaoApiManager,
     private val context: Context
 ) {
-    private val manager = kakaoApiManager.getKakaoService()
+    private val manager = kakaoApiManager.getKakaoMapService()
     private val permissionsLocation = arrayOf(
         Manifest.permission.ACCESS_COARSE_LOCATION,
         Manifest.permission.ACCESS_FINE_LOCATION

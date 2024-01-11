@@ -1,6 +1,8 @@
 package com.android.myfooddiarybookaos
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.BorderStroke
@@ -30,6 +32,7 @@ import com.android.myfooddiarybookaos.login.mainSubUi.MidLayout
 import com.android.myfooddiarybookaos.login.mainSubUi.TopLayout
 import com.android.myfooddiarybookaos.login.mainUi.LoginScreen
 import com.android.myfooddiarybookaos.login.navi.NavigationGraph
+import com.kakao.sdk.common.util.Utility
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

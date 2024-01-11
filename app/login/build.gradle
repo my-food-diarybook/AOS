@@ -88,6 +88,9 @@ dependencies {
     // 구글 로그인
     implementation("com.google.android.gms:play-services-auth:20.6.0")
 
+    // 카캌오 로그인
+    implementation 'com.kakao.sdk:v2-user:2.18.0'
+
     implementation project(":core:data")
     implementation project(":core:api")
     implementation project(":core:model")
