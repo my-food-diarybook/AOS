@@ -77,14 +77,13 @@ fun BottomLayout(
     }
     if (loginUserState.value) {
         if (isKaKaoLogin.value){
-            viewModel.saveEmailState(context,userEmail.value)
-        }else {
-            viewModel.getUserEmail(
-             token = UserInfoSharedPreferences(context).accessToken,
-             userEmail = {
-                 viewModel.saveEmailState(context,it ?: "")
-             }
+            viewModel.getKaKaoUserEmail(
+                userEmail = {
+                    viewModel.saveEmailState(context,it ?: "")
+                }
             )
+        }else {
+            viewModel.saveEmailState(context,userEmail.value)
         }
         viewModel.goMain(context)
     }

@@ -3,6 +3,8 @@ package com.android.myfooddiarybookaos.api.kakao
 import com.android.myfooddiarybookaos.api.KAKAO_API_KEY
 import com.android.myfooddiarybookaos.model.login.KakaoLoginResponse
 import com.android.myfooddiarybookaos.model.map.ResultSearchKeyword
+import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query
@@ -30,7 +32,5 @@ interface KakaoRetrofitService {
 
 
     @GET("v2/user/me")
-    fun getUserInfo(
-        @Header("Authorization") token: String?
-    ): KakaoLoginResponse
+    fun getUserInfo(): Call<KakaoLoginResponse>
 }

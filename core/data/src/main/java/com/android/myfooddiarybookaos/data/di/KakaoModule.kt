@@ -17,5 +17,7 @@ object KakaoModule {
 
     @Singleton
     @Provides
-    fun provideKakaoManager() = KakaoApiManager()
+    fun provideKakaoManager(
+        @ApplicationContext context: Context
+    ) = KakaoApiManager(context)
 }

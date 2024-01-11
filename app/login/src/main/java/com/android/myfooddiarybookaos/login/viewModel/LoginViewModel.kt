@@ -165,12 +165,8 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun getUserEmail(
-        token: String?,
-        userEmail: (String?) -> Unit
-    ) {
+    fun getKaKaoUserEmail(userEmail: (String?) -> Unit) {
         kaKaoLoginRepository.getUserInfo(
-            token =  token,
             loginCallback = {
                 userEmail(it)
             }

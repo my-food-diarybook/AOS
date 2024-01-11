@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.android.myfooddiarybookaos.api.NetworkManager
 import com.android.myfooddiarybookaos.api.kakao.KakaoRetrofitService
+import com.android.myfooddiarybookaos.model.login.KakaoLoginResponse
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
@@ -12,6 +13,9 @@ import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.AccessTokenInfo
 import dagger.hilt.android.qualifiers.ApplicationContext
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import javax.inject.Inject
 
 class KaKaoLoginRepository @Inject constructor(
@@ -65,19 +69,55 @@ class KaKaoLoginRepository @Inject constructor(
         return check
     }
 
-    fun getUserInfo(token : String?, loginCallback: (String?) -> Unit) {
-        val email = kakaoService.getUserInfo(token).kakao_account.email
-        loginCallback(email)
+    fun getUserInfo(loginCallback: (String?) -> Unit) {
+        val email = kakaoService.getUserInfo()
+            .enqueue(object : Callback<KakaoLoginResponse>{
+                override fun onResponse(
+                    call: Call<KakaoLoginResponse>,
+                    response: Response<KakaoLoginResponse>
+                ) {
+                    if (response.isSuccessful){
+                        Log.d("result",response.body().toString())
+                        Log.d("no result ",response.message().toString())
+                    }else {
+                        Log.d("error ",response.message().toString())
+                        Log.d("error ",response.errorBody()!!.string())
+                    }
+                }
+
+                override fun onFailure(call: Call<KakaoLoginResponse>, t: Throwable) {
+                    Log.d("onFailer",t.toString())
+                }
+
+            })
+//        loginCallback(email)
 //        UserApiClient.instance.me { user, error ->
-//            Log.d("user",user?.kakaoAccount?.email.toString())
-//            Log.d("user",error.toString())
-//            if (error != null){
+//            if (error!=null){
+//                Log.d("flwejelfjlwefjlewf 8",error.toString())
 //                loginCallback(null)
-//            }
-//            else if (user != null){
-//                loginCallback(user.kakaoAccount?.email) // 로그인 정보와 만료 기간 전송
-//            }
-//            else {
+//            }else if (user!= null) {
+//                UserApiClient.instance
+//                    .loginWithNewScopes(context, listOf("account_email")){ token, newError ->
+//                        if (newError!=null){
+//                            loginCallback(null)
+//                            Log.d("flwejelfjlwefjlewf 2",newError.toString())
+//                        } else {
+//                            Log.d("flwejelfjlwefjlewf 3",token!!.scopes.toString())
+//
+//                            UserApiClient.instance.me { user, error ->
+//                                if (error != null ){
+//                                    Log.d("flwejelfjlwefjlewf 4",error.toString())
+//                                    loginCallback(null)
+//                                } else if (user != null){
+//                                    Log.d("flwejelfjlwefjlewf 5",user.kakaoAccount?.email.toString())
+//                                } else {
+//                                    Log.d("flwejelfjlwefjlewf 6","sdjfljdsldsjlsdfls")
+//                                }
+//                            }
+//                        }
+//                    }
+//            } else{
+//                Log.d("flwejelfjlwefjlewf 1","user error ")
 //                loginCallback(null)
 //            }
 //        }
