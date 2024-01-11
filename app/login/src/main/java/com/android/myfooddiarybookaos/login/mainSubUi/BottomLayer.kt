@@ -35,7 +35,7 @@ fun BottomLayout(
     insertUser: () -> Unit,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
-    val context =  LocalContext.current
+    val context = LocalContext.current
     val loginUserState = remember { mutableStateOf(false) }
     val isGoogleLogin = remember { mutableStateOf(false) }
     val isKaKaoLogin = remember { mutableStateOf(false) }
@@ -55,9 +55,9 @@ fun BottomLayout(
             )
         }
     )
-    val kaKaoCallback : (OAuthToken?,Throwable?) -> Unit = { token, error->
-        if (token==null) isKaKaoLogin.value = false
-        viewModel.setCallback(error,token, loginState = {
+    val kaKaoCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+        if (token == null) isKaKaoLogin.value = false
+        viewModel.setCallback(error, token, loginState = {
             loginUserState.value = it
         })
     }
@@ -65,27 +65,30 @@ fun BottomLayout(
     if (isGoogleLogin.value) {
         viewModel.goggleLogin(launcher)
     }
-    if (isKaKaoLogin.value){
-        if (!viewModel.checkKaKaoLogin()){
+    if (isKaKaoLogin.value) {
+        if (!viewModel.checkKaKaoLogin()) {
             viewModel.kaKaoLogin(
                 kaKaoCallback,
                 loginState = {
-                    if (it==null) isKaKaoLogin.value = false
+                    if (it == null) isKaKaoLogin.value = false
                 }
             )
         }
     }
     if (loginUserState.value) {
-        if (isKaKaoLogin.value){
-            viewModel.getKaKaoUserEmail(
-                userEmail = {
-                    viewModel.saveEmailState(context,it ?: "")
+        if (isKaKaoLogin.value) {
+            viewModel.getKaKaoUserEmail(email = {
+                if (it != null) {
+                    UserInfoSharedPreferences(context).userEmail = it
+                    viewModel.goMain(context)
+                } else {
+                    isKaKaoLogin.value = false
                 }
-            )
-        }else {
-            viewModel.saveEmailState(context,userEmail.value)
+            })
+        } else {
+            viewModel.saveEmailState(context, userEmail.value)
+            viewModel.goMain(context)
         }
-        viewModel.goMain(context)
     }
 
     Spacer(modifier = Modifier.height(17.dp))

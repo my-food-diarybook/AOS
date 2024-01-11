@@ -28,6 +28,5 @@ object LoginModule {
     @ViewModelScoped
     fun bindKaKao(
         @ApplicationContext context: Context,
-        kakaoApiManager: KakaoApiManager
-    ) = KaKaoLoginRepository(context,kakaoApiManager.getKakaoLoginService())
+    ) = KaKaoLoginRepository(context)
 }
