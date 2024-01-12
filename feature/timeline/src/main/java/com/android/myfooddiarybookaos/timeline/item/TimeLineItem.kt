@@ -29,6 +29,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.android.myfooddiarybookaos.model.timeLine.TimeLineDiary
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun TimeLineItem(
@@ -39,39 +41,35 @@ fun TimeLineItem(
     screenWidth: Dp
 ) {
 
-    val imageSize = remember {
-        mutableStateOf(
-            getImageDp(timeLine.diaryList.size, screenWidth)
-        )
-    }
-    val imagePagingNumber = remember {
-        mutableStateOf(
-            if (timeLine.diaryList.size < 5) 0 else 1
-        )
-    }
-    val timeLineData =  remember { mutableListOf<TimeLineDiary>() }
-    when (imagePagingNumber.value) {
-        2 -> {
-            LaunchedEffect(Unit) {
-                viewModel.setTimeLineData(timeLine.date, 5, diaryList = {
-                    timeLineData.clear()
-                    timeLineData.addAll(it)
-                })
-            }
-        }
-        3 -> {
-            LaunchedEffect(Unit) {
-                viewModel.setTimeLineData(timeLine.date, 9, diaryList = {
-                    timeLineData.clear()
-                    timeLineData.addAll(it)
-                })
-            }
-        }
+    val imageSize = remember { mutableStateOf(getImageDp(timeLine.diaryList.size, screenWidth)) }
+    val imagePagingNumber = remember { mutableStateOf(if (timeLine.diaryList.size < 5) 0 else 1) }
+    val timeLineData = remember { mutableListOf<TimeLineDiary>() }
+    val viewUpdate = remember { mutableStateOf(true) }
 
-        else -> {
-            LaunchedEffect(Unit) {
-                timeLineData.clear()
-                timeLineData.addAll(timeLine.diaryList)
+    if (viewUpdate.value) {
+        when (imagePagingNumber.value) {
+            2 -> {
+                LaunchedEffect(Unit) {
+                    viewModel.setTimeLineData(timeLine.date, 5, diaryList = {
+                        timeLineData.addAll(it)
+                        viewUpdate.value = false
+                    })
+                }
+            }
+            3 -> {
+                LaunchedEffect(Unit) {
+                    viewModel.setTimeLineData(timeLine.date, 9, diaryList = {
+                        timeLineData.addAll(it)
+                        viewUpdate.value = false
+                    })
+                }
+            }
+
+            else -> {
+                LaunchedEffect(Unit) {
+                    timeLineData.addAll(timeLine.diaryList)
+                    viewUpdate.value = false
+                }
             }
         }
     }
@@ -106,87 +104,99 @@ fun TimeLineItem(
                 .height(134.dp),
             state = rememberLazyListState()
         ) {
-            if (imagePagingNumber.value == 2) {
-                items(1){
-                    Box(
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .width(imageSize.value.div(2))
-                            .clickable {
-                                imagePagingNumber.value = if (timeLine.diaryList.size < 5) 0 else 1
-                            },
-                        contentAlignment = Alignment.Center
-                    ){
-                        Image(
-                            painter = painterResource(id = R.drawable.time_line_prev),
-                            contentDescription = null
-                        )
-                    }
-                }
-            } else if (imagePagingNumber.value == 3) {
-                items(1) {
-                    Box(
-                        modifier = Modifier
-                            .width(imageSize.value)
-                            .fillMaxHeight()
-                            .clickable {
-                                imagePagingNumber.value = 2
-                            },
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.time_line_prev),
-                            contentDescription = null
-                        )
-                    }
-                }
-            }
-
-            items(timeLineData.size) { idx ->
-                if (idx < 4) {
-                    val diary = timeLineData[idx]
-                    val imageBitmap = remember { mutableStateOf(byteStringToBitmap(diary.bytes)) }
-                    ImageItem(
-                        imageBitmap = imageBitmap,
-                        imageSize = imageSize.value,
-                        onClick = {
-                            timeLineViewModel.goDetailView(diary.diaryId)
+            if (!viewUpdate.value) {
+                if (imagePagingNumber.value == 2) {
+                    items(1) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .width(imageSize.value.div(2))
+                                .clickable {
+                                    timeLineData.clear()
+                                    imagePagingNumber.value =
+                                        if (timeLine.diaryList.size < 5) 0 else 1
+                                    viewUpdate.value = true
+                                },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.time_line_prev),
+                                contentDescription = null
+                            )
                         }
-                    )
+                    }
+                } else if (imagePagingNumber.value == 3) {
+                    items(1) {
+                        Box(
+                            modifier = Modifier
+                                .width(imageSize.value)
+                                .fillMaxHeight()
+                                .clickable {
+                                    timeLineData.clear()
+                                    imagePagingNumber.value = 2
+                                    viewUpdate.value = true
+                                },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.time_line_prev),
+                                contentDescription = null
+                            )
+                        }
+                    }
                 }
-            }
-            if (imagePagingNumber.value == 1) {
-                items(1){
-                    Box(
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .width(imageSize.value)
-                            .clickable {
-                                imagePagingNumber.value = 2
-                            },
-                        contentAlignment = Alignment.Center
-                    ){
-                        Image(
-                            painter = painterResource(id = R.drawable.time_line_next),
-                            contentDescription = null
+
+                items(timeLineData.size) { idx ->
+                    if (idx < 4) {
+                        val diary = timeLineData[idx]
+                        val imageBitmap =
+                            remember { mutableStateOf(byteStringToBitmap(diary.bytes)) }
+                        ImageItem(
+                            imageBitmap = imageBitmap,
+                            imageSize = imageSize.value,
+                            onClick = {
+                                timeLineViewModel.goDetailView(diary.diaryId)
+                            }
                         )
                     }
                 }
-            } else if (imagePagingNumber.value == 2) {
-                items(1){
-                    Box(
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .width(imageSize.value.div(2))
-                            .clickable {
-                                imagePagingNumber.value = 3
-                            },
-                        contentAlignment = Alignment.Center
-                    ){
-                        Image(
-                            painter = painterResource(id = R.drawable.time_line_next),
-                            contentDescription = null
-                        )
+                if (imagePagingNumber.value == 1) {
+                    items(1) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .width(imageSize.value)
+                                .clickable {
+                                    timeLineData.clear()
+                                    imagePagingNumber.value = 2
+                                    viewUpdate.value = true
+                                },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.time_line_next),
+                                contentDescription = null
+                            )
+                        }
+                    }
+                } else if (imagePagingNumber.value == 2) {
+                    items(1) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .width(imageSize.value.div(2))
+                                .clickable {
+                                    timeLineData.clear()
+                                    imagePagingNumber.value = 3
+                                    viewUpdate.value = true
+                                },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.time_line_next),
+                                contentDescription = null
+                            )
+                        }
                     }
                 }
             }

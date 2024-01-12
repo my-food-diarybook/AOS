@@ -10,6 +10,7 @@ import com.android.myfooddiarybookaos.data.dataTimeLine.repository.TimeLineRepos
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.model.timeLine.TimeLine
+import com.android.myfooddiarybookaos.model.timeLine.TimeLineDiary
 import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
