@@ -43,6 +43,8 @@ class TimeLineRepository @Inject constructor(
                     offset = offset
                 )
             )
-        } catch (_: Exception){ }
+        } catch (_: Exception){
+            emit(emptyList())
+        }
     }
 }

@@ -18,24 +18,17 @@ import javax.inject.Inject
 class ItemViewModel @Inject constructor(
     private val timeLineRepository: TimeLineRepository
 ) : ViewModel() {
-    private val _timeLineDiary = MutableStateFlow<List<TimeLineDiary>>(emptyList())
-    val timeLineDiary: StateFlow<List<TimeLineDiary>> = _timeLineDiary.asStateFlow()
-
-    fun initTimeLiseData(
-        dataList : List<TimeLineDiary>
-    ){
-        _timeLineDiary.value = dataList
-    }
 
     fun setTimeLineData(
         date: String,
-        offset: Int
+        offset: Int,
+        diaryList : (List<TimeLineDiary>) -> Unit
     ) = viewModelScope.launch {
         timeLineRepository.getTimeLineMoreData(
             date = date,
             offset = offset
         ).collectLatest {
-            _timeLineDiary.value = it
+            diaryList(it)
         }
     }
 
