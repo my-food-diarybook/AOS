@@ -12,7 +12,7 @@ import com.android.myfooddiarybookaos.data.dataMap.repository.MapSearchRepositor
 import com.android.myfooddiarybookaos.data.dataMy.local.MyDatabase
 import com.android.myfooddiarybookaos.data.dataMy.repository.NoticeRepository
 import com.android.myfooddiarybookaos.data.dataSearch.repository.SearchRepository
-import com.android.myfooddiarybookaos.data.dataTimeLine.TimeLineRepository
+import com.android.myfooddiarybookaos.data.dataTimeLine.repository.TimeLineRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

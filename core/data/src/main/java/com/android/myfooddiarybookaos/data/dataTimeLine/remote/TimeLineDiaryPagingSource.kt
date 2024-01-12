@@ -7,8 +7,7 @@ import com.android.myfooddiarybookaos.model.timeLine.TimeLineDiary
 
 class TimeLineDiaryPagingSource(
     private val date: String,
-    private val manager: TimeLineRetrofitService,
-    private val diarySize: Int
+    private val manager: TimeLineRetrofitService
 ): PagingSource<Int,TimeLineDiary>() {
     override fun getRefreshKey(state: PagingState<Int, TimeLineDiary>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
@@ -24,7 +23,7 @@ class TimeLineDiaryPagingSource(
                 date = date,
                 offset = next
             )
-//            if (response.isEmpty()) throw Exception()
+            if (response.isEmpty()) throw Exception()
 
             LoadResult.Page(
                 data = response,
