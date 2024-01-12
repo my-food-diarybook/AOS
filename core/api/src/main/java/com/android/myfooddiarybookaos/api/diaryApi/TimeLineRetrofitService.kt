@@ -14,7 +14,7 @@ interface TimeLineRetrofitService {
     ): List<TimeLine>
 
     @GET("timeline/show/more-diary")
-    fun getTimeLineFlicking(
+    suspend fun getTimeLineFlicking(
         @Query("date") date: String,
         @Query("offset") offset: Int
     ): List<TimeLineDiary>

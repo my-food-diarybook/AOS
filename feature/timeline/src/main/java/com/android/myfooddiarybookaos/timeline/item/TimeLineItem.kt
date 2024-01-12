@@ -1,10 +1,8 @@
 package com.android.myfooddiarybookaos.timeline.item
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -26,11 +24,7 @@ import com.android.myfooddiarybookaos.timeline.viewModel.ItemViewModel
 import com.android.myfooddiarybookaos.timeline.viewModel.TimeLineViewModel
 import androidx.compose.foundation.Image
 import androidx.compose.ui.res.painterResource
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.android.myfooddiarybookaos.model.timeLine.TimeLineDiary
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @Composable
 fun TimeLineItem(
@@ -50,7 +44,8 @@ fun TimeLineItem(
         when (imagePagingNumber.value) {
             2 -> {
                 LaunchedEffect(Unit) {
-                    viewModel.setTimeLineData(timeLine.date, 5, diaryList = {
+                    viewModel.setTimeLineData(timeLine.date, 1, diaryList = {
+                        timeLineData.clear()
                         timeLineData.addAll(it)
                         viewUpdate.value = false
                     })
@@ -58,7 +53,8 @@ fun TimeLineItem(
             }
             3 -> {
                 LaunchedEffect(Unit) {
-                    viewModel.setTimeLineData(timeLine.date, 9, diaryList = {
+                    viewModel.setTimeLineData(timeLine.date, 2, diaryList = {
+                        timeLineData.clear()
                         timeLineData.addAll(it)
                         viewUpdate.value = false
                     })
@@ -67,6 +63,7 @@ fun TimeLineItem(
 
             else -> {
                 LaunchedEffect(Unit) {
+                    timeLineData.clear()
                     timeLineData.addAll(timeLine.diaryList)
                     viewUpdate.value = false
                 }
@@ -112,9 +109,7 @@ fun TimeLineItem(
                                 .fillMaxHeight()
                                 .width(imageSize.value.div(2))
                                 .clickable {
-                                    timeLineData.clear()
-                                    imagePagingNumber.value =
-                                        if (timeLine.diaryList.size < 5) 0 else 1
+                                    imagePagingNumber.value = if (timeLine.diaryList.size < 5) 0 else 1
                                     viewUpdate.value = true
                                 },
                             contentAlignment = Alignment.Center
@@ -132,7 +127,6 @@ fun TimeLineItem(
                                 .width(imageSize.value)
                                 .fillMaxHeight()
                                 .clickable {
-                                    timeLineData.clear()
                                     imagePagingNumber.value = 2
                                     viewUpdate.value = true
                                 },
@@ -167,7 +161,6 @@ fun TimeLineItem(
                                 .fillMaxHeight()
                                 .width(imageSize.value)
                                 .clickable {
-                                    timeLineData.clear()
                                     imagePagingNumber.value = 2
                                     viewUpdate.value = true
                                 },
@@ -186,7 +179,6 @@ fun TimeLineItem(
                                 .fillMaxHeight()
                                 .width(imageSize.value.div(2))
                                 .clickable {
-                                    timeLineData.clear()
                                     imagePagingNumber.value = 3
                                     viewUpdate.value = true
                                 },

@@ -1,5 +1,6 @@
 package com.android.myfooddiarybookaos.timeline.viewModel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -27,7 +28,8 @@ class ItemViewModel @Inject constructor(
         timeLineRepository.getTimeLineMoreData(
             date = date,
             offset = offset
-        ).collectLatest {
+        ).collect {
+            Log.d("itewfljwelwejflwejew",it.toString())
             diaryList(it)
         }
     }
