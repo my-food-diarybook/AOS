@@ -10,7 +10,6 @@ import com.android.myfooddiarybookaos.data.dataTimeLine.repository.TimeLineRepos
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.model.timeLine.TimeLine
-import com.android.myfooddiarybookaos.model.timeLine.TimeLineDiary
 import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -24,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TimeLineViewModel @Inject constructor(
     private val timeLineRepository: TimeLineRepository
-): ViewModel() {
+) : ViewModel() {
 
     private val _appState = MutableLiveData<ApplicationState>()
     private val appState: LiveData<ApplicationState> get() = _appState
@@ -37,8 +36,8 @@ class TimeLineViewModel @Inject constructor(
 
     fun initState(
         mainAppState: ApplicationState,
-        mainDiaryState : DiaryState,
-    ){
+        mainDiaryState: DiaryState,
+    ) {
         _appState.value = mainAppState
         _diaryState.value = mainDiaryState
     }

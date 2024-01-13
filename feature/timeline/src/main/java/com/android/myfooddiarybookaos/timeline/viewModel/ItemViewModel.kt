@@ -23,13 +23,12 @@ class ItemViewModel @Inject constructor(
     fun setTimeLineData(
         date: String,
         offset: Int,
-        diaryList : (List<TimeLineDiary>) -> Unit
+        diaryList: (List<TimeLineDiary>) -> Unit
     ) = viewModelScope.launch {
         timeLineRepository.getTimeLineMoreData(
             date = date,
             offset = offset
         ).collect {
-            Log.d("itewfljwelwejflwejew",it.toString())
             diaryList(it)
         }
     }
