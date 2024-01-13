@@ -24,7 +24,4 @@ object NetworkModule {
         @ApplicationContext context : Context
     ) = NetworkManager(context)
 
-    @Singleton
-    @Provides
-    fun bindTodayRepository() =  TodayRepository()
 }
