@@ -45,7 +45,11 @@ fun TimeLineItem(
             2 -> {
                 LaunchedEffect(Unit) {
                     viewModel.setTimeLineData(timeLine.date, 1, diaryList = {
+                        val last = timeLineData.lastOrNull()
                         timeLineData.clear()
+                        if (last != null) {
+                            timeLineData.add(last)
+                        }
                         timeLineData.addAll(it)
                         viewUpdate.value = false
                     })
@@ -54,7 +58,11 @@ fun TimeLineItem(
             3 -> {
                 LaunchedEffect(Unit) {
                     viewModel.setTimeLineData(timeLine.date, 2, diaryList = {
+                        val last = timeLineData.lastOrNull()
                         timeLineData.clear()
+                        if (last != null) {
+                            timeLineData.add(last)
+                        }
                         timeLineData.addAll(it)
                         viewUpdate.value = false
                     })
@@ -107,9 +115,13 @@ fun TimeLineItem(
                         Box(
                             modifier = Modifier
                                 .fillMaxHeight()
-                                .width(imageSize.value.div(2))
+                                .width(
+                                    if (timeLineData.size > 4) imageSize.value.div(2)
+                                    else imageSize.value
+                                )
                                 .clickable {
-                                    imagePagingNumber.value = if (timeLine.diaryList.size < 5) 0 else 1
+                                    imagePagingNumber.value =
+                                        if (timeLine.diaryList.size < 5) 0 else 1
                                     viewUpdate.value = true
                                 },
                             contentAlignment = Alignment.Center
@@ -172,7 +184,7 @@ fun TimeLineItem(
                             )
                         }
                     }
-                } else if (imagePagingNumber.value == 2) {
+                } else if (imagePagingNumber.value == 2 && timeLineData.size > 4) {
                     items(1) {
                         Box(
                             modifier = Modifier
