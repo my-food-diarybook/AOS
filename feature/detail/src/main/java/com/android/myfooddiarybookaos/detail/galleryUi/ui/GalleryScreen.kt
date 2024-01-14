@@ -32,6 +32,7 @@ import com.android.myfooddiarybookaos.model.image.GalleryImage
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import com.android.myfooddiarybookaos.core.data.R
+import com.android.myfooddiarybookaos.data.component.ToastMessaging
 
 @Composable
 fun GalleryScreen(
@@ -126,42 +127,12 @@ fun GalleryScreen(
         }
 
         if (toastPreventState.value) {
-            Surface(
-                modifier = Modifier
-                    .padding(20.dp)
-                    .align(Alignment.BottomCenter)
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(
-                            color = colorResource(id = R.color.toast_back),
-                            shape = RoundedCornerShape(4.dp)
-                        )
-                ) {
-                    Text(
-                        text = "사진은 최대5개까지 등록할 수 있어요.",
-                        fontWeight = FontWeight.W400,
-                        fontFamily = robotoRegular,
-                        fontSize = 15.scaledSp(),
-                        lineHeight = 20.scaledSp(),
-                        letterSpacing = (-0.4).sp,
-                        color = Color.White,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(
-                                start = 14.dp,
-                                end = 7.dp,
-                                top = 14.dp,
-                                bottom = 12.dp
-                            )
-                    )
-                    rememberCoroutineScope().launch {
-                        delay(1000)
-                        toastPreventState.value = false
-                    }
+            ToastMessaging(
+                message = "사진은 최대5개까지 등록할 수 있어요.",
+                removeView = {
+                    toastPreventState.value = false
                 }
-            }
+            )
         }
     }
 }

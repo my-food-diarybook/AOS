@@ -1,6 +1,8 @@
 package com.android.myfooddiarybookaos.home.viewModel
 
 import android.graphics.Bitmap
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -79,14 +81,20 @@ class HomeViewModel @Inject constructor(
     fun makeNewDiary(
         createTime: String,
         files: List<MultipartBody.Part>,
-        diaryState: (Boolean) -> Unit
-    ) {
+        diaryState: (Boolean) -> Unit,
+        toastMessage: (String) -> Unit
+    ) = viewModelScope.launch {
         homePostRepository.postNewDiary(
             createTime,
             null, null, null,
             files,
             isSuccess = {
                 diaryState(it)
+            },
+            failState = {
+                if (it == "register only 10 per day"){
+                    toastMessage("하루에 식사일기는 최대10건까지 등록할 수 있어요.")
+                }
             }
         )
     }

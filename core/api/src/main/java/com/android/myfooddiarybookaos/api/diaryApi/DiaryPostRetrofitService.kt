@@ -9,11 +9,11 @@ interface DiaryPostRetrofitService {
 
     @Multipart
     @POST("diary/new")
-    fun newDiary(
+    suspend fun newDiary(
         @Query("createTime")createTime : String,
         @Part("placeInfo") placeInfo : RequestBody,
         @Part files : List<MultipartBody.Part>
-    ): Call<Unit>
+    )
 
 
     @Multipart

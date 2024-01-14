@@ -9,6 +9,7 @@ import com.android.myfooddiarybookaos.data.path.getMultipartFromUri
 import com.android.myfooddiarybookaos.model.diary.PlaceInfo
 import com.android.myfooddiarybookaos.model.diary.PlaceInfoBody
 import com.android.myfooddiarybookaos.data.path.toApplicationRequestBody
+import com.android.myfooddiarybookaos.model.response.NotDataResponse
 import com.google.gson.Gson
 import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.MediaType
@@ -18,6 +19,7 @@ import okhttp3.RequestBody
 import okio.BufferedSink
 import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.HttpException
 import retrofit2.Response
 
 class HomePostRepository(
@@ -26,35 +28,43 @@ class HomePostRepository(
 ) {
     private val manager = networkManager.getDiaryMultiPartApiService()
 
-    fun postNewDiary(
-        createTime : String,
+    suspend fun postNewDiary(
+        createTime: String,
         place: String?,
         longitude: Double?,
         latitude: Double?,
-        fileList : List<MultipartBody.Part>,
-        isSuccess : (Boolean) -> Unit
-    ){
+        fileList: List<MultipartBody.Part>,
+        isSuccess: (Boolean) -> Unit,
+        failState: (String) -> Unit
+    ) {
         try {
             val placeRequest = PlaceInfoBody(
-                placeInfo = PlaceInfo(place,longitude,latitude)
+                placeInfo = PlaceInfo(place, longitude, latitude)
             )
             val json = Gson().toJson(placeRequest)
             val requestBody = json.toApplicationRequestBody()
-            manager.newDiary(
-                createTime,
-                requestBody,
-                fileList
-            ).enqueue(object : Callback<Unit> {
-                override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
-                    if (response.isSuccessful) isSuccess(true)
-                    else isSuccess(false)
+            kotlin.runCatching {
+                manager.newDiary(
+                    createTime,
+                    requestBody,
+                    fileList
+                )
+            }
+                .onSuccess {
+                    isSuccess(true)
                 }
-
-                override fun onFailure(call: Call<Unit>, t: Throwable) {
+                .onFailure { e ->
                     isSuccess(false)
+                    when(e){
+                        is HttpException -> {
+                             val data = Gson().fromJson(
+                                 e.response()?.errorBody()?.string(),
+                                 NotDataResponse::class.java
+                             )
+                            data?.let { failState(it.message) }
+                        }
+                    }
                 }
-
-            })
         } catch (e: Exception) {
             isSuccess(false)
         }
@@ -62,12 +72,12 @@ class HomePostRepository(
 
 
     fun makePartListFromUri(
-        imageUriList : List<Uri>,
+        imageUriList: List<Uri>,
         isOneImage: Boolean
-    ) : List<MultipartBody.Part> {
+    ): List<MultipartBody.Part> {
         val files = ArrayList<MultipartBody.Part>()
-        for (image in imageUriList){
-            getMultipartFromUri(context,image,isOneImage)?.let { files.add(it) }
+        for (image in imageUriList) {
+            getMultipartFromUri(context, image, isOneImage)?.let { files.add(it) }
         }
         return files
     }
@@ -75,12 +85,12 @@ class HomePostRepository(
     // 비트맵 형식 변환
     fun makePartListFromBitmap(
         imageBitmap: Bitmap
-    ) : List<MultipartBody.Part> {
+    ): List<MultipartBody.Part> {
         return listOf(makeMultiPartFromBitmap(imageBitmap))
     }
 
 
-    private fun makeMultiPartFromBitmap(bitmap: Bitmap) : MultipartBody.Part {
+    private fun makeMultiPartFromBitmap(bitmap: Bitmap): MultipartBody.Part {
         val bitmapRequestBody = BitmapRequestBody(bitmap)
         val bitmapCode: String = bitmap.toString().split("@").last()
         return MultipartBody.Part.createFormData(
@@ -91,10 +101,10 @@ class HomePostRepository(
     }
 
     //비트맵 -> requsetbody 변환
-    inner class BitmapRequestBody(private  val bitmap : Bitmap) : RequestBody(){
+    inner class BitmapRequestBody(private val bitmap: Bitmap) : RequestBody() {
         override fun contentType(): MediaType = "image/jpeg".toMediaType()
         override fun writeTo(sink: BufferedSink) {
-            bitmap.compress(Bitmap.CompressFormat.JPEG,99,sink.outputStream())
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 99, sink.outputStream())
         }
     }
 }

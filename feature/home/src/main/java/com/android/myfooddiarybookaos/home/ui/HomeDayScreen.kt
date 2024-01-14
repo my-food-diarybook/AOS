@@ -71,6 +71,9 @@ fun HomeDayScreen(
                     if (isUpdate) {
                         viewUpdate.value = true
                     }
+                },
+                toastMessage = {
+
                 }
             )
             diaryState.resetSelectedInfo()
