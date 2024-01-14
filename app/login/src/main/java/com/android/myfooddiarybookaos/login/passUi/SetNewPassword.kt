@@ -45,6 +45,7 @@ fun SetNewPassword(
     val isEqualCurrentPass = remember { mutableStateOf(false) } // real = current
     val isValidPass = remember { mutableStateOf(false) } // new pass valid
     val isSamePass = remember { mutableStateOf(false) } //pass = passRe
+
     Column(
         modifier = Modifier
             .fillMaxSize()

@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.api.UserInfoSharedPreferences
 import com.android.myfooddiarybookaos.core.data.R
+import com.android.myfooddiarybookaos.data.component.ToastMessaging
 import com.android.myfooddiarybookaos.data.ui.theme.TextBox
 import com.android.myfooddiarybookaos.data.utils.scaledSp
 import com.android.myfooddiarybookaos.login.viewModel.LoginViewModel
@@ -39,6 +40,7 @@ fun BottomLayout(
     val loginUserState = remember { mutableStateOf(false) }
     val isGoogleLogin = remember { mutableStateOf(false) }
     val isKaKaoLogin = remember { mutableStateOf(false) }
+    val toastMessageState = remember { mutableStateOf(false  ) }
     val userEmail = remember { mutableStateOf("") }
     val firebaseAuth = FirebaseAuth.getInstance()
     val launcher = rememberLauncherForActivityResult(
@@ -70,7 +72,10 @@ fun BottomLayout(
             viewModel.kaKaoLogin(
                 kaKaoCallback,
                 loginState = {
-                    if (it == null) isKaKaoLogin.value = false
+                    if (it == null) {
+                        isKaKaoLogin.value = false
+
+                    }
                 }
             )
         }
@@ -181,6 +186,15 @@ fun BottomLayout(
                 .clickable {
                     isKaKaoLogin.value = true
                 }
+        )
+    }
+
+    if (toastMessageState.value){
+        ToastMessaging(
+            message = "카카오 이메일 정보가 없어서 로그인 할 수 없습니다. 다른 방법을 이용해 주세요.",
+            removeView = {
+                toastMessageState.value = false
+            }
         )
     }
 
