@@ -23,6 +23,7 @@ import androidx.navigation.navArgument
 import com.android.myfooddiarybookaos.common.bottomaNavi.BottomNavigation
 import com.android.myfooddiarybookaos.common.bottomaNavi.bottomGraph
 import com.android.myfooddiarybookaos.core.data.R
+import com.android.myfooddiarybookaos.data.component.ToastMessaging
 import com.android.myfooddiarybookaos.data.state.AddScreenState
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
@@ -98,5 +99,14 @@ fun MainNaviHost(
                 GalleryScreen(appState, diaryState, isMultiSelectView,prevSelectCount)
             }
         }
+    }
+
+    if (appState.toastState.value.isNotEmpty()) {
+        ToastMessaging(
+            message = appState.toastState.value,
+            removeView = {
+                appState.toastState.value = ""
+            }
+        )
     }
 }

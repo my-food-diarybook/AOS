@@ -12,4 +12,5 @@ class ApplicationState(
     val addFloatButtonViewState: MutableState<Boolean>,
     val popAddFloatButtonState: MutableState<Boolean>,
     val scaffoldState: ScaffoldState,
+    val toastState: MutableState<String>
 ) {}
