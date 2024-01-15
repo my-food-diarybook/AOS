@@ -18,6 +18,7 @@ class LoginRepository @Inject constructor(
     private val context: Context
 ) {
     private val manager = networkManager.getLoginApiService()
+
     fun createUserRequest(
         email : String, pw : String,
         result : (status : String,token : String?)->Unit
@@ -77,6 +78,13 @@ class LoginRepository @Inject constructor(
         } catch (e: Exception){
             result("네트워크 에러",null)
         }
+    }
+
+    suspend fun resetUserPassword(
+        emailState: (Boolean) -> Unit
+    ){
+        val response = manager.resetUserPassword()
+        Log.d("emailState",emailState.toString())
     }
 
     fun saveUserToken(response : LoginResponse?,currentForm : String){

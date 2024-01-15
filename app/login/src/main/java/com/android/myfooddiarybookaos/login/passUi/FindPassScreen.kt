@@ -7,14 +7,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.AlertDialog
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -22,39 +20,30 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.robotoRegular
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.window.Dialog
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.data.utils.scaledSp
 import com.android.myfooddiarybookaos.login.navi.LoginScreenRoot
-import org.junit.internal.runners.statements.Fail
+import com.android.myfooddiarybookaos.login.viewModel.LoginViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 
 @Composable
-fun FindPassScreen(navController: NavHostController) {
+fun FindPassScreen(
+    navController: NavHostController,
+    viewModel: LoginViewModel = hiltViewModel()
+) {
 
     var emailText by remember {
         mutableStateOf("")
     }
 
-    var emailFailState by remember {
+    var emailState by remember {
         mutableStateOf(false)
-    }
-
-    if (emailFailState) {
-        Dialog(onDismissRequest = { emailFailState = false }) {
-            FailFindEmailScreen(
-                offDialog = {
-                    emailFailState = false
-                },
-                goInsert = {
-                    navController.navigate(LoginScreenRoot.INSERT)
-                },
-            )
-        }
     }
 
     var checkEmailValid by remember {
@@ -185,7 +174,7 @@ fun FindPassScreen(navController: NavHostController) {
                 modifier = Modifier
                     .wrapContentSize()
                     .clickable {
-                        emailFailState = true
+                        emailState = true
                     }
                     .alpha(checkEmailValid), shape = RoundedCornerShape(4.dp),
                 border = BorderStroke(
@@ -208,5 +197,19 @@ fun FindPassScreen(navController: NavHostController) {
             }
         }
 
+    }
+
+    if (emailState) {
+        viewModel.passReset()
+        Dialog(onDismissRequest = { emailState = false }) {
+            FailFindEmailScreen(
+                offDialog = {
+                    emailState = false
+                },
+                goInsert = {
+                    navController.navigate(LoginScreenRoot.INSERT)
+                },
+            )
+        }
     }
 }

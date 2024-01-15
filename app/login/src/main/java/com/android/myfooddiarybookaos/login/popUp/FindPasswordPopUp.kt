@@ -114,7 +114,6 @@ fun FindPasswordPopUp(
                             shape = RoundedCornerShape(4.dp)
                         )
                         .clickable {
-                            offDialog()
                             goFind()
                         },
                     contentAlignment = Alignment.Center

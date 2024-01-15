@@ -14,6 +14,7 @@ import androidx.navigation.NavHostController
 import com.android.myfooddiarybookaos.login.mainSubUi.BottomLayout
 import com.android.myfooddiarybookaos.login.mainSubUi.MidLayout
 import com.android.myfooddiarybookaos.login.mainSubUi.TopLayout
+import com.android.myfooddiarybookaos.login.navi.LoginScreenRoot
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
@@ -24,11 +25,12 @@ fun LoginScreen(navController : NavHostController) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         TopLayout()
         MidLayout(
-            findPassword = { navController.navigate("findPassScreen")}
+            findPassword = { navController.navigate(LoginScreenRoot.FIND_PASSWORD)},
+            changePassword = { navController.navigate(LoginScreenRoot.NEW_PASSWORD)}
         )
         BottomLayout(
-            findPassword = { navController.navigate("findPassScreen") },
-            insertUser = {navController.navigate("insertUserScreen")}
+            findPassword = { navController.navigate(LoginScreenRoot.FIND_PASSWORD) },
+            insertUser = {navController.navigate(LoginScreenRoot.INSERT)}
         )
     }
 }

@@ -32,11 +32,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.component.ErrorPage
+import com.android.myfooddiarybookaos.data.component.password.Subject
 import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.data.ui.theme.EditTextBox
 import com.android.myfooddiarybookaos.data.utils.scaledSp
 import com.android.myfooddiarybookaos.login.passUi.PasswordPolicyLayer
-import com.android.myfooddiarybookaos.login.passUi.Subject
 import com.android.myfooddiarybookaos.login.viewModel.LoginViewModel
 
 @SuppressLint("UnrememberedMutableState")

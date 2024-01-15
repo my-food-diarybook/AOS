@@ -1,5 +1,6 @@
 package com.android.myfooddiarybookaos.login.mainSubUi
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -27,6 +28,7 @@ import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.data.ui.theme.EditTextBox
 import com.android.myfooddiarybookaos.data.utils.scaledSp
+import com.android.myfooddiarybookaos.login.passUi.ChangePasswordPopUp
 import com.android.myfooddiarybookaos.login.passUi.FindPassScreen
 import com.android.myfooddiarybookaos.login.passUi.FindPasswordPopUp
 import com.android.myfooddiarybookaos.login.viewModel.LoginViewModel
@@ -34,6 +36,7 @@ import com.android.myfooddiarybookaos.login.viewModel.LoginViewModel
 @Composable
 fun MidLayout(
     findPassword: () -> Unit,
+    changePassword: () -> Unit,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
 
@@ -41,6 +44,8 @@ fun MidLayout(
     val pwText = remember { mutableStateOf(TextFieldValue("qwer1234@@")) }
 
     var goMainResult by remember { mutableStateOf(false) }
+    val loginRequestState = remember { mutableStateOf(false ) }
+    val pwExpiredState = remember { mutableStateOf(false) }
 
     if (goMainResult){
         viewModel.goMain(LocalContext.current)
@@ -58,6 +63,44 @@ fun MidLayout(
             findPassPopState.value = true
         }
     }
+
+    if (loginRequestState.value){
+        viewModel.loginUser(
+            emailText.value.text,
+            pwText.value.text,
+            userState = { state,pwState ->
+                if (state) {
+                    if (pwState){
+                        pwExpiredState.value = true
+                    }else {
+                        goMainResult = true
+                    }
+                } else {
+                    if (loginFailCount.value < 5) {
+                        loginFailCount.value += 1
+                    }
+                }
+            },
+        )
+        loginRequestState.value = false
+    }
+
+    if (pwExpiredState.value){
+        Dialog(onDismissRequest = {
+            pwExpiredState.value = false
+        }) {
+            ChangePasswordPopUp(
+                offDialog = {
+                    pwExpiredState.value = false
+                },
+                goChange = {
+                    pwExpiredState.value = false
+                    changePassword()
+                }
+            )
+        }
+    }
+
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         // EditText - email
 
@@ -94,19 +137,7 @@ fun MidLayout(
             modifier =
             if (checkEnter == 1.0f) Modifier
                 .clickable {
-                    viewModel.loginUser(
-                        emailText.value.text,
-                        pwText.value.text,
-                        userState = {
-                            if (it) {
-                                goMainResult = it
-                            } else {
-                                if (loginFailCount.value < 5) {
-                                    loginFailCount.value += 1
-                                }
-                            }
-                        }
-                    )
+                    loginRequestState.value = true
                 }
                 .padding(
                     start = 16.dp,

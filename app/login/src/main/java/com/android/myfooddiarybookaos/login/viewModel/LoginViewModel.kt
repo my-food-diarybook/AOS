@@ -7,6 +7,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.android.myfooddiarybookaos.api.NetworkManager
 import com.android.myfooddiarybookaos.api.UserInfoSharedPreferences
 import com.android.myfooddiarybookaos.api.googleLogin.LoginResult
@@ -33,12 +34,16 @@ class LoginViewModel @Inject constructor(
     fun loginUser(
         email: String,
         pw: String,
-        userState: (Boolean) -> Unit
+        userState: (state: Boolean ,pwState: Boolean) -> Unit,
     ) {
         repository.loginUserRequest(
             email, pw,
             result = { status, response ->
-                userState(saveUserState(status, response))
+                if (response?.pwExpired==true){
+                    userState(false,true)
+                } else {
+                    userState(saveUserState(status, response),false)
+                }
             }
         )
 
@@ -52,12 +57,28 @@ class LoginViewModel @Inject constructor(
             email, pw,
             result = { state, _ ->
                 if (state=="SUCCESS") {
-                    loginUser(email, pw, userState = { userState(it) })
+                    loginUser(
+                        email,
+                        pw,
+                        userState = { status, _ ->
+                            userState(status)
+                        },
+                    )
                 }else {
                     userState(false)
                 }
             }
         )
+    }
+
+    fun passReset(
+
+    ) = viewModelScope.launch{
+        repository.resetUserPassword {
+//            if (it){
+//
+//            }
+        }
     }
 
     private fun saveUserState(
@@ -106,7 +127,8 @@ class LoginViewModel @Inject constructor(
                                             LoginResponse(
                                                 refreshToken = result.data.refresh_token,
                                                 status = "성공",
-                                                token = result.data.access_token
+                                                token = result.data.access_token,
+                                                pwExpired = false
                                             ),
                                             NetworkManager.LOGIN_GOOGLE
                                         )
@@ -161,7 +183,8 @@ class LoginViewModel @Inject constructor(
                 response = LoginResponse(
                     token = token.accessToken,
                     status = "성공",
-                    refreshToken = token.refreshToken
+                    refreshToken = token.refreshToken,
+                    pwExpired = false
                 ),
                 currentForm = NetworkManager.LOGIN_KAKAO
             )

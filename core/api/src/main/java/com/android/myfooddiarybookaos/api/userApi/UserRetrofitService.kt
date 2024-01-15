@@ -27,4 +27,6 @@ interface UserRetrofitService {
         @Query("code") code: String
     ): Response<Unit>
 
+    @POST("user/reset-password")
+    suspend fun resetUserPassword(): Response<Unit>
 }
