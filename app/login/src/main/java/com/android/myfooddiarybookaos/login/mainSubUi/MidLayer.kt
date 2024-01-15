@@ -40,9 +40,7 @@ fun MidLayout(
     val emailText = remember { mutableStateOf(TextFieldValue("test_user@naver.com")) }
     val pwText = remember { mutableStateOf(TextFieldValue("qwer1234@@")) }
 
-    var goMainResult by remember {
-        mutableStateOf(false)
-    }
+    var goMainResult by remember { mutableStateOf(false) }
 
     if (goMainResult){
         viewModel.goMain(LocalContext.current)
