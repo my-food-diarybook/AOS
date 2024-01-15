@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -103,15 +104,15 @@ fun FindPassScreen(navController: NavHostController) {
 
         Text(
             "가입시 등록한 이메일 주소를",
-            fontFamily = FontFamily(
-                Font(R.font.roboto_bold, FontWeight.W700)
-            ),
+            fontFamily = robotoRegular,
+            fontWeight = FontWeight.W700,
             fontSize = 20.scaledSp(),
             color = colorResource(id = R.color._1A1D1D)
         )
         Text(
             "입력하고 임시 비밀번호를 누르세요.",
-            fontFamily = FontFamily(Font(R.font.roboto_bold, FontWeight.W700)),
+            fontFamily = robotoRegular,
+            fontWeight = FontWeight.W700,
             fontSize = 20.scaledSp(),
             color = colorResource(id = R.color._1A1D1D),
         )
@@ -123,7 +124,8 @@ fun FindPassScreen(navController: NavHostController) {
             fontSize = 14.scaledSp(),
             fontFamily = robotoRegular,
             fontWeight = FontWeight.W700,
-            lineHeight = 21.scaledSp()
+            lineHeight = 21.scaledSp(),
+            color = colorResource(id = R.color._1A1D1D)
         )
 
         Spacer(modifier = Modifier.height(4.dp))

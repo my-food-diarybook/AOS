@@ -27,10 +27,13 @@ import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.data.ui.theme.EditTextBox
 import com.android.myfooddiarybookaos.data.utils.scaledSp
+import com.android.myfooddiarybookaos.login.passUi.FindPassScreen
+import com.android.myfooddiarybookaos.login.passUi.FindPasswordPopUp
 import com.android.myfooddiarybookaos.login.viewModel.LoginViewModel
 
 @Composable
 fun MidLayout(
+    findPassword: () -> Unit,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
 
@@ -53,8 +56,9 @@ fun MidLayout(
 
     if (loginFailCount.value  > 0 ){
         isValid.value = false
-    } else if (loginFailCount.value == 5){
-        findPassPopState.value = true
+        if (loginFailCount.value == 5){
+            findPassPopState.value = true
+        }
     }
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         // EditText - email
@@ -151,7 +155,15 @@ fun MidLayout(
                 findPassPopState.value = false
             }
         ){
-
+            FindPasswordPopUp(
+                offDialog = {
+                    findPassPopState.value = false
+                },
+                goFind = {
+                    findPassPopState.value = false
+                    findPassword()
+                }
+            )
         }
     }
 }

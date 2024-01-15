@@ -63,7 +63,6 @@ fun FindPasswordPopUp(
                     append(
                         "번 잘못 입력했습니다.\n" +
                                 "비밀번호 찾기를 통해\n" +
-                                "\n" +
                                 "임시 비밀번호를 발급 받아주세요."
                     )
                 },
@@ -97,7 +96,7 @@ fun FindPasswordPopUp(
                         color = colorResource(id = R.color._3A3A3D),
                         textAlign = TextAlign.Center,
                         modifier = Modifier
-                            .width(110.dp)
+                            .width(134.dp)
                             .padding(
                                 vertical = 10.5.dp,
                                 horizontal = 12.dp
@@ -128,7 +127,7 @@ fun FindPasswordPopUp(
                         color = Color.White,
                         textAlign = TextAlign.Center,
                         modifier = Modifier
-                            .width(110.dp)
+                            .width(134.dp)
                             .padding(
                                 vertical = 10.5.dp,
                                 horizontal = 12.dp

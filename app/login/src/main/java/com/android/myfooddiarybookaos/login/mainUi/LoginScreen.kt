@@ -1,6 +1,8 @@
 package com.android.myfooddiarybookaos.login.mainUi
 
+import android.os.Build
 import androidx.activity.compose.BackHandler
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Button
@@ -13,6 +15,7 @@ import com.android.myfooddiarybookaos.login.mainSubUi.BottomLayout
 import com.android.myfooddiarybookaos.login.mainSubUi.MidLayout
 import com.android.myfooddiarybookaos.login.mainSubUi.TopLayout
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun LoginScreen(navController : NavHostController) {
     // 뒤로가기 제어
@@ -20,7 +23,9 @@ fun LoginScreen(navController : NavHostController) {
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         TopLayout()
-        MidLayout()
+        MidLayout(
+            findPassword = { navController.navigate("findPassScreen")}
+        )
         BottomLayout(
             findPassword = { navController.navigate("findPassScreen") },
             insertUser = {navController.navigate("insertUserScreen")}

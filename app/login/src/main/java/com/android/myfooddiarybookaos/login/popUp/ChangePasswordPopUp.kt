@@ -96,7 +96,7 @@ fun ChangePasswordPopUp(
                         color = colorResource(id = R.color._3A3A3D),
                         textAlign = TextAlign.Center,
                         modifier = Modifier
-                            .width(110.dp)
+                            .width(134.dp)
                             .padding(
                                 vertical = 10.5.dp,
                                 horizontal = 12.dp
@@ -126,7 +126,7 @@ fun ChangePasswordPopUp(
                         color = Color.White,
                         textAlign = TextAlign.Center,
                         modifier = Modifier
-                            .width(110.dp)
+                            .width(134.dp)
                             .padding(
                                 vertical = 10.5.dp,
                                 horizontal = 12.dp
