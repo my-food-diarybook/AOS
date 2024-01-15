@@ -50,8 +50,12 @@ class LoginViewModel @Inject constructor(
     ) {
         repository.createUserRequest(
             email, pw,
-            result = { _, _ ->
-                loginUser(email, pw, userState = { userState(it) })
+            result = { state, _ ->
+                if (state=="SUCCESS") {
+                    loginUser(email, pw, userState = { userState(it) })
+                }else {
+                    userState(false)
+                }
             }
         )
     }

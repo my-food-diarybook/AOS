@@ -31,6 +31,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.android.myfooddiarybookaos.core.data.R
+import com.android.myfooddiarybookaos.data.component.ErrorPage
 import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.data.ui.theme.EditTextBox
 import com.android.myfooddiarybookaos.data.utils.scaledSp
@@ -54,8 +55,25 @@ fun InsertScreen(
     val serviceCheckBox = remember { mutableStateOf(false) }
     val userInfoCheckBox = remember { mutableStateOf(false) }
 
+    val errorViewState = remember { mutableStateOf(false) }
+    val createUserState = remember{ mutableStateOf(false) }
     var goMainResult by remember {
         mutableStateOf(false)
+    }
+
+    if (createUserState.value){
+        viewModel.createUser(
+            emailText.value.text,
+            passText.value.text,
+            userState = {
+                if (it){
+                    goMainResult = true
+                } else {
+                    errorViewState.value = true
+                }
+                createUserState.value = false
+            }
+        )
     }
     if (goMainResult) {
         viewModel.goMain(context)
@@ -73,7 +91,7 @@ fun InsertScreen(
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Box(modifier = Modifier.size(24.dp)){
+            Box(modifier = Modifier.size(24.dp)) {
                 Image(
                     painter = painterResource(id = R.drawable.pass_left_side),
                     contentDescription = null,
@@ -93,92 +111,104 @@ fun InsertScreen(
                 color = colorResource(id = R.color._1A1D1D)
             )
         }
-
-        Spacer(modifier = Modifier.height(13.dp))
-        Subject(text = "아이디")
-        Spacer(modifier = Modifier.height(4.dp))
-        EditTextBox(
-            hintText = "이메일",
-            editText = emailText,
-            strokeColor = mutableStateOf(true)
-        )
-        
-        Spacer(modifier = Modifier.height(28.dp))
-        PasswordPolicyLayer(
-            newPass = passText,
-            newPassRe = rePassText,
-            isSamePass = isSamePass,
-            isValidPass = isValidPass,
-            subjectName = "비밀번호"
-        )
-        
-        Spacer(modifier = Modifier.height(12.dp))
-        CheckBox(allCheckBox,"전체 약관동의",FontWeight.W700)
-        serviceCheckBox.value = allCheckBox.value
-        userInfoCheckBox.value = allCheckBox.value
-
-        Box(modifier = Modifier.clickable {
-            val intent = Intent(Intent(Intent.ACTION_VIEW, Uri.parse("https://majestic-amber-920.notion.site/4fedc5556f2247a9b353e82e9e9804b3")))
-            context.startActivity(intent)
-        }){
-            CheckBox(serviceCheckBox,"(필수) 서비스 이용약관 동의",FontWeight.W400)
-        }
-        Box(modifier = Modifier.clickable {
-            val intent = Intent(Intent(Intent.ACTION_VIEW, Uri.parse("https://majestic-amber-920.notion.site/ea4c8db57ba24e79a781f7432a4f4922")))
-            context.startActivity(intent)
-        }){
-            CheckBox(userInfoCheckBox,"(필수) 개인정보 수집/이용 동의 ",FontWeight.W400)
-        }
-
-        val boxColor =
-            if (emailText.value.text.isNotEmpty()
-                &&serviceCheckBox.value
-                &&userInfoCheckBox.value
-                &&isSamePass.value
-                &&isValidPass.value
-            ) 1.0f
-            else 0.3f
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Surface( // 배경
-            modifier = if (boxColor == 1.0f) {
-                Modifier
-                    .clickable {
-                        viewModel.createUser(
-                            emailText.value.text,
-                            passText.value.text,
-                            userState = {
-                                goMainResult = it
-                            }
-                        )
-                    }
-                    .alpha(boxColor)
-            } else Modifier.alpha(boxColor),
-
-            shape = RoundedCornerShape(4.dp),
-            border = BorderStroke(
-                1.dp,
-                colorResource(id = R.color.weak_color)
-            ),
-            color = colorResource(id = R.color.main_color)
-        ) {
-            Text(
-                text = "가입하기",
-                fontFamily = FontFamily(Font(R.font.roboto_bold)),
-                fontWeight = FontWeight(700),
-                fontSize = 16.scaledSp() ,
-                color = colorResource(id = R.color.white),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .padding(
-                        top = 10.5.dp,
-                        bottom = 10.5.dp
-                    ),
-                textAlign = TextAlign.Center, // 중앙
-                lineHeight = 23.scaledSp()
+        if (errorViewState.value) {
+            ErrorPage(
+                load = {
+                    createUserState.value = true
+                }
             )
+        } else {
+
+            Spacer(modifier = Modifier.height(13.dp))
+            Subject(text = "아이디")
+            Spacer(modifier = Modifier.height(4.dp))
+            EditTextBox(
+                hintText = "이메일",
+                editText = emailText,
+                strokeColor = mutableStateOf(true)
+            )
+
+            Spacer(modifier = Modifier.height(28.dp))
+            PasswordPolicyLayer(
+                newPass = passText,
+                newPassRe = rePassText,
+                isSamePass = isSamePass,
+                isValidPass = isValidPass,
+                subjectName = "비밀번호"
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+            CheckBox(allCheckBox, "전체 약관동의", FontWeight.W700)
+            serviceCheckBox.value = allCheckBox.value
+            userInfoCheckBox.value = allCheckBox.value
+
+            Box(modifier = Modifier.clickable {
+                val intent = Intent(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://majestic-amber-920.notion.site/4fedc5556f2247a9b353e82e9e9804b3")
+                    )
+                )
+                context.startActivity(intent)
+            }) {
+                CheckBox(serviceCheckBox, "(필수) 서비스 이용약관 동의", FontWeight.W400)
+            }
+            Box(modifier = Modifier.clickable {
+                val intent = Intent(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://majestic-amber-920.notion.site/ea4c8db57ba24e79a781f7432a4f4922")
+                    )
+                )
+                context.startActivity(intent)
+            }) {
+                CheckBox(userInfoCheckBox, "(필수) 개인정보 수집/이용 동의 ", FontWeight.W400)
+            }
+
+            val boxColor =
+                if (emailText.value.text.isNotEmpty()
+                    && serviceCheckBox.value
+                    && userInfoCheckBox.value
+                    && isSamePass.value
+                    && isValidPass.value
+                ) 1.0f
+                else 0.3f
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Surface( // 배경
+                modifier = if (boxColor == 1.0f) {
+                    Modifier
+                        .clickable {
+                            createUserState.value = true
+                        }
+                        .alpha(boxColor)
+                } else Modifier.alpha(boxColor),
+
+                shape = RoundedCornerShape(4.dp),
+                border = BorderStroke(
+                    1.dp,
+                    colorResource(id = R.color.weak_color)
+                ),
+                color = colorResource(id = R.color.main_color)
+            ) {
+                Text(
+                    text = "가입하기",
+                    fontFamily = FontFamily(Font(R.font.roboto_bold)),
+                    fontWeight = FontWeight(700),
+                    fontSize = 16.scaledSp(),
+                    color = colorResource(id = R.color.white),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .padding(
+                            top = 10.5.dp,
+                            bottom = 10.5.dp
+                        ),
+                    textAlign = TextAlign.Center, // 중앙
+                    lineHeight = 23.scaledSp()
+                )
+            }
         }
     }
 }
