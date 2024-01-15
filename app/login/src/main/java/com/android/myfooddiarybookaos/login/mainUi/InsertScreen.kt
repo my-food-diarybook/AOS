@@ -1,6 +1,8 @@
 package com.android.myfooddiarybookaos.login.mainUi
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -21,6 +23,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,6 +44,7 @@ fun InsertScreen(
     navController : NavHostController,
     viewModel : LoginViewModel = hiltViewModel()
 ){
+    val context = LocalContext.current
     val emailText = remember{ mutableStateOf(TextFieldValue("")) }
     val passText = remember{ mutableStateOf(TextFieldValue("")) }
     val rePassText = remember { mutableStateOf(TextFieldValue("")) }
@@ -54,8 +58,8 @@ fun InsertScreen(
         mutableStateOf(false)
     }
     if (goMainResult) {
-        viewModel.goMain(LocalContext.current)
-        viewModel.saveEmailState(LocalContext.current,emailText.value.text)
+        viewModel.goMain(context)
+        viewModel.saveEmailState(context,emailText.value.text)
         goMainResult = false
     }
 
@@ -113,8 +117,18 @@ fun InsertScreen(
         serviceCheckBox.value = allCheckBox.value
         userInfoCheckBox.value = allCheckBox.value
 
-        CheckBox(serviceCheckBox,"(필수) 서비스 이용약관 동의",FontWeight.W400)
-        CheckBox(userInfoCheckBox,"(필수) 개인정보 수집/이용 동의 ",FontWeight.W400)
+        Box(modifier = Modifier.clickable {
+            val intent = Intent(Intent(Intent.ACTION_VIEW, Uri.parse("https://majestic-amber-920.notion.site/4fedc5556f2247a9b353e82e9e9804b3")))
+            context.startActivity(intent)
+        }){
+            CheckBox(serviceCheckBox,"(필수) 서비스 이용약관 동의",FontWeight.W400)
+        }
+        Box(modifier = Modifier.clickable {
+            val intent = Intent(Intent(Intent.ACTION_VIEW, Uri.parse("https://majestic-amber-920.notion.site/ea4c8db57ba24e79a781f7432a4f4922")))
+            context.startActivity(intent)
+        }){
+            CheckBox(userInfoCheckBox,"(필수) 개인정보 수집/이용 동의 ",FontWeight.W400)
+        }
 
         val boxColor =
             if (emailText.value.text.isNotEmpty()
@@ -205,7 +219,8 @@ fun CheckBox(
             fontFamily = robotoRegular,
             fontSize = 14.scaledSp(),
             color = colorResource(id = R.color._1A1D1D),
-            fontWeight = fontWeight
+            fontWeight = fontWeight,
+            textDecoration = if (fontWeight != FontWeight.W700) TextDecoration.Underline else null
         )
     }
 }
