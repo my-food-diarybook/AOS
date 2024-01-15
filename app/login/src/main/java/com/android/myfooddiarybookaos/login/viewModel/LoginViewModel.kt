@@ -72,13 +72,15 @@ class LoginViewModel @Inject constructor(
     }
 
     fun passReset(
-
+        inputEmail: String,
+        emailState:  (String?) -> Unit
     ) = viewModelScope.launch{
-        repository.resetUserPassword {
-//            if (it){
-//
-//            }
-        }
+        repository.resetUserPassword(
+            userEmail = inputEmail,
+            emailState = {
+                emailState(it)
+            }
+        )
     }
 
     private fun saveUserState(

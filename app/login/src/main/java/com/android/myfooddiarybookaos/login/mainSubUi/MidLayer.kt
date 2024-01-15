@@ -56,7 +56,6 @@ fun MidLayout(
     val findPassPopState = remember { mutableStateOf(false) }
     val isValid = remember { mutableStateOf(true) }
     val loginFailCount = remember { mutableStateOf(0) }
-
     if (loginFailCount.value  > 0 ){
         isValid.value = false
         if (loginFailCount.value == 5){
@@ -186,9 +185,11 @@ fun MidLayout(
         ){
             FindPasswordPopUp(
                 offDialog = {
+                    loginFailCount.value = 0
                     findPassPopState.value = false
                 },
                 goFind = {
+                    loginFailCount.value = 0
                     findPassPopState.value = false
                     findPassword()
                 }

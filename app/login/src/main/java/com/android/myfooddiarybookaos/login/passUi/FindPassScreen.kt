@@ -29,8 +29,8 @@ import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.data.utils.scaledSp
 import com.android.myfooddiarybookaos.login.navi.LoginScreenRoot
+import com.android.myfooddiarybookaos.login.popUp.SuccessFindEmailScreen
 import com.android.myfooddiarybookaos.login.viewModel.LoginViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
 
 @Composable
 fun FindPassScreen(
@@ -38,24 +38,30 @@ fun FindPassScreen(
     viewModel: LoginViewModel = hiltViewModel()
 ) {
 
-    var emailText by remember {
-        mutableStateOf("")
-    }
+    var emailText by remember { mutableStateOf("") }
+    var emailState by remember { mutableStateOf(false) }
+    var checkEmailValid by remember { mutableStateOf(0.3f) }
+    checkEmailValid = if (emailText.isEmpty()) {0.3f } else { 1.0f }
+    val failEmailState = remember { mutableStateOf(false) }
+    val successEmailState = remember { mutableStateOf(false) }
 
-    var emailState by remember {
-        mutableStateOf(false)
+    if (emailState) {
+        viewModel.passReset(
+            inputEmail = emailText,
+            emailState = {
+                when(it){
+                    "INVALID_USER" -> {
+                        failEmailState.value = true
+                    }
+                    "SUCCESS" -> {
+                        successEmailState.value = true
+                    }
+                    else -> {}
+                }
+                emailState = false
+            }
+        )
     }
-
-    var checkEmailValid by remember {
-        mutableStateOf(0.3f)
-    }
-
-    checkEmailValid =
-        if (emailText.isEmpty()) {
-            0.3f
-        } else {
-            1.0f
-        }
 
     Column(
         modifier = Modifier
@@ -199,16 +205,32 @@ fun FindPassScreen(
 
     }
 
-    if (emailState) {
-        viewModel.passReset()
-        Dialog(onDismissRequest = { emailState = false }) {
+
+    if (failEmailState.value){
+        Dialog(onDismissRequest = { failEmailState.value = false }) {
             FailFindEmailScreen(
                 offDialog = {
-                    emailState = false
+                    failEmailState.value = false
                 },
                 goInsert = {
+                    failEmailState.value = false
                     navController.navigate(LoginScreenRoot.INSERT)
                 },
+            )
+        }
+    }
+
+    if (successEmailState.value){
+//        EmailService(
+//            userEmail = ,
+//            newPassword =
+//        )
+        Dialog(onDismissRequest = { successEmailState.value = false }) {
+            SuccessFindEmailScreen(
+                userEmail = emailText,
+                onLogin = {
+                    navController.navigate(LoginScreenRoot.LOGIN_MAIN)
+                }
             )
         }
     }

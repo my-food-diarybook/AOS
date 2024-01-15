@@ -20,74 +20,80 @@ class LoginRepository @Inject constructor(
     private val manager = networkManager.getLoginApiService()
 
     fun createUserRequest(
-        email : String, pw : String,
-        result : (status : String,token : String?)->Unit
+        email: String, pw: String,
+        result: (status: String, token: String?) -> Unit
     ) {
         try {
-            manager.createUser(UserRequest(email,pw))
-               .enqueue(object : Callback<CreateUserResponse> {
-                   override fun onResponse(
-                       call: Call<CreateUserResponse>,
-                       response: Response<CreateUserResponse>
-                   ) {
-                       if(response.isSuccessful){
-                           when(response.body()!!.status){
-                               "SUCCESS" -> result("성공",response.body()?.token)
-                               null -> result("이미 사용중인 사용자입니다.",null)
-                               else-> result("실패", null)
-                           }
-                       }else{
-                           result("네트워크 에러", null)
-                       }
-                   }
+            manager.createUser(UserRequest(email, pw))
+                .enqueue(object : Callback<CreateUserResponse> {
+                    override fun onResponse(
+                        call: Call<CreateUserResponse>,
+                        response: Response<CreateUserResponse>
+                    ) {
+                        if (response.isSuccessful) {
+                            when (response.body()!!.status) {
+                                "SUCCESS" -> result("성공", response.body()?.token)
+                                null -> result("이미 사용중인 사용자입니다.", null)
+                                else -> result("실패", null)
+                            }
+                        } else {
+                            result("네트워크 에러", null)
+                        }
+                    }
 
-                   override fun onFailure(call: Call<CreateUserResponse>, t: Throwable) {
-                       result("실패", null)
-                   }
+                    override fun onFailure(call: Call<CreateUserResponse>, t: Throwable) {
+                        result("실패", null)
+                    }
 
-               })
-        } catch (_: Exception){
-            result("네트워크 에러",null)
+                })
+        } catch (_: Exception) {
+            result("네트워크 에러", null)
         }
     }
 
     fun loginUserRequest(
-        email: String, pw : String,
-        result : (status : String,response: LoginResponse?)->Unit
-    )  {
-        try{
-            manager.userLogin(UserRequest( email,pw))
-                .enqueue(object : Callback<LoginResponse>{
+        email: String, pw: String,
+        result: (status: String, response: LoginResponse?) -> Unit
+    ) {
+        try {
+            manager.userLogin(UserRequest(email, pw))
+                .enqueue(object : Callback<LoginResponse> {
                     override fun onResponse(
                         call: Call<LoginResponse>,
                         response: Response<LoginResponse>
                     ) {
-                        if (response.isSuccessful){
-                            when(response.body()!!.status){
-                                "SUCCESS" -> result("성공",response.body())
-                                else -> result("실패",null)
+                        if (response.isSuccessful) {
+                            when (response.body()!!.status) {
+                                "SUCCESS" -> result("성공", response.body())
+                                else -> result("실패", null)
                             }
-                        }else{
-                            result("네트워크 에러",null)
+                        } else {
+                            result("네트워크 에러", null)
                         }
                     }
+
                     override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                        result("네트워크 에러",null)
+                        result("네트워크 에러", null)
                     }
                 })
-        } catch (e: Exception){
-            result("네트워크 에러",null)
+        } catch (e: Exception) {
+            result("네트워크 에러", null)
         }
     }
 
     suspend fun resetUserPassword(
-        emailState: (Boolean) -> Unit
-    ){
-        val response = manager.resetUserPassword()
-        Log.d("emailState",emailState.toString())
+        userEmail: String,
+        emailState: (String?) -> Unit
+    ) {
+        val response = manager.resetUserPassword(userEmail)
+        if (response.isSuccessful) {
+            emailState(response.body()?.status)
+        } else {
+            emailState(null)
+        }
     }
 
-    fun saveUserToken(response : LoginResponse?,currentForm : String){
+    fun saveUserToken(response: LoginResponse?, currentForm: String) {
         UserInfoSharedPreferences(context).accessToken = response?.token
         UserInfoSharedPreferences(context).refreshToken = response?.refreshToken
         UserInfoSharedPreferences(context).loginForm = currentForm

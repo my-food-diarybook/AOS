@@ -1,9 +1,6 @@
 package com.android.myfooddiarybookaos.api.userApi
 
-import com.android.myfooddiarybookaos.model.login.CreateUserResponse
-import com.android.myfooddiarybookaos.model.login.UserRequest
-import com.android.myfooddiarybookaos.model.login.LoginResponse
-import com.android.myfooddiarybookaos.model.login.SsoToken
+import com.android.myfooddiarybookaos.model.login.*
 import com.android.myfooddiarybookaos.model.token.UserToken
 import retrofit2.Call
 import retrofit2.Response
@@ -28,5 +25,8 @@ interface UserRetrofitService {
     ): Response<Unit>
 
     @POST("user/reset-password")
-    suspend fun resetUserPassword(): Response<Unit>
+    @FormUrlEncoded
+    suspend fun resetUserPassword(
+        @Field("email") email : String,
+    ): Response<ResetPassState>
 }

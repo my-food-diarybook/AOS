@@ -1,4 +1,4 @@
-package com.android.myfooddiarybookaos.login.passUi
+package com.android.myfooddiarybookaos.login.popUp
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -8,13 +8,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -22,7 +19,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.robotoBold
 import com.android.myfooddiarybookaos.data.robotoRegular
@@ -30,8 +26,9 @@ import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 @Composable
 fun SuccessFindEmailScreen(
-    userEmail : MutableState<String>
-){
+    userEmail: String,
+    onLogin: () -> Unit
+) {
     Surface(
         modifier = Modifier.background(
             color = Color.White,
@@ -63,8 +60,8 @@ fun SuccessFindEmailScreen(
                     append("회원님의 이메일 주소\n")
                     withStyle(
                         SpanStyle(color = Color(0xFFF2994A))
-                    ){
-                        append(userEmail.value)
+                    ) {
+                        append(userEmail)
                     }
                     append(
                         "으로\n" +
@@ -93,7 +90,7 @@ fun SuccessFindEmailScreen(
                         shape = RoundedCornerShape(4.dp)
                     )
                     .clickable {
-                               // login !
+                        onLogin()
                     },
                 contentAlignment = Alignment.Center
             ) {
@@ -119,6 +116,6 @@ fun SuccessFindEmailScreen(
 @SuppressLint("UnrememberedMutableState")
 @Preview
 @Composable
-fun ViewEmailSuccess(){
-    SuccessFindEmailScreen(mutableStateOf("dinner@gmail.com"))
+fun ViewEmailSuccess() {
+    SuccessFindEmailScreen("dinner@gmail.com", onLogin = {})
 }
