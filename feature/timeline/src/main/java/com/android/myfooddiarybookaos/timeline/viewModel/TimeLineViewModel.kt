@@ -1,19 +1,15 @@
 package com.android.myfooddiarybookaos.timeline.viewModel
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import androidx.paging.map
-import com.android.myfooddiarybookaos.data.dataTimeLine.TimeLineRepository
+import com.android.myfooddiarybookaos.data.dataTimeLine.repository.TimeLineRepository
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.model.timeLine.TimeLine
-import com.android.myfooddiarybookaos.model.timeLine.TimeLineDiary
 import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -27,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TimeLineViewModel @Inject constructor(
     private val timeLineRepository: TimeLineRepository
-): ViewModel() {
+) : ViewModel() {
 
     private val _appState = MutableLiveData<ApplicationState>()
     private val appState: LiveData<ApplicationState> get() = _appState
@@ -40,8 +36,8 @@ class TimeLineViewModel @Inject constructor(
 
     fun initState(
         mainAppState: ApplicationState,
-        mainDiaryState : DiaryState,
-    ){
+        mainDiaryState: DiaryState,
+    ) {
         _appState.value = mainAppState
         _diaryState.value = mainDiaryState
     }

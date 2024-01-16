@@ -17,6 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.core.data.R
+import com.android.myfooddiarybookaos.data.component.ToastMessaging
 import com.android.myfooddiarybookaos.data.component.coloredInnerShadow
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 import com.android.myfooddiarybookaos.data.path.byteStringToBitmap
@@ -45,17 +46,18 @@ fun HomeDayScreen(
 
     // 뒤로가기 제어
     BackHandler(enabled = true, onBack = {
-        backStage(diaryState,appState)
+        backStage(diaryState, appState)
     })
 
     val homeDays = homeViewModel.homeDayInDiary.collectAsState()
     val prevDay = homeViewModel.homeDayPrev.collectAsState()
     val nextDay = homeViewModel.homeDayNext.collectAsState()
     val viewUpdate = rememberSaveable { mutableStateOf(true) }
+
     val currentDate = diaryState.currentHomeDay.value
     if (viewUpdate.value) {
         homeViewModel.getHomeDayInDiary(currentDate)
-        rememberCoroutineScope().launch {
+        scope.launch {
             delay(500)
             viewUpdate.value = false
         }
@@ -71,6 +73,9 @@ fun HomeDayScreen(
                     if (isUpdate) {
                         viewUpdate.value = true
                     }
+                },
+                toastMessage = {
+                    appState.toastState.value = "하루에 식사일기는 최대10건까지 등록할 수 있어요."
                 }
             )
             diaryState.resetSelectedInfo()
@@ -91,7 +96,7 @@ fun HomeDayScreen(
                 modifier = Modifier
                     .size(34.dp)
                     .clickable {
-                        backStage(diaryState,appState)
+                        backStage(diaryState, appState)
                     }
                     .align(Alignment.BottomStart),
                 contentAlignment = Alignment.Center
@@ -162,7 +167,6 @@ fun HomeDayScreen(
                 }
             }
         }
-
     }
 
 }

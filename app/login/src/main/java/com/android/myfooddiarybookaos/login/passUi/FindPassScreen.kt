@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.AlertDialog
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -21,51 +20,48 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.robotoRegular
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.window.Dialog
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.data.utils.scaledSp
 import com.android.myfooddiarybookaos.login.navi.LoginScreenRoot
-import org.junit.internal.runners.statements.Fail
+import com.android.myfooddiarybookaos.login.popUp.SuccessFindEmailScreen
+import com.android.myfooddiarybookaos.login.viewModel.LoginViewModel
 
 @Composable
-fun FindPassScreen(navController: NavHostController) {
+fun FindPassScreen(
+    navController: NavHostController,
+    viewModel: LoginViewModel = hiltViewModel()
+) {
 
-    var emailText by remember {
-        mutableStateOf("")
+    var emailText by remember { mutableStateOf("") }
+    var emailState by remember { mutableStateOf(false) }
+    var checkEmailValid by remember { mutableStateOf(0.3f) }
+    checkEmailValid = if (emailText.isEmpty()) {0.3f } else { 1.0f }
+    val failEmailState = remember { mutableStateOf(false) }
+    val successEmailState = remember { mutableStateOf(false) }
+
+    if (emailState) {
+        viewModel.passReset(
+            inputEmail = emailText,
+            emailState = {
+                when(it){
+                    "INVALID_USER" -> {
+                        failEmailState.value = true
+                    }
+                    "SUCCESS" -> {
+                        successEmailState.value = true
+                    }
+                    else -> {}
+                }
+                emailState = false
+            }
+        )
     }
-
-    var emailFailState by remember {
-        mutableStateOf(false)
-    }
-
-    if (emailFailState) {
-        Dialog(onDismissRequest = { emailFailState = false }) {
-            FailFindEmailScreen(
-                offDialog = {
-                    emailFailState = false
-                },
-                goInsert = {
-                    navController.navigate(LoginScreenRoot.INSERT)
-                },
-            )
-        }
-    }
-
-    var checkEmailValid by remember {
-        mutableStateOf(0.3f)
-    }
-
-    checkEmailValid =
-        if (emailText.isEmpty()) {
-            0.3f
-        } else {
-            1.0f
-        }
 
     Column(
         modifier = Modifier
@@ -103,15 +99,15 @@ fun FindPassScreen(navController: NavHostController) {
 
         Text(
             "가입시 등록한 이메일 주소를",
-            fontFamily = FontFamily(
-                Font(R.font.roboto_bold, FontWeight.W700)
-            ),
+            fontFamily = robotoRegular,
+            fontWeight = FontWeight.W700,
             fontSize = 20.scaledSp(),
             color = colorResource(id = R.color._1A1D1D)
         )
         Text(
             "입력하고 임시 비밀번호를 누르세요.",
-            fontFamily = FontFamily(Font(R.font.roboto_bold, FontWeight.W700)),
+            fontFamily = robotoRegular,
+            fontWeight = FontWeight.W700,
             fontSize = 20.scaledSp(),
             color = colorResource(id = R.color._1A1D1D),
         )
@@ -123,7 +119,8 @@ fun FindPassScreen(navController: NavHostController) {
             fontSize = 14.scaledSp(),
             fontFamily = robotoRegular,
             fontWeight = FontWeight.W700,
-            lineHeight = 21.scaledSp()
+            lineHeight = 21.scaledSp(),
+            color = colorResource(id = R.color._1A1D1D)
         )
 
         Spacer(modifier = Modifier.height(4.dp))
@@ -183,7 +180,7 @@ fun FindPassScreen(navController: NavHostController) {
                 modifier = Modifier
                     .wrapContentSize()
                     .clickable {
-                        emailFailState = true
+                        emailState = true
                     }
                     .alpha(checkEmailValid), shape = RoundedCornerShape(4.dp),
                 border = BorderStroke(
@@ -206,5 +203,35 @@ fun FindPassScreen(navController: NavHostController) {
             }
         }
 
+    }
+
+
+    if (failEmailState.value){
+        Dialog(onDismissRequest = { failEmailState.value = false }) {
+            FailFindEmailScreen(
+                offDialog = {
+                    failEmailState.value = false
+                },
+                goInsert = {
+                    failEmailState.value = false
+                    navController.navigate(LoginScreenRoot.INSERT)
+                },
+            )
+        }
+    }
+
+    if (successEmailState.value){
+//        EmailService(
+//            userEmail = ,
+//            newPassword =
+//        )
+        Dialog(onDismissRequest = { successEmailState.value = false }) {
+            SuccessFindEmailScreen(
+                userEmail = emailText,
+                onLogin = {
+                    navController.navigate(LoginScreenRoot.LOGIN_MAIN)
+                }
+            )
+        }
     }
 }

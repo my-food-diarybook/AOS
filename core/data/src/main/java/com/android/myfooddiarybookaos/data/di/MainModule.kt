@@ -4,6 +4,7 @@ import android.content.Context
 import com.android.myfooddiarybookaos.api.KakaoApiManager
 import com.android.myfooddiarybookaos.api.NetworkManager
 import com.android.myfooddiarybookaos.data.dataCalendar.repository.CustomCalendarRepository
+import com.android.myfooddiarybookaos.data.dataCalendar.repository.TodayRepository
 import com.android.myfooddiarybookaos.data.dataDetail.DetailRepository
 import com.android.myfooddiarybookaos.data.dataHome.repository.HomePostRepository
 import com.android.myfooddiarybookaos.data.dataHome.repository.HomeRepository
@@ -12,17 +13,22 @@ import com.android.myfooddiarybookaos.data.dataMap.repository.MapSearchRepositor
 import com.android.myfooddiarybookaos.data.dataMy.local.MyDatabase
 import com.android.myfooddiarybookaos.data.dataMy.repository.NoticeRepository
 import com.android.myfooddiarybookaos.data.dataSearch.repository.SearchRepository
-import com.android.myfooddiarybookaos.data.dataTimeLine.TimeLineRepository
+import com.android.myfooddiarybookaos.data.dataTimeLine.repository.TimeLineRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ViewModelScoped
+import javax.inject.Singleton
 
 @Module
 @InstallIn(ViewModelComponent::class)
 object MainModule {
+
+    @ViewModelScoped
+    @Provides
+    fun bindTodayRepository() =  TodayRepository()
 
     @ViewModelScoped
     @Provides

@@ -9,6 +9,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.android.myfooddiarybookaos.common.addPicture.SelectAddScreen
 import com.android.myfooddiarybookaos.common.naviHost.MainNaviHost
+import com.android.myfooddiarybookaos.data.component.ToastMessaging
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.data.state.rememberApplicationState
@@ -72,6 +73,7 @@ fun MainUi() {
         appState = appState
     )
     MainNaviHost(appState = appState, diaryState = diaryState)
+
 }
 
 

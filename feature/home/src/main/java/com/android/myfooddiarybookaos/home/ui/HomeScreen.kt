@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.android.myfooddiarybookaos.data.component.ToastMessaging
 import com.android.myfooddiarybookaos.home.component.CalendarLayout
 import com.android.myfooddiarybookaos.data.component.TopCalendarLayout
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
@@ -31,11 +32,11 @@ fun HomeScreen(
         homeViewModel.initState(appState, diaryState)
         homeViewModel.setDiaryList(todayViewModel.getCurrentYearMonth())
     }
-    val viewUpdate = rememberSaveable { mutableStateOf(true ) }
 
-    if (viewUpdate.value){
+    val viewUpdate = rememberSaveable { mutableStateOf(true) }
+    if (viewUpdate.value) {
         homeViewModel.setDiaryList(todayViewModel.getCurrentYearMonth())
-        rememberCoroutineScope().launch{
+        rememberCoroutineScope().launch {
             delay(500)
             viewUpdate.value = false
         }
@@ -52,6 +53,9 @@ fun HomeScreen(
                         if (isUpdate) {
                             homeViewModel.setDiaryList(todayViewModel.getCurrentYearMonth())
                         }
+                    },
+                    toastMessage = {
+                        appState.toastState.value =  "하루에 식사일기는 최대10건까지 등록할 수 있어요."
                     }
                 )
             }
@@ -65,6 +69,9 @@ fun HomeScreen(
                                 homeViewModel.setDiaryList(todayViewModel.getCurrentYearMonth())
                             }
                         }
+                    },
+                    toastMessage = {
+                        appState.toastState.value =  "하루에 식사일기는 최대10건까지 등록할 수 있어요."
                     }
                 )
                 diaryState.resetHomeDay()

@@ -16,18 +16,21 @@ fun rememberApplicationState(
     addFloatButtonViewState: MutableState<Boolean> = mutableStateOf(false),
     popAddFloatButtonState: MutableState<Boolean> = mutableStateOf(false),
     scaffoldState: ScaffoldState = rememberScaffoldState(),
+    toastState: MutableState<String> = mutableStateOf("")
 ) = remember(
     bottomBarState,
     navController,
     addFloatButtonViewState,
     popAddFloatButtonState,
-    scaffoldState
+    scaffoldState,
+    toastState
 ) {
     ApplicationState(
         bottomBarState,
         navController,
         addFloatButtonViewState,
         popAddFloatButtonState,
-        scaffoldState
+        scaffoldState,
+        toastState
     )
 }

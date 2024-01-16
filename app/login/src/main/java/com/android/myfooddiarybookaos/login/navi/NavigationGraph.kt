@@ -1,15 +1,19 @@
 package com.android.myfooddiarybookaos.login.navi
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.android.myfooddiarybookaos.data.component.password.SetNewPassword
 import com.android.myfooddiarybookaos.login.SplashScreen
 import com.android.myfooddiarybookaos.login.mainUi.InsertScreen
 import com.android.myfooddiarybookaos.login.passUi.FindPassScreen
 import com.android.myfooddiarybookaos.login.mainUi.LoginScreen
-import com.android.myfooddiarybookaos.login.passUi.SetNewPassword
 
+
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun NavigationGraph(navController : NavHostController) {
     NavHost(

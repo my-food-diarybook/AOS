@@ -12,45 +12,90 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.data.ui.theme.EditTextBox
 import com.android.myfooddiarybookaos.data.utils.scaledSp
+import com.android.myfooddiarybookaos.login.popUp.ChangePasswordPopUp
+import com.android.myfooddiarybookaos.login.passUi.FindPasswordPopUp
 import com.android.myfooddiarybookaos.login.viewModel.LoginViewModel
 
 @Composable
 fun MidLayout(
+    findPassword: () -> Unit,
+    changePassword: () -> Unit,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
 
     val emailText = remember { mutableStateOf(TextFieldValue("test_user@naver.com")) }
     val pwText = remember { mutableStateOf(TextFieldValue("qwer1234@@")) }
 
-    var goMainResult by remember {
-        mutableStateOf(false)
-    }
+    var goMainResult by remember { mutableStateOf(false) }
+    val loginRequestState = remember { mutableStateOf(false ) }
+    val pwExpiredState = remember { mutableStateOf(false) }
 
     if (goMainResult){
         viewModel.goMain(LocalContext.current)
         viewModel.saveEmailState(LocalContext.current,emailText.value.text)
     }
+    var checkEnter by remember { mutableStateOf(0.3f) }
 
-    var checkEnter by remember {
-        mutableStateOf(0.3f)
+    val findPassPopState = remember { mutableStateOf(false) }
+    val isValid = remember { mutableStateOf(true) }
+    val loginFailCount = remember { mutableStateOf(0) }
+    if (loginFailCount.value  > 0 ){
+        isValid.value = false
+        if (loginFailCount.value == 5){
+            findPassPopState.value = true
+        }
     }
 
-    val isValid = remember {
-        mutableStateOf(true)
+    if (loginRequestState.value){
+        viewModel.loginUser(
+            emailText.value.text,
+            pwText.value.text,
+            userState = { state,pwState ->
+                if (pwState){
+                    pwExpiredState.value = true
+                }else {
+                    if (state){
+                        goMainResult = true
+                    } else {
+                        if (loginFailCount.value < 5) {
+                            loginFailCount.value += 1
+                        }
+                    }
+                }
+            },
+        )
+        loginRequestState.value = false
     }
+
+    if (pwExpiredState.value){
+        Dialog(onDismissRequest = {
+            pwExpiredState.value = false
+        }) {
+            ChangePasswordPopUp(
+                goChange = {
+                    pwExpiredState.value = false
+                    changePassword()
+                },
+                resetPassword = {
+                    pwExpiredState.value = false
+
+                }
+            )
+        }
+    }
+
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         // EditText - email
 
@@ -67,12 +112,15 @@ fun MidLayout(
 
         Spacer(modifier = Modifier.height(4.dp))
         Text(
-            text = if (!isValid.value) "*아이디 또는 비밀번호를 잘못 입력했습니다. (n/5)"
+            text = if (!isValid.value) "*아이디 또는 비밀번호를 잘못 입력했습니다. (${loginFailCount.value}/5)"
             else "",
             color = colorResource(id = R.color.not_valid_text_color),
             fontFamily = robotoRegular,
             fontWeight = FontWeight(500),
-            fontSize = 12.scaledSp()
+            fontSize = 12.scaledSp(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp)
         )
         Spacer(modifier = Modifier.height(7.dp))
 
@@ -84,13 +132,7 @@ fun MidLayout(
             modifier =
             if (checkEnter == 1.0f) Modifier
                 .clickable {
-                    viewModel.loginUser(
-                        emailText.value.text,
-                        pwText.value.text,
-                        userState = {
-                            goMainResult = it
-                        }
-                    )
+                    loginRequestState.value = true
                 }
                 .padding(
                     start = 16.dp,
@@ -129,5 +171,25 @@ fun MidLayout(
         }
 
 
+    }
+
+    if (findPassPopState.value){
+        Dialog(
+            onDismissRequest = {
+                findPassPopState.value = false
+            }
+        ){
+            FindPasswordPopUp(
+                offDialog = {
+                    loginFailCount.value = 0
+                    findPassPopState.value = false
+                },
+                goFind = {
+                    loginFailCount.value = 0
+                    findPassPopState.value = false
+                    findPassword()
+                }
+            )
+        }
     }
 }
