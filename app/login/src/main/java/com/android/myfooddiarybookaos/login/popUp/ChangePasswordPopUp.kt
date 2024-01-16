@@ -25,8 +25,8 @@ import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 @Composable
 fun ChangePasswordPopUp(
-    offDialog: () -> Unit,
-    goChange: () -> Unit
+    goChange: () -> Unit,
+    resetPassword: () -> Unit
 ) {
     Surface(
         modifier = Modifier.background(
@@ -85,7 +85,6 @@ fun ChangePasswordPopUp(
                         )
                         .weight(1f)
                         .clickable {
-                            offDialog()
                             goChange()
                         },
                     contentAlignment = Alignment.Center
@@ -116,7 +115,7 @@ fun ChangePasswordPopUp(
                         )
                         .weight(1f)
                         .clickable {
-                            offDialog()
+                            resetPassword()
                         },
                     contentAlignment = Alignment.Center
                 ) {

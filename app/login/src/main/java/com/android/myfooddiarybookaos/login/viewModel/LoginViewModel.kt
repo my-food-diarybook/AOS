@@ -40,8 +40,6 @@ class LoginViewModel @Inject constructor(
         repository.loginUserRequest(
             email, pw,
             result = { status, response ->
-                Log.d("statetete",status.toString())
-                Log.d("response",response.toString())
                 if (response?.pwExpired == true || status =="PASSWORD_LIMIT_OVER" ) {
                     userState(false, true)
                 } else{

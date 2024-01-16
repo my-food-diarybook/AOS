@@ -84,12 +84,13 @@ fun MidLayout(
             pwExpiredState.value = false
         }) {
             ChangePasswordPopUp(
-                offDialog = {
-                    pwExpiredState.value = false
-                },
                 goChange = {
                     pwExpiredState.value = false
                     changePassword()
+                },
+                resetPassword = {
+                    pwExpiredState.value = false
+
                 }
             )
         }
