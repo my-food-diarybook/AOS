@@ -1,6 +1,5 @@
 package com.android.myfooddiarybookaos.login.mainSubUi
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -13,23 +12,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.Popup
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.data.ui.theme.EditTextBox
 import com.android.myfooddiarybookaos.data.utils.scaledSp
-import com.android.myfooddiarybookaos.login.passUi.ChangePasswordPopUp
-import com.android.myfooddiarybookaos.login.passUi.FindPassScreen
+import com.android.myfooddiarybookaos.login.popUp.ChangePasswordPopUp
 import com.android.myfooddiarybookaos.login.passUi.FindPasswordPopUp
 import com.android.myfooddiarybookaos.login.viewModel.LoginViewModel
 
@@ -68,15 +63,15 @@ fun MidLayout(
             emailText.value.text,
             pwText.value.text,
             userState = { state,pwState ->
-                if (state) {
-                    if (pwState){
-                        pwExpiredState.value = true
-                    }else {
+                if (pwState){
+                    pwExpiredState.value = true
+                }else {
+                    if (state){
                         goMainResult = true
-                    }
-                } else {
-                    if (loginFailCount.value < 5) {
-                        loginFailCount.value += 1
+                    } else {
+                        if (loginFailCount.value < 5) {
+                            loginFailCount.value += 1
+                        }
                     }
                 }
             },

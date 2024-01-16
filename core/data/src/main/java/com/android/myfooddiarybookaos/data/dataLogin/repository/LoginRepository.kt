@@ -7,6 +7,9 @@ import com.android.myfooddiarybookaos.api.UserInfoSharedPreferences
 import com.android.myfooddiarybookaos.model.login.CreateUserResponse
 import com.android.myfooddiarybookaos.model.login.UserRequest
 import com.android.myfooddiarybookaos.model.login.LoginResponse
+import com.android.myfooddiarybookaos.model.login.PasswordResetRequest
+import com.android.myfooddiarybookaos.model.response.NotStateResponse
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -51,31 +54,24 @@ class LoginRepository @Inject constructor(
         }
     }
 
-    fun loginUserRequest(
+    suspend fun loginUserRequest(
         email: String, pw: String,
-        result: (status: String, response: LoginResponse?) -> Unit
+        result: (status: String?, response: LoginResponse?) -> Unit
     ) {
         try {
-            manager.userLogin(UserRequest(email, pw))
-                .enqueue(object : Callback<LoginResponse> {
-                    override fun onResponse(
-                        call: Call<LoginResponse>,
-                        response: Response<LoginResponse>
-                    ) {
-                        if (response.isSuccessful) {
-                            when (response.body()!!.status) {
-                                "SUCCESS" -> result("성공", response.body())
-                                else -> result("실패", null)
-                            }
-                        } else {
-                            result("네트워크 에러", null)
-                        }
-                    }
-
-                    override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                        result("네트워크 에러", null)
-                    }
-                })
+            kotlin.runCatching {
+                manager.userLogin(UserRequest(email,pw))
+            }
+                .onSuccess {
+                    result(it.body()?.status,it.body())
+                }
+                .onFailure { e ->
+                    val data = Gson().fromJson(
+                        e.message,
+                        NotStateResponse::class.java
+                    )
+                    result(data?.status,null)
+                }
         } catch (e: Exception) {
             result("네트워크 에러", null)
         }
@@ -85,7 +81,7 @@ class LoginRepository @Inject constructor(
         userEmail: String,
         emailState: (String?) -> Unit
     ) {
-        val response = manager.resetUserPassword(userEmail)
+        val response = manager.resetUserPassword(PasswordResetRequest(userEmail))
         if (response.isSuccessful) {
             emailState(response.body()?.status)
         } else {

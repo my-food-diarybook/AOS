@@ -1,4 +1,4 @@
-package com.android.myfooddiarybookaos.login.passUi
+package com.android.myfooddiarybookaos.login.popUp
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -75,13 +75,15 @@ fun ChangePasswordPopUp(
 
             Spacer(modifier = Modifier.height(28.dp))
 
-            Row(modifier = Modifier.wrapContentSize()) {
+            Row(modifier = Modifier.wrapContentSize()
+            ) {
                 Box(
                     modifier = Modifier
                         .background(
                             color = colorResource(id = R.color.popup_button_white),
                             shape = RoundedCornerShape(4.dp)
                         )
+                        .weight(1f)
                         .clickable {
                             offDialog()
                             goChange()
@@ -92,11 +94,10 @@ fun ChangePasswordPopUp(
                         "비밀번호 변경",
                         fontWeight = FontWeight.W700,
                         fontFamily = robotoBold,
-                        fontSize = 17.scaledSp(),
+                        fontSize = 16.scaledSp(),
                         color = colorResource(id = R.color._3A3A3D),
                         textAlign = TextAlign.Center,
                         modifier = Modifier
-                            .width(134.dp)
                             .padding(
                                 vertical = 10.5.dp,
                                 horizontal = 12.dp
@@ -113,6 +114,7 @@ fun ChangePasswordPopUp(
                             color = colorResource(id = R.color.main_color),
                             shape = RoundedCornerShape(4.dp)
                         )
+                        .weight(1f)
                         .clickable {
                             offDialog()
                         },
@@ -122,11 +124,10 @@ fun ChangePasswordPopUp(
                         "90일 뒤에 변경",
                         fontWeight = FontWeight.W700,
                         fontFamily = robotoBold,
-                        fontSize = 17.scaledSp(),
+                        fontSize = 16.scaledSp(),
                         color = Color.White,
                         textAlign = TextAlign.Center,
                         modifier = Modifier
-                            .width(134.dp)
                             .padding(
                                 vertical = 10.5.dp,
                                 horizontal = 12.dp

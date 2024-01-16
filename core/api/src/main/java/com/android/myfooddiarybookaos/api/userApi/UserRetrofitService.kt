@@ -9,9 +9,9 @@ import retrofit2.http.*
 interface UserRetrofitService {
 
     @POST("user/login")
-    fun userLogin(
+    suspend fun userLogin(
         @Body userRequest: UserRequest
-    ): Call<LoginResponse>
+    ): Response<LoginResponse>
 
 
     @POST("user/new")
@@ -25,8 +25,7 @@ interface UserRetrofitService {
     ): Response<Unit>
 
     @POST("user/reset-password")
-    @FormUrlEncoded
     suspend fun resetUserPassword(
-        @Field("email") email : String,
+        @Body passwordResetRequest : PasswordResetRequest,
     ): Response<ResetPassState>
 }

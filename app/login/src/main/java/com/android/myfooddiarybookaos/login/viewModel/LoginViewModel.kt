@@ -3,6 +3,7 @@ package com.android.myfooddiarybookaos.login.viewModel
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
@@ -34,15 +35,22 @@ class LoginViewModel @Inject constructor(
     fun loginUser(
         email: String,
         pw: String,
-        userState: (state: Boolean ,pwState: Boolean) -> Unit,
-    ) {
+        userState: (state: Boolean, pwState: Boolean) -> Unit,
+    ) = viewModelScope.launch {
         repository.loginUserRequest(
             email, pw,
             result = { status, response ->
-                if (response?.pwExpired==true){
-                    userState(false,true)
-                } else {
-                    userState(saveUserState(status, response),false)
+                Log.d("statetete",status.toString())
+                Log.d("response",response.toString())
+                if (response?.pwExpired == true || status =="PASSWORD_LIMIT_OVER" ) {
+                    userState(false, true)
+                } else{
+                    if (status!=null) {
+                        userState(saveUserState(status, response), false)
+                    }
+                    else{
+                        userState(false,false)
+                    }
                 }
             }
         )
@@ -56,15 +64,14 @@ class LoginViewModel @Inject constructor(
         repository.createUserRequest(
             email, pw,
             result = { state, _ ->
-                if (state=="SUCCESS") {
+                if (state == "SUCCESS") {
                     loginUser(
-                        email,
-                        pw,
+                        email, pw,
                         userState = { status, _ ->
                             userState(status)
                         },
                     )
-                }else {
+                } else {
                     userState(false)
                 }
             }
@@ -73,8 +80,8 @@ class LoginViewModel @Inject constructor(
 
     fun passReset(
         inputEmail: String,
-        emailState:  (String?) -> Unit
-    ) = viewModelScope.launch{
+        emailState: (String?) -> Unit
+    ) = viewModelScope.launch {
         repository.resetUserPassword(
             userEmail = inputEmail,
             emailState = {

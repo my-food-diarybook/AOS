@@ -72,6 +72,7 @@ fun FailFindEmailScreen(
                             color = colorResource(id = R.color.popup_button_white),
                             shape = RoundedCornerShape(4.dp)
                         )
+                        .weight(1f)
                         .clickable {
                             offDialog()
                         },
@@ -85,7 +86,6 @@ fun FailFindEmailScreen(
                         color = colorResource(id = R.color._3A3A3D),
                         textAlign = TextAlign.Center,
                         modifier = Modifier
-                            .width(110.dp)
                             .padding(
                                 vertical = 10.5.dp,
                                 horizontal = 12.dp
@@ -102,6 +102,7 @@ fun FailFindEmailScreen(
                             color = colorResource(id = R.color.main_color),
                             shape = RoundedCornerShape(4.dp)
                         )
+                        .weight(1f)
                         .clickable {
                             offDialog()
                             goInsert()
@@ -116,7 +117,6 @@ fun FailFindEmailScreen(
                         color = Color.White,
                         textAlign = TextAlign.Center,
                         modifier = Modifier
-                            .width(110.dp)
                             .padding(
                                 vertical = 10.5.dp,
                                 horizontal = 12.dp
