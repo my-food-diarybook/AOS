@@ -131,8 +131,10 @@ class NetworkManager(
         private const val NETWORK_TIME_OUT_SECOND = 10L
     }
 
-    fun getLoginApiService(): UserRetrofitService =
-        getRetrofit(context, CONTENT_APPLICATION).create(UserRetrofitService::class.java)
+    fun getLoginApiService(): UserRetrofitService  {
+        setLoginForm(LOGIN_NONE)
+        return getRetrofit(context, CONTENT_APPLICATION).create(UserRetrofitService::class.java)
+    }
 
     fun getDiaryMultiPartApiService(): DiaryPostRetrofitService =
         getRetrofit(context, CONTENT_MULTI_PART).create(DiaryPostRetrofitService::class.java)
@@ -149,8 +151,10 @@ class NetworkManager(
     fun getSearchApiService(): SearchRetrofitService =
         getRetrofit(context, CONTENT_APPLICATION).create(SearchRetrofitService::class.java)
 
-    fun getGoogleLoginApiService(): GoogleLoginService =
-        getGoogleRetrofit().create(GoogleLoginService::class.java)
+    fun getGoogleLoginApiService(): GoogleLoginService {
+        setLoginForm(LOGIN_GOOGLE)
+        return getGoogleRetrofit().create(GoogleLoginService::class.java)
+    }
 
     fun googleTokenRequest(
         authCode: String
@@ -162,5 +166,9 @@ class NetworkManager(
             redirect_uri = GOOGLE_REDIRECT_URI,
             code = authCode
         )
+    }
+
+    fun setLoginForm(current: String){
+        UserInfoSharedPreferences(context).loginForm = current
     }
 }

@@ -28,5 +28,6 @@ object LoginModule {
     @ViewModelScoped
     fun bindKaKao(
         @ApplicationContext context: Context,
-    ) = KaKaoLoginRepository(context)
+        networkManager: NetworkManager
+    ) = KaKaoLoginRepository(context,networkManager)
 }

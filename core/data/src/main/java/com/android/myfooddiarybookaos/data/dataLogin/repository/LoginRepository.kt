@@ -20,6 +20,7 @@ class LoginRepository @Inject constructor(
     private val networkManager: NetworkManager,
     private val context: Context
 ) {
+
     private val manager = networkManager.getLoginApiService()
 
     fun createUserRequest(
@@ -34,10 +35,14 @@ class LoginRepository @Inject constructor(
                         response: Response<CreateUserResponse>
                     ) {
                         if (response.isSuccessful) {
-                            when (response.body()!!.status) {
-                                "SUCCESS" -> result("성공", response.body()?.token)
-                                null -> result("이미 사용중인 사용자입니다.", null)
-                                else -> result("실패", null)
+                            if (response.body()!!.passwordStatus == "SUCCESS"){
+                                result("SUCCESS", response.body()?.token)
+                            }else{
+                                if (response.body()!!.status == "DUPLICATED_USER"){
+                                    result("DUPLICATED_USER", null)
+                                } else{
+                                    result("실패", null)
+                                }
                             }
                         } else {
                             result("네트워크 에러", null)
@@ -89,10 +94,9 @@ class LoginRepository @Inject constructor(
         }
     }
 
-    fun saveUserToken(response: LoginResponse?, currentForm: String) {
+    fun saveUserToken(response: LoginResponse?) {
         UserInfoSharedPreferences(context).accessToken = response?.token
         UserInfoSharedPreferences(context).refreshToken = response?.refreshToken
-        UserInfoSharedPreferences(context).loginForm = currentForm
     }
 
 }

@@ -1,5 +1,6 @@
 package com.android.myfooddiarybookaos.data.component
 
+import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -22,6 +23,7 @@ import com.android.myfooddiarybookaos.data.utils.scaledSp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun ToastMessaging(
     message: String,

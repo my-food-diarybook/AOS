@@ -20,10 +20,12 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class KaKaoLoginRepository @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    private val networkManager: NetworkManager
 ) {
 
     fun kaKaoLogin(callback : (OAuthToken?, Throwable?)  -> Unit,loginCallback: (String?) -> Unit) {
+        networkManager.setLoginForm(NetworkManager.LOGIN_KAKAO)
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)){ //앱 설치 상태
             UserApiClient.instance.loginWithKakaoTalk(context){ _, error ->
                 if (error != null){

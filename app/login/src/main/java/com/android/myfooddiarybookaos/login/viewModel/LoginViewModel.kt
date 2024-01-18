@@ -40,10 +40,12 @@ class LoginViewModel @Inject constructor(
         repository.loginUserRequest(
             email, pw,
             result = { status, response ->
+                Log.d("status",status.toString())
+                Log.d("status",response?.status.toString())
                 if (response?.pwExpired == true || status =="PASSWORD_LIMIT_OVER" ) {
                     userState(false, true)
                 } else{
-                    if (status!=null) {
+                    if (status=="SUCCESS") {
                         userState(saveUserState(status, response), false)
                     }
                     else{
@@ -57,20 +59,27 @@ class LoginViewModel @Inject constructor(
 
     fun createUser(
         email: String, pw: String,
-        userState: (Boolean) -> Unit
+        userState: (Boolean) -> Unit,
+        toastState : (Boolean) -> Unit
     ) {
         repository.createUserRequest(
             email, pw,
             result = { state, _ ->
-                if (state == "SUCCESS") {
-                    loginUser(
-                        email, pw,
-                        userState = { status, _ ->
-                            userState(status)
-                        },
-                    )
-                } else {
-                    userState(false)
+                when (state) {
+                    "SUCCESS" -> {
+                        loginUser(
+                            email, pw,
+                            userState = { status, _ ->
+                                userState(status)
+                            },
+                        )
+                    }
+                    "DUPLICATED_USER" -> {
+                        toastState(true)
+                    }
+                    else -> {
+                        userState(false)
+                    }
                 }
             }
         )
@@ -92,9 +101,9 @@ class LoginViewModel @Inject constructor(
         status: String,
         response: LoginResponse?
     ): Boolean {
-        return if (status == "성공") {
+        return if (status == "SUCCESS") {
             // 토큰 저장 !
-            repository.saveUserToken(response, NetworkManager.LOGIN_NONE)
+            repository.saveUserToken(response)
             true
         } else false
     }
@@ -137,7 +146,6 @@ class LoginViewModel @Inject constructor(
                                                 token = result.data.access_token,
                                                 pwExpired = false
                                             ),
-                                            NetworkManager.LOGIN_GOOGLE
                                         )
                                         loginState(true)
                                     }
@@ -193,7 +201,6 @@ class LoginViewModel @Inject constructor(
                     refreshToken = token.refreshToken,
                     pwExpired = false
                 ),
-                currentForm = NetworkManager.LOGIN_KAKAO
             )
             loginState(true)
         }

@@ -1,6 +1,7 @@
 package com.android.myfooddiarybookaos.login.mainSubUi
 
 import android.os.Build
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -46,6 +47,7 @@ fun BottomLayout(
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult(),
         onResult = { result ->
+            Log.d("fwlejfweljfweljwef",result.resultCode.toString())
             viewModel.setLauncher(result, firebaseAuth,
                 loginState = { state ->
                     if (!state) isGoogleLogin.value = false
