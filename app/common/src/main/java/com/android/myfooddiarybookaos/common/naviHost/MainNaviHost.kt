@@ -1,5 +1,6 @@
 package com.android.myfooddiarybookaos.common.naviHost
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -34,6 +35,7 @@ import com.android.myfooddiarybookaos.home.ui.HomeDayScreen
 import com.android.myfooddiarybookaos.search.state.rememberSearchDataState
 import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainNaviHost(
     appState: ApplicationState,
