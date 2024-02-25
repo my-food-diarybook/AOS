@@ -2,23 +2,27 @@ package com.android.myfooddiarybookaos.detail.mainUi.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.android.myfooddiarybookaos.core.data.R
+import com.android.myfooddiarybookaos.data.state.DetailFixState
 import com.android.myfooddiarybookaos.detail.function.DiaryViewState
 import com.android.myfooddiarybookaos.detail.mainUi.component.DetailLocation
 import com.android.myfooddiarybookaos.detail.memoUi.component.MemoTopLayer
 import com.android.myfooddiarybookaos.detail.memoUi.component.SelectTimeLayer
 import com.android.myfooddiarybookaos.detail.memoUi.component.TypeMemo
 import com.android.myfooddiarybookaos.detail.memoUi.component.TypeTag
-import com.android.myfooddiarybookaos.data.state.DetailFixState
 import com.android.myfooddiarybookaos.detail.viewModel.DetailViewModel
-import com.android.myfooddiarybookaos.core.data.R
 
 @Composable
 fun DetailMemoScreen(

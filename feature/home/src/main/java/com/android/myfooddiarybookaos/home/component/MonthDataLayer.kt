@@ -1,11 +1,13 @@
 package com.android.myfooddiarybookaos.home.component
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -13,8 +15,6 @@ import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 import com.android.myfooddiarybookaos.data.state.AddScreenState
 import com.android.myfooddiarybookaos.home.item.ItemDiary
 import com.android.myfooddiarybookaos.home.viewModel.HomeViewModel
-import com.android.myfooddiarybookaos.model.DayDate
-import com.android.myfooddiarybookaos.model.diary.Diary
 
 private const val DAY_OF_WEAK = 7
 
@@ -28,7 +28,7 @@ fun MonthDataView(
     val calendarDataList = remember {
         mutableStateOf(todayViewModel.getCustomCalendar())
     }
-    if (viewUpdate.value){
+    if (viewUpdate.value) {
         calendarDataList.value = todayViewModel.getCustomCalendar()
     }
     homeViewModel.homeDiaryList.collectAsState().value

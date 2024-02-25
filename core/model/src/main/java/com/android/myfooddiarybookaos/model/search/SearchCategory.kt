@@ -7,4 +7,4 @@ data class SearchCategory(
     val categoryType: String,
     val count: Int,
     val diaryList: List<SearchDiary>
-): Serializable
+) : Serializable

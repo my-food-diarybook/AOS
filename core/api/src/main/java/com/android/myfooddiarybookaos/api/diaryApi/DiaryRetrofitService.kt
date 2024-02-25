@@ -4,9 +4,7 @@ import com.android.myfooddiarybookaos.model.detail.DiaryDetail
 import com.android.myfooddiarybookaos.model.detail.FixDiary
 import com.android.myfooddiarybookaos.model.diary.Diary
 import com.android.myfooddiarybookaos.model.home.DiaryHomeDay
-import okhttp3.MultipartBody
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.*
 
 interface DiaryRetrofitService {
@@ -14,7 +12,7 @@ interface DiaryRetrofitService {
     @GET("diary/home")
     suspend fun getHomeDiary(
         @Query("yearMonth") yearMonth: String
-    ) : List<Diary>
+    ): List<Diary>
 
     @GET("diary/home-day")
     suspend fun getHomeDay(
@@ -23,7 +21,7 @@ interface DiaryRetrofitService {
 
     @GET("diary/{diaryId}")
     suspend fun getDiaryDetail(
-        @Path("diaryId") diaryId : Int,
+        @Path("diaryId") diaryId: Int,
     ): DiaryDetail
 
     @PUT("diary/{diaryId}/memo")

@@ -11,17 +11,18 @@ class MyRepository @Inject constructor(
 ) {
     private val manager = networkManager.getMyApiService()
 
-    suspend fun getUserStatistics() : Flow<StatisticsList> = flow {
+    suspend fun getUserStatistics(): Flow<StatisticsList> = flow {
         try {
             emit(manager.getUserStatistics())
-        } catch (_: Exception){ }
+        } catch (_: Exception) {
+        }
     }
 
-    suspend fun userLogout(): Boolean{
+    suspend fun userLogout(): Boolean {
         return try {
             val response = manager.logoutUser()
             true
-        } catch (_: Exception){
+        } catch (_: Exception) {
             false
         }
     }

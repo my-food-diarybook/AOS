@@ -10,12 +10,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
+import com.android.myfooddiarybookaos.core.data.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import  com.android.myfooddiarybookaos.core.data.R
+
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun SplashScreen(navController : NavHostController){
+fun SplashScreen(navController: NavHostController) {
     // 뒤로가기 제어
     BackHandler(enabled = true, onBack = {})
 
@@ -24,7 +25,7 @@ fun SplashScreen(navController : NavHostController){
         delay(1000)
         navController.navigate("loginScreen")
     }
-    
+
     Image(
         painter = painterResource(id = R.drawable.splash_still),
         contentDescription = null,

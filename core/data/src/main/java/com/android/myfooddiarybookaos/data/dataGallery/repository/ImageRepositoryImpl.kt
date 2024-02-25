@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
-import android.database.Cursor
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
@@ -44,10 +43,10 @@ class ImageRepositoryImpl @Inject constructor(
     ): MutableList<GalleryImage> {
         val galleryImageList = mutableListOf<GalleryImage>()
 
-        var selection : String? = null
+        var selection: String? = null
         // selectionArgs : 선택될 항목을 지정하는 역할을 한다.
-        var selectionArgs : Array<String>? = null
-        if (currentLocation != null){
+        var selectionArgs: Array<String>? = null
+        if (currentLocation != null) {
             // CurrentLocation이 null이 아니라면 현재 내부 사진을 탐색한다
             selection = "${MediaStore.Images.Media.DATA} LIKE ?"
             selectionArgs = arrayOf("%$currentLocation%")
@@ -55,7 +54,7 @@ class ImageRepositoryImpl @Inject constructor(
 
         val limit = loadSize // 한 번에 불러올 페이징 사이즈
         val offset = (page - 1) * loadSize // 오프셋 위치
-        val query = getQuery(offset, loadSize,selection,selectionArgs)
+        val query = getQuery(offset, loadSize, selection, selectionArgs)
 
         query?.use { cursor ->
             while (cursor.moveToNext()) {
@@ -88,7 +87,7 @@ class ImageRepositoryImpl @Inject constructor(
         limit: Int,
         selection: String?,
         selectionArgs: Array<String>?,
-    ) = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q){
+    ) = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) {
         val bundle = bundleOf(
             ContentResolver.QUERY_ARG_OFFSET to offset,
             ContentResolver.QUERY_ARG_LIMIT to limit,
@@ -113,8 +112,8 @@ class ImageRepositoryImpl @Inject constructor(
         val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         val projection = arrayOf(MediaStore.Images.Media.DATA)
         val cursor = context.contentResolver.query(uri, projection, null, null, null)
-        if (cursor!=null){
-            while (cursor.moveToNext()){
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
                 val columnIndex = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
                 val filePath = cursor.getString(columnIndex)
                 val folder = File(filePath).parent

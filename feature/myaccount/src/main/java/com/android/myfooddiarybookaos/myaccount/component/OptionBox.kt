@@ -14,7 +14,6 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.TextBox
 import com.android.myfooddiarybookaos.data.robotoRegular
@@ -41,7 +40,7 @@ fun OptionBox(text: String, drawable: Int?, version: String?) {
                 bottom = 17.dp
             ),
         ) {
-            Box(modifier = Modifier.align(Alignment.CenterStart)){
+            Box(modifier = Modifier.align(Alignment.CenterStart)) {
                 TextBox(
                     text = text,
                     fontWeight = 500,
@@ -53,15 +52,16 @@ fun OptionBox(text: String, drawable: Int?, version: String?) {
             }
 
             if (drawable != null) {
-                Box(modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .padding(end = 12.dp),
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .padding(end = 12.dp),
                     contentAlignment = Alignment.Center
-                ){
+                ) {
                     Image(
                         painter = painterResource(id = drawable),
                         contentDescription = "",
-                        colorFilter = if (drawable== R.drawable.right_side_my) ColorFilter.tint(
+                        colorFilter = if (drawable == R.drawable.right_side_my) ColorFilter.tint(
                             colorResource(id = R.color.black_87)
                         )
                         else ColorFilter.tint(colorResource(id = R.color.black))

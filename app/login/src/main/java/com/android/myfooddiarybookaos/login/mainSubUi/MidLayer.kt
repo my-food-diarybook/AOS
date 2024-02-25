@@ -2,11 +2,21 @@ package com.android.myfooddiarybookaos.login.mainSubUi
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -24,8 +34,8 @@ import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.data.ui.theme.EditTextBox
 import com.android.myfooddiarybookaos.data.utils.scaledSp
-import com.android.myfooddiarybookaos.login.popUp.ChangePasswordPopUp
 import com.android.myfooddiarybookaos.login.passUi.FindPasswordPopUp
+import com.android.myfooddiarybookaos.login.popUp.ChangePasswordPopUp
 import com.android.myfooddiarybookaos.login.viewModel.LoginViewModel
 
 @Composable
@@ -39,34 +49,34 @@ fun MidLayout(
     val pwText = remember { mutableStateOf(TextFieldValue("qwer1234@@")) }
 
     var goMainResult by remember { mutableStateOf(false) }
-    val loginRequestState = remember { mutableStateOf(false ) }
+    val loginRequestState = remember { mutableStateOf(false) }
     val pwExpiredState = remember { mutableStateOf(false) }
 
-    if (goMainResult){
+    if (goMainResult) {
         viewModel.goMain(LocalContext.current)
-        viewModel.saveEmailState(LocalContext.current,emailText.value.text)
+        viewModel.saveEmailState(LocalContext.current, emailText.value.text)
     }
     var checkEnter by remember { mutableStateOf(0.3f) }
 
     val findPassPopState = remember { mutableStateOf(false) }
     val isValid = remember { mutableStateOf(true) }
     val loginFailCount = remember { mutableStateOf(0) }
-    if (loginFailCount.value  > 0 ){
+    if (loginFailCount.value > 0) {
         isValid.value = false
-        if (loginFailCount.value == 5){
+        if (loginFailCount.value == 5) {
             findPassPopState.value = true
         }
     }
 
-    if (loginRequestState.value){
+    if (loginRequestState.value) {
         viewModel.loginUser(
             emailText.value.text,
             pwText.value.text,
-            userState = { state,pwState ->
-                if (pwState){
+            userState = { state, pwState ->
+                if (pwState) {
                     pwExpiredState.value = true
-                }else {
-                    if (state){
+                } else {
+                    if (state) {
                         goMainResult = true
                     } else {
                         if (loginFailCount.value < 5) {
@@ -79,7 +89,7 @@ fun MidLayout(
         loginRequestState.value = false
     }
 
-    if (pwExpiredState.value){
+    if (pwExpiredState.value) {
         Dialog(onDismissRequest = {
             pwExpiredState.value = false
         }) {
@@ -173,12 +183,12 @@ fun MidLayout(
 
     }
 
-    if (findPassPopState.value){
+    if (findPassPopState.value) {
         Dialog(
             onDismissRequest = {
                 findPassPopState.value = false
             }
-        ){
+        ) {
             FindPasswordPopUp(
                 offDialog = {
                     loginFailCount.value = 0

@@ -7,8 +7,8 @@ import com.android.myfooddiarybookaos.model.image.GalleryImage
 
 class GalleryPagingSource(
     private val imageRepository: ImageRepository,
-    private val currentLocation : String?
-): PagingSource<Int, GalleryImage>() {
+    private val currentLocation: String?
+) : PagingSource<Int, GalleryImage>() {
 
     override fun getRefreshKey(state: PagingState<Int, GalleryImage>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
@@ -18,7 +18,7 @@ class GalleryPagingSource(
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, GalleryImage> {
-        return try{
+        return try {
             val position = params.key ?: STARTING_PAGE_IDX
             val data = imageRepository.getAllPhotos(
                 page = position, // start page position
@@ -33,9 +33,9 @@ class GalleryPagingSource(
             val nextKey =
                 if (endOfPaginationReached) null else position + (params.loadSize / PAGING_SIZE)
             // data를 시작 - 끝 key 만큼 가져옴
-            LoadResult.Page(data,prevKey,nextKey)
+            LoadResult.Page(data, prevKey, nextKey)
 
-        } catch (e : Exception){
+        } catch (e: Exception) {
             LoadResult.Error(e)
         }
     }

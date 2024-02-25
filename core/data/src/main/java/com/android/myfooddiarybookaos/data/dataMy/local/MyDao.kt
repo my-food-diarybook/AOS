@@ -14,7 +14,7 @@ interface MyDao {
     suspend fun insert(items: List<NoticeEntity>)
 
     @Query("SELECT * FROM myNotices")
-    fun getItemPager() : PagingSource<Int, NoticeEntity>
+    fun getItemPager(): PagingSource<Int, NoticeEntity>
 
     @Query("DELETE FROM myNotices")
     fun clearAll()

@@ -7,14 +7,12 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.utils.scaledSp
-import com.android.myfooddiarybookaos.model.detail.DiaryDetail
 
 @Composable
 fun DetailMemo(
-    memo : String?
+    memo: String?
 
 ) {
     if (memo == null || memo == "") {

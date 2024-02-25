@@ -18,11 +18,13 @@ fun ManageBottomBarState(
             appState.bottomBarState.value = true
             appState.addFloatButtonViewState.value = true
         }
+
         ScreenRoot.HOME_DAY
         -> {
             appState.bottomBarState.value = false
             appState.addFloatButtonViewState.value = true
         }
+
         ScreenRoot.DETAIL_DIARY, ScreenRoot.GALLERY
         -> {
             appState.bottomBarState.value = false

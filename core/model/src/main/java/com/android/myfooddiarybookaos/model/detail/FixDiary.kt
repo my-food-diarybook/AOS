@@ -2,7 +2,7 @@ package com.android.myfooddiarybookaos.model.detail
 
 import com.google.gson.annotations.SerializedName
 
-class FixDiary (
+class FixDiary(
     @SerializedName("memo") val memo: String,
     @SerializedName("diaryTime") val diaryTime: String,
     @SerializedName("tags") val tags: List<Tag>,

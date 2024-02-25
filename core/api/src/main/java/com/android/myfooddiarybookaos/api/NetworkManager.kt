@@ -7,7 +7,6 @@ import com.android.myfooddiarybookaos.api.diaryApi.TimeLineRetrofitService
 import com.android.myfooddiarybookaos.api.googleLogin.GoogleLoginService
 import com.android.myfooddiarybookaos.api.myApi.MyRetrofitService
 import com.android.myfooddiarybookaos.api.refresh.AuthInterceptor
-import com.android.myfooddiarybookaos.api.refresh.TokenRetrofitService
 import com.android.myfooddiarybookaos.api.searchApi.SearchRetrofitService
 import com.android.myfooddiarybookaos.api.userApi.UserRetrofitService
 import com.android.myfooddiarybookaos.model.login.LoginGoogleRequest
@@ -30,10 +29,11 @@ class NetworkManager(
         private const val CONTENT_APPLICATION = "application/json"
         private const val CONTENT_MULTI_PART = "multipart/form-data"
         const val GRANT_TYPE = "authorization_code"
-        const val GOOGLE_ID = "859792891234-paskj6t339bdd09gu1juaigf4f7jqhn4.apps.googleusercontent.com"
+        const val GOOGLE_ID =
+            "859792891234-paskj6t339bdd09gu1juaigf4f7jqhn4.apps.googleusercontent.com"
         const val GOOGLE_SECRET_ID = "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"
         const val GOOGLE_REDIRECT_URI = ""
-        const val LOGIN_NONE ="none"
+        const val LOGIN_NONE = "none"
         const val LOGIN_KAKAO = "kakao"
         const val LOGIN_GOOGLE = "google"
 
@@ -58,12 +58,12 @@ class NetworkManager(
             return instance ?: Retrofit.Builder()
                 .baseUrl("$BASE_URL/")
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(unsafeOkHttpClient(header, contentType, loginForm,context))
+                .client(unsafeOkHttpClient(header, contentType, loginForm, context))
                 .build()
 
         }
 
-        private fun getGoogleRetrofit(): Retrofit{
+        private fun getGoogleRetrofit(): Retrofit {
             val logInterceptor = HttpLoggingInterceptor()
             logInterceptor.level = HttpLoggingInterceptor.Level.BODY
             return Retrofit.Builder()
@@ -111,11 +111,11 @@ class NetworkManager(
                 chain.proceed(chain.request().newBuilder().also {
                     it.addHeader("login-from", loginForm)
                     it.addHeader("Content-Type", contentType)
-                    it.addHeader("request-agent","android; app-version $appVersion")
+                    it.addHeader("request-agent", "android; app-version $appVersion")
                 }.build())
             }.also { client ->
                 client.addInterceptor(header)
-                client.addInterceptor(AuthInterceptor(context,loginForm))
+                client.addInterceptor(AuthInterceptor(context, loginForm))
                 //로그 기록 인터셉터 등록
                 val logInterceptor = HttpLoggingInterceptor()
                 logInterceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -131,7 +131,7 @@ class NetworkManager(
         private const val NETWORK_TIME_OUT_SECOND = 10L
     }
 
-    fun getLoginApiService(): UserRetrofitService  {
+    fun getLoginApiService(): UserRetrofitService {
         setLoginForm(LOGIN_NONE)
         return getRetrofit(context, CONTENT_APPLICATION).create(UserRetrofitService::class.java)
     }
@@ -142,11 +142,11 @@ class NetworkManager(
     fun getDiaryAppApiService(): DiaryRetrofitService =
         getRetrofit(context, CONTENT_APPLICATION).create(DiaryRetrofitService::class.java)
 
-    fun getTimeLineApiService():TimeLineRetrofitService =
+    fun getTimeLineApiService(): TimeLineRetrofitService =
         getRetrofit(context, CONTENT_APPLICATION).create(TimeLineRetrofitService::class.java)
 
     fun getMyApiService(): MyRetrofitService =
-        getRetrofit(context,CONTENT_APPLICATION).create(MyRetrofitService::class.java)
+        getRetrofit(context, CONTENT_APPLICATION).create(MyRetrofitService::class.java)
 
     fun getSearchApiService(): SearchRetrofitService =
         getRetrofit(context, CONTENT_APPLICATION).create(SearchRetrofitService::class.java)
@@ -168,7 +168,7 @@ class NetworkManager(
         )
     }
 
-    fun setLoginForm(current: String){
+    fun setLoginForm(current: String) {
         UserInfoSharedPreferences(context).loginForm = current
     }
 }

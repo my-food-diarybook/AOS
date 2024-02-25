@@ -1,8 +1,6 @@
 package com.android.myfooddiarybookaos.data.dataCalendar.viewModel
 
 import android.annotation.SuppressLint
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import com.android.myfooddiarybookaos.data.dataCalendar.repository.CustomCalendarRepository
 import com.android.myfooddiarybookaos.data.dataCalendar.repository.TodayRepository

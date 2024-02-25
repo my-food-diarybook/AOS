@@ -16,17 +16,17 @@ fun MyGraph(
     NavHost(
         navController = myNavi,
         startDestination = MyScreenRoot.MY
-    ){
+    ) {
 
-        composable(MyScreenRoot.MY){
+        composable(MyScreenRoot.MY) {
             MyMainScreen(myNavi)
         }
 
-        composable(MyScreenRoot.NOTICE){
+        composable(MyScreenRoot.NOTICE) {
             NoticeScreen(myNavi)
         }
 
-        composable(MyScreenRoot.INFO){
+        composable(MyScreenRoot.INFO) {
             MyInfoScreen(myNavi)
         }
     }

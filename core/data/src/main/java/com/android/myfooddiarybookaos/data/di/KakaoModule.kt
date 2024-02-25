@@ -2,7 +2,6 @@ package com.android.myfooddiarybookaos.data.di
 
 import android.content.Context
 import com.android.myfooddiarybookaos.api.KakaoApiManager
-import com.android.myfooddiarybookaos.api.NetworkManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

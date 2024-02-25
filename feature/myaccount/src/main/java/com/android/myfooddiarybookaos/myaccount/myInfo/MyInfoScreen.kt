@@ -3,7 +3,17 @@ package com.android.myfooddiarybookaos.myaccount.myInfo
 import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -32,7 +42,6 @@ import com.android.myfooddiarybookaos.myaccount.popUp.CheckUserPasswordLayer
 import com.android.myfooddiarybookaos.myaccount.popUp.DeleteDiaryLayer
 import com.android.myfooddiarybookaos.myaccount.popUp.DeleteUserLayer
 import com.android.myfooddiarybookaos.myaccount.viewModel.MyViewModel
-import kotlin.math.log
 
 @Composable
 fun MyInfoScreen(

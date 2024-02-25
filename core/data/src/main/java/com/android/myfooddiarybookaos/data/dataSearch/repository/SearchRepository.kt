@@ -45,7 +45,7 @@ class SearchRepository @Inject constructor(
     ): Flow<PagingData<SearchDiary>> {
         return Pager(
             config = PagingConfig(pageSize = 3)
-        ){
+        ) {
             SearchDataPagingSource(
                 categoryName,
                 categoryType,

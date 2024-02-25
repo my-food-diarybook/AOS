@@ -10,18 +10,16 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.android.myfooddiarybookaos.model.search.SearchCategory
 import com.android.myfooddiarybookaos.search.SearchViewModel
 import com.android.myfooddiarybookaos.search.component.PagingCategoryComponent
-import com.android.myfooddiarybookaos.search.component.PagingDiaryComponent
 import com.android.myfooddiarybookaos.search.component.SearchCategoryComponent
 import com.android.myfooddiarybookaos.search.state.SearchState
-import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 
 @Composable
 fun MainSearchScreen(
-    searchState : MutableState<SearchState>,
+    searchState: MutableState<SearchState>,
     queryChangeState: MutableState<Boolean>,
     searchQuery: MutableState<TextFieldValue>,
     select: (SearchCategory) -> Unit,
-    viewModel : SearchViewModel = hiltViewModel()
+    viewModel: SearchViewModel = hiltViewModel()
 ) {
 
     when (searchState.value) {
@@ -37,8 +35,9 @@ fun MainSearchScreen(
                 pagingItems = pagingItems
             )
         }
+
         SearchState.QUERY_SEARCH -> {
-            if (queryChangeState.value){
+            if (queryChangeState.value) {
                 viewModel.getSearchData(searchQuery.value.text)
                 queryChangeState.value = false
             }

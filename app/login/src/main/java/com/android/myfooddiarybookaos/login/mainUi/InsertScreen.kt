@@ -154,11 +154,11 @@ fun InsertScreen(
 
             Spacer(modifier = Modifier.height(12.dp))
             CheckBox(allCheckBox, "전체 약관동의", FontWeight.W700, null)
-            if (allCheckBox.value ){
+            if (allCheckBox.value) {
                 serviceCheckBox.value = true
-                userInfoCheckBox.value = true                
-            }else {
-                if (serviceCheckBox.value || userInfoCheckBox.value){
+                userInfoCheckBox.value = true
+            } else {
+                if (serviceCheckBox.value || userInfoCheckBox.value) {
                     serviceCheckBox.value = false
                     userInfoCheckBox.value = false
                 }
@@ -275,7 +275,7 @@ fun CheckBox(
             fontWeight = fontWeight,
             textDecoration = if (fontWeight != FontWeight.W700) TextDecoration.Underline else null,
             modifier = Modifier.clickable {
-                if (link!=null) {
+                if (link != null) {
                     val intent = Intent(
                         Intent(
                             Intent.ACTION_VIEW,

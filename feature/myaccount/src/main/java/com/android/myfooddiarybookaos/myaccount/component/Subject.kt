@@ -2,7 +2,6 @@ package com.android.myfooddiarybookaos.myaccount.component
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.TextBox
 import com.android.myfooddiarybookaos.data.robotoBold

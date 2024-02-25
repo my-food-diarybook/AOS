@@ -1,8 +1,12 @@
 package com.android.myfooddiarybookaos.detail.memoUi.component
 
-import android.util.Log
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -19,20 +23,18 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
+import com.android.myfooddiarybookaos.data.utils.scaledSp
 import com.android.myfooddiarybookaos.detail.tag.TagLayer
 import com.android.myfooddiarybookaos.model.detail.Tag
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.unit.Dp
-import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun TypeTag(
     tags: MutableList<Tag>,
-    addTag:(String) -> Unit,
+    addTag: (String) -> Unit,
     removeTag: (Tag) -> Unit
 ) {
     val newTagText = remember { mutableStateOf("") }

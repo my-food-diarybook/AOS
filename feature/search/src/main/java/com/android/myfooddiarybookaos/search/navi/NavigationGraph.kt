@@ -1,19 +1,12 @@
 package com.android.myfooddiarybookaos.search.navi
 
-import android.util.Log
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
-import com.android.myfooddiarybookaos.model.search.SearchCategory
-import com.android.myfooddiarybookaos.search.SearchViewModel
 import com.android.myfooddiarybookaos.search.state.SearchDataState
-import com.android.myfooddiarybookaos.search.state.SearchState
 import com.android.myfooddiarybookaos.search.ui.CategoryScreen
 import com.android.myfooddiarybookaos.search.ui.MainSearchScreen
 import com.dnd_9th_3_android.gooding.data.root.ScreenRoot

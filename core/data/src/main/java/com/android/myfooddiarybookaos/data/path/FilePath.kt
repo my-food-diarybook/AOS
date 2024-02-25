@@ -60,7 +60,7 @@ fun getMultipartFromUri(
         contentUri,
         null, null, null
     )?.use {
-        val name = if(isOneImage) "file" else "files"
+        val name = if (isOneImage) "file" else "files"
         if (it.moveToNext()) {
             val displayName = it.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME));
             val requestBody = object : RequestBody() {

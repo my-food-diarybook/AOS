@@ -6,14 +6,14 @@ import androidx.compose.ui.platform.LocalContext
 
 @Composable
 fun EmailService(
-    userEmail : String,
-    newPassword : String
+    userEmail: String,
+    newPassword: String
 ) {
     val context = LocalContext.current
     val intent = Intent(Intent.ACTION_SEND)
 
-    intent.putExtra(Intent.EXTRA_EMAIL,userEmail)
-    intent.putExtra(Intent.EXTRA_SUBJECT,"[식사일기] 임시 비밀번호입니다.")
+    intent.putExtra(Intent.EXTRA_EMAIL, userEmail)
+    intent.putExtra(Intent.EXTRA_SUBJECT, "[식사일기] 임시 비밀번호입니다.")
     intent.putExtra(
         Intent.EXTRA_TEXT,
         "안녕하세요. 식사일기입니다.\n" +

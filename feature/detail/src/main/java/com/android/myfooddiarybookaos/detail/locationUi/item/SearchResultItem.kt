@@ -1,13 +1,17 @@
 package com.android.myfooddiarybookaos.detail.locationUi.item
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Divider
-import androidx.compose.runtime.Composable
-import com.android.myfooddiarybookaos.model.map.Place
 import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,13 +22,12 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.substring
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.core.data.R
+import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.data.utils.scaledSp
+import com.android.myfooddiarybookaos.model.map.Place
 
 @Composable
 fun SearchResultItem(
@@ -132,10 +135,10 @@ fun String.indexOfAll(str: String): MutableList<Int> {
     return returnIndex
 }
 
-fun getDistance(input: String? ): String {
+fun getDistance(input: String?): String {
     return try {
         (input!!.toDouble() / 1000).toInt().toString() + "km"
-    } catch (e: java.lang.Exception){
-      ""
+    } catch (e: java.lang.Exception) {
+        ""
     }
 }

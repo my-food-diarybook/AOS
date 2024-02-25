@@ -15,7 +15,7 @@ fun rememberDiaryState(
     currentHomeDay: MutableState<String> = remember { mutableStateOf("") },
     addScreenState: MutableState<AddScreenState> = remember { mutableStateOf(AddScreenState.ADD_HOME_TODAY) },
     currentDiaryDetail: MutableState<Int> = remember { mutableStateOf(-1) },
-    fixImageId : MutableState<Int> = remember { mutableStateOf(-1) }
+    fixImageId: MutableState<Int> = remember { mutableStateOf(-1) }
 
 ) = remember(
     isSelectedGallery,

@@ -7,7 +7,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -41,13 +47,13 @@ fun BottomLayout(
     val loginUserState = remember { mutableStateOf(false) }
     val isGoogleLogin = remember { mutableStateOf(false) }
     val isKaKaoLogin = remember { mutableStateOf(false) }
-    val toastMessageState = remember { mutableStateOf(false  ) }
+    val toastMessageState = remember { mutableStateOf(false) }
     val userEmail = remember { mutableStateOf("") }
     val firebaseAuth = FirebaseAuth.getInstance()
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult(),
         onResult = { result ->
-            Log.d("fwlejfweljfweljwef",result.resultCode.toString())
+            Log.d("fwlejfweljfweljwef", result.resultCode.toString())
             viewModel.setLauncher(result, firebaseAuth,
                 loginState = { state ->
                     if (!state) isGoogleLogin.value = false
@@ -191,7 +197,7 @@ fun BottomLayout(
         )
     }
 
-    if (toastMessageState.value){
+    if (toastMessageState.value) {
         ToastMessaging(
             message = "카카오 이메일 정보가 없어서 로그인 할 수 없습니다. 다른 방법을 이용해 주세요.",
             removeView = {

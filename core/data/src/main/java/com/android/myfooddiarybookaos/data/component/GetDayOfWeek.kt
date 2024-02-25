@@ -1,10 +1,9 @@
 package com.android.myfooddiarybookaos.home.function
 
 import java.time.LocalDate
-import java.util.Calendar
 
 fun getLocalDateDayOfWeek(
-    date : LocalDate
+    date: LocalDate
 ): String {
     return when (date.dayOfWeek.value) {
         1 -> "월"

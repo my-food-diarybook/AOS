@@ -3,12 +3,11 @@ package com.android.myfooddiarybookaos.data.dataHome.repository
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
-import android.util.Log
 import com.android.myfooddiarybookaos.api.NetworkManager
 import com.android.myfooddiarybookaos.data.path.getMultipartFromUri
+import com.android.myfooddiarybookaos.data.path.toApplicationRequestBody
 import com.android.myfooddiarybookaos.model.diary.PlaceInfo
 import com.android.myfooddiarybookaos.model.diary.PlaceInfoBody
-import com.android.myfooddiarybookaos.data.path.toApplicationRequestBody
 import com.android.myfooddiarybookaos.model.response.NotDataResponse
 import com.google.gson.Gson
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -17,10 +16,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okio.BufferedSink
-import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.HttpException
-import retrofit2.Response
 
 class HomePostRepository(
     private val networkManager: NetworkManager,
@@ -55,12 +51,12 @@ class HomePostRepository(
                 }
                 .onFailure { e ->
                     isSuccess(false)
-                    when(e){
+                    when (e) {
                         is HttpException -> {
-                             val data = Gson().fromJson(
-                                 e.response()?.errorBody()?.string(),
-                                 NotDataResponse::class.java
-                             )
+                            val data = Gson().fromJson(
+                                e.response()?.errorBody()?.string(),
+                                NotDataResponse::class.java
+                            )
                             data?.let { failState(it.message) }
                         }
                     }

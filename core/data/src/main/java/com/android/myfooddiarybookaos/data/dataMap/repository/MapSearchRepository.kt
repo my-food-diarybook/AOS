@@ -36,7 +36,8 @@ class MapSearchRepository @Inject constructor(
                     y = myLocation?.y
                 ).documents
             )
-        }catch (_:Exception){ }
+        } catch (_: Exception) {
+        }
     }
 
 
@@ -52,7 +53,8 @@ class MapSearchRepository @Inject constructor(
                     y = myLocation?.y
                 ).documents
             )
-        } catch (_:java.lang.Exception){}
+        } catch (_: java.lang.Exception) {
+        }
     }
 
     fun initLocation(

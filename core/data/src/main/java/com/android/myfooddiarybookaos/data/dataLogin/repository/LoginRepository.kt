@@ -1,19 +1,17 @@
 package com.android.myfooddiarybookaos.data.dataLogin.repository
 
 import android.content.Context
-import android.util.Log
 import com.android.myfooddiarybookaos.api.NetworkManager
 import com.android.myfooddiarybookaos.api.UserInfoSharedPreferences
 import com.android.myfooddiarybookaos.model.login.CreateUserResponse
-import com.android.myfooddiarybookaos.model.login.UserRequest
 import com.android.myfooddiarybookaos.model.login.LoginResponse
 import com.android.myfooddiarybookaos.model.login.PasswordResetRequest
+import com.android.myfooddiarybookaos.model.login.UserRequest
 import com.android.myfooddiarybookaos.model.response.NotStateResponse
 import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Exception
 import javax.inject.Inject
 
 class LoginRepository @Inject constructor(
@@ -35,12 +33,12 @@ class LoginRepository @Inject constructor(
                         response: Response<CreateUserResponse>
                     ) {
                         if (response.isSuccessful) {
-                            if (response.body()!!.passwordStatus == "SUCCESS"){
+                            if (response.body()!!.passwordStatus == "SUCCESS") {
                                 result("SUCCESS", response.body()?.token)
-                            }else{
-                                if (response.body()!!.status == "DUPLICATED_USER"){
+                            } else {
+                                if (response.body()!!.status == "DUPLICATED_USER") {
                                     result("DUPLICATED_USER", null)
-                                } else{
+                                } else {
                                     result("실패", null)
                                 }
                             }
@@ -65,17 +63,17 @@ class LoginRepository @Inject constructor(
     ) {
         try {
             kotlin.runCatching {
-                manager.userLogin(UserRequest(email,pw))
+                manager.userLogin(UserRequest(email, pw))
             }
                 .onSuccess {
-                    result(it.body()?.status,it.body())
+                    result(it.body()?.status, it.body())
                 }
                 .onFailure { e ->
                     val data = Gson().fromJson(
                         e.message,
                         NotStateResponse::class.java
                     )
-                    result(data?.status,null)
+                    result(data?.status, null)
                 }
         } catch (e: Exception) {
             result("네트워크 에러", null)

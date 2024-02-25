@@ -1,10 +1,8 @@
 package com.android.myfooddiarybookaos.api.refresh
 
 import android.content.Context
-import android.util.Log
 import com.android.myfooddiarybookaos.api.BASE_URL
 import com.android.myfooddiarybookaos.api.UserInfoSharedPreferences
-import com.android.myfooddiarybookaos.api.userApi.UserRetrofitService
 import com.android.myfooddiarybookaos.model.login.LoginResponse
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
@@ -27,7 +25,7 @@ class AuthInterceptor(
                 return runBlocking {
 
                     val userData = UserInfoSharedPreferences(context)
-                    val tokenApi = getTokenRetrofit(userData.refreshToken,loginFom)
+                    val tokenApi = getTokenRetrofit(userData.refreshToken, loginFom)
                     when (val token = getUpdateToken(tokenApi)) {
                         is Resource.Success -> {
                             userData.accessToken = token.value.token
@@ -37,6 +35,7 @@ class AuthInterceptor(
                             userData.accessToken?.let { newRequest.addHeader("token", it) }
                             return@runBlocking chain.proceed(newRequest.build())
                         }
+
                         else -> {
                             return@runBlocking response
                         }
@@ -67,7 +66,7 @@ class AuthInterceptor(
             .Builder().addInterceptor { chain ->
                 chain.proceed(chain.request().newBuilder().also {
                     if (refresh != null) {
-                        it.addHeader("refresh-token",refresh)
+                        it.addHeader("refresh-token", refresh)
                         it.addHeader("login-from", loginForm)
                         it.addHeader("Content-Type", "application/json")
                     }

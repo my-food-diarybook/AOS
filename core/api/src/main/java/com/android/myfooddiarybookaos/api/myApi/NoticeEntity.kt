@@ -11,7 +11,7 @@ data class NoticeEntity(
     val content: String,
     val available: Boolean,
     val noticeAt: String // date
-){
+) {
     fun transNotice(): Notice {
         return Notice(
             id = id,

@@ -18,10 +18,15 @@ class DetailFixState(
 
     fun initMemo(
         diaryDetail: DiaryDetail?
-    ){
-        tags = if (diaryDetail?.tags == null) mutableListOf() else diaryDetail.tags.toMutableStateList()
-        memo = if (diaryDetail?.memo == null) mutableStateOf("") else mutableStateOf(diaryDetail.memo)
-        diaryTimeData = if (diaryDetail?.diaryTime == null) mutableStateOf("ETC") else mutableStateOf(diaryDetail.diaryTime)
+    ) {
+        tags =
+            if (diaryDetail?.tags == null) mutableListOf() else diaryDetail.tags.toMutableStateList()
+        memo =
+            if (diaryDetail?.memo == null) mutableStateOf("") else mutableStateOf(diaryDetail.memo)
+        diaryTimeData =
+            if (diaryDetail?.diaryTime == null) mutableStateOf("ETC") else mutableStateOf(
+                diaryDetail.diaryTime
+            )
         place = mutableStateOf(diaryDetail?.place.orEmpty())
         longitude = mutableStateOf(diaryDetail?.longitude)
         latitude = mutableStateOf(diaryDetail?.latitude)
@@ -29,11 +34,11 @@ class DetailFixState(
 
     fun checkPrevData(
         diaryDetail: DiaryDetail
-    ): Boolean{
+    ): Boolean {
         return tags.joinToString { "," } == diaryDetail.tags.joinToString { "," } &&
                 memo.value == diaryDetail.memo &&
-                    diaryTimeData.value == diaryDetail.diaryTime &&
-                        place.value == diaryDetail.place
+                diaryTimeData.value == diaryDetail.diaryTime &&
+                place.value == diaryDetail.place
     }
 
     fun setMemo(
@@ -47,7 +52,8 @@ class DetailFixState(
     fun addTag(newTag: String) {
         tags.add(Tag(null, newTag))
     }
-    fun removeTag(tag: Tag){
+
+    fun removeTag(tag: Tag) {
         tags.remove(tag)
     }
 
@@ -65,11 +71,11 @@ class DetailFixState(
 
     fun checkLocation(): Boolean = place.value.isNullOrBlank()
 
-    fun setTimeData(new: MutableState<String> ){
-        diaryTimeData.value =  new.value
+    fun setTimeData(new: MutableState<String>) {
+        diaryTimeData.value = new.value
     }
 
-    fun diaryToFix(): FixDiary{
+    fun diaryToFix(): FixDiary {
         return FixDiary(
             memo = memo.value,
             diaryTime = diaryTimeData.value,
