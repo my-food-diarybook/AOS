@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
@@ -18,6 +19,7 @@ import com.android.myfooddiarybookaos.search.state.SearchState
 
 @Composable
 fun SearchScreen(
+    isUpdateView: MutableState<Boolean>,
     appState: ApplicationState,
     diaryState: DiaryState,
     searchDataState: SearchDataState,
@@ -60,6 +62,7 @@ fun SearchScreen(
         }
 
         NavigationGraph(
+            isUpdateView = isUpdateView,
             appState = appState,
             diaryState = diaryState,
             searchDataState = searchDataState,

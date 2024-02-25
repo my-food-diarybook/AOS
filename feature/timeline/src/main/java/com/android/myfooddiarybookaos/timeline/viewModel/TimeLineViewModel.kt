@@ -2,6 +2,7 @@ package com.android.myfooddiarybookaos.timeline.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -22,7 +23,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TimeLineViewModel @Inject constructor(
-    private val timeLineRepository: TimeLineRepository
+    private val timeLineRepository: TimeLineRepository,
+    private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val _appState = MutableLiveData<ApplicationState>()

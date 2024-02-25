@@ -31,7 +31,6 @@ fun NotDataView() {
             color = colorResource(id = R.color.black),
             lineHeight = 20.scaledSp()
         )
-        Spacer(modifier = Modifier.height(24.dp))
         TextBox(
             text = "오늘 먹은 식사를 사진으로 기록하세요.",
             fontWeight = 300,

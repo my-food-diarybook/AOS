@@ -84,6 +84,7 @@ fun SelectAddScreen(
             if (it != null) {
                 diaryState.multiPartList = viewModel.getMultiPartFromBitmap(it)
                 diaryState.isSelectedGallery.value = true
+                diaryState.updateView()
             }
             takePicClick = false
             closeLog()

@@ -37,6 +37,11 @@ class MyViewModel @Inject constructor(
         getNotice()
     }
 
+    fun resetView(){
+        getStatistics()
+        getNotice()
+    }
+
     private fun getNotice() = viewModelScope.launch {
         noticeRepository.getNoticePager()
             .cachedIn(viewModelScope)

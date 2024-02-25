@@ -15,6 +15,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -22,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.android.myfooddiarybookaos.api.UserInfoSharedPreferences
 import com.android.myfooddiarybookaos.api.appVersion
@@ -35,11 +37,18 @@ import com.android.myfooddiarybookaos.myaccount.component.OptionBox
 import com.android.myfooddiarybookaos.myaccount.component.Statistics
 import com.android.myfooddiarybookaos.myaccount.component.Subject
 import com.android.myfooddiarybookaos.myaccount.navi.MyScreenRoot
+import com.android.myfooddiarybookaos.myaccount.viewModel.MyViewModel
 
 @Composable
 fun MyMainScreen(
     myNavi: NavHostController,
+    isUpdateView : MutableState<Boolean>,
+    viewModel : MyViewModel = hiltViewModel()
 ) {
+    if (isUpdateView.value){
+        viewModel.resetView()
+        isUpdateView.value = false
+    }
 
     val scrollState = rememberScrollState()
     val context = LocalContext.current

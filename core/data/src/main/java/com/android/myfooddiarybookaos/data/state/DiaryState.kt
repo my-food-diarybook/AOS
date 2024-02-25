@@ -7,6 +7,7 @@ import okhttp3.MultipartBody
 @Stable
 class DiaryState(
     val isSelectedGallery: MutableState<Boolean>,
+    val isViewUpdate : MutableState<Boolean>,
     var multiPartList: List<MultipartBody.Part>,
     val showSelectView: MutableState<Boolean>,
     val currentHomeDay: MutableState<String>,
@@ -37,5 +38,9 @@ class DiaryState(
 
     fun setFixImageId(id: Int) {
         fixImageId.value = id
+    }
+
+    fun updateView(){
+        isViewUpdate.value = true
     }
 }

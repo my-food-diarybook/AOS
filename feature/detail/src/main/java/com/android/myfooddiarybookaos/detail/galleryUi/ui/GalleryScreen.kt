@@ -62,6 +62,7 @@ fun GalleryScreen(
                     diaryState.multiPartList = viewModel
                         .getMultiPartFromUri(diaryState.addScreenState.value == AddScreenState.FIX_IMAGE_IN_DETAIL)
                     diaryState.isSelectedGallery.value = true
+                    diaryState.updateView()
                     appState.navController.popBackStack()
                 }
             }

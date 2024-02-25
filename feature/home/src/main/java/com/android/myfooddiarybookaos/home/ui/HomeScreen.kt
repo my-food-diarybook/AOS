@@ -1,10 +1,12 @@
 package com.android.myfooddiarybookaos.home.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -21,8 +23,10 @@ import com.android.myfooddiarybookaos.home.viewModel.HomeViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun HomeScreen(
+    isUpdateView: MutableState<Boolean>,
     diaryState: DiaryState,
     appState: ApplicationState,
     todayViewModel: TodayViewModel = hiltViewModel(),
@@ -35,12 +39,18 @@ fun HomeScreen(
     }
 
     val viewUpdate = rememberSaveable { mutableStateOf(true) }
+
     if (viewUpdate.value) {
         homeViewModel.setDiaryList(todayViewModel.getCurrentYearMonth())
         rememberCoroutineScope().launch {
             delay(500)
             viewUpdate.value = false
         }
+    }
+
+    if (isUpdateView.value){
+        viewUpdate.value = true
+        isUpdateView.value = false
     }
 
     // 업로드 시도

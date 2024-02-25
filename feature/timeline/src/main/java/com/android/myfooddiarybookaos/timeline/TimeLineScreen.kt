@@ -1,5 +1,7 @@
 package com.android.myfooddiarybookaos.timeline
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -27,8 +30,10 @@ import com.android.myfooddiarybookaos.timeline.viewModel.TimeLineViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun TimeLineScreen(
+    isUpdateView: MutableState<Boolean>,
     appState: ApplicationState,
     diaryState: DiaryState,
     todayViewModel: TodayViewModel = hiltViewModel(),
@@ -42,6 +47,11 @@ fun TimeLineScreen(
     val viewUpdate = rememberSaveable { mutableStateOf(true) }
     val timeLineData = timeLineViewModel.timeLine.collectAsLazyPagingItems()
 
+    if (isUpdateView.value){
+        viewUpdate.value = true
+        isUpdateView.value = false
+    }
+
     if (viewUpdate.value) {
         rememberCoroutineScope().launch {
             timeLineViewModel.setTimeLineData(todayViewModel.getCurrentTimeLineKey())
@@ -49,6 +59,7 @@ fun TimeLineScreen(
             viewUpdate.value = false
         }
     }
+
 
     Column {
         // 캘린더 초기화

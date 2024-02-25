@@ -9,6 +9,10 @@ import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -31,14 +35,28 @@ import com.android.myfooddiarybookaos.detail.state.rememberDiaryFixState
 import com.android.myfooddiarybookaos.home.ui.HomeDayScreen
 import com.android.myfooddiarybookaos.search.state.rememberSearchDataState
 import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "CoroutineCreationDuringComposition")
 @Composable
 fun MainNaviHost(
     appState: ApplicationState,
     diaryState: DiaryState,
 ) {
     val searchState = rememberSearchDataState()
+    val scope = rememberCoroutineScope()
+    val homeUpdate = remember { mutableStateOf(false) }
+    val timeLineUpdate = remember { mutableStateOf(false) }
+    val searchUpdate = remember { mutableStateOf(false) }
+    val myUpdate = remember { mutableStateOf(false) }
+
+    if (diaryState.isViewUpdate.value) {
+        timeLineUpdate.value = true
+        homeUpdate.value = true
+        searchUpdate.value = true
+        myUpdate.value = true
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -75,7 +93,15 @@ fun MainNaviHost(
             startDestination = ScreenRoot.MAIN_GRAPH
         ) {
             // main View
-            bottomGraph(appState, diaryState, searchState)
+            bottomGraph(
+                appState,
+                diaryState,
+                searchState,
+                homeUpdate,
+                timeLineUpdate,
+                searchUpdate,
+                myUpdate
+            )
 
             composable(ScreenRoot.HOME_DAY) {
                 HomeDayScreen(diaryState, appState)
@@ -107,5 +133,14 @@ fun MainNaviHost(
                 appState.toastState.value = ""
             }
         )
+    }
+
+    if (diaryState.isViewUpdate.value) {
+        LaunchedEffect(Unit) {
+            scope.launch {
+                delay(500L)
+                diaryState.isViewUpdate.value = false
+            }
+        }
     }
 }

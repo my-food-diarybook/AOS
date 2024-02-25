@@ -15,6 +15,7 @@ import com.android.myfooddiarybookaos.search.state.SearchState
 
 @Composable
 fun MainSearchScreen(
+    isUpdateView: MutableState<Boolean>,
     searchState: MutableState<SearchState>,
     queryChangeState: MutableState<Boolean>,
     searchQuery: MutableState<TextFieldValue>,
@@ -24,6 +25,10 @@ fun MainSearchScreen(
 
     when (searchState.value) {
         SearchState.MAIN_SEARCH -> {
+            if (isUpdateView.value){
+                viewModel.getPagingCategories()
+                isUpdateView.value = false
+            }
             LaunchedEffect(Unit) {
                 viewModel.getPagingCategories()
             }

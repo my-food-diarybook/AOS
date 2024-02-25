@@ -1,6 +1,7 @@
 package com.android.myfooddiarybookaos.myaccount.navi
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -10,7 +11,8 @@ import com.android.myfooddiarybookaos.myaccount.myNotice.NoticeScreen
 
 @Composable
 fun MyGraph(
-    myNavi: NavHostController
+    myNavi: NavHostController,
+    isUpdateView : MutableState<Boolean>
 ) {
 
     NavHost(
@@ -19,7 +21,7 @@ fun MyGraph(
     ) {
 
         composable(MyScreenRoot.MY) {
-            MyMainScreen(myNavi)
+            MyMainScreen(myNavi,isUpdateView)
         }
 
         composable(MyScreenRoot.NOTICE) {

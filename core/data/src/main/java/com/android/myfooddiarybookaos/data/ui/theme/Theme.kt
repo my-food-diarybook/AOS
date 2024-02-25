@@ -144,7 +144,7 @@ fun EditTextBox(
                 interactionSource = interactionSource,
                 visualTransformation = if (editText.value.text != "" && hintText == "비밀번호" && !passwordView)
                     PasswordVisualTransformation() else VisualTransformation.None,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri)
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
             ) {
                 TextFieldDefaults.TextFieldDecorationBox(
                     value = editText.value.text,

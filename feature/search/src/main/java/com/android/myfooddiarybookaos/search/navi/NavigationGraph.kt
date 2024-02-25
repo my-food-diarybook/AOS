@@ -1,6 +1,7 @@
 package com.android.myfooddiarybookaos.search.navi
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,6 +14,7 @@ import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 
 @Composable
 fun NavigationGraph(
+    isUpdateView: MutableState<Boolean>,
     appState: ApplicationState,
     diaryState: DiaryState,
     searchDataState: SearchDataState
@@ -25,6 +27,7 @@ fun NavigationGraph(
 
         composable("mainSearchScreen") {
             MainSearchScreen(
+                isUpdateView = isUpdateView,
                 searchState = searchDataState.searchState,
                 queryChangeState = searchDataState.queryChangeState,
                 searchQuery = searchDataState.searchQuery,
