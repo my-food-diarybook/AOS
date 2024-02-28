@@ -1,6 +1,7 @@
 package com.android.myfooddiarybookaos.detail.mainUi.component
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,20 +15,43 @@ import com.android.myfooddiarybookaos.model.detail.DiaryDetail
 @Composable
 fun DetailData(
     diaryDetail: DiaryDetail?,
-    fixMemo: () -> Unit
+    fixMemo: () -> Unit,
+    fixLocation: () -> Unit,
+    fixTag: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 19.dp, end = 11.dp)
-            .clickable {
-                fixMemo()
-            }
     ) {
-        DetailMemo(diaryDetail?.memo)
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
+                    fixMemo()
+                }
+        ) {
+            DetailMemo(diaryDetail?.memo)
+        }
         Spacer(modifier = Modifier.height(15.dp))
-        DetailLocation(diaryDetail?.place)
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
+                    fixLocation()
+                }
+        ){
+            DetailLocation(diaryDetail?.place)
+        }
         Spacer(modifier = Modifier.height(15.dp))
-        DetailTag(diaryDetail?.tags)
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
+                    fixTag()
+                }
+        ) {
+            DetailTag(diaryDetail?.tags)
+        }
     }
 }

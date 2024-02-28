@@ -13,7 +13,7 @@ import com.android.myfooddiarybookaos.data.utils.scaledSp
 @Composable
 fun DetailMemo(
     memo: String?
-
+    
 ) {
     if (memo == null || memo == "") {
         Text(

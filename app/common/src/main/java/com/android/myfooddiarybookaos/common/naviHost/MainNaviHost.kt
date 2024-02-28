@@ -45,17 +45,22 @@ fun MainNaviHost(
     diaryState: DiaryState,
 ) {
     val searchState = rememberSearchDataState()
+    val diaryFixState = rememberDiaryFixState()
     val scope = rememberCoroutineScope()
     val homeUpdate = remember { mutableStateOf(false) }
     val timeLineUpdate = remember { mutableStateOf(false) }
     val searchUpdate = remember { mutableStateOf(false) }
     val myUpdate = remember { mutableStateOf(false) }
+    val homeDayUpdate = remember { mutableStateOf(false) }
+    val detailUpdate = remember { mutableStateOf(false) }
 
-    if (diaryState.isViewUpdate.value) {
+    if (diaryState.isViewUpdate.value || detailUpdate.value) {
         timeLineUpdate.value = true
         homeUpdate.value = true
         searchUpdate.value = true
         myUpdate.value = true
+        homeDayUpdate.value = true
+        detailUpdate.value = false
     }
 
     Scaffold(
@@ -104,11 +109,16 @@ fun MainNaviHost(
             )
 
             composable(ScreenRoot.HOME_DAY) {
-                HomeDayScreen(diaryState, appState)
+                HomeDayScreen(homeDayUpdate,diaryState, appState)
             }
 
             composable(ScreenRoot.DETAIL_DIARY) {
-                DetailScreen(appState, diaryState, rememberDiaryFixState())
+                DetailScreen(
+                    detailUpdate,
+                    appState,
+                    diaryState,
+                    diaryFixState
+                )
             }
 
             // 인자 전달

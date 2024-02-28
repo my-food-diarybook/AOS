@@ -50,7 +50,12 @@ class DetailFixState(
     fun checkMemo(): Boolean = memo.value.isBlank()
 
     fun addTag(newTag: String) {
-        tags.add(Tag(null, newTag))
+        tags.clear()
+        tags.addAll(
+            newTag.split(" #").map {
+                Tag(null, it)
+            }
+        )
     }
 
     fun removeTag(tag: Tag) {

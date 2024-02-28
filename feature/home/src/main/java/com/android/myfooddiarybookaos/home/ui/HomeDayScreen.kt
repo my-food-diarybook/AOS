@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -43,6 +44,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun HomeDayScreen(
+    isViewUpdate : MutableState<Boolean>,
     diaryState: DiaryState,
     appState: ApplicationState,
     todayViewModel: TodayViewModel = hiltViewModel(),
@@ -71,6 +73,10 @@ fun HomeDayScreen(
             delay(500)
             viewUpdate.value = false
         }
+    }
+
+    if (isViewUpdate.value){
+        viewUpdate.value = true
     }
 
     // 업로드 시도
