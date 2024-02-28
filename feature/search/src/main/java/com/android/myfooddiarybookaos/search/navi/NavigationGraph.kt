@@ -31,13 +31,15 @@ fun NavigationGraph(
                 searchState = searchDataState.searchState,
                 queryChangeState = searchDataState.queryChangeState,
                 searchQuery = searchDataState.searchQuery,
-                select = { SearchCategory ->
-                    searchDataState.categoryName.value = SearchCategory.categoryName
-                    searchDataState.categoryType.value = SearchCategory.categoryType
-                    searchDataState.searchQuery.value =
-                        if (SearchCategory.categoryName == "") TextFieldValue(" ")
-                        else TextFieldValue(SearchCategory.categoryName)
-                    searchDataState.navController.navigate("categoryScreen")
+                selectItem = {
+                    diaryState.setDiaryDetail(it.diaryId)
+                    appState.navController.navigate(ScreenRoot.DETAIL_DIARY)
+//                    searchDataState.categoryName.value = searchCategory.categoryName
+//                    searchDataState.categoryType.value = searchCategory.categoryType
+//                    searchDataState.searchQuery.value =
+//                        if (searchCategory.categoryName == "") TextFieldValue(" ")
+//                        else TextFieldValue(searchCategory.categoryName)
+//                    searchDataState.navController.navigate("categoryScreen")s
                 }
             )
         }
@@ -53,5 +55,4 @@ fun NavigationGraph(
             )
         }
     }
-
 }

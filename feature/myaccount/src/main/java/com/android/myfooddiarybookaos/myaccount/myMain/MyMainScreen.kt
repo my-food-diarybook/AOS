@@ -128,7 +128,7 @@ fun MyMainScreen(
             }
 
             OptionBox("앱 버전 정보", null, appVersion)
-            OptionBox("의견보내기", R.drawable.message, null)
+            OptionBox("의견보내기", R.drawable.component_3, null)
             Spacer(modifier = Modifier.height(80.dp))
 
         }

@@ -14,11 +14,12 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import com.android.myfooddiarybookaos.Layout.NotDataView
 import com.android.myfooddiarybookaos.model.search.SearchCategory
+import com.android.myfooddiarybookaos.model.search.SearchDiary
 import com.android.myfooddiarybookaos.search.item.ItemSearchCategory
 
 @Composable
 fun PagingCategoryComponent(
-    searchSelect: (SearchCategory) -> Unit,
+    selectItem: (SearchDiary) -> Unit,
     pagingItems: LazyPagingItems<SearchCategory>
 ) {
 
@@ -36,9 +37,7 @@ fun PagingCategoryComponent(
                 it?.let {
                     ItemSearchCategory(
                         searchCategory = it,
-                        select = {
-                            searchSelect(it)
-                        }
+                        selectItem = selectItem
                     )
                 }
             }
@@ -47,5 +46,4 @@ fun PagingCategoryComponent(
             }
         }
     }
-
 }

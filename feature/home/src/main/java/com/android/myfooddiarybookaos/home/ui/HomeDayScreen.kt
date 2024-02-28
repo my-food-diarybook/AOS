@@ -77,6 +77,7 @@ fun HomeDayScreen(
 
     if (isViewUpdate.value){
         viewUpdate.value = true
+        isViewUpdate.value = false
     }
 
     // 업로드 시도

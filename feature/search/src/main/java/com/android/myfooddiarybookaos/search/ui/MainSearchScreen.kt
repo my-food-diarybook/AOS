@@ -7,7 +7,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.android.myfooddiarybookaos.model.search.SearchCategory
+import com.android.myfooddiarybookaos.model.search.SearchDiary
 import com.android.myfooddiarybookaos.search.SearchViewModel
 import com.android.myfooddiarybookaos.search.component.PagingCategoryComponent
 import com.android.myfooddiarybookaos.search.component.SearchCategoryComponent
@@ -19,7 +19,7 @@ fun MainSearchScreen(
     searchState: MutableState<SearchState>,
     queryChangeState: MutableState<Boolean>,
     searchQuery: MutableState<TextFieldValue>,
-    select: (SearchCategory) -> Unit,
+    selectItem : (SearchDiary) -> Unit,
     viewModel: SearchViewModel = hiltViewModel()
 ) {
 
@@ -34,9 +34,7 @@ fun MainSearchScreen(
             }
             val pagingItems = viewModel.pagingCategoryList.collectAsLazyPagingItems()
             PagingCategoryComponent(
-                searchSelect = {
-                    select(it)
-                },
+                selectItem = selectItem,
                 pagingItems = pagingItems
             )
         }
@@ -48,13 +46,9 @@ fun MainSearchScreen(
             }
             val searchItems = viewModel.searchCategoryList.collectAsState()
             SearchCategoryComponent(
-                searchSelect = {
-                    select(it)
-                },
-                searchItems = searchItems
+                searchItems = searchItems,
+                selectItem = selectItem
             )
         }
     }
-
-
 }
