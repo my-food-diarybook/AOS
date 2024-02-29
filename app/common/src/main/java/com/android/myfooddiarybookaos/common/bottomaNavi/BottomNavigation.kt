@@ -11,13 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.android.myfooddiarybookaos.common.R
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 
@@ -37,7 +33,8 @@ fun BottomNavigation(
     Box(
         Modifier
             .height(68.dp)
-            .fillMaxWidth()) {
+            .fillMaxWidth()
+    ) {
         AnimatedVisibility(
             visible = appState.bottomBarState.value,
             modifier = Modifier
@@ -61,22 +58,27 @@ fun BottomNavigation(
                 items.forEach { item ->
                     BottomNavigationItem(
                         icon = { //image icon
-                            if (item.icon != null) {
-                                Icon(
-                                    painter = painterResource(id = item.icon),
-                                    contentDescription = item.title,
-                                )
+                            if (item.selectedIcon != null && item.unselectedIcon != null) {
+                                if (currentRoute == item.screenRoute) {
+                                    Icon(
+                                        painter = painterResource(id = item.selectedIcon),
+                                        contentDescription = item.title,
+                                    )
+                                } else {
+                                    Icon(
+                                        painter = painterResource(id = item.unselectedIcon),
+                                        contentDescription = item.title,
+                                    )
+                                }
                             }
                         },
-                        selectedContentColor = colorResource(id = R.color.black),
-                        unselectedContentColor = colorResource(id = R.color.line_color_deep),
                         selected = currentRoute == item.screenRoute, //select 상태를 설정
                         alwaysShowLabel = false,
 
                         // 아이콘 클릭 동작
 
                         onClick = {
-                            if (item.icon != null) {
+                            if (item.selectedIcon != null) {
                                 appState.navController.navigate(item.screenRoute) {
 //                            navController.graph.startDestinationRoute?.let {// 루트 이동
 //                                // popUpTo를 통해서 start route만 스택에 쌓이게 함

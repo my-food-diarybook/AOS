@@ -1,7 +1,13 @@
 package com.android.myfooddiarybookaos.search.item
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
@@ -14,19 +20,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.model.search.SearchCategory
+import com.android.myfooddiarybookaos.model.search.SearchDiary
 
 @Composable
 fun ItemSearchCategory(
     searchCategory: SearchCategory,
-    select: () -> Unit
+    selectItem: (SearchDiary) -> Unit,
 ) {
 
     Column(
-        modifier = Modifier
-            .padding(horizontal = 20.dp)
-            .clickable {
-                select()
-            }
+        modifier = Modifier.padding(horizontal = 20.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
@@ -59,7 +62,7 @@ fun ItemSearchCategory(
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             items(searchCategory.diaryList) { item ->
-                ItemSearchDiary(searchDiary = item, select = { select() })
+                ItemSearchDiary(searchDiary = item, select = { selectItem(item) })
             }
         }
     }

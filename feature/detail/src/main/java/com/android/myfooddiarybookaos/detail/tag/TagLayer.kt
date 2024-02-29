@@ -1,6 +1,5 @@
 package com.android.myfooddiarybookaos.detail.tag
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyRow

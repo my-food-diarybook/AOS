@@ -7,8 +7,8 @@ interface ImageRepository {
     fun getAllPhotos(
         page: Int,
         loadSize: Int,
-        currentLocation : String? = null,
+        currentLocation: String? = null,
     ): MutableList<GalleryImage>
 
-    fun getFolderList() : ArrayList<String>
+    fun getFolderList(): ArrayList<String>
 }

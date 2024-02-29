@@ -17,7 +17,7 @@ class NoticeRepository @Inject constructor(
 ) {
 
     @OptIn(ExperimentalPagingApi::class)
-    fun getNoticePager(): Flow<PagingData<NoticeEntity>>{
+    fun getNoticePager(): Flow<PagingData<NoticeEntity>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 10,
@@ -26,7 +26,7 @@ class NoticeRepository @Inject constructor(
             pagingSourceFactory = {
                 db.getNoticeDao().getItemPager()
             },
-            remoteMediator = MyRemoteMediator(db,networkManager)
+            remoteMediator = MyRemoteMediator(db, networkManager)
         ).flow
     }
 }

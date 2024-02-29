@@ -2,13 +2,16 @@ package com.android.myfooddiarybookaos.detail.mainUi.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,7 +20,6 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.core.data.R
@@ -30,7 +32,7 @@ import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 
 @Composable
 fun DetailTopLayer(
-    imageSize : Int,
+    imageSize: Int,
     topDate: String,
     memoFixState: () -> Unit,
     detailViewModel: DetailViewModel = hiltViewModel()
@@ -129,7 +131,7 @@ fun DetailTopLayer(
                     )
                 }
 
-                if (deletePopupState.value){
+                if (deletePopupState.value) {
                     Dialog(onDismissRequest = {
                         deletePopupState.value = false
                     }) {

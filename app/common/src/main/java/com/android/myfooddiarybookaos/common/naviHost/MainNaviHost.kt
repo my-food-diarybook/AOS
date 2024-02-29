@@ -1,7 +1,6 @@
 package com.android.myfooddiarybookaos.common.naviHost
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -10,8 +9,10 @@ import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -34,14 +35,33 @@ import com.android.myfooddiarybookaos.detail.state.rememberDiaryFixState
 import com.android.myfooddiarybookaos.home.ui.HomeDayScreen
 import com.android.myfooddiarybookaos.search.state.rememberSearchDataState
 import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "CoroutineCreationDuringComposition")
 @Composable
 fun MainNaviHost(
     appState: ApplicationState,
     diaryState: DiaryState,
 ) {
     val searchState = rememberSearchDataState()
+    val diaryFixState = rememberDiaryFixState()
+    val scope = rememberCoroutineScope()
+    val homeUpdate = remember { mutableStateOf(false) }
+    val timeLineUpdate = remember { mutableStateOf(false) }
+    val searchUpdate = remember { mutableStateOf(false) }
+    val myUpdate = remember { mutableStateOf(false) }
+    val homeDayUpdate = remember { mutableStateOf(false) }
+    val detailUpdate = remember { mutableStateOf(false) }
+
+    if (diaryState.isViewUpdate.value || detailUpdate.value) {
+        timeLineUpdate.value = true
+        homeUpdate.value = true
+        searchUpdate.value = true
+        myUpdate.value = true
+        homeDayUpdate.value = true
+        detailUpdate.value = false
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -78,14 +98,27 @@ fun MainNaviHost(
             startDestination = ScreenRoot.MAIN_GRAPH
         ) {
             // main View
-            bottomGraph(appState, diaryState,searchState)
+            bottomGraph(
+                appState,
+                diaryState,
+                searchState,
+                homeUpdate,
+                timeLineUpdate,
+                searchUpdate,
+                myUpdate
+            )
 
             composable(ScreenRoot.HOME_DAY) {
-                HomeDayScreen(diaryState, appState)
+                HomeDayScreen(homeDayUpdate,diaryState, appState)
             }
 
             composable(ScreenRoot.DETAIL_DIARY) {
-                DetailScreen(appState, diaryState, rememberDiaryFixState())
+                DetailScreen(
+                    detailUpdate,
+                    appState,
+                    diaryState,
+                    diaryFixState
+                )
             }
 
             // 인자 전달
@@ -98,7 +131,7 @@ fun MainNaviHost(
             ) { entry ->
                 val isMultiSelectView = entry.arguments?.getBoolean("multiSelectType") ?: true
                 val prevSelectCount = entry.arguments?.getInt("prevImageCount") ?: 0
-                GalleryScreen(appState, diaryState, isMultiSelectView,prevSelectCount)
+                GalleryScreen(appState, diaryState, isMultiSelectView, prevSelectCount)
             }
         }
     }
@@ -110,5 +143,14 @@ fun MainNaviHost(
                 appState.toastState.value = ""
             }
         )
+    }
+
+    if (diaryState.isViewUpdate.value) {
+        LaunchedEffect(Unit) {
+            scope.launch {
+                delay(500L)
+                diaryState.isViewUpdate.value = false
+            }
+        }
     }
 }

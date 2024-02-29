@@ -4,37 +4,37 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
-import com.android.myfooddiarybookaos.model.image.GalleryImage
 import com.android.myfooddiarybookaos.core.data.R
-import com.android.myfooddiarybookaos.data.robotoBold
 import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.data.utils.scaledSp
+import com.android.myfooddiarybookaos.model.image.GalleryImage
 
 @Composable
 fun GalleryItemContent(
     galleryImage: GalleryImage,
     selectedImages: List<GalleryImage>,
-    isMultiSelectView : Boolean,
+    isMultiSelectView: Boolean,
     setSelectImage: (GalleryImage) -> Unit,
     removeImage: (Long) -> Unit
 ) {
-    val selectIndex = selectedImages.indexOfFirst { it.id == galleryImage.id } +1
+    val selectIndex = selectedImages.indexOfFirst { it.id == galleryImage.id } + 1
     val isSelected = selectIndex != 0
     val multiColor = if (isMultiSelectView) Color.White else Color.Transparent
 
@@ -78,8 +78,8 @@ fun GalleryItemContent(
                     .background(color = colorResource(id = R.color.main_color), shape = CircleShape)
                     .align(Alignment.TopEnd),
                 contentAlignment = Alignment.Center
-            ){
-                if (isMultiSelectView){
+            ) {
+                if (isMultiSelectView) {
                     Text(
                         text = selectIndex.toString(),
                         color = multiColor,

@@ -8,10 +8,13 @@ import com.android.myfooddiarybookaos.api.myApi.NoticeEntity
 import com.android.myfooddiarybookaos.data.dataMy.repository.MyRepository
 import com.android.myfooddiarybookaos.data.dataMy.repository.NoticeRepository
 import com.android.myfooddiarybookaos.data.function.DiaryTime
-import com.android.myfooddiarybookaos.model.statistics.Statistics
 import com.android.myfooddiarybookaos.model.statistics.StatisticsList
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,12 +37,17 @@ class MyViewModel @Inject constructor(
         getNotice()
     }
 
+    fun resetView(){
+        getStatistics()
+        getNotice()
+    }
+
     private fun getNotice() = viewModelScope.launch {
         noticeRepository.getNoticePager()
             .cachedIn(viewModelScope)
             .collectLatest {
-            _noticeList.value = it
-        }
+                _noticeList.value = it
+            }
     }
 
     private fun getStatistics() = viewModelScope.launch {

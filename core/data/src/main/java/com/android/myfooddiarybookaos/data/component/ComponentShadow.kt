@@ -3,8 +3,10 @@ package com.android.myfooddiarybookaos.data.component
 import android.graphics.BlurMaskFilter
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -25,7 +27,7 @@ fun Modifier.coloredInnerShadow(
             val leftPixel = (0f - spreadPixel) + offsetX.toPx()
             val topPixel = (0f - spreadPixel) + offsetY.toPx()
             val rightPixel = (this.size.width + spreadPixel)
-            val bottomPixel =  (this.size.height + spreadPixel)
+            val bottomPixel = (this.size.height + spreadPixel)
 
             if (blurRadius != 0.dp) {
                 /*
@@ -61,7 +63,7 @@ fun Modifier.customOuterShadow(
             val paint = Paint()
             val frameworkPaint = paint.asFrameworkPaint()
             if (blurRadius != 0f) {
-                frameworkPaint.maskFilter = (BlurMaskFilter(blurRadius,BlurMaskFilter.Blur.NORMAL))
+                frameworkPaint.maskFilter = (BlurMaskFilter(blurRadius, BlurMaskFilter.Blur.NORMAL))
             }
             frameworkPaint.color = color.toArgb()
 

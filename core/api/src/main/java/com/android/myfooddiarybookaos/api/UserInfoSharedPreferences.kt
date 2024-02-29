@@ -34,8 +34,8 @@ class UserInfoSharedPreferences(context: Context) {
         set(value) = prefs.edit().putString(userEmailKey, value).apply()
 
     var loginForm: String?
-        get() = prefs.getString(loginFormKey,"")
-        set(value) = prefs.edit().putString(loginFormKey,value).apply()
+        get() = prefs.getString(loginFormKey, "")
+        set(value) = prefs.edit().putString(loginFormKey, value).apply()
 
     fun resetUserInfo() {
         userEmail = ""

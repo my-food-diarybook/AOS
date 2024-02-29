@@ -2,20 +2,19 @@ package com.android.myfooddiarybookaos.data.component
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.layout.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.TextBox
@@ -23,11 +22,8 @@ import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 import com.android.myfooddiarybookaos.data.robotoBold
 import com.android.myfooddiarybookaos.data.utils.HomeUtils
 import com.android.myfooddiarybookaos.data.utils.scaledSp
-
 import com.android.myfooddiarybookaos.model.MonthDate
-
 import java.util.*
-
 
 
 @SuppressLint("UnrememberedMutableState")
@@ -42,16 +38,18 @@ fun SelectCalendarScreen(
         mutableStateOf(todayViewModel.getTodayCalendar().get(Calendar.YEAR))
     }
     val todayDate by remember {
-        mutableStateOf(todayYear*12+todayViewModel.getTodayCalendar().get(Calendar.MONTH)+1)
+        mutableStateOf(todayYear * 12 + todayViewModel.getTodayCalendar().get(Calendar.MONTH) + 1)
     }
     // 현재 선택 데이터
     val currentDate by remember {
         mutableStateOf(todayViewModel.getCurrentDate())
     }
     // 현재 뷰어
-    var currentYear by remember { mutableStateOf( //선택 년도
-        todayViewModel.getCurrentCalendar().get(Calendar.YEAR)
-    ) }
+    var currentYear by remember {
+        mutableStateOf( //선택 년도
+            todayViewModel.getCurrentCalendar().get(Calendar.YEAR)
+        )
+    }
     // month data 갱신
     val monthList = List(HomeUtils.MAX_MONTH) { i ->
         MonthDate(
@@ -61,7 +59,7 @@ fun SelectCalendarScreen(
     } // 리스트 초기화
     // color left
     val rightColorState by animateColorAsState(
-        if (currentYear+1 <= todayYear) colorResource(id = R.color.black)
+        if (currentYear + 1 <= todayYear) colorResource(id = R.color.black)
         else colorResource(id = R.color.calender_next_color)
     )
     Column(
@@ -72,7 +70,7 @@ fun SelectCalendarScreen(
         Row(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
-        ){
+        ) {
             Box(
                 modifier = Modifier
                     .size(58.dp)
@@ -80,12 +78,12 @@ fun SelectCalendarScreen(
                         currentYear -= 1
                     }),
                 contentAlignment = Alignment.Center
-            ){
+            ) {
                 Image(painterResource(id = R.drawable.left_side), contentDescription = null)
             }
             Spacer(modifier = Modifier.width(41.dp))
             TextBox(
-                text = "$currentYear",600,
+                text = "$currentYear", 600,
                 robotoBold,
                 36.scaledSp(),
                 colorResource(id = R.color.black),
@@ -100,7 +98,7 @@ fun SelectCalendarScreen(
                         if (currentYear + 1 <= todayYear) currentYear += 1
                     }),
                 contentAlignment = Alignment.Center
-            ){
+            ) {
                 Image(
                     painter = painterResource(id = R.drawable.right_side),
                     contentDescription = null,
@@ -120,17 +118,17 @@ fun SelectCalendarScreen(
                 .padding(
                     horizontal = 14.5.dp
                 )
-        ){
+        ) {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(4),
                 content = {
                     items(HomeUtils.MAX_MONTH) { index ->
-                        ItemMonth(month = monthList[index],todayDate,currentDate,
+                        ItemMonth(month = monthList[index], todayDate, currentDate,
                             selectMonth = { // month 클릭
                                 // 클릭 시 다이어로그 닫기
                                 isTopLayoutClick(false)
                                 // 뷰 모델 수정
-                                todayViewModel.setCurrentDate(currentYear,it-1)
+                                todayViewModel.setCurrentDate(currentYear, it - 1)
                                 dataChange()
                             }
                         )
@@ -144,12 +142,12 @@ fun SelectCalendarScreen(
 
 @Composable
 private fun ItemMonth(
-    month : MonthDate, todayDate:Int, currentDate:Int,
-    selectMonth : (Int) -> Unit
-){
+    month: MonthDate, todayDate: Int, currentDate: Int,
+    selectMonth: (Int) -> Unit
+) {
     val textViewColor by animateColorAsState(
         if (todayDate < month.isSelected) colorResource(id = R.color.line_color_deep)
-        else if (currentDate==month.isSelected) colorResource(id = R.color.main_color)
+        else if (currentDate == month.isSelected) colorResource(id = R.color.main_color)
         else colorResource(id = R.color.black)
 
     )
@@ -165,7 +163,7 @@ private fun ItemMonth(
                 // 클릭 조건 (지난 달)
                 if (todayDate >= month.isSelected) selectMonth(month.month)
             }),
-    ){
+    ) {
         TextBox(
             text = month.month.toString() + "월",
             700,
@@ -180,7 +178,7 @@ private fun ItemMonth(
 
 @Composable
 @Preview(showBackground = true)
-fun PreviewSelectCalendar(){
+fun PreviewSelectCalendar() {
     SelectCalendarScreen(
         hiltViewModel(),
         isTopLayoutClick = { },

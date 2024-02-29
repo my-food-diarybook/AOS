@@ -10,10 +10,10 @@ import com.android.myfooddiarybookaos.api.remoteKey.MyRemoteKeysEntity
 interface MyRemoteKeysDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertRemote(list : List<MyRemoteKeysEntity>)
+    fun insertRemote(list: List<MyRemoteKeysEntity>)
 
     @Query("SELECT * FROM my_remoteKey WHERE id = :id")
-    fun getRemoteKeys(id : Int) : MyRemoteKeysEntity
+    fun getRemoteKeys(id: Int): MyRemoteKeysEntity
 
     @Query("DELETE FROM my_remoteKey")
     fun clearAll()

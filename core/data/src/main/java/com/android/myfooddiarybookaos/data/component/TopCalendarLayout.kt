@@ -10,9 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.TextBox
@@ -22,15 +20,14 @@ import com.android.myfooddiarybookaos.data.utils.scaledSp
 import java.util.*
 
 
-
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun TopCalendarLayout(
-    todayViewModel : TodayViewModel = hiltViewModel(),
+    todayViewModel: TodayViewModel = hiltViewModel(),
     resetData: () -> Unit,
     isMainView: Boolean
-){
-    var isTopLayoutClick  by remember{ // 캘린더 클릭 여부
+) {
+    var isTopLayoutClick by remember { // 캘린더 클릭 여부
         mutableStateOf(false)
     }
 
@@ -40,7 +37,7 @@ fun TopCalendarLayout(
         )
     }
 
-    if (isTopLayoutClick){ // 캘린더 클릭 동작
+    if (isTopLayoutClick) { // 캘린더 클릭 동작
         todayViewModel.getCurrentCalendar().apply {
             // dialog 생성
             SelectCalendarDialog(
@@ -62,7 +59,7 @@ fun TopCalendarLayout(
             .height(90.dp)
             .fillMaxWidth(),
         verticalArrangement = Arrangement.Bottom
-    ){
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -70,15 +67,15 @@ fun TopCalendarLayout(
                     start = 20.dp,
                     end = 24.dp
                 )
-        ){
+        ) {
             Row(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
                     .clickable(onClick = { isTopLayoutClick = true }),
                 verticalAlignment = Alignment.CenterVertically
-            ){
+            ) {
                 TextBox(
-                    text =   textState.value,
+                    text = textState.value,
                     fontWeight = 700,
                     fontFamily = robotoBold,
                     fontSize = 34.scaledSp(),
@@ -140,13 +137,14 @@ fun TopCalendarLayout(
 
         Spacer(modifier = Modifier.height(1.dp))
 
-        Divider(modifier = Modifier
-            .height(2.dp)
-            .coloredInnerShadow(
-                color = colorResource(id = R.color.black_10),
-                offsetY = 1.dp,
-                blurRadius = 4.dp
-            )
+        Divider(
+            modifier = Modifier
+                .height(2.dp)
+                .coloredInnerShadow(
+                    color = colorResource(id = R.color.black_10),
+                    offsetY = 1.dp,
+                    blurRadius = 4.dp
+                )
         )
     }
 }

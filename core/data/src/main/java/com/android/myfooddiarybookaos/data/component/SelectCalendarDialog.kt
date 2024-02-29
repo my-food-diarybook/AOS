@@ -7,13 +7,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.android.myfooddiarybookaos.data.component.SelectCalendarScreen
 
 @Composable
 fun SelectCalendarDialog(
-    isTopLayoutClick : (Boolean) -> Unit,
-    changeAllData:() -> Unit
-){
+    isTopLayoutClick: (Boolean) -> Unit,
+    changeAllData: () -> Unit
+) {
 
     Dialog(
         onDismissRequest = {

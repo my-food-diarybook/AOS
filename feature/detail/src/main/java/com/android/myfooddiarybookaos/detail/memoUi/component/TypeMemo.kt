@@ -8,20 +8,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.utils.scaledSp
 
 @Composable
 fun TypeMemo(
     text: MutableState<String>,
-    editMemo: (String) -> Unit
+    editMemo: (String) -> Unit,
+    focusRequester: FocusRequester
 ) {
     val memoText = remember { text }
     BasicTextField(
@@ -38,7 +40,8 @@ fun TypeMemo(
         ),
         modifier = Modifier
             .wrapContentHeight()
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .focusRequester(focusRequester),
         maxLines = 5,
         decorationBox = { innerTextField ->
             if (text.value.isEmpty()) {

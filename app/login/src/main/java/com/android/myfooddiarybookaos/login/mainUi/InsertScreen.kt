@@ -7,7 +7,9 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -15,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
@@ -33,6 +36,7 @@ import com.android.myfooddiarybookaos.data.component.ErrorPage
 import com.android.myfooddiarybookaos.data.component.ToastMessaging
 import com.android.myfooddiarybookaos.data.component.password.Subject
 import com.android.myfooddiarybookaos.data.robotoRegular
+import com.android.myfooddiarybookaos.data.ui.addFocusCleaner
 import com.android.myfooddiarybookaos.data.ui.theme.EditTextBox
 import com.android.myfooddiarybookaos.data.utils.scaledSp
 import com.android.myfooddiarybookaos.login.passUi.PasswordPolicyLayer
@@ -44,7 +48,10 @@ fun InsertScreen(
     navController: NavHostController,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
+    val focusManager = LocalFocusManager.current
     val context = LocalContext.current
+    val scrollState = rememberScrollState()
+
     val emailText = remember { mutableStateOf(TextFieldValue("")) }
     val passText = remember { mutableStateOf(TextFieldValue("")) }
     val rePassText = remember { mutableStateOf(TextFieldValue("")) }
@@ -90,6 +97,8 @@ fun InsertScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(scrollState)
+            .addFocusCleaner(focusManager)
             .padding(horizontal = 16.dp)
     ) {
         Spacer(modifier = Modifier.height(40.dp))
@@ -145,11 +154,11 @@ fun InsertScreen(
 
             Spacer(modifier = Modifier.height(12.dp))
             CheckBox(allCheckBox, "전체 약관동의", FontWeight.W700, null)
-            if (allCheckBox.value ){
+            if (allCheckBox.value) {
                 serviceCheckBox.value = true
-                userInfoCheckBox.value = true                
-            }else {
-                if (serviceCheckBox.value || userInfoCheckBox.value){
+                userInfoCheckBox.value = true
+            } else {
+                if (serviceCheckBox.value || userInfoCheckBox.value) {
                     serviceCheckBox.value = false
                     userInfoCheckBox.value = false
                 }
@@ -214,6 +223,7 @@ fun InsertScreen(
                 )
             }
         }
+        Spacer(modifier = Modifier.height(80.dp))
     }
     if (toastMessageState.value) {
         ToastMessaging(
@@ -265,7 +275,7 @@ fun CheckBox(
             fontWeight = fontWeight,
             textDecoration = if (fontWeight != FontWeight.W700) TextDecoration.Underline else null,
             modifier = Modifier.clickable {
-                if (link!=null) {
+                if (link != null) {
                     val intent = Intent(
                         Intent(
                             Intent.ACTION_VIEW,

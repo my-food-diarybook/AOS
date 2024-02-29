@@ -1,12 +1,9 @@
 package com.android.myfooddiarybookaos.data.dataDetail
 
-import android.util.Log
 import com.android.myfooddiarybookaos.api.NetworkManager
-import com.android.myfooddiarybookaos.data.state.DetailFixState
 import com.android.myfooddiarybookaos.model.detail.DiaryDetail
 import com.android.myfooddiarybookaos.model.detail.FixDiary
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
 import okhttp3.MultipartBody
 import retrofit2.Call

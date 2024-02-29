@@ -9,7 +9,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.android.myfooddiarybookaos.api.NetworkManager
 import com.android.myfooddiarybookaos.api.UserInfoSharedPreferences
 import com.android.myfooddiarybookaos.api.googleLogin.LoginResult
 import com.android.myfooddiarybookaos.data.dataLogin.repository.LoginRepository
@@ -40,16 +39,15 @@ class LoginViewModel @Inject constructor(
         repository.loginUserRequest(
             email, pw,
             result = { status, response ->
-                Log.d("status",status.toString())
-                Log.d("status",response?.status.toString())
-                if (response?.pwExpired == true || status =="PASSWORD_LIMIT_OVER" ) {
+                Log.d("status", status.toString())
+                Log.d("status", response?.status.toString())
+                if (response?.pwExpired == true || status == "PASSWORD_LIMIT_OVER") {
                     userState(false, true)
-                } else{
-                    if (status=="SUCCESS") {
+                } else {
+                    if (status == "SUCCESS") {
                         userState(saveUserState(status, response), false)
-                    }
-                    else{
-                        userState(false,false)
+                    } else {
+                        userState(false, false)
                     }
                 }
             }
@@ -60,7 +58,7 @@ class LoginViewModel @Inject constructor(
     fun createUser(
         email: String, pw: String,
         userState: (Boolean) -> Unit,
-        toastState : (Boolean) -> Unit
+        toastState: (Boolean) -> Unit
     ) {
         repository.createUserRequest(
             email, pw,
@@ -74,9 +72,11 @@ class LoginViewModel @Inject constructor(
                             },
                         )
                     }
+
                     "DUPLICATED_USER" -> {
                         toastState(true)
                     }
+
                     else -> {
                         userState(false)
                     }
@@ -149,6 +149,7 @@ class LoginViewModel @Inject constructor(
                                         )
                                         loginState(true)
                                     }
+
                                     else -> {
                                         loginState(false)
                                     }

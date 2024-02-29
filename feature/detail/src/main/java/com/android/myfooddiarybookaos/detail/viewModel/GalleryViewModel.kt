@@ -1,6 +1,5 @@
 package com.android.myfooddiarybookaos.detail.viewModel
 
-import android.net.Uri
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -29,21 +28,21 @@ import javax.inject.Inject
 class GalleryViewModel @Inject constructor(
     private val homePostRepository: HomePostRepository,
     private val imageRepository: ImageRepository
-): ViewModel() {
+) : ViewModel() {
     // 이미지 리스트
     private val _customGalleryPhotoList =
         MutableStateFlow<PagingData<GalleryImage>>(PagingData.empty())
 
-    val customGalleryPhotoList : StateFlow<PagingData<GalleryImage>> =
+    val customGalleryPhotoList: StateFlow<PagingData<GalleryImage>> =
         _customGalleryPhotoList.asStateFlow()
 
     // 폴더 리스트
-    private val _folders = mutableStateListOf<Pair<String,String?>>("최근사진" to null)
+    private val _folders = mutableStateListOf<Pair<String, String?>>("최근사진" to null)
     val folders get() = _folders
 
     // 현재 폴더
     private val _currentFolder = mutableStateOf<Pair<String, String?>>("최근사진" to null)
-    val currentFolder : State<Pair<String, String?>> = _currentFolder
+    val currentFolder: State<Pair<String, String?>> = _currentFolder
 
     // 선택 이미지 리스트
     private val _selectedImages = mutableStateListOf<GalleryImage>()
@@ -72,23 +71,23 @@ class GalleryViewModel @Inject constructor(
     }
 
     // 현재 폴더 위치 변경
-    fun setCurrentFolder(location : Pair<String, String?>){
+    fun setCurrentFolder(location: Pair<String, String?>) {
         _currentFolder.value = location
     }
 
     // 현재 폴더 리스트 저장
-    fun getFolder(){
+    fun getFolder() {
         imageRepository.getFolderList().map {
             _folders.add(it.split("/").last() to it)
         }
     }
 
     // 새 이미지 추가
-    fun addSelectedImage(image :GalleryImage) {
+    fun addSelectedImage(image: GalleryImage) {
         _selectedImages.add(image)
     }
 
-    fun removeSelectedImage(id : Long){
+    fun removeSelectedImage(id: Long) {
         val removedImage = _selectedImages.find { it.id == id }
         removedImage?.let {
             _selectedImages.remove(removedImage)

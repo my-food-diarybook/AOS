@@ -1,17 +1,14 @@
 package com.android.myfooddiarybookaos
+
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.*
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.android.myfooddiarybookaos.common.addPicture.SelectAddScreen
 import com.android.myfooddiarybookaos.common.naviHost.MainNaviHost
-import com.android.myfooddiarybookaos.data.component.ToastMessaging
-import com.android.myfooddiarybookaos.data.state.ApplicationState
-import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.data.state.rememberApplicationState
 import com.android.myfooddiarybookaos.data.state.rememberDiaryState
 import com.android.myfooddiarybookaos.data.ui.theme.MyFoodDiaryBookAOSTheme
@@ -19,7 +16,6 @@ import com.dnd_9th_3_android.gooding.common.state.ManageBottomBarState
 import com.holix.android.bottomsheetdialog.compose.BottomSheetDialog
 import com.holix.android.bottomsheetdialog.compose.BottomSheetDialogProperties
 import dagger.hilt.android.AndroidEntryPoint
-import com.kakao.sdk.common.util.Utility
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -46,7 +42,7 @@ fun MainUi() {
     // bottom state
     val appState = rememberApplicationState()
     // mid click event
-    if (diaryState.showSelectView.value){
+    if (diaryState.showSelectView.value) {
         BottomSheetDialog(
             onDismissRequest = {
                 diaryState.showSelectView.value = false

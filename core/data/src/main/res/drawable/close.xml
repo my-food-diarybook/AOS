@@ -3,9 +3,9 @@
     android:height="44dp"
     android:viewportWidth="44"
     android:viewportHeight="44">
-  <path
-      android:pathData="M29,16.41L27.59,15L22,20.59L16.41,15L15,16.41L20.59,22L15,27.59L16.41,29L22,23.41L27.59,29L29,27.59L23.41,22L29,16.41Z"
-      android:fillColor="#000000"
-      android:fillAlpha="0.87"
-      android:fillType="evenOdd"/>
+    <path
+        android:pathData="M29,16.41L27.59,15L22,20.59L16.41,15L15,16.41L20.59,22L15,27.59L16.41,29L22,23.41L27.59,29L29,27.59L23.41,22L29,16.41Z"
+        android:fillColor="#000000"
+        android:fillAlpha="0.87"
+        android:fillType="evenOdd" />
 </vector>

@@ -6,13 +6,12 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 
 class KakaoApiManager(
     private val context: Context
 ) {
-    private fun makeLoginRetrofit (): Retrofit{
-        val userToken = UserInfoSharedPreferences(context).accessToken?: ""
+    private fun makeLoginRetrofit(): Retrofit {
+        val userToken = UserInfoSharedPreferences(context).accessToken ?: ""
         return Retrofit.Builder()
             .baseUrl(KAKAO_LOGIN_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -33,6 +32,7 @@ class KakaoApiManager(
             )
             .build()
     }
+
     companion object {
 
         val retrofit: Retrofit = Retrofit.Builder()

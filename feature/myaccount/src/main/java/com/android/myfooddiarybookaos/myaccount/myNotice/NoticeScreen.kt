@@ -1,7 +1,18 @@
 package com.android.myfooddiarybookaos.myaccount.myNotice
 
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
@@ -27,12 +38,12 @@ import com.android.myfooddiarybookaos.myaccount.viewModel.MyViewModel
 @Composable
 fun NoticeScreen(
     myNavi: NavHostController,
-    viewModel : MyViewModel = hiltViewModel()
+    viewModel: MyViewModel = hiltViewModel()
 ) {
 
     val noticePagingItems = viewModel.noticeList.collectAsLazyPagingItems()
     val isBackState = remember { mutableStateOf(false) }
-    if (isBackState.value){
+    if (isBackState.value) {
         myNavi.popBackStack()
         isBackState.value = false
     }
@@ -73,7 +84,7 @@ fun NoticeScreen(
                         .wrapContentSize()
                         .align(Alignment.BottomCenter)
                         .padding(14.75.dp)
-                ){
+                ) {
                     TextBox(
                         text = "공지사항",
                         fontWeight = 500,
@@ -104,8 +115,8 @@ fun NoticeScreen(
                 .weight(1f)
                 .padding(bottom = 50.dp)
                 .background(Color.White),
-        ){
-            items(noticePagingItems.itemCount){ index ->
+        ) {
+            items(noticePagingItems.itemCount) { index ->
                 noticePagingItems[index]?.let { notice ->
                     NoticeItem(notice = notice.transNotice())
                 }

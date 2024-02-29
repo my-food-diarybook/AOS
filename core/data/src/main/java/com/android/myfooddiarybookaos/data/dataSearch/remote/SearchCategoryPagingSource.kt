@@ -2,7 +2,6 @@ package com.android.myfooddiarybookaos.data.dataSearch.remote
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.android.myfooddiarybookaos.api.NetworkManager
 import com.android.myfooddiarybookaos.api.searchApi.SearchRetrofitService
 import com.android.myfooddiarybookaos.model.search.SearchCategory
 

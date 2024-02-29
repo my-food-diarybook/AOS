@@ -1,8 +1,6 @@
 package com.android.myfooddiarybookaos.home.viewModel
 
 import android.graphics.Bitmap
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,7 +10,6 @@ import com.android.myfooddiarybookaos.data.dataHome.repository.HomeRepository
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.model.diary.Diary
-import com.android.myfooddiarybookaos.model.home.DiaryHomeDay
 import com.android.myfooddiarybookaos.model.home.HomeDay
 import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -92,7 +89,7 @@ class HomeViewModel @Inject constructor(
                 diaryState(it)
             },
             failState = {
-                if (it == "register only 10 per day"){
+                if (it == "register only 10 per day") {
                     toastMessage("하루에 식사일기는 최대10건까지 등록할 수 있어요.")
                 }
             }

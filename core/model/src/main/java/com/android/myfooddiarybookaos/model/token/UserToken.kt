@@ -6,4 +6,4 @@ data class UserToken(
     val refreshToken: String,
     val refreshTokenExpireAt: Int,
     val status: String
-): java.io.Serializable
+) : java.io.Serializable

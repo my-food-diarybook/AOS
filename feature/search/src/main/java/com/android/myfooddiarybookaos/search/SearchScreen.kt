@@ -1,13 +1,15 @@
 package com.android.myfooddiarybookaos.search
 
-import android.util.Log
-import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.search.component.SearchBox
@@ -17,6 +19,7 @@ import com.android.myfooddiarybookaos.search.state.SearchState
 
 @Composable
 fun SearchScreen(
+    isUpdateView: MutableState<Boolean>,
     appState: ApplicationState,
     diaryState: DiaryState,
     searchDataState: SearchDataState,
@@ -59,6 +62,7 @@ fun SearchScreen(
         }
 
         NavigationGraph(
+            isUpdateView = isUpdateView,
             appState = appState,
             diaryState = diaryState,
             searchDataState = searchDataState,

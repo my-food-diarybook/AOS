@@ -10,7 +10,7 @@ interface MyRetrofitService {
     @GET("notice/more")
     suspend fun getPagingNotice(
         @Query("startId") startId: Int,
-        @Query("size") size : Int,
+        @Query("size") size: Int,
     ): NoticeData
 
     @GET("user/statistics")

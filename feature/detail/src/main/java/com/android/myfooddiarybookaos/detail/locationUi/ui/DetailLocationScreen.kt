@@ -3,13 +3,21 @@ package com.android.myfooddiarybookaos.detail.locationUi.ui
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.*
-import com.android.myfooddiarybookaos.detail.function.DiaryViewState
-import com.android.myfooddiarybookaos.data.state.DetailFixState
-import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.foundation.layout.Column
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.android.myfooddiarybookaos.data.state.DetailFixState
+import com.android.myfooddiarybookaos.detail.function.DiaryViewState
 import com.android.myfooddiarybookaos.detail.locationUi.component.CurrentLocationLayer
 import com.android.myfooddiarybookaos.detail.locationUi.component.LocationTopLayer
 import com.android.myfooddiarybookaos.detail.locationUi.component.SearchResultLayer
@@ -29,7 +37,7 @@ fun DetailLocationScreen(
     var userInput by remember { mutableStateOf("") }
     var prevInput by remember { mutableStateOf("") }
     var currentLoad by remember { mutableStateOf(false) }
-    val searchUpdate = remember { derivedStateOf { userInputUpdate(userInput,prevInput) }}
+    val searchUpdate = remember { derivedStateOf { userInputUpdate(userInput, prevInput) } }
     val submitEnabled = remember { derivedStateOf { userInputValid(userInput) } }
     val currentLocationResult = detailViewModel.currentLocationResult.collectAsState()
     val searchResult = detailViewModel.searchResult.collectAsState()
@@ -47,7 +55,7 @@ fun DetailLocationScreen(
 //
 //        }
     }
-    if (currentLoad){
+    if (currentLoad) {
         detailViewModel.setMyLocation()
         currentLoad = false
     }
@@ -57,7 +65,8 @@ fun DetailLocationScreen(
             diaryFixState.place.value = place.place_name
             diaryFixState.longitude.value = place.x.toDouble()
             diaryFixState.latitude.value = place.y.toDouble()
-        } catch (_:Exception){ }
+        } catch (_: Exception) {
+        }
     }
 
     // 뒤로가기 제어
@@ -118,4 +127,4 @@ fun DetailLocationScreen(
 }
 
 private fun userInputValid(userInput: String) = userInput.isNotEmpty()
-private fun userInputUpdate(userInput: String,prevInput:String) = userInput == prevInput
+private fun userInputUpdate(userInput: String, prevInput: String) = userInput == prevInput

@@ -7,16 +7,15 @@ import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun getUriDate(uri : Uri?, context : Context)  : LocalDateTime? {
-    var exifDate  :LocalDateTime? = null
+fun getUriDate(uri: Uri?, context: Context): LocalDateTime? {
+    var exifDate: LocalDateTime? = null
     if (uri != null) {
-        context.contentResolver.openInputStream(uri)?.use { stream->
+        context.contentResolver.openInputStream(uri)?.use { stream ->
             val exif = ExifInterface(stream)
 
             val exifDateFormatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss")
@@ -29,7 +28,7 @@ fun getUriDate(uri : Uri?, context : Context)  : LocalDateTime? {
 }
 
 @SuppressLint("SimpleDateFormat")
-fun makeUriDate() : Date?{
+fun makeUriDate(): Date? {
     val date = Date(System.currentTimeMillis())
     val dateFormat = SimpleDateFormat("yyyy:MM:dd HH:mm:ss")
     val simpleDate = dateFormat.format(date)

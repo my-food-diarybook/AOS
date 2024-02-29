@@ -10,17 +10,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 
 @Composable
-fun SelectPhotoFromAlbumLauncher(callback: (Uri?) -> Unit){
+fun SelectPhotoFromAlbumLauncher(callback: (Uri?) -> Unit) {
     val takePhotoFromAlbumLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
-    ){ result ->
-        if (result.resultCode == Activity.RESULT_OK){
-            result.data?.data?.let {uri ->
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            result.data?.data?.let { uri ->
                 callback(uri)
             } ?: run {
                 callback(null)
             }
-        }else{
+        } else {
             callback(null)
         }
     }
@@ -30,7 +30,7 @@ fun SelectPhotoFromAlbumLauncher(callback: (Uri?) -> Unit){
     }
 }
 
-fun makeAlbumIntent() : Intent {
+fun makeAlbumIntent(): Intent {
     return Intent(
         Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI
     ).apply {
@@ -40,6 +40,6 @@ fun makeAlbumIntent() : Intent {
             Intent.EXTRA_MIME_TYPES,
             arrayOf("image/jpeg", "image/png", "image/bmp", "image/webp")
         )
-        putExtra(Intent.EXTRA_ALLOW_MULTIPLE,false)
+        putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
     }
 }

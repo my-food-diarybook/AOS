@@ -4,7 +4,6 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.android.myfooddiarybookaos.api.NetworkManager
-import com.android.myfooddiarybookaos.data.dataTimeLine.remote.TimeLineDiaryPagingSource
 import com.android.myfooddiarybookaos.data.dataTimeLine.remote.TimeLinePagingSource
 import com.android.myfooddiarybookaos.model.timeLine.TimeLine
 import com.android.myfooddiarybookaos.model.timeLine.TimeLineDiary
@@ -43,7 +42,7 @@ class TimeLineRepository @Inject constructor(
                     offset = offset
                 )
             )
-        } catch (_: Exception){
+        } catch (_: Exception) {
             emit(emptyList())
         }
     }

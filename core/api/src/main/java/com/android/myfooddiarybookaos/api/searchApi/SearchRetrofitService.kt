@@ -2,7 +2,6 @@ package com.android.myfooddiarybookaos.api.searchApi
 
 import com.android.myfooddiarybookaos.model.search.SearchCategory
 import com.android.myfooddiarybookaos.model.search.SearchDiary
-import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 

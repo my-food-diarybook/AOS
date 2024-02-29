@@ -1,17 +1,12 @@
 package com.android.myfooddiarybookaos.search
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.android.myfooddiarybookaos.data.dataSearch.repository.SearchRepository
-import com.android.myfooddiarybookaos.data.state.ApplicationState
-import com.android.myfooddiarybookaos.data.state.DiaryState
 import com.android.myfooddiarybookaos.model.search.SearchCategory
 import com.android.myfooddiarybookaos.model.search.SearchDiary
-import com.android.myfooddiarybookaos.search.state.SearchDataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,10 +18,11 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val searchRepository: SearchRepository
-): ViewModel() {
+) : ViewModel() {
 
-    private val _pagingCategoryList =  MutableStateFlow<PagingData<SearchCategory>>(PagingData.empty())
-    val pagingCategoryList : StateFlow<PagingData<SearchCategory>> =
+    private val _pagingCategoryList =
+        MutableStateFlow<PagingData<SearchCategory>>(PagingData.empty())
+    val pagingCategoryList: StateFlow<PagingData<SearchCategory>> =
         _pagingCategoryList.asStateFlow()
 
     private val _pagingDiaryList = MutableStateFlow<PagingData<SearchDiary>>(PagingData.empty())
@@ -52,8 +48,8 @@ class SearchViewModel @Inject constructor(
         )
             .cachedIn(viewModelScope)
             .collectLatest {
-            _pagingDiaryList.value = it
-        }
+                _pagingDiaryList.value = it
+            }
     }
 
     fun getSearchData(

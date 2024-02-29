@@ -15,17 +15,17 @@ import com.android.myfooddiarybookaos.model.map.Place
 @Composable
 fun CurrentLocationLayer(
     currentLocationResult: State<List<Place>?>,
-    selectedLocation: (Place)->Unit
+    selectedLocation: (Place) -> Unit
 ) {
     LazyColumn(
         state = rememberLazyListState(),
         modifier = Modifier.padding(
-            start = 53.dp,end = 19.dp, top = 20.dp
+            start = 53.dp, end = 19.dp, top = 20.dp
         ),
         verticalArrangement = Arrangement.spacedBy(15.dp),
-    ){
+    ) {
         currentLocationResult.value?.let { results ->
-            items(results){ place ->
+            items(results) { place ->
                 CurrentLocationItem(
                     place = place,
                     onSelected = {

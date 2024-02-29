@@ -1,8 +1,6 @@
 package com.android.myfooddiarybookaos.data.todayViewModel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import java.util.*
+import java.util.Calendar
 
 interface TodayViewInterface {
     val currentCalendar: Calendar

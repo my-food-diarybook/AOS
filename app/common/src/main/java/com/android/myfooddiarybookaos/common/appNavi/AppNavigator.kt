@@ -1,8 +1,9 @@
 package com.android.myfooddiarybookaos.common.appNavi
 
-enum class Screens{
+enum class Screens {
 
 }
+
 interface AppNavigator {
-    fun navigateTo(screen : Screens)
+    fun navigateTo(screen: Screens)
 }

@@ -1,6 +1,6 @@
 package com.android.myfooddiarybookaos.model.map
 
-data class Place (
+data class Place(
     var id: String,                     // 장소 ID
     var place_name: String,             // 장소명, 업체명
     var category_name: String,          // 카테고리 이름
