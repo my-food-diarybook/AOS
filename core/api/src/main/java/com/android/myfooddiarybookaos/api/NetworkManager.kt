@@ -1,6 +1,7 @@
 package com.android.myfooddiarybookaos.api
 
 import android.content.Context
+import android.util.Log
 import com.android.myfooddiarybookaos.api.diaryApi.DiaryPostRetrofitService
 import com.android.myfooddiarybookaos.api.diaryApi.DiaryRetrofitService
 import com.android.myfooddiarybookaos.api.diaryApi.TimeLineRetrofitService
@@ -132,7 +133,7 @@ class NetworkManager(
     }
 
     fun getLoginApiService(): UserRetrofitService {
-        setLoginForm(LOGIN_NONE)
+//        setLoginForm(LOGIN_NONE)
         return getRetrofit(context, CONTENT_APPLICATION).create(UserRetrofitService::class.java)
     }
 

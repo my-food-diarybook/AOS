@@ -12,6 +12,7 @@ import androidx.lifecycle.viewModelScope
 import com.android.myfooddiarybookaos.api.UserInfoSharedPreferences
 import com.android.myfooddiarybookaos.api.googleLogin.LoginResult
 import com.android.myfooddiarybookaos.data.dataLogin.repository.LoginRepository
+import com.android.myfooddiarybookaos.data.state.LoadState
 import com.android.myfooddiarybookaos.login.data.GoogleLoginRepository
 import com.android.myfooddiarybookaos.login.data.KaKaoLoginRepository
 import com.android.myfooddiarybookaos.model.login.LoginGoogleResponse
@@ -21,8 +22,12 @@ import com.kakao.sdk.auth.model.OAuthToken
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.jvm.internal.Intrinsics.Kotlin
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
@@ -30,6 +35,26 @@ class LoginViewModel @Inject constructor(
     private val googleLoginRepository: GoogleLoginRepository,
     private val kaKaoLoginRepository: KaKaoLoginRepository
 ) : ViewModel() {
+
+    private var _state : MutableStateFlow<LoadState> = MutableStateFlow(LoadState.Init)
+    val state: StateFlow<LoadState> = _state.asStateFlow()
+
+    fun isLogin(onResult:(Boolean) -> Unit){
+        viewModelScope.launch {
+            _state.emit(LoadState.Loading)
+            runCatching {
+                repository.checkTokenState()
+            }
+                .onSuccess {
+                    _state.emit(LoadState.Init)
+                    onResult(true)
+                }
+                .onFailure {
+                    _state.emit(LoadState.Fail)
+                    onResult(false)
+                }
+        }
+    }
 
     fun loginUser(
         email: String,
