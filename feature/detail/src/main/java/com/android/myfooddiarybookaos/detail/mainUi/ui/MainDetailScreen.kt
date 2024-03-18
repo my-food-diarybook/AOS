@@ -16,8 +16,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.android.myfooddiarybookaos.data.component.ErrorPage
+import com.android.myfooddiarybookaos.data.component.LoadPage
 import com.android.myfooddiarybookaos.data.state.AddScreenState
+import com.android.myfooddiarybookaos.data.state.DetailFixState
 import com.android.myfooddiarybookaos.data.state.DiaryState
+import com.android.myfooddiarybookaos.data.state.LoadState
 import com.android.myfooddiarybookaos.detail.function.DiaryViewState
 import com.android.myfooddiarybookaos.detail.mainUi.component.DetailData
 import com.android.myfooddiarybookaos.detail.mainUi.component.DetailMenuTime
@@ -30,11 +34,13 @@ import com.android.myfooddiarybookaos.detail.viewModel.DetailViewModel
 fun MainDetailScreen(
     viewUpdate: MutableState<Boolean>,
     diaryState: DiaryState,
+    diaryFixState: DetailFixState,
     topDate: String,
     initMemo: () -> Unit,
     currentViewState: MutableState<DiaryViewState>,
     detailViewModel: DetailViewModel = hiltViewModel()
 ) {
+    val state = detailViewModel.state.collectAsState()
     val scrollState = rememberScrollState()
     val diaryDetail = detailViewModel.diaryDetail.collectAsState().value
     val pagerState = rememberPagerState(pageCount = { diaryDetail.images.size })
@@ -70,7 +76,6 @@ fun MainDetailScreen(
         }
         diaryState.resetSelectedInfo()
     }
-
     Column {
         DetailTopLayer(
             diaryDetail.images.size,
@@ -80,35 +85,54 @@ fun MainDetailScreen(
                 currentViewState.value = DiaryViewState.MEMO
             }
         )
-        Column(
-            modifier = Modifier.verticalScroll(scrollState)
-        ) {
-            ImageSliderScreen(diaryDetail.images, pagerState)
-            Surface(
-                modifier = Modifier
-                    .clickable{
-                        initMemo()
-                        currentViewState.value = DiaryViewState.MEMO
-                    }
-                    .padding(start = 21.dp, top = 25.dp)
-            ) {
-                DetailMenuTime(diaryDetail = diaryDetail)
+
+        when (state.value) {
+            LoadState.Loading -> {
+                LoadPage()
             }
-            Spacer(modifier = Modifier.height(10.dp))
-            DetailData(
-                diaryDetail,
-                fixMemo = {
-                    initMemo()
-                    currentViewState.value = DiaryViewState.MEMO
-                },
-                fixLocation = {
-                    currentViewState.value = DiaryViewState.LOCATION
-                },
-                fixTag = {
-                    initMemo()
-                    currentViewState.value = DiaryViewState.MEMO
+
+            LoadState.Fail -> {
+                ErrorPage {
+                    detailViewModel.setDiaryDetail(
+                        initData = {
+                            diaryFixState.initMemo(it)
+                        }
+                    )
                 }
-            )
+            }
+
+            LoadState.Init -> {
+                Column(
+                    modifier = Modifier.verticalScroll(scrollState)
+                ) {
+                    ImageSliderScreen(diaryDetail.images, pagerState)
+                    Surface(
+                        modifier = Modifier
+                            .clickable {
+                                initMemo()
+                                currentViewState.value = DiaryViewState.MEMO
+                            }
+                            .padding(start = 21.dp, top = 25.dp)
+                    ) {
+                        DetailMenuTime(diaryDetail = diaryDetail)
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
+                    DetailData(
+                        diaryDetail,
+                        fixMemo = {
+                            initMemo()
+                            currentViewState.value = DiaryViewState.MEMO
+                        },
+                        fixLocation = {
+                            currentViewState.value = DiaryViewState.LOCATION
+                        },
+                        fixTag = {
+                            initMemo()
+                            currentViewState.value = DiaryViewState.MEMO
+                        }
+                    )
+                }
+            }
         }
     }
 }

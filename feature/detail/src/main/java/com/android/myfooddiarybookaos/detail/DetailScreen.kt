@@ -57,6 +57,7 @@ fun DetailScreen(
             MainDetailScreen(
                 viewUpdate,
                 diaryState,
+                diaryFixState,
                 topDate,
                 initMemo = {
                     diaryFixState.initMemo(diaryDetail)

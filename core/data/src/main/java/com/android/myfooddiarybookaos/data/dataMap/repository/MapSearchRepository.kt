@@ -45,16 +45,13 @@ class MapSearchRepository @Inject constructor(
         keyword: String,
         myLocation: MyLocation?
     ): Flow<List<Place>> = flow {
-        try {
-            emit(
-                manager.getSearchKeyword(
-                    query = keyword,
-                    x = myLocation?.x,
-                    y = myLocation?.y
-                ).documents
-            )
-        } catch (_: java.lang.Exception) {
-        }
+        emit(
+            manager.getSearchKeyword(
+                query = keyword,
+                x = myLocation?.x,
+                y = myLocation?.y
+            ).documents
+        )
     }
 
     fun initLocation(

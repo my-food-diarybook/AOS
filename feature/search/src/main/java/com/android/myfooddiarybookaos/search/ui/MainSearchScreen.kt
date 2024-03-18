@@ -7,6 +7,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.android.myfooddiarybookaos.data.component.ErrorPage
+import com.android.myfooddiarybookaos.data.component.LoadPage
+import com.android.myfooddiarybookaos.data.state.LoadState
 import com.android.myfooddiarybookaos.model.search.SearchDiary
 import com.android.myfooddiarybookaos.search.SearchViewModel
 import com.android.myfooddiarybookaos.search.component.PagingCategoryComponent
@@ -19,13 +22,13 @@ fun MainSearchScreen(
     searchState: MutableState<SearchState>,
     queryChangeState: MutableState<Boolean>,
     searchQuery: MutableState<TextFieldValue>,
-    selectItem : (SearchDiary) -> Unit,
+    selectItem: (SearchDiary) -> Unit,
     viewModel: SearchViewModel = hiltViewModel()
 ) {
-
+    val state = viewModel.state.collectAsState()
     when (searchState.value) {
         SearchState.MAIN_SEARCH -> {
-            if (isUpdateView.value){
+            if (isUpdateView.value) {
                 viewModel.getPagingCategories()
                 isUpdateView.value = false
             }
@@ -33,10 +36,24 @@ fun MainSearchScreen(
                 viewModel.getPagingCategories()
             }
             val pagingItems = viewModel.pagingCategoryList.collectAsLazyPagingItems()
-            PagingCategoryComponent(
-                selectItem = selectItem,
-                pagingItems = pagingItems
-            )
+            when (state.value) {
+                LoadState.Init -> {
+                    PagingCategoryComponent(
+                        selectItem = selectItem,
+                        pagingItems = pagingItems
+                    )
+                }
+
+                LoadState.Loading -> {
+                    LoadPage()
+                }
+
+                LoadState.Fail -> {
+                    ErrorPage {
+                        viewModel.getPagingCategories()
+                    }
+                }
+            }
         }
 
         SearchState.QUERY_SEARCH -> {
@@ -45,10 +62,22 @@ fun MainSearchScreen(
                 queryChangeState.value = false
             }
             val searchItems = viewModel.searchCategoryList.collectAsState()
-            SearchCategoryComponent(
-                searchItems = searchItems,
-                selectItem = selectItem
-            )
+            when(state.value){
+                LoadState.Init -> {
+                    SearchCategoryComponent(
+                        searchItems = searchItems,
+                        selectItem = selectItem
+                    )
+                }
+                LoadState.Loading -> {
+                    LoadPage()
+                }
+                LoadState.Fail -> {
+                    ErrorPage {
+                        viewModel.getSearchData(searchQuery.value.text)
+                    }
+                }
+            }
         }
     }
 }

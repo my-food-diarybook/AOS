@@ -1,5 +1,6 @@
 package com.android.myfooddiarybookaos.home.component
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -67,6 +68,7 @@ fun MonthDataView(
 }
 
 
+@SuppressLint("UnrememberedMutableState")
 @Preview(showBackground = true)
 @Composable
 fun MonthDataPreview() {

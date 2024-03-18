@@ -19,10 +19,7 @@ class DetailRepository @Inject constructor(
     private val postManager = networkManager.getDiaryMultiPartApiService()
 
     suspend fun getDetailDiary(diaryId: Int): Flow<DiaryDetail> = flow {
-        try {
-            emit(manager.getDiaryDetail(diaryId))
-        } catch (_: java.lang.Exception) {
-        }
+        emit(manager.getDiaryDetail(diaryId))
     }
 
     fun fixDetailDiary(

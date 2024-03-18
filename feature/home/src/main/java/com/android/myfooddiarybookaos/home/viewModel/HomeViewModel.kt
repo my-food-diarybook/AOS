@@ -9,6 +9,7 @@ import com.android.myfooddiarybookaos.data.dataHome.repository.HomePostRepositor
 import com.android.myfooddiarybookaos.data.dataHome.repository.HomeRepository
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
+import com.android.myfooddiarybookaos.data.state.LoadState
 import com.android.myfooddiarybookaos.model.diary.Diary
 import com.android.myfooddiarybookaos.model.home.HomeDay
 import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
@@ -26,12 +27,15 @@ class HomeViewModel @Inject constructor(
     private val homePostRepository: HomePostRepository,
     private val homeRepository: HomeRepository,
 ) : ViewModel() {
+
+    private var _state : MutableStateFlow<LoadState> = MutableStateFlow(LoadState.Init)
+    val state: StateFlow<LoadState> = _state.asStateFlow()
+
     private val _appState = MutableLiveData<ApplicationState>()
     private val appState: LiveData<ApplicationState> get() = _appState
 
     private val _diaryState = MutableLiveData<DiaryState>()
     val diaryState: LiveData<DiaryState> get() = _diaryState
-
 
     private val _homeDiaryList = MutableStateFlow<List<Diary>>(emptyList())
     val homeDiaryList: StateFlow<List<Diary>> = _homeDiaryList.asStateFlow()
@@ -57,21 +61,38 @@ class HomeViewModel @Inject constructor(
     fun setDiaryList(
         yearMonth: String
     ) = viewModelScope.launch {
-        homeRepository.getCurrentHomeDiary(yearMonth)
-            .collectLatest {
-                _homeDiaryList.value = it
-
+        _state.emit(LoadState.Loading)
+        runCatching {
+            homeRepository.getCurrentHomeDiary(yearMonth)
+                .collectLatest {
+                    _homeDiaryList.value = it
+                }
+        }
+            .onSuccess {
+                _state.emit(LoadState.Init)
+            }
+            .onFailure {
+                _state.emit(LoadState.Fail)
             }
     }
 
     fun getHomeDayInDiary(
         date: String
     ) = viewModelScope.launch {
-        homeRepository.getCurrentHomeDay(date)
-            .collectLatest {
-                _homeDayInDiary.value = it.homeDayList
-                _homeDayPrev.value = it.beforeDay ?: ""
-                _homeDayNext.value = it.afterDay ?: ""
+        _state.emit(LoadState.Loading)
+        runCatching {
+            homeRepository.getCurrentHomeDay(date)
+                .collectLatest {
+                    _homeDayInDiary.value = it.homeDayList
+                    _homeDayPrev.value = it.beforeDay ?: ""
+                    _homeDayNext.value = it.afterDay ?: ""
+                }
+        }
+            .onSuccess {
+                _state.emit(LoadState.Init)
+            }
+            .onFailure {
+                _state.emit(LoadState.Fail)
             }
     }
 

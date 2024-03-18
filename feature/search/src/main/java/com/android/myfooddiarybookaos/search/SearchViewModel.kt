@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.android.myfooddiarybookaos.data.dataSearch.repository.SearchRepository
+import com.android.myfooddiarybookaos.data.state.LoadState
 import com.android.myfooddiarybookaos.model.search.SearchCategory
 import com.android.myfooddiarybookaos.model.search.SearchDiary
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,6 +20,8 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val searchRepository: SearchRepository
 ) : ViewModel() {
+    private var _state : MutableStateFlow<LoadState> = MutableStateFlow(LoadState.Init)
+    val state: StateFlow<LoadState> = _state.asStateFlow()
 
     private val _pagingCategoryList =
         MutableStateFlow<PagingData<SearchCategory>>(PagingData.empty())
@@ -43,21 +46,39 @@ class SearchViewModel @Inject constructor(
         categoryName: String,
         categoryType: String
     ) = viewModelScope.launch {
-        searchRepository.getSearchDiary(
-            categoryName, categoryType
-        )
-            .cachedIn(viewModelScope)
-            .collectLatest {
-                _pagingDiaryList.value = it
+        runCatching {
+            _state.emit(LoadState.Loading)
+            searchRepository.getSearchDiary(
+                categoryName, categoryType
+            )
+                .cachedIn(viewModelScope)
+                .collectLatest {
+                    _pagingDiaryList.value = it
+                }
+        }
+            .onSuccess {
+                _state.emit(LoadState.Init)
+            }
+            .onFailure {
+                _state.emit(LoadState.Fail)
             }
     }
 
     fun getSearchData(
         searchQuery: String
     ) = viewModelScope.launch {
-        searchRepository.getCurrentSearch(searchQuery)
-            .collectLatest {
-                _searchCategoryList.value = it
+        runCatching {
+            _state.emit(LoadState.Loading)
+            searchRepository.getCurrentSearch(searchQuery)
+                .collectLatest {
+                    _searchCategoryList.value = it
+                }
+        }
+            .onSuccess {
+                _state.emit(LoadState.Init)
+            }
+            .onFailure {
+                _state.emit(LoadState.Fail)
             }
     }
 }

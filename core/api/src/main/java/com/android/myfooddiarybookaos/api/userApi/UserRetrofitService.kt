@@ -8,7 +8,7 @@ import retrofit2.http.*
 interface UserRetrofitService {
 
     @GET("user/is-login")
-    suspend fun userIsLogin()
+    suspend fun userIsLogin(): Result<Unit>
 
     @POST("user/login")
     suspend fun userLogin(

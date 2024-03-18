@@ -11,6 +11,7 @@ import com.android.myfooddiarybookaos.data.dataMap.repository.MapSearchRepositor
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DetailFixState
 import com.android.myfooddiarybookaos.data.state.DiaryState
+import com.android.myfooddiarybookaos.data.state.LoadState
 import com.android.myfooddiarybookaos.model.detail.DiaryDetail
 import com.android.myfooddiarybookaos.model.map.MyLocation
 import com.android.myfooddiarybookaos.model.map.Place
@@ -27,7 +28,8 @@ class DetailViewModel @Inject constructor(
     private val detailRepository: DetailRepository,
     private val mapSearchRepository: MapSearchRepository,
 ) : ViewModel() {
-
+    private var _state: MutableStateFlow<LoadState> = MutableStateFlow(LoadState.Init)
+    val state: StateFlow<LoadState> = _state.asStateFlow()
 
     private val _appState = MutableLiveData<ApplicationState>()
     val appState: LiveData<ApplicationState> get() = _appState
@@ -58,24 +60,35 @@ class DetailViewModel @Inject constructor(
     fun setDiaryDetail(
         initData: (DiaryDetail?) -> Unit
     ) = viewModelScope.launch {
-        diaryState.value?.currentDiaryDetail?.let { currentId ->
-            if (currentId.value != -1) {
-                detailRepository.getDetailDiary(currentId.value)
-                    .collect {
-                        _diaryDetail.value = it
-                        initData(it)
-                    }
+        runCatching {
+            _state.emit(LoadState.Loading)
+            diaryState.value?.currentDiaryDetail?.let { currentId ->
+                if (currentId.value != -1) {
+                    detailRepository.getDetailDiary(currentId.value)
+                        .collect {
+                            _diaryDetail.value = it
+                            initData(it)
+                        }
+                }
             }
         }
+            .onSuccess {
+                _state.emit(LoadState.Init)
+            }
+            .onFailure {
+                _state.emit(LoadState.Fail)
+            }
     }
 
     fun getSearchResult(
         data: String
     ) = viewModelScope.launch {
-        mapSearchRepository.getSearchKeyword(data, myLocation.value)
-            .collect {
-                _searchResult.value = it
-            }
+        runCatching {
+            mapSearchRepository.getSearchKeyword(data, myLocation.value)
+                .collect {
+                    _searchResult.value = it
+                }
+        }
     }
 
     fun setMyLocation() {

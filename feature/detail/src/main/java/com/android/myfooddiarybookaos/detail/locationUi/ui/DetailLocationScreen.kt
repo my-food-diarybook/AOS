@@ -90,7 +90,7 @@ fun DetailLocationScreen(
             submitEnabled,
             search = {
                 userInput = it
-                coroutineScope.launch {// 로드 딜레이
+                coroutineScope.launch { // 로드 딜레이
                     delay(500)
                     prevInput = it
                     if (searchUpdate.value) detailViewModel.getSearchResult(userInput)
