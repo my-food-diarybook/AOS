@@ -101,7 +101,6 @@ fun HomeScreen(
             resetData = {
                 viewUpdate.value = true
             },
-            isMainView = true
         )
         // mid calendar
         Box(
