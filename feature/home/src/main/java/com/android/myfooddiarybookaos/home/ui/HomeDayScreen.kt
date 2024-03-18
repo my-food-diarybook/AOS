@@ -1,5 +1,6 @@
 package com.android.myfooddiarybookaos.home.ui
 
+import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -30,11 +31,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.myfooddiarybookaos.core.data.R
+import com.android.myfooddiarybookaos.data.component.ErrorPage
+import com.android.myfooddiarybookaos.data.component.LoadPage
 import com.android.myfooddiarybookaos.data.component.coloredInnerShadow
 import com.android.myfooddiarybookaos.data.dataCalendar.viewModel.TodayViewModel
 import com.android.myfooddiarybookaos.data.state.AddScreenState
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
+import com.android.myfooddiarybookaos.data.state.LoadState
 import com.android.myfooddiarybookaos.home.component.HomeDayTopLayer
 import com.android.myfooddiarybookaos.home.item.ItemHomeDay
 import com.android.myfooddiarybookaos.home.viewModel.HomeViewModel
@@ -42,6 +46,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun HomeDayScreen(
     isViewUpdate : MutableState<Boolean>,
@@ -55,7 +60,7 @@ fun HomeDayScreen(
         homeViewModel.initState(appState, diaryState)
     }
     val scope = rememberCoroutineScope()
-
+    val state = homeViewModel.state.collectAsState()
     // 뒤로가기 제어
     BackHandler(enabled = true, onBack = {
         backStage(diaryState, appState)
@@ -137,50 +142,62 @@ fun HomeDayScreen(
 
         Spacer(modifier = Modifier.height(6.dp))
 
-        // 박스 (좌우)
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(34.dp)
-        ) {
-            todayViewModel.apply {
-                HomeDayTopLayer(
-                    currentDate = getTopDate(currentDate),
-                    prevDate = getTopDate(prevDay.value),
-                    nextDate = getTopDate(nextDay.value),
-                    onPrev = {
-                        if (prevDay.value.isNotEmpty()) {
-                            diaryState.currentHomeDay.value = prevDay.value
-                            viewUpdate.value = true
-                        }
-                    },
-                    onNext = {
-                        if (nextDay.value.isNotEmpty()) {
-                            diaryState.currentHomeDay.value = nextDay.value
-                            viewUpdate.value = true
-                        }
-                    },
-                )
+        when(state.value){
+            LoadState.Loading -> {
+                LoadPage()
             }
-        }
+            LoadState.Fail -> {
+                ErrorPage {
 
-        // item 상, 하로 8dp, 첫 item 상 (17dp - 8dp = 9dp)
-        Spacer(modifier = Modifier.height(9.dp))
+                }
+            }
+            LoadState.Init -> {
+                // 박스 (좌우)
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(34.dp)
+                ) {
+                    todayViewModel.apply {
+                        HomeDayTopLayer(
+                            currentDate = getTopDate(currentDate),
+                            prevDate = getTopDate(prevDay.value),
+                            nextDate = getTopDate(nextDay.value),
+                            onPrev = {
+                                if (prevDay.value.isNotEmpty()) {
+                                    diaryState.currentHomeDay.value = prevDay.value
+                                    viewUpdate.value = true
+                                }
+                            },
+                            onNext = {
+                                if (nextDay.value.isNotEmpty()) {
+                                    diaryState.currentHomeDay.value = nextDay.value
+                                    viewUpdate.value = true
+                                }
+                            },
+                        )
+                    }
+                }
 
-        //여기 아이템 리스트 추가
-        if (!viewUpdate.value) {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(horizontal = 20.dp),
-                state = rememberLazyListState()
-            ) {
-                items(homeDays.value) {
-                    ItemHomeDay(
-                        homeDay = it,
-                        clickDiary = {
-                            homeViewModel.goDetailView(it.id)
-                        },
-                    )
+                // item 상, 하로 8dp, 첫 item 상 (17dp - 8dp = 9dp)
+                Spacer(modifier = Modifier.height(9.dp))
+
+                //여기 아이템 리스트 추가
+                if (!viewUpdate.value) {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(horizontal = 20.dp),
+                        state = rememberLazyListState()
+                    ) {
+                        items(homeDays.value) {
+                            ItemHomeDay(
+                                homeDay = it,
+                                clickDiary = {
+                                    homeViewModel.goDetailView(it.id)
+                                },
+                            )
+                        }
+                    }
                 }
             }
         }

@@ -53,7 +53,6 @@ fun BottomLayout(
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult(),
         onResult = { result ->
-            Log.d("fwlejfweljfweljwef", result.resultCode.toString())
             viewModel.setLauncher(result, firebaseAuth,
                 loginState = { state ->
                     if (!state) isGoogleLogin.value = false

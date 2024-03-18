@@ -15,17 +15,10 @@ class HomeRepository(
     private val manager = networkManager.getDiaryAppApiService()
 
     suspend fun getCurrentHomeDiary(yearMonth: String): Flow<List<Diary>> = flow {
-        try {
-            emit(manager.getHomeDiary(yearMonth))
-        } catch (_: Exception) {
-        }
+        emit(manager.getHomeDiary(yearMonth))
     }
 
     suspend fun getCurrentHomeDay(date: String): Flow<DiaryHomeDay> = flow {
-        try {
-            emit(manager.getHomeDay(date))
-        } catch (_: Exception) {
-        }
+        emit(manager.getHomeDay(date))
     }
-
 }

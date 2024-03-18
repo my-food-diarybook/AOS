@@ -45,8 +45,8 @@ fun MidLayout(
     viewModel: LoginViewModel = hiltViewModel()
 ) {
 
-    val emailText = remember { mutableStateOf(TextFieldValue("test_user@naver.com")) }
-    val pwText = remember { mutableStateOf(TextFieldValue("qwer1234@@")) }
+    val emailText = remember { mutableStateOf(TextFieldValue("")) }
+    val pwText = remember { mutableStateOf(TextFieldValue("")) }
 
     var goMainResult by remember { mutableStateOf(false) }
     val loginRequestState = remember { mutableStateOf(false) }

@@ -10,6 +10,7 @@ import androidx.paging.cachedIn
 import com.android.myfooddiarybookaos.data.dataTimeLine.repository.TimeLineRepository
 import com.android.myfooddiarybookaos.data.state.ApplicationState
 import com.android.myfooddiarybookaos.data.state.DiaryState
+import com.android.myfooddiarybookaos.data.state.LoadState
 import com.android.myfooddiarybookaos.model.timeLine.TimeLine
 import com.dnd_9th_3_android.gooding.data.root.ScreenRoot
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -48,13 +49,15 @@ class TimeLineViewModel @Inject constructor(
     fun setTimeLineData(
         date: String
     ) = viewModelScope.launch {
-        _timeLine.value = PagingData.empty()
-        delay(100)
-        timeLineRepository.getTimeLineData(date = date)
-            .cachedIn(viewModelScope)
-            .collectLatest {
-                _timeLine.value = it
-            }
+        runCatching {
+            _timeLine.value = PagingData.empty()
+            delay(100)
+            timeLineRepository.getTimeLineData(date = date)
+                .cachedIn(viewModelScope)
+                .collectLatest {
+                    _timeLine.value = it
+                }
+        }
     }
 
     fun goDetailView(diaryId: Int) {

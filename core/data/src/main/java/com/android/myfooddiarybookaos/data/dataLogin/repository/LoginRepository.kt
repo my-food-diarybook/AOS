@@ -3,12 +3,16 @@ package com.android.myfooddiarybookaos.data.dataLogin.repository
 import android.content.Context
 import com.android.myfooddiarybookaos.api.NetworkManager
 import com.android.myfooddiarybookaos.api.UserInfoSharedPreferences
+import com.android.myfooddiarybookaos.data.state.LoadState
 import com.android.myfooddiarybookaos.model.login.CreateUserResponse
 import com.android.myfooddiarybookaos.model.login.LoginResponse
 import com.android.myfooddiarybookaos.model.login.PasswordResetRequest
 import com.android.myfooddiarybookaos.model.login.UserRequest
 import com.android.myfooddiarybookaos.model.response.NotStateResponse
 import com.google.gson.Gson
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,6 +24,11 @@ class LoginRepository @Inject constructor(
 ) {
 
     private val manager = networkManager.getLoginApiService()
+
+
+    suspend fun checkTokenState() {
+        manager.userIsLogin()
+    }
 
     fun createUserRequest(
         email: String, pw: String,

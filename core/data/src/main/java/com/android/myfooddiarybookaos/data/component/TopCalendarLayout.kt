@@ -25,7 +25,6 @@ import java.util.*
 fun TopCalendarLayout(
     todayViewModel: TodayViewModel = hiltViewModel(),
     resetData: () -> Unit,
-    isMainView: Boolean
 ) {
     var isTopLayoutClick by remember { // 캘린더 클릭 여부
         mutableStateOf(false)
@@ -94,43 +93,41 @@ fun TopCalendarLayout(
                 }
             }
 
-            if (isMainView) {
-                Row(
+            Row(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(bottom = 3.dp)
+            ) {
+                Box(
                     modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(bottom = 3.dp)
+                        .clickable {
+                            todayViewModel.setPrevDate()
+                            textState.value = todayViewModel.getCurrentCalendarInfo()
+                            resetData()
+                        }
+                        .size(34.dp),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .clickable {
-                                todayViewModel.setPrevDate()
-                                textState.value = todayViewModel.getCurrentCalendarInfo()
-                                resetData()
-                            }
-                            .size(34.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.chevron_left_24px),
-                            contentDescription = null
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(5.dp))
-                    Box(
-                        modifier = Modifier
-                            .clickable {
-                                todayViewModel.setNextDate()
-                                textState.value = todayViewModel.getCurrentCalendarInfo()
-                                resetData()
-                            }
-                            .size(34.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.chevron_right_24px),
-                            contentDescription = null
-                        )
-                    }
+                    Image(
+                        painter = painterResource(id = R.drawable.chevron_left_24px),
+                        contentDescription = null
+                    )
+                }
+                Spacer(modifier = Modifier.width(5.dp))
+                Box(
+                    modifier = Modifier
+                        .clickable {
+                            todayViewModel.setNextDate()
+                            textState.value = todayViewModel.getCurrentCalendarInfo()
+                            resetData()
+                        }
+                        .size(34.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.chevron_right_24px),
+                        contentDescription = null
+                    )
                 }
             }
         }

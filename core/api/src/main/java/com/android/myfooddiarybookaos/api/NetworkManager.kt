@@ -1,6 +1,7 @@
 package com.android.myfooddiarybookaos.api
 
 import android.content.Context
+import android.util.Log
 import com.android.myfooddiarybookaos.api.diaryApi.DiaryPostRetrofitService
 import com.android.myfooddiarybookaos.api.diaryApi.DiaryRetrofitService
 import com.android.myfooddiarybookaos.api.diaryApi.TimeLineRetrofitService
@@ -60,7 +61,6 @@ class NetworkManager(
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(unsafeOkHttpClient(header, contentType, loginForm, context))
                 .build()
-
         }
 
         private fun getGoogleRetrofit(): Retrofit {
@@ -104,6 +104,8 @@ class NetworkManager(
             val sslSocketFactory = sslContext.socketFactory
 
             val builder = OkHttpClient.Builder()
+                .connectTimeout(10 * 1000, TimeUnit.MILLISECONDS)
+                .readTimeout(5 * 1000, TimeUnit.MILLISECONDS)
             builder.sslSocketFactory(sslSocketFactory, trustAllCerts[0] as X509TrustManager)
             builder.hostnameVerifier { hostname, session -> true }
 
@@ -132,7 +134,7 @@ class NetworkManager(
     }
 
     fun getLoginApiService(): UserRetrofitService {
-        setLoginForm(LOGIN_NONE)
+//        setLoginForm(LOGIN_NONE)
         return getRetrofit(context, CONTENT_APPLICATION).create(UserRetrofitService::class.java)
     }
 
