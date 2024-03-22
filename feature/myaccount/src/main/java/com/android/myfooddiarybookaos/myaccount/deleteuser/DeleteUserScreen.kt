@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.android.myfooddiarybookaos.api.UserInfoSharedPreferences
 import com.android.myfooddiarybookaos.core.data.R
 import com.android.myfooddiarybookaos.data.TextBox
 import com.android.myfooddiarybookaos.data.component.coloredInnerShadow
@@ -46,11 +47,22 @@ import com.android.myfooddiarybookaos.data.utils.scaledSp
 fun DeleteUserScreen(
     myNavi: NavHostController,
 ) {
+    val context = LocalContext.current
     val checkBox = remember { mutableStateOf(false) }
     val deleteColorState = animateColorAsState(
         targetValue = if (checkBox.value) colorResource(R.color.main_color) else colorResource(R.color.main_color_30),
         label = ""
     )
+
+    fun logout(){
+        val intent = Intent(
+            context,
+            Class.forName("com.android.myfooddiarybookaos.LoginActivity")
+        )
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        UserInfoSharedPreferences(context).resetUserInfo()
+        context.startActivity(intent)
+    }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ){
@@ -161,7 +173,7 @@ fun DeleteUserScreen(
                     .weight(1f)
                     .clickable {
                         if(checkBox.value){
-
+                            logout() //with api
                         }
                     }
             ) {

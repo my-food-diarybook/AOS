@@ -8,6 +8,7 @@ import com.android.myfooddiarybookaos.api.myApi.NoticeEntity
 import com.android.myfooddiarybookaos.data.dataMy.repository.MyRepository
 import com.android.myfooddiarybookaos.data.dataMy.repository.NoticeRepository
 import com.android.myfooddiarybookaos.data.function.DiaryTime
+import com.android.myfooddiarybookaos.data.state.LoadState
 import com.android.myfooddiarybookaos.model.statistics.StatisticsList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -23,6 +24,9 @@ class MyViewModel @Inject constructor(
     private val noticeRepository: NoticeRepository,
     private val myRepository: MyRepository
 ) : ViewModel() {
+
+    private var _state: MutableStateFlow<LoadState> = MutableStateFlow(LoadState.Init)
+    val state: StateFlow<LoadState> = _state.asStateFlow()
 
     private val _noticeList =
         MutableStateFlow<PagingData<NoticeEntity>>(PagingData.empty())
