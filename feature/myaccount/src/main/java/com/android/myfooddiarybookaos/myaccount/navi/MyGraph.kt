@@ -5,6 +5,7 @@ import androidx.compose.runtime.MutableState
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.android.myfooddiarybookaos.myaccount.deleteuser.DeleteUserScreen
 import com.android.myfooddiarybookaos.myaccount.myInfo.MyInfoScreen
 import com.android.myfooddiarybookaos.myaccount.myMain.MyMainScreen
 import com.android.myfooddiarybookaos.myaccount.myNotice.NoticeScreen
@@ -30,6 +31,10 @@ fun MyGraph(
 
         composable(MyScreenRoot.INFO) {
             MyInfoScreen(myNavi)
+        }
+
+        composable(MyScreenRoot.DELETE){
+            DeleteUserScreen(myNavi)
         }
     }
 }

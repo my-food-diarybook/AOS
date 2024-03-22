@@ -70,6 +70,7 @@ class LoginRepository @Inject constructor(
         email: String, pw: String,
         result: (status: String?, response: LoginResponse?) -> Unit
     ) {
+        networkManager.setLoginForm(NetworkManager.LOGIN_NONE)
         try {
             kotlin.runCatching {
                 manager.userLogin(UserRequest(email, pw))

@@ -133,10 +133,8 @@ class NetworkManager(
         private const val NETWORK_TIME_OUT_SECOND = 10L
     }
 
-    fun getLoginApiService(): UserRetrofitService {
-//        setLoginForm(LOGIN_NONE)
-        return getRetrofit(context, CONTENT_APPLICATION).create(UserRetrofitService::class.java)
-    }
+    fun getLoginApiService(): UserRetrofitService =
+        getRetrofit(context, CONTENT_APPLICATION).create(UserRetrofitService::class.java)
 
     fun getDiaryMultiPartApiService(): DiaryPostRetrofitService =
         getRetrofit(context, CONTENT_MULTI_PART).create(DiaryPostRetrofitService::class.java)
