@@ -34,6 +34,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.android.myfooddiarybookaos.api.UserInfoSharedPreferences
@@ -42,10 +43,12 @@ import com.android.myfooddiarybookaos.data.TextBox
 import com.android.myfooddiarybookaos.data.component.coloredInnerShadow
 import com.android.myfooddiarybookaos.data.robotoRegular
 import com.android.myfooddiarybookaos.data.utils.scaledSp
+import com.android.myfooddiarybookaos.myaccount.viewModel.MyViewModel
 
 @Composable
 fun DeleteUserScreen(
     myNavi: NavHostController,
+    viewModel: MyViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     val checkBox = remember { mutableStateOf(false) }
@@ -54,7 +57,7 @@ fun DeleteUserScreen(
         label = ""
     )
 
-    fun logout(){
+    fun logout() {
         val intent = Intent(
             context,
             Class.forName("com.android.myfooddiarybookaos.LoginActivity")
@@ -64,33 +67,44 @@ fun DeleteUserScreen(
         context.startActivity(intent)
     }
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally
-    ){
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
         Box(
             modifier = Modifier
                 .height(90.dp)
                 .fillMaxWidth(),
             contentAlignment = Alignment.BottomCenter
         ) {
-            Image(
+            Box(
                 modifier = Modifier
-                    .clickable {
-                        myNavi.popBackStack()
-                    }
-                    .align(Alignment.BottomStart)
-                    .padding(start = 9.dp,bottom = 2.dp)
-                    .size(34.dp),
-                painter = painterResource(R.drawable.pass_left_side),
-                contentDescription = null
-            )
-            Box(modifier = Modifier.padding(bottom = 14.75.dp)) {
-                TextBox(
-                    text = "회원탈퇴",
-                    fontWeight = 500,
-                    fontFamily = robotoRegular,
-                    fontSize = 18.scaledSp(),
-                    color = colorResource(id = R.color.black),
-                )
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .padding(bottom = 2.dp),
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(44.dp)
+                        .align(Alignment.BottomStart)
+                        .padding(start = 9.dp)
+                        .clickable {
+                            myNavi.popBackStack()
+                        },
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.chevron_left_24px_no_box),
+                        contentDescription = "",
+                    )
+                }
+                Box(modifier = Modifier.align(Alignment.Center)) {
+                    TextBox(
+                        text = "회원탈퇴",
+                        fontWeight = 500,
+                        fontFamily = robotoRegular,
+                        fontSize = 18.scaledSp(),
+                        color = colorResource(id = R.color.black),
+                    )
+                }
             }
         }
         Divider(
@@ -122,6 +136,7 @@ fun DeleteUserScreen(
             fontWeight = FontWeight.W600,
             fontFamily = robotoRegular,
             fontSize = 18.scaledSp(),
+            lineHeight = 22.scaledSp(),
             color = colorResource(id = R.color.text_dark_pop),
             textAlign = TextAlign.Left
         )
@@ -138,7 +153,9 @@ fun DeleteUserScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 24.dp)
+                .padding(
+                    horizontal = 24.dp
+                )
         ) {
 
             Surface(
@@ -172,8 +189,15 @@ fun DeleteUserScreen(
                 modifier = Modifier
                     .weight(1f)
                     .clickable {
-                        if(checkBox.value){
-                            logout() //with api
+                        if (checkBox.value) {
+                            viewModel.userDelete(
+                                context,
+                                state = {
+                                    if (it) {
+                                        logout()
+                                    }
+                                }
+                            )
                         }
                     }
             ) {
@@ -192,7 +216,7 @@ fun DeleteUserScreen(
             }
 
         }
-        Spacer(modifier = Modifier.height(72.dp))
+        Box(modifier = Modifier.height(80.dp))
     }
 }
 
@@ -201,7 +225,7 @@ fun DeleteUserScreen(
     backgroundColor = 0xFFFFFFFF,
     showBackground = true
 )
-private fun DeleteUserScreenPreview(){
+private fun DeleteUserScreenPreview() {
     DeleteUserScreen(rememberNavController())
 }
 

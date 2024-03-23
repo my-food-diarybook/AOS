@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.kapt'
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
 
 }
 
@@ -95,6 +96,16 @@ dependencies {
     implementation("androidx.room:room-ktx:$room_version")
     kapt("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-paging:$room_version")
+
+    // Google Play services
+    implementation(platform("com.google.firebase:firebase-bom:32.1.0"))
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.firebase:firebase-auth-ktx")
+    // 구글 로그인
+    implementation("com.google.android.gms:play-services-auth:20.6.0")
+
+    // 카캌오 로그인
+    implementation 'com.kakao.sdk:v2-user:2.18.0'
 }
 
 kotlin.sourceSets.all {

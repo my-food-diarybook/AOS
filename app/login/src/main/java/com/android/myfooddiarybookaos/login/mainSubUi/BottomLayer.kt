@@ -72,7 +72,7 @@ fun BottomLayout(
     }
 
     if (isGoogleLogin.value) {
-        viewModel.goggleLogin(launcher)
+        viewModel.goggleLogin(context,launcher)
     }
     if (isKaKaoLogin.value) {
         if (!viewModel.checkKaKaoLogin()) {

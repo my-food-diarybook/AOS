@@ -13,8 +13,8 @@ import com.android.myfooddiarybookaos.api.UserInfoSharedPreferences
 import com.android.myfooddiarybookaos.api.googleLogin.LoginResult
 import com.android.myfooddiarybookaos.data.dataLogin.repository.LoginRepository
 import com.android.myfooddiarybookaos.data.state.LoadState
-import com.android.myfooddiarybookaos.login.data.GoogleLoginRepository
-import com.android.myfooddiarybookaos.login.data.KaKaoLoginRepository
+import com.android.myfooddiarybookaos.data.dataLogin.repository.GoogleLoginRepository
+import com.android.myfooddiarybookaos.data.dataLogin.repository.KaKaoLoginRepository
 import com.android.myfooddiarybookaos.model.login.LoginGoogleResponse
 import com.android.myfooddiarybookaos.model.login.LoginResponse
 import com.google.firebase.auth.FirebaseAuth
@@ -27,7 +27,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.jvm.internal.Intrinsics.Kotlin
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
@@ -190,8 +189,8 @@ class LoginViewModel @Inject constructor(
         )
     }
 
-    fun goggleLogin(launcher: ActivityResultLauncher<Intent>) {
-        googleLoginRepository.login(launcher)
+    fun goggleLogin(context: Context,launcher: ActivityResultLauncher<Intent>) {
+        googleLoginRepository.login(context,launcher)
     }
 
 

@@ -21,6 +21,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -169,44 +170,44 @@ fun MyInfoScreen(
 
             Spacer(modifier = Modifier.height(29.dp))
 
-            Box(
-                modifier = Modifier
-                    .padding(start = 22.dp, end = 18.dp)
-                    .fillMaxWidth()
-                    .clickable {
-                        passwordChangeState.value = true
-                    }
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(10.dp)
-                ) {
-                    Box(
-                        modifier = Modifier.size(24.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.create_24px),
-                            contentDescription = null
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.width(10.dp))
-
-                    Text(
-                        text = "비밀번호 변경",
-                        fontFamily = robotoRegular,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.W400,
-                        lineHeight = 24.sp,
-                        color = Color.Black
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(34.dp))
+//            Box(
+//                modifier = Modifier
+//                    .padding(start = 22.dp, end = 18.dp)
+//                    .fillMaxWidth()
+//                    .clickable {
+//                        passwordChangeState.value = true
+//                    }
+//            ) {
+//                Row(
+//                    verticalAlignment = Alignment.CenterVertically,
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(10.dp)
+//                ) {
+//                    Box(
+//                        modifier = Modifier.size(24.dp),
+//                        contentAlignment = Alignment.Center
+//                    ) {
+//                        Image(
+//                            painter = painterResource(id = R.drawable.create_24px),
+//                            contentDescription = null
+//                        )
+//                    }
+//
+//                    Spacer(modifier = Modifier.width(10.dp))
+//
+//                    Text(
+//                        text = "비밀번호 변경",
+//                        fontFamily = robotoRegular,
+//                        fontSize = 20.sp,
+//                        fontWeight = FontWeight.W400,
+//                        lineHeight = 24.sp,
+//                        color = Color.Black
+//                    )
+//                }
+//            }
+//
+//            Spacer(modifier = Modifier.height(34.dp))
 
             Box(
                 modifier = Modifier
@@ -358,9 +359,12 @@ fun MyInfoScreen(
                 }
             }
             // request 응답 오면 false로 전환
-            scope.launch {
-                delay(2000L)
-                requestDiaryDeleteState.value = false
+            LaunchedEffect(Unit){
+                viewModel.deleteAllDiary {
+                    if (it){
+                        requestDiaryDeleteState.value = false
+                    }
+                }
             }
         }
 

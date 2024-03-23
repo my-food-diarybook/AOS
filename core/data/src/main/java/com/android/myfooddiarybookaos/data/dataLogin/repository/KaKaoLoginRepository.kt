@@ -1,4 +1,4 @@
-package com.android.myfooddiarybookaos.login.data
+package com.android.myfooddiarybookaos.data.dataLogin.repository
 
 import android.content.Context
 import com.android.myfooddiarybookaos.api.NetworkManager
@@ -68,6 +68,12 @@ class KaKaoLoginRepository @Inject constructor(
     ) {
         UserApiClient.instance.me { user, _ ->
             email(user?.kakaoAccount?.email)
+        }
+    }
+
+    fun deleteUser(error : (Throwable?)-> Unit){
+        UserApiClient.instance.unlink {
+            error(error)
         }
     }
 }

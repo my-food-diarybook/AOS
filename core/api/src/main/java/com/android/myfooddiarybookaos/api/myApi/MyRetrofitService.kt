@@ -19,4 +19,9 @@ interface MyRetrofitService {
     @POST("user/logout")
     suspend fun logoutUser()
 
+    @POST("user/delete-all-images")
+    suspend fun deleteAllImages()
+
+    @POST("user/resign")
+    suspend fun deleteUser()
 }

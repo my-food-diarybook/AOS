@@ -1,9 +1,9 @@
-package com.android.myfooddiarybookaos.login.di
+package com.android.myfooddiarybookaos.data.di
 
 import android.content.Context
 import com.android.myfooddiarybookaos.api.NetworkManager
-import com.android.myfooddiarybookaos.login.data.GoogleLoginRepository
-import com.android.myfooddiarybookaos.login.data.KaKaoLoginRepository
+import com.android.myfooddiarybookaos.data.dataLogin.repository.GoogleLoginRepository
+import com.android.myfooddiarybookaos.data.dataLogin.repository.KaKaoLoginRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

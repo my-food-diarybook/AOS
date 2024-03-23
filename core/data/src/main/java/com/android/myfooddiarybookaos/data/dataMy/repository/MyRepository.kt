@@ -6,9 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class MyRepository @Inject constructor(
-    networkManager: NetworkManager
-) {
+class MyRepository @Inject constructor(networkManager: NetworkManager) {
     private val manager = networkManager.getMyApiService()
 
     suspend fun getUserStatistics(): Flow<StatisticsList> = flow {
@@ -20,10 +18,18 @@ class MyRepository @Inject constructor(
 
     suspend fun userLogout(): Boolean {
         return try {
-            val response = manager.logoutUser()
+            manager.logoutUser()
             true
         } catch (_: Exception) {
             false
         }
+    }
+
+    suspend fun userDelete(){
+        manager.deleteUser()
+    }
+
+    suspend fun deleteAllDiary(){
+        manager.deleteAllImages()
     }
 }

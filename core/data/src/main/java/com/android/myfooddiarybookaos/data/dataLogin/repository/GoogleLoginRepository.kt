@@ -1,4 +1,4 @@
-package com.android.myfooddiarybookaos.login.data
+package com.android.myfooddiarybookaos.data.dataLogin.repository
 
 import android.content.ContentValues
 import android.content.Context
@@ -43,7 +43,7 @@ class GoogleLoginRepository @Inject constructor(
                     tokenId = account.serverAuthCode
                     if (tokenId != null && tokenId != "") {
                         val credential: AuthCredential =
-                            GoogleAuthProvider.getCredential(account.serverAuthCode, null)
+                            GoogleAuthProvider.getCredential(tokenId, null)
 
                         firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
                             if (firebaseAuth.currentUser != null) {
@@ -73,6 +73,7 @@ class GoogleLoginRepository @Inject constructor(
     }
 
     fun login(
+        context: Context,
         launcher: ActivityResultLauncher<Intent>
     ) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -96,5 +97,10 @@ class GoogleLoginRepository @Inject constructor(
             ?.run {
                 return LoginResult.Success(this.body() ?: LoginGoogleResponse())
             } ?: return LoginResult.Error(Exception("Exception"))
+    }
+
+    fun revokeAccess(context: Context){
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
+        GoogleSignIn.getClient(context,gso).revokeAccess()
     }
 }
