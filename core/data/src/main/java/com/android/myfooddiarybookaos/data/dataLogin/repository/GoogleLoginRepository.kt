@@ -17,6 +17,8 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -58,6 +60,7 @@ class GoogleLoginRepository @Inject constructor(
                                     loginCallback(null)
                                 }
                             } else {
+                                firebaseAuth
                                 loginCallback(null)
                             }
                         }
@@ -70,6 +73,14 @@ class GoogleLoginRepository @Inject constructor(
         } else {
             loginCallback(null)
         }
+    }
+
+    fun logout(context: Context){
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .requestProfile()
+            .build()
+        GoogleSignIn.getClient(context,gso).signOut()
     }
 
     fun login(
@@ -100,7 +111,10 @@ class GoogleLoginRepository @Inject constructor(
     }
 
     fun revokeAccess(context: Context){
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .requestProfile()
+            .build()
         GoogleSignIn.getClient(context,gso).revokeAccess()
     }
 }

@@ -73,7 +73,13 @@ class KaKaoLoginRepository @Inject constructor(
 
     fun deleteUser(error : (Throwable?)-> Unit){
         UserApiClient.instance.unlink {
-            error(error)
+            error(it)
+        }
+    }
+
+    fun logOutUser(error: (Throwable?) -> Unit){
+        UserApiClient.instance.logout {
+            error(it)
         }
     }
 }

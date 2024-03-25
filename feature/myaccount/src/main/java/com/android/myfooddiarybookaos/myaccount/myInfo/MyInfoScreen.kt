@@ -68,7 +68,7 @@ fun MyInfoScreen(
     val requestDiaryDeleteState = remember { mutableStateOf(false) }
 
     if (logoutState.value) {
-        viewModel.userLogout {
+        viewModel.userLogout(context) {
             if (it) {
                 val intent = Intent(
                     context,

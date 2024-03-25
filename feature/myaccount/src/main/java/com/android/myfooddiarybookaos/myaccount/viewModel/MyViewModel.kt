@@ -72,8 +72,15 @@ class MyViewModel @Inject constructor(
         }?.count ?: 0
     }
 
-    fun userLogout(state: (Boolean) -> Unit) {
+    fun userLogout(context: Context,state: (Boolean) -> Unit) {
         viewModelScope.launch {
+            UserInfoSharedPreferences(context).loginForm?.let { loginForm ->
+                if (loginForm == "kakao") {
+                    kaKaoLoginRepository.logOutUser {}
+                } else if (loginForm == "google") {
+                    googleLoginRepository.logout(context)
+                }
+            }
             state(myRepository.userLogout())
         }
     }
