@@ -65,7 +65,7 @@ dependencies {
     // bottom sheet
     implementation("com.holix.android:bottomsheetdialog-compose:1.3.1")
     // compose live data
-    implementation "androidx.compose.runtime:runtime-livedata:$compose_ui_version"
+    implementation "androidx.compose.runtime:runtime-livedata:1.6.4"
     // hilt
     implementation("com.google.dagger:hilt-android:$hilt_version")
     kapt("com.google.dagger:hilt-compiler:$hilt_version")
